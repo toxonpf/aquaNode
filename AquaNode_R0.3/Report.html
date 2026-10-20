@@ -1,0 +1,1367 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AquaNode R0.3</title><style>body{font:16px/1.6 system-ui,sans-serif;color:#172b3a;margin:0;background:#eef3f5}main{max-width:1200px;margin:30px auto;background:white;padding:40px}h1,h2,h3{color:#075d65}h1{border-bottom:3px solid #0b8391;padding-bottom:12px}table{border-collapse:collapse;width:100%;font-size:14px;margin:20px 0}td,th{border:1px solid #cbd8dd;padding:8px;text-align:left;vertical-align:top}th{background:#e4f2f3}img{max-width:100%;height:auto}a{color:#087583}section{margin:55px 0;overflow-wrap:anywhere}.layers{display:grid;grid-template-columns:1fr 1fr;gap:16px}code{background:#edf2f5}nav{padding:20px;background:#e4f2f3}@media(max-width:800px){main{padding:16px}.layers{display:block}table{display:block;overflow:auto}}@media print{body{background:white}main{margin:0;padding:0}section{break-before:page}}</style><main><h1>AquaNode · R0.3</h1><p>Комплект схемы, трассировки и подготовки прототипа · 20 октября 2026</p><nav><a href="Schematic.pdf">Схема PDF</a> · <a href="cad/AquaNode.kicad_pro">Проект KiCad</a> · <a href="fabrication_review/">Gerber / Excellon</a> · <a href="SHA256SUMS.txt">Контрольные суммы</a></nav><h2>Слои платы</h2><div class="layers"><figure><img src="PCB_F.png" alt="Верхний слой"><figcaption>Верхний слой</figcaption></figure><figure><img src="PCB_B.png" alt="Нижний слой"><figcaption>Нижний слой, вид сверху</figcaption></figure></div><h2>Сборка</h2><img src="Assembly.png" alt="Сборочный чертёж и предупреждение о B2B"><section><h1>AquaNode R0.3</h1>
+<p>Ревизия по инженерному аудиту R0.2, 20 октября 2026. Исправлены механическое размещение, силовая трассировка, сшивка земли, EN стабилизатора, маркировка и представление схемы. Это проверенный комплект CAD для прототипа; физических испытаний ещё нет.</p>
+<table>
+<thead>
+<tr>
+<th>Пункт аудита</th>
+<th>Что сделано</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Пространство под XIAO</td>
+<td>C17/C18 перенесены правее J2; SMD убраны из контура модуля и зоны 4 мм ниже его торца. Контур показан на F.Fab; на F.SilkS — контур с разрывами у шелкографии колодок и USB-C END</td>
+</tr>
+<tr>
+<td>Силовой узел</td>
+<td>Q1/C7/L1/U7/D1/C8/C9/U8 сгруппированы; переключающий узел проложен короткими дорожками; локальный возврат GND 0,8 мм на нижнем слое</td>
+</tr>
+<tr>
+<td>Ширина питания</td>
+<td>Силовые линии 0,6 мм. Единственное сужение питания — 1,5 мм длины / 0,25 мм ширины непосредственно у U1.8 с шагом выводов 0,5 мм</td>
+</tr>
+<tr>
+<td>Земля</td>
+<td>71 сквозное GND via 0,6/0,3 мм, приоритетные переходы у компонентов и распределённая сшивка двух заливок</td>
+</tr>
+<tr>
+<td>EN U8</td>
+<td>Вывод 3 подключён к BOOST_IN, вместе с EN U7</td>
+</tr>
+<tr>
+<td>Два AFE</td>
+<td>Таблица сборок A: 49,9k/49,9k; B: 10k/DNP. Текущий CAD показывает A</td>
+</tr>
+<tr>
+<td>Импеданс ADS1115</td>
+<td>Расчёт остаточной ошибки и RC, задержка батарейного измерения 600 мс; утверждение о полном подавлении ошибки не делается</td>
+</tr>
+<tr>
+<td>Подписи</td>
+<td>Полярность и назначение контактов разъёмов, маркер K, ориентация XIAO и предупреждение B2B</td>
+</tr>
+<tr>
+<td>Схема</td>
+<td>Стандартные символы KiCad R/C/L/Schottky/PMOS/NMOS; пять функциональных областей</td>
+</tr>
+</tbody>
+</table>
+<p>Открывать <code>cad/AquaNode.kicad_pro</code>. Быстрый просмотр: <code>Report.html</code>, <code>Schematic.pdf</code>, <code>PCB.png</code> (оба слоя), <code>PCB_F.png</code>, <code>PCB_B.png</code>, <code>Assembly.png</code>. Нижний слой изображён в координатах вида сверху, без зеркального отражения. Контакты и монтаж сверять по <code>BOM_ru.md</code>, <code>Netlist_ru.md</code> и <code>Engineering_ru.md</code>.</p>
+<p><strong>SKU 102010611: Wio-SX1262 стыкуется с XIAO ESP32S3 только через штатный B2B. Запрещено соединять сквозной пайкой левый ряд Wio с D0–D5 XIAO.</strong> Проверить фактическую ревизию, высоту колодок, вывод BAT-проводов и доступ USB. Печатный контур не заменяет примерку купленных модулей.</p>
+<p>Сырые ERC/DRC и геометрическая сверка — <code>checks/</code>. Gerber и Excellon — <code>fabrication_review/</code>. Проверки САПР не подтверждают пульсации питания, точность pH, работоспособность mesh или герметичность. Перед эксплуатацией выполнить протоколы <code>Purchase_and_test_ru.md</code>; для батарейного канала действует уточнённая задержка из <code>Analog_calculations_ru.md</code>.</p>
+<p>Требования MIT и инструменты журналирования сохранены. Ничего не куплено и не измерено; стадия физического Prototype по-прежнему не подтверждена. Нативный Altium-проект не создавался; предоставлен редактируемый KiCad-проект.</p></section><section><h1>Проверка выпуска AquaNode R0.3</h1>
+<p>20 октября 2026. Проверка выполнена в KiCad 8.0.9. Это результаты проверки цифрового проекта, а не физического образца.</p>
+<table>
+<thead>
+<tr>
+<th>Проверка</th>
+<th>Результат</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Native ERC</td>
+<td>0 замечаний всех уровней</td>
+</tr>
+<tr>
+<td>Native DRC</td>
+<td>0 замечаний всех уровней</td>
+</tr>
+<tr>
+<td>Неразведённые соединения</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Пересечения courtyard</td>
+<td>0 по DRC</td>
+</tr>
+<tr>
+<td>Схема ↔ перечень цепей ↔ PCB</td>
+<td>130 именованных площадок, 0 расхождений</td>
+</tr>
+<tr>
+<td>U8.3 / EN</td>
+<td>BOOST_IN</td>
+</tr>
+<tr>
+<td>SMD в контуре XIAO с доступом 4 мм ниже торца</td>
+<td>0 пересечений</td>
+</tr>
+<tr>
+<td>Переходы GND</td>
+<td>71, диаметр 0,6 мм / сверло 0,3 мм</td>
+</tr>
+<tr>
+<td>Всего переходов / сегментов дорожек</td>
+<td>85 / 374</td>
+</tr>
+<tr>
+<td>Силовые линии</td>
+<td>0,6 мм; у U1.8 сужение 0,25 мм длиной 1,5 мм</td>
+</tr>
+<tr>
+<td>Локальный возврат преобразователя на B.Cu</td>
+<td>0,8 мм</td>
+</tr>
+<tr>
+<td>Длина дорожек BOOST_SW</td>
+<td>6,832 мм</td>
+</tr>
+</tbody>
+</table>
+<p>Сырые результаты: <a href="checks/ERC.json">ERC</a>, <a href="checks/DRC.json">DRC</a>, <a href="checks/pin_comparison.json">сверка цепей</a>, <a href="checks/layout_metrics.json">геометрия и ширины</a>. Нативный экспорт схемы сохранён в checks/native_netlist.net.</p>
+<h2>Ближайшие земляные переходы</h2>
+<p>Расстояние измерено от центра площадки до центра перехода; это не зазор меди. Для сквозных разъёмов сама площадка также соединяет слои.</p>
+<table>
+<thead>
+<tr>
+<th>Площадка</th>
+<th>Координаты перехода, мм</th>
+<th>Расстояние, мм</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U7.2</td>
+<td>23; 38</td>
+<td>0.863</td>
+</tr>
+<tr>
+<td>C7.2</td>
+<td>20.95; 31.8</td>
+<td>1.200</td>
+</tr>
+<tr>
+<td>C8.2</td>
+<td>31.8; 39.475</td>
+<td>0.800</td>
+</tr>
+<tr>
+<td>C9.2</td>
+<td>35.95; 30.9</td>
+<td>1.100</td>
+</tr>
+<tr>
+<td>U8.2</td>
+<td>32.9; 37</td>
+<td>0.963</td>
+</tr>
+<tr>
+<td>C10.2</td>
+<td>40.8; 37</td>
+<td>0.850</td>
+</tr>
+<tr>
+<td>U1.3</td>
+<td>51.05; 24</td>
+<td>1.250</td>
+</tr>
+<tr>
+<td>C1.2</td>
+<td>48.95; 19.75</td>
+<td>1.250</td>
+</tr>
+<tr>
+<td>C17.2</td>
+<td>43.475; 6</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>C18.2</td>
+<td>43.475; 11</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>J2.6</td>
+<td>37.24; 7.54</td>
+<td>2.000</td>
+</tr>
+<tr>
+<td>J3.2</td>
+<td>12; 27</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>J4.2</td>
+<td>12; 34.75</td>
+<td>1.031</td>
+</tr>
+<tr>
+<td>J7.1</td>
+<td>65; 10</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>J9.1</td>
+<td>64; 52</td>
+<td>1.000</td>
+</tr>
+</tbody>
+</table>
+<h2>Экспорт и просмотр</h2>
+<p>Перегенерированы шесть Gerber-слоёв (F.Cu, B.Cu, F.Mask, B.Mask, F.Silkscreen, Edge.Cuts), файл задания Gerber и Excellon. Файлы находятся в fabrication_review/. Отдельный CAM round-trip и проверка изготовителем не выполнены. Перед заказом сверить слои и сверловку в просмотрщике изготовителя.</p>
+<p>Schematic.pdf экспортирован нативно из KiCad; схема и PNG слоёв/сборки проверены визуально. PCB_B.png показан сверху, без зеркального отражения. PNG верхнего слоя объединяет изображение меди с отдельным экспортом шелкографии; исходный SVG KiCad может отображать шелкографию под непрозрачной заливкой в некоторых просмотрщиках.</p>
+<h2>Что ещё не проверено</h2>
+<p>Физически не проверены посадка стека XIAO/Wio и BAT-проводов, распиновка купленного AFE, переходные процессы включения/выключения, шум и нагрузочная погрешность АЦП, ток сна, радиоканал, калибровка и герметичность. Прошивка и mesh не реализованы этим выпуском. ERC/DRC не подтверждают соответствие радио-нормам или требованиям отбора MIT.</p>
+<p>Утверждение «16 SPS и RC полностью устраняют ошибку ADS1115» не подтверждено. Расчёт типовой остаточной нагрузки и метод проверки приведены в Analog_calculations_ru.md. Условия испытаний и результаты должны быть добавлены после сборки.</p></section><section><h1>Инженерные решения R0.3</h1>
+<h2>Контроллер и подключение</h2>
+<p>Выбран XIAO ESP32S3 с Wio SX1262, комплект Seeed SKU 102010611, без камеры Sense. Основание перехода — свободные GPIO, а не обещание меньшего тока самого процессора. Не заменять комплект на nRF52840 без переработки платы и прошивки.</p>
+<table>
+<thead>
+<tr>
+<th>Функция</th>
+<th>XIAO</th>
+<th style="text-align: right;">GPIO ESP32S3</th>
+<th>Соединение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DS18B20, внешнее питание</td>
+<td>D0</td>
+<td style="text-align: right;">1</td>
+<td>J1.1 → R4 → J7.3; подтяжка R3 4,7 кОм</td>
+</tr>
+<tr>
+<td>PH_EN</td>
+<td>D1</td>
+<td style="text-align: right;">2</td>
+<td>J1.2, активный высокий, R6 100 кОм вниз</td>
+</tr>
+<tr>
+<td>Не используется, strapping</td>
+<td>D2</td>
+<td style="text-align: right;">3</td>
+<td>J1.3 NC</td>
+</tr>
+<tr>
+<td>BAT_EN</td>
+<td>D3</td>
+<td style="text-align: right;">4</td>
+<td>J1.4 → Q4; R18 100 кОм вниз</td>
+</tr>
+<tr>
+<td>I2C SDA</td>
+<td>D4</td>
+<td style="text-align: right;">5</td>
+<td>J1.5, R1 4,7 кОм</td>
+</tr>
+<tr>
+<td>I2C SCL</td>
+<td>D5</td>
+<td style="text-align: right;">6</td>
+<td>J1.6, R2 4,7 кОм</td>
+</tr>
+<tr>
+<td>UART, резерв</td>
+<td>D6 / D7</td>
+<td style="text-align: right;">43 / 44</td>
+<td>На носителе NC</td>
+</tr>
+<tr>
+<td>Radio SPI</td>
+<td>D8 / D9 / D10</td>
+<td style="text-align: right;">7 / 8 / 9</td>
+<td>Внутри покупного стека; на носителе NC</td>
+</tr>
+<tr>
+<td>Radio NSS / RESET / BUSY / DIO1 / RF_SW</td>
+<td>B2B</td>
+<td style="text-align: right;">41 / 42 / 40 / 39 / 38</td>
+<td>Не занимают D0–D5</td>
+</tr>
+</tbody>
+</table>
+<p>XIAO и Wio соединяются штатным B2B. Левые отверстия Wio имеют другое назначение: нельзя соединять их длинными общими штырями с одноимёнными по положению D0–D5 XIAO. Способ установки боковых колодок, доступ к USB и BAT-площадкам проверить на купленном комплекте. Шаг между рядами носителя 15,24 мм; между контактами 2,54 мм. Четыре отверстия 3,2 мм, изолирующие стойки; радиус запретной зоны меди вокруг креплений 3,2 мм. Плата 80 × 60 мм, 2 слоя, FR4 1,6 мм, медь 1 oz. Минимум дорожки/зазора 0,2 мм, сигнальные дорожки 0,25 мм, силовые 0,6 мм и переходы 0,6/0,3 мм. У U1.8 оставлено сужение питания 0,25 мм длиной 1,5 мм. Добавлен 71 GND via; локальный возврат преобразователя на B.Cu имеет ширину 0,8 мм.</p>
+<p>ADS1115: адрес 0x48, 100 kHz I2C, AIN0 pH, AIN1 батарея, AIN2/3 GND, однократные преобразования 16 SPS, PGA ±4,096 В. Предел PGA не разрешает вход выше питания АЦП. DS18B20 только трёхпроводное подключение; не паразитное питание. D2 — ESD-защита линии, не молниезащита.</p>
+<h2>Питание и выключатель</h2>
+<p>Защищённый 1S аккумулятор → J3 → внешний SPST между J5.1/J5.2 → VBAT → J4 → BAT-площадки XIAO. Земля непрерывная. USB подключается обычным кабелем. <strong>OFF отключает батарею; подключённый USB продолжает питать устройство. Для полного выключения отключить USB. Заряд батареи возможен при замкнутом SPST.</strong> Внешние 5 В pH никогда не соединять с VBUS XIAO.</p>
+<p>В опубликованной Seeed схеме по ссылке v1.4 стоят SGM6029 (преобразователь 3,3 В, пометка Imax 600 мА) и SGM40567, R10=220 кОм, Icharge≈110 мА. Сам PDF имеет противоречивые обозначения V1.3/V1.5: идентифицировать фактически купленную ревизию. Параметры старого nRF LDO здесь неприменимы. 600 мА — номинал преобразователя, не гарантированный свободный ток на выводе 3V3. Суммарные пики ESP, радио и pH проверять осциллографом. Заряд 2500–3500 мА·ч при 110 мА займёт более 23–32 часов с учётом стадии CV. Нужен аккумулятор с документированной защитой, температурными пределами и допустимым зарядным током.</p>
+<p>Q1/Q2 отключают питание TPS61040 со стороны 3V3. EN boost и EN LDO U8.3 соединены с BOOST_IN после Q1. Это убирает прямую связь EN LDO с GPIO. Само по себе это не гарантирует, что BOOST_RAW уже установился при включении EN: проверить переходы. R7=69,8 кОм/R8=20 кОм задают около 5,536 В; TPS7A2050 выдаёт 5 В с разрядом выхода при выключении. Сохранены эти две ИС, поскольку простой boost без фильтрации требует отдельного подтверждения влияния пульсаций на pH. Проверить BOOST_RAW во всех переходах ниже 6,0 В и 5V_PH в допуске модуля; абсолютный максимум ИС не использовать как рабочий предел. Максимальную допустимую нагрузку всего узла подтвердить отдельно, начать с эквивалента 10 мА, затем 20 мА.</p>
+<p>JP1 по умолчанию 2–3: pH получает 5 В. Положение 1–2 — переключаемые 3,3 В только для AFE, допускающего это питание. Один шунт. Для окончательной сборки без перемычки можно соединить выбранную пару припоем после проверки модуля.</p>
+<h2>Аналоговая часть</h2>
+<p>Подробные конфигурации A/B, нагрузочная ошибка и задержки приведены в Analog_calculations_ru.md. Для батареи после BAT_EN=1 ждать не менее 600 мс. Для pH выдержать прогрев AFE, затем не менее 300 мс для RC; это разные процессы. ADS1115 — 0x48, single-shot, PGA ±4,096 В, 16 SPS. Не менять коэффициент делителя только по напряжению питания AFE: важен его документированный выход.</p>
+<h2>Энергия: что реально удалось убрать</h2>
+<p>Исключён постоянно питаемый DS2482 и расход его режима ожидания. R6 теперь потребляет 3,3/100k=33 мкА при PH_EN=1 вместо примерно 0,70 мА на 4,7 кОм при 3,3 В. R5 расходует ещё около 33 мкА только при включённом pH. Батарейный делитель 4,2/200k=21 мкА только во время измерения; R17 около 4,2 мкА при включении, R18 около 33 мкА от 3V3. Отдельно учитывать утечки транзисторов, BMS, зарядника, ADS и собственный ток XIAO.</p>
+<p>При условных 10 мА pH на 5 В и эффективности 80% цепь требует около 62,5 мВт, то есть 18,9 мА от 3,3 В. 120 секунд работы каждые 900 секунд дают средние 8,33 мВт только для pH. 120 секунд — сценарий, не подтверждённое время прогрева. Его определяют по стабилизации показаний после холодного включения. Средняя энергия должна включать измеренные режимы MCU, TX/RX, ожидания и преобразователей. Расчёт ресурса: usable_Wh / average_W / 24. Для 3,7 В × 3 А·ч × 0,7 это 7,77 Wh; 20 мВт дают расчётные 16,2 суток, 100 мВт — 3,24 суток. Это иллюстрации, не прогноз автономности AquaNode.</p>
+<h2>Радио и прошивка</h2>
+<p>Собственный raw LoRa, не LoRaWAN. Для Тайваня выбран исследуемый диапазон 920–925 МГц, начальная мощность +14 dBm. Одна фиксированная несущая с BW125 не считается автоматически соответствующей NCC. Для FHSS требуется реализовать и проверить все условия LP0002 §5.8.1, а не просто менять частоту иногда. Предварительный план: 12 каналов 920,3+0,4×i МГц, i=0…11; равномерное псевдослучайное использование, учёт повторов и ретрансляций, соблюдение dwell-time. SF7/BW125/CR4/5, preamble 8, explicit header, CRC, 32 байта дают около 71,936 мс на пакет. Для окончательного соответствия нужны радиочастотные измерения и проверка действующих правил/сертификации оборудования.</p>
+<p>Wio требует корректного управления RF_SW GPIO38 и TCXO 3,0 В согласно официальному драйверу Seeed. PHY, синхронизация скачков, сохранение sequence/boot ID и работа ретранслятора — задачи прошивки. <strong>Прошивка, FHSS и mesh этой поставкой не реализованы и не проверены.</strong> Два узла доказывают только один радиоканал; mesh требует как минимум третьего узла и испытания с отключённым прямым путём.</p>
+<h2>Источники для изменённых решений</h2>
+<ul>
+<li><a href="https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/">Seeed XIAO ESP32S3, документация и ссылки на схемы</a>.</li>
+<li><a href="https://files.seeedstudio.com/products/SenseCAP/Wio_SX1262/Schematic_Diagram_Wio-SX1262_for_XIAO.pdf">Схема Wio для XIAO ESP32S3</a>.</li>
+<li><a href="https://github.com/Seeed-Studio/one_channel_hub/blob/master/components/smtc_ral/bsp/sx126x/seeed_xiao_esp32s3_devkit_sx1262.c">Официальный драйвер Seeed SX1262</a>.</li>
+<li><a href="https://www.ti.com/lit/ds/symlink/ads1115.pdf">TI ADS1115</a>, <a href="https://www.ti.com/lit/ds/symlink/tps61040.pdf">TPS61040</a>, <a href="https://www.ti.com/lit/ds/symlink/tps7a20.pdf">TPS7A20</a>.</li>
+<li><a href="https://istkdb.ncc.gov.tw/kdb/KDB_200/1">NCC technical specifications</a>: проверить LP0002 §5.8.1 перед передачей вне стенда.</li>
+</ul>
+<p>Остальные источники и лицензии сохранены в Sources_ru.md, ATTRIBUTION.md и licenses/. Старые технические решения R0.1 не являются инструкцией по сборке R0.3.</p>
+<h2>Уточнение аудита EN</h2>
+<p>Для TPS7A20 паспорт задаёт VEN относительно GND (рекомендуемый диапазон 0–6 В), а не универсальное ограничение VEN≤VIN+0,3 В. Поэтому тезис о неизбежном повреждении при EN=3,3 В и VIN=0 В не подтверждён этим паспортом. Запрошенный перенос на BOOST_IN выполнен; реальный запуск/выключение и ограничение VOUT относительно VIN остаются предметом измерения. Источник: TPS7A20, разделы 5.1/5.3, https://www.ti.com/lit/ds/symlink/tps7a20.pdf.</p>
+<h2>Механическая зона R0.3</h2>
+<p>Номинальный контур XIAO: x=18,87…36,37 мм, y=2,12…23,12 мм. До y=27,12 мм оставлен доступ под BAT-провода/B2B. Автоматическая проверка габаритов SMD в этой области не нашла пересечений. C17/C18 находятся правее J2. Высота стека, реальные выступы Wio и траектория проводов должны быть проверены на купленном SKU; двухмерный контур не является полной трёхмерной моделью.</p>
+<p><strong>ЗАПРЕЩЕНО соединять сквозной пайкой левый ряд Wio-SX1262 с D0–D5 XIAO ESP32S3. Соединение XIAO/Wio — через B2B.</strong></p></section><section><h1>Вход ADS1115: остаточная ошибка и варианты сборки</h1>
+<p><strong>RC-фильтры и 16 SPS не устраняют постоянную ошибку нагрузки входа. Утверждение о её полном подавлении без буфера не подтверждается.</strong> ОУ не возвращён: для прототипа выбран расчёт нагрузки, калибровка всей цепи и проверка установления. Если требуется гарантированная точность без калибровки, эта конфигурация не является достаточным доказательством.</p>
+<h2>Варианты R9/R10</h2>
+<table>
+<thead>
+<tr>
+<th>Сборка</th>
+<th>AFE и предел выхода</th>
+<th>R9</th>
+<th>R10</th>
+<th>Идеальный масштаб</th>
+<th>JP1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A, базовая CAD/BOM</td>
+<td>5-вольтовый AFE, выход не выше 5,5 В; Elecrow только после подтверждения его спецификации</td>
+<td>49,9 кОм 0,1%</td>
+<td>49,9 кОм 0,1%</td>
+<td>1:2; 5,5 В → 2,75 В</td>
+<td>2–3: 5 В</td>
+</tr>
+<tr>
+<td>B</td>
+<td>DFRobot SEN0169-V2, документированный выход 0–3,0 В</td>
+<td>10 кОм</td>
+<td>DNP — не устанавливать</td>
+<td>Номинально 1:1 через RC</td>
+<td>1–2: 3,3 В; 2–3 также допустимо по питанию AFE</td>
+</tr>
+</tbody>
+</table>
+<p>Сборка B отличается диапазоном <strong>выхода</strong> AFE, а не только напряжением его питания. Нельзя ставить R10=DNP для неизвестного выхода 5 В. В B выбран R9=10 кОм; вариант 0 Ом не используется, чтобы сохранить ограничение переходного тока. В обеих сборках остаются R15=1 кОм, C11=1 мкФ и C13=100 нФ. Место R10 сохраняется на PCB. В прошивке коэффициент масштаба и идентификатор калибровки должны соответствовать фактической сборке. Номинальное 1:1 не означает нулевую нагрузочную ошибку.</p>
+<p>Полезный диапазон при PGA ±4,096 В: 1 LSB = 125 мкВ; 3 В в B соответствует примерно 24000 кодов вместо 12000 после деления на два. Это число кодов, не обещание 16 эффективных бит точности.</p>
+<h2>Расчёт нагрузки</h2>
+<p><a href="https://www.ti.com/lit/ds/symlink/ads1115.pdf">TI ADS1115, таблица 5.5 и раздел 7.3.2</a> описывает переключаемые входные ёмкости и типовые импедансы. Для выбранного PGA: Zcm≈6 МОм, Zdiff≈15 МОм. Частота модулятора около 250 кГц; 16 SPS — частота готовых результатов, а не переключения входных конденсаторов. Уменьшение SPS не делает вход идеальным вольтметром.</p>
+<p>Для иллюстративной оценки single-ended берём Zeff=6 МОм || 15 МОм≈4,286 МОм. Тогда относительное падение ≈ Rs/(Zeff+Rs), где Rs=Rth+1 кОм. Это модель по типовым величинам, не гарантированный worst-case и не замена модели производителя или испытанию. Выходное сопротивление AFE в таблице принято пренебрежимо малым; реальный источник добавит вклад.</p>
+<table>
+<thead>
+<tr>
+<th>Канал</th>
+<th style="text-align: right;">Rth</th>
+<th style="text-align: right;">Rs с последовательным резистором</th>
+<th style="text-align: right;">Оценка потери масштаба</th>
+<th style="text-align: right;">Пример ошибки на входе ADC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pH A</td>
+<td style="text-align: right;">24,95 кОм</td>
+<td style="text-align: right;">25,95 кОм</td>
+<td style="text-align: right;">0,602%</td>
+<td style="text-align: right;">16,55 мВ при 2,75 В</td>
+</tr>
+<tr>
+<td>pH B</td>
+<td style="text-align: right;">10 кОм</td>
+<td style="text-align: right;">11 кОм</td>
+<td style="text-align: right;">0,256%</td>
+<td style="text-align: right;">7,68 мВ при 3,0 В</td>
+</tr>
+<tr>
+<td>Батарея</td>
+<td style="text-align: right;">50 кОм</td>
+<td style="text-align: right;">51 кОм</td>
+<td style="text-align: right;">1,176%</td>
+<td style="text-align: right;">24,70 мВ при 2,1 В</td>
+</tr>
+</tbody>
+</table>
+<p>Эта нагрузка существует при преобразовании и не исчезает из-за C11/C12. Двухточечная калибровка может компенсировать стабильный линейный масштаб/смещение, но не гарантирует отсутствие дрейфа, нелинейности или ошибки после переключения каналов. Поэтому неизвестную ошибку не объявляем полностью подавленной.</p>
+<h2>Установление RC</h2>
+<p>Для оценки медленного режима двухзвенной цепи используем τ≈Rth×(1 мкФ+0,1 мкФ)+1 кОм×0,1 мкФ. До относительного остатка 0,01% первого порядка требуется около 9,21τ. Это оценка внешней RC-цепи, а не полный transient-анализ переключаемого входа.</p>
+<table>
+<thead>
+<tr>
+<th>Канал</th>
+<th style="text-align: right;">τ, мс</th>
+<th style="text-align: right;">Оценка 0,01%, мс</th>
+<th>Начальная задержка прошивки</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pH A</td>
+<td style="text-align: right;">27,545</td>
+<td style="text-align: right;">254</td>
+<td>Не менее 300 мс после установления самого AFE</td>
+</tr>
+<tr>
+<td>pH B</td>
+<td style="text-align: right;">11,1</td>
+<td style="text-align: right;">103</td>
+<td>Не менее 300 мс после установления самого AFE</td>
+</tr>
+<tr>
+<td>Батарея</td>
+<td style="text-align: right;">55,1</td>
+<td style="text-align: right;">508</td>
+<td>Не менее 600 мс после BAT_EN=1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Прежние 300 мс для включённого батарейного делителя заменены на 600 мс.</strong> Время прогрева pH AFE/электрода определяется отдельно: RC-задержка его не заменяет. После изменения MUX/PGA дождаться завершения преобразования по OS/RDY, первую выборку отбросить, затем собирать серию на фиксированном канале. Не переключать MUX посередине ожидаемого преобразования. Длительность 1/16 с≈62,5 мс имеет допуск генератора, поэтому готовность лучше опрашивать.</p>
+<h2>Проверка до заявления точности</h2>
+<p>Подать не менее трёх известных напряжений через реальный AFE/эквивалент его выходного сопротивления; записать первую и последующие выборки после переключения, после включения питания и после TX. Сравнить 16/32/64 SPS и несколько задержек; отдельно проверить шум с включённым/выключенным boost. Внутренняя цель для остаточного сдвига после переключения — ≤1 мВ на ADC относительно установившегося среднего, с учётом неопределённости источника. Это цель разработки, не полученный результат. Проверить калиброванный масштаб на независимых точках и температурах. При провале уменьшить импеданс или добавить буфер с повторной проверкой питания и ошибок.</p>
+<p>Проверить входы также при выключении: 3,0 В безопасны только относительно работающего питания ADC. Снятие 3V3, остаточный заряд RC и подпитка через вход требуют осциллограммы; последовательные резисторы не являются универсальной защитой. Изменение EN U8 на BOOST_IN не заменяет эту проверку. Числовые результаты модели находятся в analog_calculations.json; аппаратных результатов пока нет.</p></section><section><h1>BOM R0.3 — сборка A и вариант B</h1>
+<p>Основной CAD и номиналы на схеме относятся к сборке A. Два изменения варианта B явно указаны в последних столбцах. Все остальные позиции одинаковы. Цена/наличие не подтверждены; покупные модули и корпус перечислены отдельно.</p>
+<table>
+<thead>
+<tr>
+<th>Поз.</th>
+<th>Номинал A</th>
+<th>MPN A</th>
+<th>Корпус</th>
+<th>Вариант B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J1</td>
+<td>XIAO_LEFT_D0..D6</td>
+<td><a href="https://www.digikey.com/en/products?keywords=Samtec%20TSW-107-07-G-S">Samtec TSW-107-07-G-S</a></td>
+<td>PinHeader_1x07_P2.54mm_Vertical</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>J2</td>
+<td>XIAO_RIGHT_D7..5V</td>
+<td><a href="https://www.digikey.com/en/products?keywords=Samtec%20TSW-107-07-G-S">Samtec TSW-107-07-G-S</a></td>
+<td>PinHeader_1x07_P2.54mm_Vertical</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>J3</td>
+<td>BATTERY + -</td>
+<td><a href="https://www.digikey.com/en/products?keywords=B2B-PH-K-S%28LF%29%28SN%29">B2B-PH-K-S(LF)(SN)</a></td>
+<td>JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>J4</td>
+<td>TO XIAO BAT PADS</td>
+<td><a href="https://www.digikey.com/en/products?keywords=B2B-PH-K-S%28LF%29%28SN%29">B2B-PH-K-S(LF)(SN)</a></td>
+<td>JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>J5</td>
+<td>SPST BATTERY SWITCH</td>
+<td><a href="https://www.digikey.com/en/products?keywords=B2B-PH-K-S%28LF%29%28SN%29">B2B-PH-K-S(LF)(SN)</a></td>
+<td>JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>J7</td>
+<td>DS18B20 G V D</td>
+<td><a href="https://www.digikey.com/en/products?keywords=B3B-PH-K-S%28LF%29%28SN%29">B3B-PH-K-S(LF)(SN)</a></td>
+<td>JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>J9</td>
+<td>PH AFE G V A</td>
+<td><a href="https://www.digikey.com/en/products?keywords=B3B-PH-K-S%28LF%29%28SN%29">B3B-PH-K-S(LF)(SN)</a></td>
+<td>JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>JP1</td>
+<td>PH POWER 3V3 / 5V</td>
+<td><a href="https://www.digikey.com/en/products?keywords=Samtec%20TSW-103-07-G-S">Samtec TSW-103-07-G-S</a></td>
+<td>PinHeader_1x03_P2.54mm_Vertical</td>
+<td>Шунт 1–2 для 3,3 В; питание AFE сверить</td>
+</tr>
+<tr>
+<td>U1</td>
+<td>ADS1115</td>
+<td><a href="https://www.digikey.com/en/products?keywords=ADS1115IDGSR">ADS1115IDGSR</a></td>
+<td>VSSOP-10_3x3mm_P0.5mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>U7</td>
+<td>TPS61040</td>
+<td><a href="https://www.digikey.com/en/products?keywords=TPS61040DBVR">TPS61040DBVR</a></td>
+<td>SOT-23-5</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>U8</td>
+<td>5V LDO</td>
+<td><a href="https://www.digikey.com/en/products?keywords=TPS7A2050PDBVR">TPS7A2050PDBVR</a></td>
+<td>SOT-23-5</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>Q1</td>
+<td>P-MOS high side</td>
+<td><a href="https://www.digikey.com/en/products?keywords=AO3401A">AO3401A</a></td>
+<td>SOT-23</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>N-MOS gate driver</td>
+<td><a href="https://www.digikey.com/en/products?keywords=2N7002%2C215">2N7002,215</a></td>
+<td>SOT-23</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>D1</td>
+<td>Schottky 20V</td>
+<td><a href="https://www.digikey.com/en/products?keywords=MBR0520LT1G">MBR0520LT1G</a></td>
+<td>D_SOD-123</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>1-Wire TVS</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PESD3V3S1BA%2C115">PESD3V3S1BA,115</a></td>
+<td>D_SOD-323</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>L1</td>
+<td>10uH 1.4A sat</td>
+<td><a href="https://www.digikey.com/en/products?keywords=SRN4018-100M">SRN4018-100M</a></td>
+<td>L_Bourns_SRN4018_Custom</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R1</td>
+<td>4.7k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW08054K70FKEA">CRCW08054K70FKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>4.7k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW08054K70FKEA">CRCW08054K70FKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>4.7k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW08054K70FKEA">CRCW08054K70FKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>100R</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW0805100RFKEA">CRCW0805100RFKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>100k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW0805100KFKEA">CRCW0805100KFKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>100k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW0805100KFKEA">CRCW0805100KFKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>69.8k 0.1%</td>
+<td><a href="https://www.digikey.com/en/products?keywords=RNCS0805BKE69K8">RNCS0805BKE69K8</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>20k 0.1%</td>
+<td><a href="https://www.digikey.com/en/products?keywords=RT0805BRD0720KL">RT0805BRD0720KL</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>49.9k 0.1%</td>
+<td><a href="https://www.digikey.com/en/products?keywords=RT0805BRD0749K9L">RT0805BRD0749K9L</a></td>
+<td>R_0805_2012Metric</td>
+<td>10 кОм; CRCW080510K0FKEA, 1%</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>49.9k 0.1%</td>
+<td><a href="https://www.digikey.com/en/products?keywords=RT0805BRD0749K9L">RT0805BRD0749K9L</a></td>
+<td>R_0805_2012Metric</td>
+<td>DNP — не устанавливать</td>
+</tr>
+<tr>
+<td>R11</td>
+<td>100k 0.1%</td>
+<td><a href="https://www.digikey.com/en/products?keywords=RT0805BRD07100KL">RT0805BRD07100KL</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>100k 0.1%</td>
+<td><a href="https://www.digikey.com/en/products?keywords=RT0805BRD07100KL">RT0805BRD07100KL</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R15</td>
+<td>1k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW08051K00FKEA">CRCW08051K00FKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R16</td>
+<td>1k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW08051K00FKEA">CRCW08051K00FKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>100nF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L">GRM21BR71H104KA01L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C7</td>
+<td>10uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR61A106KE19L">GRM21BR61A106KE19L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C8</td>
+<td>22uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM32ER71C226KEA8L">GRM32ER71C226KEA8L</a></td>
+<td>C_1210_3225Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C9</td>
+<td>1uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L">GRM21BR71E105KA99L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C10</td>
+<td>10uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR61A106KE19L">GRM21BR61A106KE19L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C11</td>
+<td>1uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L">GRM21BR71E105KA99L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C12</td>
+<td>1uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L">GRM21BR71E105KA99L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C13</td>
+<td>100nF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L">GRM21BR71H104KA01L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C14</td>
+<td>100nF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L">GRM21BR71H104KA01L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C15</td>
+<td>100nF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L">GRM21BR71H104KA01L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C16</td>
+<td>1uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L">GRM21BR71E105KA99L</a></td>
+<td>C_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C17</td>
+<td>22uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM32ER71C226KEA8L">GRM32ER71C226KEA8L</a></td>
+<td>C_1210_3225Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>C18</td>
+<td>22uF</td>
+<td><a href="https://www.digikey.com/en/products?keywords=GRM32ER71C226KEA8L">GRM32ER71C226KEA8L</a></td>
+<td>C_1210_3225Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP1</td>
+<td>VBAT_RAW</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP2</td>
+<td>VBAT</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP3</td>
+<td>3V3</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP4</td>
+<td>BAT_EN</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP5</td>
+<td>5V_PH</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP6</td>
+<td>GND</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP7</td>
+<td>I2C_SDA</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP8</td>
+<td>I2C_SCL</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP9</td>
+<td>OW_CABLE</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP10</td>
+<td>PH_OUT</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP11</td>
+<td>PH_EN</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP12</td>
+<td>BOOST_RAW</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP13</td>
+<td>ADC_PH</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>TP14</td>
+<td>ADC_BAT</td>
+<td><a href="https://www.digikey.com/en/products?keywords=PCB%20copper%20pad">PCB copper pad</a></td>
+<td>TestPoint_Pad_D2.0mm</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>H1</td>
+<td>M3 NPTH</td>
+<td><a href="https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff">M3 nylon standoff</a></td>
+<td>MountingHole_3.2mm_M3</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>H2</td>
+<td>M3 NPTH</td>
+<td><a href="https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff">M3 nylon standoff</a></td>
+<td>MountingHole_3.2mm_M3</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>H3</td>
+<td>M3 NPTH</td>
+<td><a href="https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff">M3 nylon standoff</a></td>
+<td>MountingHole_3.2mm_M3</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>H4</td>
+<td>M3 NPTH</td>
+<td><a href="https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff">M3 nylon standoff</a></td>
+<td>MountingHole_3.2mm_M3</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>Q3</td>
+<td>Battery sense P-MOS</td>
+<td><a href="https://www.digikey.com/en/products?keywords=AO3401A">AO3401A</a></td>
+<td>SOT-23</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>Battery sense driver</td>
+<td><a href="https://www.digikey.com/en/products?keywords=2N7002%2C215">2N7002,215</a></td>
+<td>SOT-23</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R17</td>
+<td>1M</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW08051M00FKEA">CRCW08051M00FKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+<tr>
+<td>R18</td>
+<td>100k</td>
+<td><a href="https://www.digikey.com/en/products?keywords=CRCW0805100KFKEA">CRCW0805100KFKEA</a></td>
+<td>R_0805_2012Metric</td>
+<td>Без изменений</td>
+</tr>
+</tbody>
+</table>
+<p>В сборке A JP1 2–3 (5 В). В B не менять R11/R12 батареи; менять только R9/R10. Место DNP остаётся пустым, не закорачивать. S1 — внешний SPST, приобретается отдельно; J5 — разъём B2B-PH-K-S(LF)(SN) на носителе. Тестовые площадки не закупаются.</p>
+<p><strong>Правило стека:</strong> только B2B; запрещена общая сквозная пайка левого ряда Wio и D0–D5 XIAO.</p></section><section><h1>Соединения R0.3</h1>
+<p>Именованные контакты схемы, design.json и PCB сверены нативным экспортом KiCad. Вариант A; вариант B изменяет номиналы/комплектацию R9/R10, а не медные сети.</p>
+<table>
+<thead>
+<tr>
+<th>Сеть</th>
+<th>Контакты</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3V3</td>
+<td>C1.1, C15.1, C16.1, C17.1, C18.1, J2.5, J7.2, Q1.2, R1.1, R2.1, R3.1, R5.1, TP3.1, U1.8</td>
+</tr>
+<tr>
+<td>5V_PH</td>
+<td>C10.1, JP1.3, TP5.1, U8.5</td>
+</tr>
+<tr>
+<td>ADC_BAT</td>
+<td>C14.1, R16.2, TP14.1, U1.5</td>
+</tr>
+<tr>
+<td>ADC_PH</td>
+<td>C13.1, R15.2, TP13.1, U1.4</td>
+</tr>
+<tr>
+<td>BAT_DIV</td>
+<td>C12.1, R11.2, R12.1, R16.1</td>
+</tr>
+<tr>
+<td>BAT_EN</td>
+<td>J1.4, Q4.1, R18.1, TP4.1</td>
+</tr>
+<tr>
+<td>BAT_GATE</td>
+<td>Q3.1, Q4.3, R17.2</td>
+</tr>
+<tr>
+<td>BAT_SENSE</td>
+<td>Q3.3, R11.1</td>
+</tr>
+<tr>
+<td>BOOST_FB</td>
+<td>R7.2, R8.1, U7.3</td>
+</tr>
+<tr>
+<td>BOOST_IN</td>
+<td>C7.1, JP1.1, L1.1, Q1.3, U7.4, U7.5, U8.3</td>
+</tr>
+<tr>
+<td>BOOST_RAW</td>
+<td>C8.1, C9.1, D1.1, R7.1, TP12.1, U8.1</td>
+</tr>
+<tr>
+<td>BOOST_SW</td>
+<td>D1.2, L1.2, U7.1</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>C1.2, C10.2, C11.2, C12.2, C13.2, C14.2, C15.2, C16.2, C17.2, C18.2, C7.2, C8.2, C9.2, D2.2, J2.6, J3.2, J4.2, J7.1, J9.1, Q2.2, Q4.2, R10.2, R12.2, R18.2, R6.2, R8.2, TP6.1, U1.1, U1.3, U1.6, U1.7, U7.2, U8.2</td>
+</tr>
+<tr>
+<td>I2C_SCL</td>
+<td>J1.6, R2.2, TP8.1, U1.10</td>
+</tr>
+<tr>
+<td>I2C_SDA</td>
+<td>J1.5, R1.2, TP7.1, U1.9</td>
+</tr>
+<tr>
+<td>OW_CABLE</td>
+<td>D2.1, J7.3, R4.2, TP9.1</td>
+</tr>
+<tr>
+<td>OW_LOCAL</td>
+<td>J1.1, R3.2, R4.1</td>
+</tr>
+<tr>
+<td>PH_DIV</td>
+<td>C11.1, R10.1, R15.1, R9.2</td>
+</tr>
+<tr>
+<td>PH_EN</td>
+<td>J1.2, Q2.1, R6.1, TP11.1</td>
+</tr>
+<tr>
+<td>PH_GATE</td>
+<td>Q1.1, Q2.3, R5.2</td>
+</tr>
+<tr>
+<td>PH_OUT</td>
+<td>J9.3, R9.1, TP10.1</td>
+</tr>
+<tr>
+<td>PH_SUPPLY</td>
+<td>J9.2, JP1.2</td>
+</tr>
+<tr>
+<td>VBAT</td>
+<td>J4.1, J5.2, Q3.2, R17.1, TP2.1</td>
+</tr>
+<tr>
+<td>VBAT_RAW</td>
+<td>J3.1, J5.1, TP1.1</td>
+</tr>
+</tbody>
+</table>
+<p>NC: J1.3, J1.7, J2.1, J2.2, J2.3, J2.4, J2.7, U1.2, U8.4</p>
+<p><strong>U8.3 EN → BOOST_IN</strong>, не PH_EN. U7.4 и U7.5 также BOOST_IN.</p>
+<p>J1.1–7: XIAO D0–D6. J2.1–7: D7,D8,D9,D10,3V3,GND,5V. NC означает отсутствие соединения на носителе, не внутри Wio.</p>
+<p>J3.1/2: аккумулятор +/−; J4.1/2: BAT+/BAT− XIAO; J5.1/2: SW1/SW2 внешнего SPST. J7.1/2/3: GND/3V3/DQ. J9.1/2/3: GND/VCC/OUT. JP1.1/2/3: 3V3/VCC/5V. VCC — выбранное питание AFE, не отдельный источник.</p></section><section><h1>Соответствие требованиям и доказательства</h1>
+<p>Статус на 20 октября 2026: по сообщению владельца ничего не куплено. Есть проект электроники, но нет физического прототипа, прошивки и результатов измерений. Нельзя выбирать стадию Prototype только на основании CAD-файлов.</p>
+<p>Документ пользователя использован как план подготовки. Его рекомендации не превращены в обязательные правила MIT. Упоминание ESP8266/мутности в нём не заменяет исходное ТЗ: здесь ESP32S3, температура, pH и батарея; датчиков мутности и кислорода нет.</p>
+<table>
+<thead>
+<tr>
+<th>Требование / рекомендация</th>
+<th>Что подготовлено</th>
+<th>Что ещё необходимо</th>
+<th>Доказательство</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Функционирующая первоначальная версия — критерий стадии Prototype</td>
+<td>Трассированная плата, BOM, проверки CAD</td>
+<td>Купить, собрать, написать и проверить прошивку</td>
+<td>Непрерывное видео работающей цепочки</td>
+</tr>
+<tr>
+<td>Реальные параметры воды</td>
+<td>DS18B20 и вход pH AFE предусмотрены</td>
+<td>Калибровка и сравнение с эталоном</td>
+<td>Исходные коды АЦП, температуры, условия, коэффициенты</td>
+</tr>
+<tr>
+<td>Передача и сохранение</td>
+<td>Интерфейс SX1262, формат журналов и инструменты записи</td>
+<td>Реализовать связь, собрать передатчик и приёмник</td>
+<td>Два независимых журнала TX/RX с идентификаторами</td>
+</tr>
+<tr>
+<td>Mesh, если заявляется</td>
+<td>Распиновка не препятствует реализации</td>
+<td>Третий узел, маршрутизация, проверка ретрансляции</td>
+<td>Приём при заблокированном прямом пути, маршрут и TTL</td>
+</tr>
+<tr>
+<td>Работа в воде — сильное подтверждение</td>
+<td>Протокол подготовлен</td>
+<td>Корпус, гермовводы, поплавок, испытания</td>
+<td>Фото, время, масса до/после, состояние внутри</td>
+</tr>
+<tr>
+<td>Повторяемость и автономность</td>
+<td>Методика и формула энергобюджета</td>
+<td>Измерить режимы и длительность работы</td>
+<td>Осциллограммы/журнал тока, полный профиль, отказы</td>
+</tr>
+<tr>
+<td>Стоимость и воспроизводимость</td>
+<td>MPN носителя и перечень покупок</td>
+<td>Фактические цены, доставка, ревизии</td>
+<td>Чеки/счета, итоговая BOM собранного экземпляра</td>
+</tr>
+<tr>
+<td>Климатическая польза</td>
+<td>Проверяемая гипотеза ниже</td>
+<td>Подтвердить проблему и действия оператора</td>
+<td>Интервью, пилот, заранее выбранная метрика</td>
+</tr>
+<tr>
+<td>Внешнее признание/YIC</td>
+<td>Ничего не подтверждено</td>
+<td>Только реальные документы при наличии</td>
+<td>Публичная ссылка или документ организатора</td>
+</tr>
+</tbody>
+</table>
+<p>Количество пакетов, длительность теста и пороги точности ниже — внутренние цели разработки, а не требования MIT. Пример «97 из 100» из приложенного документа не является результатом AquaNode и не включён в доказательства.</p>
+<h2>Практический маршрут</h2>
+<p>Сначала собрать два модульных узла на столе: один измеряет температуру, второй сохраняет принятые данные через USB на ноутбук. Собственная PCB не обязательна для этого первого доказательства. После устойчивой связи добавить pH, затем корпус и короткий водный тест. Заявлять ровно то, что удалось воспроизвести: один радиоканал не называть mesh, краткий тест не называть многомесячной автономностью.</p>
+<p>Если до подачи нет работающего экземпляра, электронный проект остаётся стадией концепции. Обещание будущей сборки не заменяет выполнение критерия Prototype. Эта ревизия повышает готовность к сборке, но сама по себе не закрывает условия участия.</p>
+<h2>Проверяемая гипотеза пользы</h2>
+<p>Рабочая гипотеза: оператор рыбоводного хозяйства использует сообщения о температуре и pH, чтобы вовремя проверить водоём и принять заранее согласованное действие. Для пилота нужно назвать конкретного оператора, сравнить время обнаружения отклонений с ручными обходами и фиксировать последующие действия. Снижение потерь рыбы, расхода энергии или выбросов пока не измерено. Температура и pH не измеряют растворённый кислород; не делать выводов о его концентрации и не запускать автоматическое управление аэрацией только по этим двум показателям.</p>
+<h2>Комплект доказательств после испытаний</h2>
+<p>Хранить вместе: идентификатор экземпляра и ревизии; фото соединений; версии прошивки; исходные TX/RX журналы; калибровку и эталон; условия/место/дату; видео; таблицу отказов; фактическую BOM; краткий отчёт с ограничениями. Не редактировать исходные журналы для удаления неудачных измерений — помечать исключения отдельно. Публиковать только данные с разрешением владельца площадки.</p>
+<p>В разделе заявки о сделанном описывать только завершённые работы; план выделять отдельно. Сейчас допустимая формулировка: «Разработана и проверена средствами KiCad схема и трассировка носителя. Закупка, прошивка и физические испытания ещё не выполнены». После теста заменить её фактическими числами с условиями и ссылками, не заранее заполненным успехом.</p>
+<h2>Официальные источники и сроки</h2>
+<p><a href="https://solve.mit.edu/challenges/2027-global-climate-challenge?tab=faq">MIT Solve Global Climate Challenge</a> описывает стадии и критерии. <a href="https://5593819.fs1.hubspotusercontent-na1.net/hubfs/5593819/2027%20Global%20Challenges_%20Application%20Questions.pdf">Официальная анкета 2027</a> просит объяснить выбранную стадию и уже выполненные работы. На проверенной странице указан срок 6 ноября 2026, 12:00 EST; в PDF анкеты — 2 ноября. Для внутренней подготовки использовать более раннюю дату, окончательный срок сверить в действующем портале перед подачей. Наличие всех рекомендуемых доказательств не гарантирует отбор.</p></section><section><h1>Закупка, сборка и испытания</h1>
+<p>Ничего из перечисленного пока не куплено. Цены и наличие здесь не заявлены: фактическую стоимость фиксировать по заказам. Сначала проверить сроки доставки, особенно до срока подачи заявки.</p>
+<h2>Первая закупка</h2>
+<table>
+<thead>
+<tr>
+<th>Позиция</th>
+<th style="text-align: right;">Количество</th>
+<th>Назначение / условие</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seeed XIAO ESP32S3 + Wio SX1262, SKU 102010611</td>
+<td style="text-align: right;">2 комплекта</td>
+<td>Датчик и приёмник; третий комплект нужен для mesh</td>
+</tr>
+<tr>
+<td>Антенна и согласованный переходник для 920–925 МГц</td>
+<td style="text-align: right;">2</td>
+<td>Проверить IPEX/U.FL и комплектацию; не включать TX без нагрузки</td>
+</tr>
+<tr>
+<td>DS18B20 в зонде с известной распиновкой</td>
+<td style="text-align: right;">1</td>
+<td>Для начального водного теста; срок погружения и стойкость оболочки подтвердить</td>
+</tr>
+<tr>
+<td>ADS1115, модуль 3,3 В для макета</td>
+<td style="text-align: right;">1</td>
+<td>Не путать с ADS1015; проверить подтяжки I2C к 3,3 В</td>
+</tr>
+<tr>
+<td>pH AFE с электродом</td>
+<td style="text-align: right;">1</td>
+<td>Elecrow CRT14016P v2 только после получения актуальной схемы/распиновки; альтернатива DFRobot SEN0169-V2 с документированным выходом</td>
+</tr>
+<tr>
+<td>Буферы pH 4,00 / 7,00 / 10,00 и раствор хранения</td>
+<td style="text-align: right;">набор</td>
+<td>Срок годности и температурные таблицы; не хранить электрод в дистиллированной воде</td>
+</tr>
+<tr>
+<td>Защищённый аккумулятор 1S 2500–3500 мА·ч</td>
+<td style="text-align: right;">1</td>
+<td>Проверить полярность разъёма и параметры защиты</td>
+</tr>
+<tr>
+<td>USB-кабели передачи данных</td>
+<td style="text-align: right;">2</td>
+<td>Обычные кабели без разрезания</td>
+</tr>
+<tr>
+<td>SPST, разъёмы, провод, макетная плата</td>
+<td style="text-align: right;">набор</td>
+<td>По распиновке R0.3, питание pH не от GPIO</td>
+</tr>
+<tr>
+<td>Корпус, гермовводы, крепление, поплавок</td>
+<td style="text-align: right;">набор</td>
+<td>Под реальные размеры и среду; отдельный пустой тест на герметичность</td>
+</tr>
+<tr>
+<td>Мультиметр, регулируемый БП, осциллограф, эталонный термометр</td>
+<td style="text-align: right;">доступ</td>
+<td>Можно использовать лабораторные приборы, не обязательно покупать</td>
+</tr>
+</tbody>
+</table>
+<p>Компоненты носителя — в BOM_ru.md. Для первого опыта с температурой pH и его питание можно не монтировать; такой опыт не доказывает работу pH. Для макета с pH воспроизвести делители и ограничения R0.3: выход AFE не подавать непосредственно на АЦП, пока его диапазон не подтверждён. PCB заказывать после сверки механики комплекта и корпуса.</p>
+<h2>Последовательность включения</h2>
+<ol>
+<li>Без питания проверить ориентацию всех разъёмов, D/S MOSFET, полярность диода, отсутствие КЗ, JP1 2–3. Проверить соответствие фактических пинов XIAO таблице Engineering_ru.md.</li>
+<li>Без pH и батареи включить XIAO от USB, проверить 3V3. PH_EN/BAT_EN должны быть низкими во время старта, сброса и перепрошивки.</li>
+<li>Проверить ADS1115 по адресу 0x48, отдельно DS18B20 с CRC. Не считать код ошибки или стартовое значение датчика реальным измерением.</li>
+<li>Подать известные напряжения в разрешённом диапазоне на PH_OUT, проверить масштаб АЦП и установление. Проверить батарейный канал на эквиваленте аккумулятора 3,3/3,7/4,2 В, не подавать эти напряжения на AIN напрямую.</li>
+<li>Проверить включение 5V_PH на резистивной нагрузке, пульсации и выбросы. Затем подключать документированный AFE. Не соединять два источника 5 В.</li>
+<li>Проверить все переходы USB/батарея/SPST и сброс MCU осциллографом. Не должно быть недопустимых напряжений на входах АЦП, устойчивого паразитного питания или неконтролируемого включения pH. При провале исправить схему до водного теста.</li>
+<li>Проверить TX/RX сначала в контролируемых условиях с корректной антенной/нагрузкой и настройками. Режим вне стенда — после проверки требований NCC.</li>
+</ol>
+<h2>Испытания и внутренние критерии</h2>
+<p>До начала теста записать экземпляр, прошивку, конфигурацию радио, приборы и их точность, время UTC, температуру среды и напряжение батареи. Каждый прогон имеет отдельный run_id. Следующие цели предварительные, согласованные с задачей прототипа, не норматив MIT.</p>
+<table>
+<thead>
+<tr>
+<th>Тест</th>
+<th>Метод</th>
+<th>Предварительная цель / что сохранить</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Температура</td>
+<td>3 устойчивые точки в рабочем диапазоне воды, минимум 10 пар с эталоном на точку; повторить после перезапуска</td>
+<td>Цель ошибки ≤0,5 °C с учётом неопределённости эталона; сохранить все пары и время стабилизации</td>
+</tr>
+<tr>
+<td>АЦП</td>
+<td>Минимум 3 напряжения каждого канала, сравнение мультиметром, до/после TX и включения boost</td>
+<td>Оценить масштаб, смещение, шум и установление; не смешивать ошибку AFE с ошибкой АЦП</td>
+</tr>
+<tr>
+<td>pH</td>
+<td>Калибровка двумя свежими буферами, третий независимый буфер для проверки; температурная поправка по паспорту буфера</td>
+<td>Цель ≤0,2 pH для первого прототипа; измерить холодный прогрев, повторяемость и дрейф</td>
+</tr>
+<tr>
+<td>Радиоканал</td>
+<td>Не менее 100 реально завершённых отправок за согласованное окно; известная дистанция, высоты антенн, препятствия</td>
+<td>Цель доставки ≥95%; считать уникальные пакеты по TX-журналу, отдельно повторы, RSSI/SNR и потери</td>
+</tr>
+<tr>
+<td>Mesh</td>
+<td>Три узла, отключить прямой путь и повторить с выключением ретранслятора</td>
+<td>Подтвердить маршрут, TTL, исключение циклов и поведение при отказе; двух узлов недостаточно</td>
+</tr>
+<tr>
+<td>Питание</td>
+<td>Записать sleep, измерение, pH, TX/RX, запуск и полный рабочий цикл</td>
+<td>Средняя энергия и пики; автономность рассчитывать только по измеренному профилю</td>
+</tr>
+<tr>
+<td>Герметичность</td>
+<td>Сначала пустой корпус с индикатором влаги; затем короткий тест собранного буя со страховкой</td>
+<td>Цель первого прогона 30–60 мин без влаги и потери устойчивости; это не IP-сертификация</td>
+</tr>
+<tr>
+<td>Сквозной тест</td>
+<td>Датчик в воде → радио → файл на ноутбуке; повторить в другой день</td>
+<td>Непрерывное видео, реальные временные метки, сравнение с эталоном, все отказы</td>
+</tr>
+</tbody>
+</table>
+<p>Для каждого сравнения вычислить среднее смещение, максимальную абсолютную ошибку, RMSE и число независимых условий. Десять отсчётов в одной воде не равны десяти независимым испытаниям. Не использовать те же точки одновременно для подгонки и заявления независимой точности.</p>
+<h2>Шаблон записи прогона</h2>
+<ul>
+<li>Run ID, дата/время UTC, оператор, версия платы/прошивки:</li>
+<li>Цель и заранее выбранный критерий:</li>
+<li>Фактическая сборка и фотографии:</li>
+<li>Среда, дистанция, антенны, параметры радио, питание:</li>
+<li>Эталон и его неопределённость, буферы и температура:</li>
+<li>Ссылки на исходные TX/RX журналы и видео:</li>
+<li>Реальный результат, включая потери и ошибочные измерения:</li>
+<li>Исключённые точки и обоснование, без удаления исходных данных:</li>
+<li>Ограничения и следующий шаг:</li>
+</ul>
+<p>Пока все поля пусты намеренно. Программные тесты инструментов записи не заменяют этот отчёт.</p></section><section><h1>Источники и границы подтверждения</h1>
+<p>Проверено 19.10.2026. Внешние цены и наличие меняются. Для платы использованы аппаратные MPN; поисковые ссылки магазина не являются обещанием наличия. Скачанные исходники идентифицированы хешами в <code>reference_sources/source_manifest.json</code>; поставляемые footprints — отдельным манифестом.</p>
+<table>
+<thead>
+<tr>
+<th>Источник</th>
+<th>Для чего использован</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/open-pisciculture/open-source-fish-farming-prototypes/tree/1ff67e96c81d22075cd6b9517ece5539700fd0e9/data-buoy-node">Исходный проект, фиксированный commit</a></td>
+<td>Схема, PCB, библиотеки, BOM, лицензирование</td>
+</tr>
+<tr>
+<td><a href="https://doi.org/10.1371/journal.pone.0270202">Статья авторов, PLOS ONE</a></td>
+<td>Авторство и назначение исходного проекта</td>
+</tr>
+<tr>
+<td><a href="https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/">Seeed nRF kit</a></td>
+<td>Конкретный комплект 102010710</td>
+</tr>
+<tr>
+<td><a href="https://files.seeedstudio.com/products/113010003/Wio-SX1262%20for%20XIAO%20V1.0.pdf">Схема Wio nRF expansion</a></td>
+<td>Кнопка, DIO1, BUSY, RESET, NSS, RF_SW, SPI</td>
+</tr>
+<tr>
+<td><a href="https://wiki.seeedstudio.com/XIAO-BLE-Sense-Pin-Multiplexing/">nRF GPIO</a></td>
+<td>Физические P0/P1</td>
+</tr>
+<tr>
+<td><a href="https://files.seeedstudio.com/wiki/XIAO-BLE/Res/260828_XIAO_nRF52840.pdf">Текущая схема XIAO nRF</a></td>
+<td>Выбор источников, зарядка, LDO; аппаратную ревизию покупки сверить</td>
+</tr>
+<tr>
+<td><a href="https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed-Studio-XIAO-nRF52840-Sense-v1.1.pdf">Ранее опубликованная XIAO Sense v1.1</a></td>
+<td>Сопоставление ревизий, не смешивать BOM зарядников</td>
+</tr>
+<tr>
+<td><a href="https://wiki.seeedstudio.com/wio_sx1262_with_xiao_esp32s3_kit/">Seeed ESP kit</a></td>
+<td>Конкретный комплект 102010611</td>
+</tr>
+<tr>
+<td><a href="https://files.seeedstudio.com/products/SenseCAP/Wio_SX1262/Schematic_Diagram_Wio-SX1262_for_XIAO.pdf">Схема Wio ESP B2B</a></td>
+<td>Отличие от nRF extension</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Seeed-Studio/one_channel_hub/blob/master/components/smtc_ral/bsp/sx126x/seeed_xiao_esp32s3_devkit_sx1262.c">Официальный код Seeed SX1262 BSP</a></td>
+<td>Фактические GPIO в инициализаторе ESP</td>
+</tr>
+<tr>
+<td><a href="https://www.elecrow.com/crowtail-ph-sensor.html">Elecrow CRT14016P</a></td>
+<td>Цена, заявленные 5 В, габариты/отклик</td>
+</tr>
+<tr>
+<td><a href="https://media-cdn.elecrow.com/wiki/crowtail--ph-sensor.html">Elecrow wiki</a></td>
+<td>Ссылка на архив схемы, который оказался v1.0</td>
+</tr>
+<tr>
+<td><a href="https://media-cdn.elecrow.com/wiki/image/2/2f/Ph-sensor-schematic.zip">Архив Elecrow</a></td>
+<td>Имена файлов <code>crowtail-PH Sensor v1.0.sch/.brd</code>; не доказательство v2</td>
+</tr>
+<tr>
+<td><a href="https://wiki.dfrobot.com/sen0169-v2/">DFRobot Pro V2</a></td>
+<td>Питание, выход, эксплуатация SEN0169-V2</td>
+</tr>
+<tr>
+<td><a href="https://www.dfrobot.com/product-2069.html/">DFRobot SEN0169-V2 магазин</a></td>
+<td>Цена комплекта</td>
+</tr>
+<tr>
+<td><a href="https://www.dfrobot.com/product-2584.html">DFR0952</a></td>
+<td>Топология готового модуля/доступные характеристики; Iq не подтверждён</td>
+</tr>
+<tr>
+<td><a href="https://www.ti.com/lit/ds/symlink/ads1115.pdf">ADS1115 datasheet</a></td>
+<td>DG(S) pin map, питание, PGA и преобразование</td>
+</tr>
+<tr>
+<td><a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS2482-100.pdf">DS2482-100 datasheet</a></td>
+<td>SOIC pin map, адрес, ток и 1-Wire</td>
+</tr>
+<tr>
+<td><a href="https://www.ti.com/lit/ds/symlink/pca9536.pdf">PCA9536 datasheet</a></td>
+<td>Адрес, слабые подтяжки, startup, POR errata</td>
+</tr>
+<tr>
+<td><a href="https://www.ti.com/lit/ds/symlink/tps61040.pdf">TPS61040 datasheet</a></td>
+<td>SOT23 pins, feedback, ток ключа, сквозной путь L+D</td>
+</tr>
+<tr>
+<td><a href="https://www.ti.com/lit/ds/symlink/tps7a20.pdf">TPS7A20 datasheet</a></td>
+<td>5V LDO, DBV pins, пределы/разряд выхода</td>
+</tr>
+<tr>
+<td><a href="https://www.ti.com/lit/ds/symlink/opa333.pdf">OPA333/OPA2333 datasheet</a></td>
+<td>Буферы, диапазон питания/входов</td>
+</tr>
+<tr>
+<td><a href="https://www.ti.com/lit/ds/symlink/tmux1511.pdf">TMUX1511 datasheet</a></td>
+<td>Защита при снятии питания, утечки, TSSOP pin map</td>
+</tr>
+<tr>
+<td><a href="https://www.microchip.com/en-us/product/MCP100">MCP100/MCP101</a></td>
+<td>Supervisor 3.15 В, pin map SOT23</td>
+</tr>
+<tr>
+<td><a href="https://www.bourns.com/docs/Product-Datasheets/SRN4018.pdf">Bourns SRN4018</a></td>
+<td>Индуктивность, ток насыщения и рекомендуемые площадки 1,5×3,6 мм</td>
+</tr>
+<tr>
+<td><a href="https://istkdb.ncc.gov.tw/kdb/KDB_200/1">NCC LP0002</a></td>
+<td>§5.8.1 для 920–925 МГц IoT; сайт иногда перенаправляет на Index</td>
+</tr>
+<tr>
+<td><a href="https://api.ncc.gov.tw/chncc/app/data/doc?aplistdn=undefined&amp;detailNo=2&amp;id=59&amp;module=commonMessage11&amp;preview=undefined&amp;serno=49880_538_news&amp;type=s">Официальный PDF NCC</a></td>
+<td>Дополнительная официальная копия правил; сверять актуальность при выпуске</td>
+</tr>
+<tr>
+<td><a href="https://www.te.com/en/product-ANT-916-CW-HWR-SMA.html">TE/Linx ANT-916-CW-HWR-SMA</a></td>
+<td>Диапазон антенны и SMA</td>
+</tr>
+<tr>
+<td><a href="https://www.taoglas.com/product/cab011-ipex-mhfiu-fl-to-95mm-1-13-cable-to-smafbkst/">Taoglas CAB.011</a></td>
+<td>U.FL-compatible пигтейл с корпусным SMA</td>
+</tr>
+<tr>
+<td><a href="https://www.adafruit.com/product/328">Adafruit 328</a></td>
+<td>Защищённый 2500 мА·ч аккумулятор</td>
+</tr>
+<tr>
+<td><a href="https://www.adafruit.com/product/381">Adafruit 381</a></td>
+<td>DS18B20 и ограничения герметичности/коррозионной среды</td>
+</tr>
+<tr>
+<td><a href="https://github.com/KiCad/kicad-footprints">KiCad footprints</a></td>
+<td>Локальные посадочные места; SHA256 в manifest</td>
+</tr>
+<tr>
+<td><a href="https://www.kicad.org/libraries/license/">KiCad library licence</a></td>
+<td>CC BY-SA 4.0 с library exception</td>
+</tr>
+<tr>
+<td><a href="https://www.altium.com/documentation/altium-designer/design-tools-interfacing/kicad-import">Altium KiCad importer</a></td>
+<td>Официальный путь импорта, не доказательство успешного переноса R0.1</td>
+</tr>
+</tbody>
+</table>
+<h2>Измерением, а не источником подтверждаются</h2>
+<p>Выход и распиновка Elecrow v2.0, потребление обоих AFE, время прогрева при циклическом питании, ток готового узла, пульсации/наводки, ресурс батареи, герметичность, точность pH после сборки и соответствие конкретного радиоустройства требованиям NCC. Эти характеристики не подменены данными старой ревизии или рекламной точностью ADC.</p></section></main></html>

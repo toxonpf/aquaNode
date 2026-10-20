@@ -1,0 +1,152 @@
+{
+  "gnd_vias": 71,
+  "total_vias": 85,
+  "track_segments": 374,
+  "gnd_via_size_drill_mm": [
+    [
+      0.6,
+      0.3
+    ]
+  ],
+  "power_track_width_to_length_mm": {
+    "3V3": {
+      "0.6": 134.06229216761602,
+      "0.25": 1.5
+    },
+    "VBAT": {
+      "0.6": 61.91002579070033
+    },
+    "VBAT_RAW": {
+      "0.6": 25.674206988896376
+    },
+    "BOOST_IN": {
+      "0.6": 44.545544832319095
+    },
+    "BOOST_SW": {
+      "0.6": 6.8320697987761685
+    },
+    "BOOST_RAW": {
+      "0.6": 34.09449583395541
+    },
+    "5V_PH": {
+      "0.6": 20.113719330881977
+    },
+    "PH_SUPPLY": {
+      "0.6": 33.80992641153531
+    }
+  },
+  "nearest_gnd_vias": {
+    "U7.2": {
+      "via_xy_mm": [
+        23.0,
+        38.0
+      ],
+      "centre_distance_mm": 0.8625
+    },
+    "C7.2": {
+      "via_xy_mm": [
+        20.95,
+        31.8
+      ],
+      "centre_distance_mm": 1.2
+    },
+    "C8.2": {
+      "via_xy_mm": [
+        31.8,
+        39.475
+      ],
+      "centre_distance_mm": 0.8
+    },
+    "C9.2": {
+      "via_xy_mm": [
+        35.95,
+        30.9
+      ],
+      "centre_distance_mm": 1.1
+    },
+    "U8.2": {
+      "via_xy_mm": [
+        32.9,
+        37.0
+      ],
+      "centre_distance_mm": 0.9625
+    },
+    "C10.2": {
+      "via_xy_mm": [
+        40.8,
+        37.0
+      ],
+      "centre_distance_mm": 0.85
+    },
+    "U1.3": {
+      "via_xy_mm": [
+        51.05,
+        24.0
+      ],
+      "centre_distance_mm": 1.25
+    },
+    "C1.2": {
+      "via_xy_mm": [
+        48.95,
+        19.75
+      ],
+      "centre_distance_mm": 1.25
+    },
+    "C17.2": {
+      "via_xy_mm": [
+        43.475,
+        6.0
+      ],
+      "centre_distance_mm": 1.0
+    },
+    "C18.2": {
+      "via_xy_mm": [
+        43.475,
+        11.0
+      ],
+      "centre_distance_mm": 1.0
+    },
+    "J2.6": {
+      "via_xy_mm": [
+        37.24,
+        7.54
+      ],
+      "centre_distance_mm": 2.0
+    },
+    "J3.2": {
+      "via_xy_mm": [
+        12.0,
+        27.0
+      ],
+      "centre_distance_mm": 1.0
+    },
+    "J4.2": {
+      "via_xy_mm": [
+        12.0,
+        34.75
+      ],
+      "centre_distance_mm": 1.0307764064044151
+    },
+    "J7.1": {
+      "via_xy_mm": [
+        65.0,
+        10.0
+      ],
+      "centre_distance_mm": 1.0
+    },
+    "J9.1": {
+      "via_xy_mm": [
+        64.0,
+        52.0
+      ],
+      "centre_distance_mm": 1.0
+    }
+  },
+  "SMD_intersections_XIAO_and_4mm_access": [],
+  "XIAO_access_box_mm": [
+    18.87,
+    2.12,
+    36.37,
+    27.12
+  ]
+}

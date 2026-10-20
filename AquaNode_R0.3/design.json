@@ -1,0 +1,1432 @@
+{
+  "project": "AquaNode",
+  "revision": "R0.3",
+  "status": "ROUTED; NATIVE ERC/DRC PASSED; PHYSICAL VALIDATION PENDING",
+  "source_commit": "1ff67e96c81d22075cd6b9517ece5539700fd0e9",
+  "board_mm": [
+    80,
+    60
+  ],
+  "i2c": {
+    "sda": "GPIO5 / D4",
+    "scl": "GPIO6 / D5",
+    "frequency_hz": 100000,
+    "addresses_7bit": {
+      "ADS1115": "0x48"
+    }
+  },
+  "components": [
+    {
+      "ref": "J1",
+      "value": "XIAO_LEFT_D0..D6",
+      "mpn": "Samtec TSW-107-07-G-S",
+      "footprint": "PinHeader_1x07_P2.54mm_Vertical",
+      "pins": {
+        "1": "OW_LOCAL",
+        "2": "PH_EN",
+        "3": null,
+        "4": "BAT_EN",
+        "5": "I2C_SDA",
+        "6": "I2C_SCL",
+        "7": null
+      },
+      "pin_names": {},
+      "xy": [
+        20.0,
+        5.0,
+        0.0
+      ],
+      "group": "module",
+      "notes": "XIAO ESP32S3 only: D0/D1/D3/D4/D5. D2 strapping and D6 unused. Wio attached by B2B; do not short its differently assigned left header.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=Samtec%20TSW-107-07-G-S",
+      "uuid": "96df8b2a-d544-5830-9135-731c2b1cb66d"
+    },
+    {
+      "ref": "J2",
+      "value": "XIAO_RIGHT_D7..5V",
+      "mpn": "Samtec TSW-107-07-G-S",
+      "footprint": "PinHeader_1x07_P2.54mm_Vertical",
+      "pins": {
+        "1": null,
+        "2": null,
+        "3": null,
+        "4": null,
+        "5": "3V3",
+        "6": "GND",
+        "7": null
+      },
+      "pin_names": {},
+      "xy": [
+        35.24,
+        20.24,
+        180.0
+      ],
+      "group": "module",
+      "notes": "Pin 7 at USB end. USB_DEV is XIAO 5V/VBUS; never inject boosted power.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=Samtec%20TSW-107-07-G-S",
+      "uuid": "0f816099-e11e-5e8a-b051-5ceee9fbbfe1"
+    },
+    {
+      "ref": "J3",
+      "value": "BATTERY + -",
+      "mpn": "B2B-PH-K-S(LF)(SN)",
+      "footprint": "JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "pins": {
+        "1": "VBAT_RAW",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        9.0,
+        27.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "Protected 1S pack only. Verify actual plug polarity; JST housing does not guarantee polarity.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=B2B-PH-K-S%28LF%29%28SN%29",
+      "uuid": "23d0c209-b310-5d98-9031-c6534ca91a4d"
+    },
+    {
+      "ref": "J4",
+      "value": "TO XIAO BAT PADS",
+      "mpn": "B2B-PH-K-S(LF)(SN)",
+      "footprint": "JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "pins": {
+        "1": "VBAT",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        9.0,
+        35.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "Pigtail soldered to XIAO underside BAT+/BAT- pads. Not to 3V3 or 5V.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=B2B-PH-K-S%28LF%29%28SN%29",
+      "uuid": "546b9de0-381d-5b01-84aa-cad0a7f9fa44"
+    },
+    {
+      "ref": "J5",
+      "value": "SPST BATTERY SWITCH",
+      "mpn": "B2B-PH-K-S(LF)(SN)",
+      "footprint": "JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+      "pins": {
+        "1": "VBAT_RAW",
+        "2": "VBAT"
+      },
+      "pin_names": {},
+      "xy": [
+        9.0,
+        44.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "External two-wire SPST. USB remains a service power source; unplug USB for full shutdown.",
+      "dnp": false,
+      "url": "https://www.jst.com/products/crimp-style-connectors-wire-to-board-type/ph-connector/",
+      "uuid": "a1add023-930f-51a7-a9c2-9bd579e76977"
+    },
+    {
+      "ref": "J7",
+      "value": "DS18B20 G V D",
+      "mpn": "B3B-PH-K-S(LF)(SN)",
+      "footprint": "JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical",
+      "pins": {
+        "1": "GND",
+        "2": "3V3",
+        "3": "OW_CABLE"
+      },
+      "pin_names": {},
+      "xy": [
+        66.0,
+        10.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "1 GND, 2 VDD, 3 DQ. Check probe wire identification, do not assume colors.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=B3B-PH-K-S%28LF%29%28SN%29",
+      "uuid": "5fc4a0f4-c768-5b90-ad0a-9d75734bd8d7"
+    },
+    {
+      "ref": "J9",
+      "value": "PH AFE G V A",
+      "mpn": "B3B-PH-K-S(LF)(SN)",
+      "footprint": "JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical",
+      "pins": {
+        "1": "GND",
+        "2": "PH_SUPPLY",
+        "3": "PH_OUT"
+      },
+      "pin_names": {},
+      "xy": [
+        65.0,
+        52.0,
+        0.0
+      ],
+      "group": "config",
+      "notes": "Universal low-voltage pH AFE adapter: 1 GND, 2 selected supply, 3 output. Verify actual module cable pinout before connecting. No bare glass electrode.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=B3B-PH-K-S%28LF%29%28SN%29",
+      "uuid": "72614adc-f994-5f01-93e1-3fd87a048bec"
+    },
+    {
+      "ref": "JP1",
+      "value": "PH POWER 3V3 / 5V",
+      "mpn": "Samtec TSW-103-07-G-S",
+      "footprint": "PinHeader_1x03_P2.54mm_Vertical",
+      "pins": {
+        "1": "BOOST_IN",
+        "2": "PH_SUPPLY",
+        "3": "5V_PH"
+      },
+      "pin_names": {},
+      "xy": [
+        40.0,
+        44.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "Default jumper 2-3 (5V). One shunt only. 1-2 is optional 3V3 variant; DNP boost/LDO in that assembly.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=Samtec%20TSW-103-07-G-S",
+      "uuid": "3b9d6e24-31de-5d0d-a33a-6a26763d4e9f"
+    },
+    {
+      "ref": "U1",
+      "value": "ADS1115",
+      "mpn": "ADS1115IDGSR",
+      "footprint": "VSSOP-10_3x3mm_P0.5mm",
+      "pins": {
+        "1": "GND",
+        "2": null,
+        "3": "GND",
+        "4": "ADC_PH",
+        "5": "ADC_BAT",
+        "6": "GND",
+        "7": "GND",
+        "8": "3V3",
+        "9": "I2C_SDA",
+        "10": "I2C_SCL"
+      },
+      "pin_names": {
+        "1": "ADDR",
+        "2": "ALERT",
+        "3": "GND",
+        "4": "AIN0",
+        "5": "AIN1",
+        "6": "AIN2",
+        "7": "AIN3",
+        "8": "VDD",
+        "9": "SDA",
+        "10": "SCL"
+      },
+      "xy": [
+        52.0,
+        24.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "0x48; single-shot, PGA +/-4.096V; 16 SPS.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=ADS1115IDGSR",
+      "uuid": "0fdd0dd4-3d9b-580f-8cab-26e2aac27745"
+    },
+    {
+      "ref": "U7",
+      "value": "TPS61040",
+      "mpn": "TPS61040DBVR",
+      "footprint": "SOT-23-5",
+      "pins": {
+        "1": "BOOST_SW",
+        "2": "GND",
+        "3": "BOOST_FB",
+        "4": "BOOST_IN",
+        "5": "BOOST_IN"
+      },
+      "pin_names": {
+        "1": "SW",
+        "2": "GND",
+        "3": "FB",
+        "4": "EN",
+        "5": "VIN"
+      },
+      "xy": [
+        25.0,
+        38.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "EN tied to switched input to avoid EN > VIN during power-off.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=TPS61040DBVR",
+      "uuid": "b4087109-76c2-5f8c-98a7-56812192d376"
+    },
+    {
+      "ref": "U8",
+      "value": "5V LDO",
+      "mpn": "TPS7A2050PDBVR",
+      "footprint": "SOT-23-5",
+      "pins": {
+        "1": "BOOST_RAW",
+        "2": "GND",
+        "3": "BOOST_IN",
+        "4": null,
+        "5": "5V_PH"
+      },
+      "pin_names": {
+        "1": "IN",
+        "2": "GND",
+        "3": "EN",
+        "4": "NC",
+        "5": "OUT"
+      },
+      "xy": [
+        35.0,
+        37.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "EN follows switched boost input; check startup and shutdown transients.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=TPS7A2050PDBVR",
+      "uuid": "95ccce24-4bc6-5849-ab83-bb6a110ebdba"
+    },
+    {
+      "ref": "Q1",
+      "value": "P-MOS high side",
+      "mpn": "AO3401A",
+      "footprint": "SOT-23",
+      "pins": {
+        "1": "PH_GATE",
+        "2": "3V3",
+        "3": "BOOST_IN"
+      },
+      "pin_names": {
+        "1": "G",
+        "2": "S",
+        "3": "D"
+      },
+      "xy": [
+        16.0,
+        33.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=AO3401A",
+      "uuid": "5a7c511e-8449-5d05-8c55-c062468f9f68"
+    },
+    {
+      "ref": "Q2",
+      "value": "N-MOS gate driver",
+      "mpn": "2N7002,215",
+      "footprint": "SOT-23",
+      "pins": {
+        "1": "PH_EN",
+        "2": "GND",
+        "3": "PH_GATE"
+      },
+      "pin_names": {
+        "1": "G",
+        "2": "S",
+        "3": "D"
+      },
+      "xy": [
+        25.0,
+        29.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=2N7002%2C215",
+      "uuid": "6a0ee80d-2c0a-55df-bf16-f3e58ffcff9d"
+    },
+    {
+      "ref": "D1",
+      "value": "Schottky 20V",
+      "mpn": "MBR0520LT1G",
+      "footprint": "D_SOD-123",
+      "pins": {
+        "1": "BOOST_RAW",
+        "2": "BOOST_SW"
+      },
+      "pin_names": {
+        "1": "K",
+        "2": "A"
+      },
+      "xy": [
+        28.0,
+        34.0,
+        180.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=MBR0520LT1G",
+      "uuid": "465f29d5-022b-5f05-808d-bddec077593c"
+    },
+    {
+      "ref": "D2",
+      "value": "1-Wire TVS",
+      "mpn": "PESD3V3S1BA,115",
+      "footprint": "D_SOD-323",
+      "pins": {
+        "1": "OW_CABLE",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        62.0,
+        15.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "Bidirectional ESD TVS; not lightning protection.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PESD3V3S1BA%2C115",
+      "uuid": "d7cac50b-b1f8-53f5-a68c-8b327d0a11e7"
+    },
+    {
+      "ref": "L1",
+      "value": "10uH 1.4A sat",
+      "mpn": "SRN4018-100M",
+      "footprint": "L_Bourns_SRN4018_Custom",
+      "pins": {
+        "1": "BOOST_IN",
+        "2": "BOOST_SW"
+      },
+      "pin_names": {},
+      "xy": [
+        20.0,
+        38.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "Semi-shielded; land pattern from Bourns recommended layout, still requires CAD review.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=SRN4018-100M",
+      "uuid": "c857aa3e-a7b1-56e7-8e2a-aa55d7063537"
+    },
+    {
+      "ref": "R1",
+      "value": "4.7k",
+      "mpn": "CRCW08054K70FKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "I2C_SDA"
+      },
+      "pin_names": {},
+      "xy": [
+        44.0,
+        21.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW08054K70FKEA",
+      "uuid": "f64edd67-e3c2-5e73-971f-f7d8d25a4c48"
+    },
+    {
+      "ref": "R2",
+      "value": "4.7k",
+      "mpn": "CRCW08054K70FKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "I2C_SCL"
+      },
+      "pin_names": {},
+      "xy": [
+        44.0,
+        24.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW08054K70FKEA",
+      "uuid": "a596da4a-acd4-545b-b8e0-19cebb9a965c"
+    },
+    {
+      "ref": "R3",
+      "value": "4.7k",
+      "mpn": "CRCW08054K70FKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "OW_LOCAL"
+      },
+      "pin_names": {},
+      "xy": [
+        56.0,
+        9.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW08054K70FKEA",
+      "uuid": "70e95a54-8e29-5b64-8c26-b20a16de480f"
+    },
+    {
+      "ref": "R4",
+      "value": "100R",
+      "mpn": "CRCW0805100RFKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "OW_LOCAL",
+        "2": "OW_CABLE"
+      },
+      "pin_names": {},
+      "xy": [
+        61.0,
+        9.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW0805100RFKEA",
+      "uuid": "60e1d2e9-d596-5a3e-b62c-c754c6335913"
+    },
+    {
+      "ref": "R5",
+      "value": "100k",
+      "mpn": "CRCW0805100KFKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "PH_GATE"
+      },
+      "pin_names": {},
+      "xy": [
+        16.0,
+        29.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW0805100KFKEA",
+      "uuid": "a0dd1302-7b66-5fea-a41d-b8b7adef2f5d"
+    },
+    {
+      "ref": "R6",
+      "value": "100k",
+      "mpn": "CRCW0805100KFKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "PH_EN",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        29.0,
+        29.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW08054K70FKEA",
+      "uuid": "631ba7c7-55b7-5139-8489-276d2b14b5c3"
+    },
+    {
+      "ref": "R7",
+      "value": "69.8k 0.1%",
+      "mpn": "RNCS0805BKE69K8",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "BOOST_RAW",
+        "2": "BOOST_FB"
+      },
+      "pin_names": {},
+      "xy": [
+        24.0,
+        43.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=RNCS0805BKE69K8",
+      "uuid": "91388a01-9386-5e5f-af12-1603333e42f8"
+    },
+    {
+      "ref": "R8",
+      "value": "20k 0.1%",
+      "mpn": "RT0805BRD0720KL",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "BOOST_FB",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        28.0,
+        43.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=RT0805BRD0720KL",
+      "uuid": "e38ec5aa-e26c-56f2-9e4e-45e78ee47cdf"
+    },
+    {
+      "ref": "R9",
+      "value": "49.9k 0.1%",
+      "mpn": "RT0805BRD0749K9L",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "PH_OUT",
+        "2": "PH_DIV"
+      },
+      "pin_names": {},
+      "xy": [
+        60.0,
+        34.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=RT0805BRD0749K9L",
+      "uuid": "ab1ece83-b268-5261-b99f-b0a313ad7258"
+    },
+    {
+      "ref": "R10",
+      "value": "49.9k 0.1%",
+      "mpn": "RT0805BRD0749K9L",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "PH_DIV",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        60.0,
+        38.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=RT0805BRD0749K9L",
+      "uuid": "2d17c393-a284-5392-b690-b49e58fe2225"
+    },
+    {
+      "ref": "R11",
+      "value": "100k 0.1%",
+      "mpn": "RT0805BRD07100KL",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "BAT_SENSE",
+        "2": "BAT_DIV"
+      },
+      "pin_names": {},
+      "xy": [
+        46.0,
+        45.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=RT0805BRD07100KL",
+      "uuid": "23ec4e29-d271-5c4f-8a30-1c6253da2b92"
+    },
+    {
+      "ref": "R12",
+      "value": "100k 0.1%",
+      "mpn": "RT0805BRD07100KL",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "BAT_DIV",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        46.0,
+        49.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=RT0805BRD07100KL",
+      "uuid": "2282e76c-0bb6-54d7-ad0e-fa0d00ba4086"
+    },
+    {
+      "ref": "R15",
+      "value": "1k",
+      "mpn": "CRCW08051K00FKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "PH_DIV",
+        "2": "ADC_PH"
+      },
+      "pin_names": {},
+      "xy": [
+        58.0,
+        24.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW08051K00FKEA",
+      "uuid": "622c8dcf-940b-5423-9227-2beded583be3"
+    },
+    {
+      "ref": "R16",
+      "value": "1k",
+      "mpn": "CRCW08051K00FKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "BAT_DIV",
+        "2": "ADC_BAT"
+      },
+      "pin_names": {},
+      "xy": [
+        58.0,
+        28.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW08051K00FKEA",
+      "uuid": "654642f4-d731-51af-8029-7ab811d7fd78"
+    },
+    {
+      "ref": "C1",
+      "value": "100nF",
+      "mpn": "GRM21BR71H104KA01L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        48.0,
+        21.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L",
+      "uuid": "560fea2e-7bce-56e7-a8cc-d9e2b7e73b86"
+    },
+    {
+      "ref": "C7",
+      "value": "10uF",
+      "mpn": "GRM21BR61A106KE19L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "BOOST_IN",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        20.0,
+        33.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR61A106KE19L",
+      "uuid": "63785d50-348c-5822-91ee-e65393aae666"
+    },
+    {
+      "ref": "C8",
+      "value": "22uF",
+      "mpn": "GRM32ER71C226KEA8L",
+      "footprint": "C_1210_3225Metric",
+      "pins": {
+        "1": "BOOST_RAW",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        31.0,
+        38.0,
+        -90.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM32ER71C226KEA8L",
+      "uuid": "500477f5-6eec-59db-a165-06fe35241ed9"
+    },
+    {
+      "ref": "C9",
+      "value": "1uF",
+      "mpn": "GRM21BR71E105KA99L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "BOOST_RAW",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        35.0,
+        32.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L",
+      "uuid": "4ad134da-dd14-5371-9863-56ae07630634"
+    },
+    {
+      "ref": "C10",
+      "value": "10uF",
+      "mpn": "GRM21BR61A106KE19L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "5V_PH",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        39.0,
+        37.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR61A106KE19L",
+      "uuid": "f485d58a-609f-5a07-b446-80e84af2cec5"
+    },
+    {
+      "ref": "C11",
+      "value": "1uF",
+      "mpn": "GRM21BR71E105KA99L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "PH_DIV",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        60.0,
+        42.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L",
+      "uuid": "57973580-2f2e-5758-b7d4-d3a270f35743"
+    },
+    {
+      "ref": "C12",
+      "value": "1uF",
+      "mpn": "GRM21BR71E105KA99L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "BAT_DIV",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        46.0,
+        53.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L",
+      "uuid": "8efcae3a-3ee5-5484-9e48-1851a9436639"
+    },
+    {
+      "ref": "C13",
+      "value": "100nF",
+      "mpn": "GRM21BR71H104KA01L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "ADC_PH",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        62.5,
+        24.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L",
+      "uuid": "10f961b2-179d-580f-b76a-926df4320155"
+    },
+    {
+      "ref": "C14",
+      "value": "100nF",
+      "mpn": "GRM21BR71H104KA01L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "ADC_BAT",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        62.5,
+        28.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L",
+      "uuid": "24cf2d67-467e-53ff-82e3-15ae40898c3f"
+    },
+    {
+      "ref": "C15",
+      "value": "100nF",
+      "mpn": "GRM21BR71H104KA01L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        68.0,
+        15.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71H104KA01L",
+      "uuid": "05debcfd-ee81-5edd-b694-07c72749d368"
+    },
+    {
+      "ref": "C16",
+      "value": "1uF",
+      "mpn": "GRM21BR71E105KA99L",
+      "footprint": "C_0805_2012Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        72.0,
+        15.0,
+        0.0
+      ],
+      "group": "digital",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM21BR71E105KA99L",
+      "uuid": "98e1f72c-b23f-53fc-a0e6-d8bd95bf7b1e"
+    },
+    {
+      "ref": "C17",
+      "value": "22uF",
+      "mpn": "GRM32ER71C226KEA8L",
+      "footprint": "C_1210_3225Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        43.0,
+        6.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM32ER71C226KEA8L",
+      "uuid": "76fa91e5-fd65-5eb5-b7c8-8dd955260528"
+    },
+    {
+      "ref": "C18",
+      "value": "22uF",
+      "mpn": "GRM32ER71C226KEA8L",
+      "footprint": "C_1210_3225Metric",
+      "pins": {
+        "1": "3V3",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        43.0,
+        11.0,
+        0.0
+      ],
+      "group": "power",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=GRM32ER71C226KEA8L",
+      "uuid": "aa21fb6c-20fb-5c2d-99b0-de86d52fd06b"
+    },
+    {
+      "ref": "TP1",
+      "value": "VBAT_RAW",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "VBAT_RAW"
+      },
+      "pin_names": {},
+      "xy": [
+        15.5,
+        24.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "0db8aa4e-f978-5f78-802a-c69b9cd4e0d3"
+    },
+    {
+      "ref": "TP2",
+      "value": "VBAT",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "VBAT"
+      },
+      "pin_names": {},
+      "xy": [
+        15.0,
+        36.5,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "db5cebb4-53d9-5dc0-882c-1034ec3a2abc"
+    },
+    {
+      "ref": "TP3",
+      "value": "3V3",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "3V3"
+      },
+      "pin_names": {},
+      "xy": [
+        47.0,
+        9.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "a6560e2b-332f-59c9-9bfb-0b8530093552"
+    },
+    {
+      "ref": "TP4",
+      "value": "BAT_EN",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "BAT_EN"
+      },
+      "pin_names": {},
+      "xy": [
+        41.0,
+        18.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "0f144c1f-b79e-5069-bc10-15fa39219fd5"
+    },
+    {
+      "ref": "TP5",
+      "value": "5V_PH",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "5V_PH"
+      },
+      "pin_names": {},
+      "xy": [
+        40.0,
+        54.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "4b588234-4da1-50e7-9115-4d0e54366331"
+    },
+    {
+      "ref": "TP6",
+      "value": "GND",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        16.0,
+        49.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "b497166b-2ab3-59b8-9ec5-ed05e92b8266"
+    },
+    {
+      "ref": "TP7",
+      "value": "I2C_SDA",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "I2C_SDA"
+      },
+      "pin_names": {},
+      "xy": [
+        49.0,
+        15.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "b9ca3c4c-cc76-5d9d-b757-50899a32e23a"
+    },
+    {
+      "ref": "TP8",
+      "value": "I2C_SCL",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "I2C_SCL"
+      },
+      "pin_names": {},
+      "xy": [
+        49.0,
+        30.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "c7f78da4-791a-5ec3-b441-1f12bc403078"
+    },
+    {
+      "ref": "TP9",
+      "value": "OW_CABLE",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "OW_CABLE"
+      },
+      "pin_names": {},
+      "xy": [
+        63.0,
+        5.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "3c820e7f-17ce-587a-b003-db78cf1ea7d4"
+    },
+    {
+      "ref": "TP10",
+      "value": "PH_OUT",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "PH_OUT"
+      },
+      "pin_names": {},
+      "xy": [
+        78.0,
+        49.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "698b759a-81ee-5517-914e-b85175d29b19"
+    },
+    {
+      "ref": "TP11",
+      "value": "PH_EN",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "PH_EN"
+      },
+      "pin_names": {},
+      "xy": [
+        35.0,
+        29.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "47f0c18d-7360-5817-b4fc-8361f4388ad8"
+    },
+    {
+      "ref": "TP12",
+      "value": "BOOST_RAW",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "BOOST_RAW"
+      },
+      "pin_names": {},
+      "xy": [
+        34.0,
+        46.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "d6fa02ac-760d-56ef-957c-ef826bea5685"
+    },
+    {
+      "ref": "TP13",
+      "value": "ADC_PH",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "ADC_PH"
+      },
+      "pin_names": {},
+      "xy": [
+        56.0,
+        17.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "3119ac8b-ea95-50ae-85c7-93c0f1ff3497"
+    },
+    {
+      "ref": "TP14",
+      "value": "ADC_BAT",
+      "mpn": "PCB copper pad",
+      "footprint": "TestPoint_Pad_D2.0mm",
+      "pins": {
+        "1": "ADC_BAT"
+      },
+      "pin_names": {},
+      "xy": [
+        56.0,
+        32.0,
+        0.0
+      ],
+      "group": "test",
+      "notes": "No purchased component.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=PCB%20copper%20pad",
+      "uuid": "a33bd8f1-057d-572c-9f92-34f803cc8293"
+    },
+    {
+      "ref": "H1",
+      "value": "M3 NPTH",
+      "mpn": "M3 nylon standoff",
+      "footprint": "MountingHole_3.2mm_M3",
+      "pins": {},
+      "pin_names": {},
+      "xy": [
+        4.0,
+        4.0,
+        0.0
+      ],
+      "group": "mechanical",
+      "notes": "3.2mm drill; copper keepout radius 3.2mm.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff",
+      "uuid": "dbe8beec-6895-5125-bfce-a548caa69a24"
+    },
+    {
+      "ref": "H2",
+      "value": "M3 NPTH",
+      "mpn": "M3 nylon standoff",
+      "footprint": "MountingHole_3.2mm_M3",
+      "pins": {},
+      "pin_names": {},
+      "xy": [
+        76.0,
+        4.0,
+        0.0
+      ],
+      "group": "mechanical",
+      "notes": "3.2mm drill; copper keepout radius 3.2mm.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff",
+      "uuid": "80288bed-1f28-5b01-8c9e-22ecc1c73489"
+    },
+    {
+      "ref": "H3",
+      "value": "M3 NPTH",
+      "mpn": "M3 nylon standoff",
+      "footprint": "MountingHole_3.2mm_M3",
+      "pins": {},
+      "pin_names": {},
+      "xy": [
+        4.0,
+        56.0,
+        0.0
+      ],
+      "group": "mechanical",
+      "notes": "3.2mm drill; copper keepout radius 3.2mm.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff",
+      "uuid": "4fcbcf6c-8bd4-5686-b5e3-617a5989b4ce"
+    },
+    {
+      "ref": "H4",
+      "value": "M3 NPTH",
+      "mpn": "M3 nylon standoff",
+      "footprint": "MountingHole_3.2mm_M3",
+      "pins": {},
+      "pin_names": {},
+      "xy": [
+        76.0,
+        56.0,
+        0.0
+      ],
+      "group": "mechanical",
+      "notes": "3.2mm drill; copper keepout radius 3.2mm.",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=M3%20nylon%20standoff",
+      "uuid": "4a33ade4-9d4d-5227-8133-5c630216052c"
+    },
+    {
+      "ref": "Q3",
+      "value": "Battery sense P-MOS",
+      "mpn": "AO3401A",
+      "footprint": "SOT-23",
+      "pins": {
+        "1": "BAT_GATE",
+        "2": "VBAT",
+        "3": "BAT_SENSE"
+      },
+      "pin_names": {
+        "1": "G",
+        "2": "S",
+        "3": "D"
+      },
+      "xy": [
+        45.0,
+        40.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=AO3401A",
+      "uuid": "0b12007f-4692-5883-93bb-461516051fd5"
+    },
+    {
+      "ref": "Q4",
+      "value": "Battery sense driver",
+      "mpn": "2N7002,215",
+      "footprint": "SOT-23",
+      "pins": {
+        "1": "BAT_EN",
+        "2": "GND",
+        "3": "BAT_GATE"
+      },
+      "pin_names": {
+        "1": "G",
+        "2": "S",
+        "3": "D"
+      },
+      "xy": [
+        45.0,
+        34.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=2N7002%2C215",
+      "uuid": "2f6f4a31-85a5-5fe7-a032-2f1e7bdf8da4"
+    },
+    {
+      "ref": "R17",
+      "value": "1M",
+      "mpn": "CRCW08051M00FKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "VBAT",
+        "2": "BAT_GATE"
+      },
+      "pin_names": {},
+      "xy": [
+        40.0,
+        30.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW08051M00FKEA",
+      "uuid": "f3291e56-20d6-5c25-8362-e943ca03fb24"
+    },
+    {
+      "ref": "R18",
+      "value": "100k",
+      "mpn": "CRCW0805100KFKEA",
+      "footprint": "R_0805_2012Metric",
+      "pins": {
+        "1": "BAT_EN",
+        "2": "GND"
+      },
+      "pin_names": {},
+      "xy": [
+        45.0,
+        30.0,
+        0.0
+      ],
+      "group": "analog",
+      "notes": "",
+      "dnp": false,
+      "url": "https://www.digikey.com/en/products?keywords=CRCW0805100KFKEA",
+      "uuid": "e2feb7da-88d4-565e-8ad3-4562edefe2c3"
+    }
+  ]
+}

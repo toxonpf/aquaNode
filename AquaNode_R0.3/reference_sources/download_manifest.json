@@ -1,0 +1,210 @@
+[
+  {
+    "file": "LICENSE-CERN-OHL-P.txt",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/LICENSE-CERN-OHL-P.txt",
+    "bytes": 8852,
+    "sha256": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded"
+  },
+  {
+    "file": "LICENSE-MIT.txt",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/LICENSE-MIT.txt",
+    "bytes": 1067,
+    "sha256": "4722aa053dcdea49682c417064d797f14ea54307c63bcd06e5f2f825f7dced66"
+  },
+  {
+    "file": "README.md",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/README.md",
+    "bytes": 5878,
+    "sha256": "90aee4497357e5105a0a05d3ff00e3c365a3390db3d447c03bfefb0a451bc9d5"
+  },
+  {
+    "file": "data-buoy-node/hardware/README.md",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/README.md",
+    "bytes": 1,
+    "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/.gitignore",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/.gitignore",
+    "bytes": 358,
+    "sha256": "253d2e7a923e12dd9aba3a17bf8d532dd59ebf4cb85f1bba0cc6b83e999b2972"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/142-0701-841.IntLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/142-0701-841.IntLib",
+    "bytes": 161792,
+    "sha256": "7e96bacfe65bf1d7e6a8012bc58e1d17f897f535bd1e1f83453de24739f2767d"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/142-0701-841/142-0701-841.SchLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/142-0701-841/142-0701-841.SchLib",
+    "bytes": 7680,
+    "sha256": "db99f665d8a2ef2cb2fcd2190d466e7018b4e1500df666f3460b07b47a050235"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/142-0701-841/JOHNSON_142-0701-841.PcbLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/142-0701-841/JOHNSON_142-0701-841.PcbLib",
+    "bytes": 249344,
+    "sha256": "377f00d5f1b598618b1fefe8ff553f7d8e1c2a38995a25a18c3ce02780f3bc30"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/227161-1.IntLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/227161-1.IntLib",
+    "bytes": 25088,
+    "sha256": "c189216b81de9ae21c1374f3484b6c44c4225fec9544d679fbdd819eea98f9e2"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/227161-1/SnapEDApcb.PcbLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/227161-1/SnapEDApcb.PcbLib",
+    "bytes": 105472,
+    "sha256": "0106deae617fd36a42cc33d0d7569384b87a534317313e5ed59c57a15c21c369"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/227161-1/SnapEDAsch.SchLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/227161-1/SnapEDAsch.SchLib",
+    "bytes": 15360,
+    "sha256": "8067a3c6bc58aa94a4472f12bdb79f431115d0c111137e05a78934c85be56142"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyLoRaNode.OutJob",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyLoRaNode.OutJob",
+    "bytes": 10009,
+    "sha256": "5a0a263accdd37d9dac09c1a065de3ca9130a1927850b1ef29c504cfb610731e"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyLoRaNode.PcbLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyLoRaNode.PcbLib",
+    "bytes": 10283008,
+    "sha256": "7a9e6d84bc17cb05ab7bd9cd5a4f85b143e7ee66df5e2ca9b36c0a479cb16f11"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyLoRaNode.PrjPcb",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyLoRaNode.PrjPcb",
+    "bytes": 64530,
+    "sha256": "258a4fed8ce44c802488f367b46583680112bc02990c5a3cdea6edcb5985478b"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyLoRaNode.SchLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyLoRaNode.SchLib",
+    "bytes": 118784,
+    "sha256": "586ceda3dc0b200945900ae53ccbbae978814259255f6f69ca6fb6a848e23596"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyLoRaNode.pdf",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyLoRaNode.pdf",
+    "bytes": 363048,
+    "sha256": "6f598d1b8550143762e6c1f3bab1b94816adff3a56fe64c2e5507b1de390df80"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyLoRaNode_Schematic.SchDoc",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyLoRaNode_Schematic.SchDoc",
+    "bytes": 197120,
+    "sha256": "374aff58ae2c2da7a25cb3b7ca89d9f4feb8e635aae9fbddc0eea5171ed9c982"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyNode_PCB.PcbDoc",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyNode_PCB.PcbDoc",
+    "bytes": 8990720,
+    "sha256": "c92a50efd3a89aa5190fd2e5084116150e8f5c3d2dd6a560d78ab68b031686d4"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/BuoyNode_PCB.html",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/BuoyNode_PCB.html",
+    "bytes": 6534,
+    "sha256": "f8f5e2390569167b7e306c34d14fd2616632e936de2691f1535ae8d987916ef2"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/FormatoSolicitud.docx",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/FormatoSolicitud.docx",
+    "bytes": 76611,
+    "sha256": "bd1cb088003a9513f34624b36f6f5fa5cf0de0f20e425527779a94ae6e2f49a9"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1.IntLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1.IntLib",
+    "bytes": 22528,
+    "sha256": "3f094ac9bdbbbb0b7d6a3712b8ac84aa66daad8a39f0d74df2ef9c7853b6aedb"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1/SMA-J-P-H-ST-EM1.LibPkg",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1/SMA-J-P-H-ST-EM1.LibPkg",
+    "bytes": 33028,
+    "sha256": "0188917a8decab712d6393037a57e4a32bec4f95ef002817d751b7213d902779"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1/SnapEDApcb.PcbLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1/SnapEDApcb.PcbLib",
+    "bytes": 105984,
+    "sha256": "4537e38d98930467c230f2b2cd703e93bf88f2a56eb10cc8caee47600ee53f47"
+  },
+  {
+    "file": "data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1/SnapEDAsch.SchLib",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/altium/SMA-J-P-H-ST-EM1/SnapEDAsch.SchLib",
+    "bytes": 8704,
+    "sha256": "c0c12d5fced83edf275eeeb725a44ce54ad8bc4f60ff61e8b2e1c3eaab6309cb"
+  },
+  {
+    "file": "data-buoy-node/hardware/documentation/BuoyLoRaNode_PCB_Layout.pdf",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/documentation/BuoyLoRaNode_PCB_Layout.pdf",
+    "bytes": 134858,
+    "sha256": "49ba5737531dc828dd10f548d51626a7592408aa87f2bea7b224c8ee211e1cb3"
+  },
+  {
+    "file": "data-buoy-node/hardware/documentation/BuoyLoRaNode_Schematic.pdf",
+    "url": "https://raw.githubusercontent.com/open-pisciculture/open-source-fish-farming-prototypes/main/data-buoy-node/hardware/documentation/BuoyLoRaNode_Schematic.pdf",
+    "bytes": 231266,
+    "sha256": "0c65e9d5ecfd97f82fa6b44c20b6a8f9e78684cb6fa00b1a95ffe918a3354c0d"
+  },
+  {
+    "file": "nrf_wio.pdf",
+    "url": "https://files.seeedstudio.com/products/113010003/Wio-SX1262%20for%20XIAO%20V1.0.pdf",
+    "bytes": 69050,
+    "sha256": "db757e797850dc661ba561151bea965436a38a10c49a50cbea2f5a36b1ddc292"
+  },
+  {
+    "file": "nrf_xiao.pdf",
+    "url": "https://files.seeedstudio.com/wiki/XIAO-BLE/Seeed-Studio-XIAO-nRF52840-Sense-v1.1.pdf",
+    "bytes": 126968,
+    "sha256": "b109fe7f55e8adf9847760d7a5e23614e6aa10d10d10b189843419c036f19572"
+  },
+  {
+    "file": "esp_wio.pdf",
+    "url": "https://files.seeedstudio.com/products/SenseCAP/Wio_SX1262/Schematic_Diagram_Wio-SX1262_for_XIAO.pdf",
+    "bytes": 94006,
+    "sha256": "2904e270871771f7dda96621685bf71a288141000891d1f0ba233238d3d7e679"
+  },
+  {
+    "file": "elecrow.html",
+    "url": "https://media-cdn.elecrow.com/wiki/crowtail--ph-sensor.html",
+    "bytes": 139114,
+    "sha256": "c5420d0cc93e8c291798a9fdee93f1b981be3e43f1add9cf953286d81ecb3e6f"
+  },
+  {
+    "file": "ads1115.pdf",
+    "url": "https://www.ti.com/lit/ds/symlink/ads1115.pdf",
+    "bytes": 2654255,
+    "sha256": "eefff4d412ce2dcd7e659f47238edc9b2fa02e5971f2625af730502033701834"
+  },
+  {
+    "file": "ds2482.pdf",
+    "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/DS2482-100.pdf",
+    "error": "Remote end closed connection without response"
+  },
+  {
+    "file": "pca9536.pdf",
+    "url": "https://www.ti.com/lit/ds/symlink/pca9536.pdf",
+    "bytes": 1523649,
+    "sha256": "bc9e7a06865817aba9e6791973f132fe2c05074a897d52e6ed4ce6c8cda5766f"
+  },
+  {
+    "file": "tps61040.pdf",
+    "url": "https://www.ti.com/lit/ds/symlink/tps61040.pdf",
+    "bytes": 2280389,
+    "sha256": "6cdca27bfce2aa901281361729cfebaac6b4ecf85f5fc1fac41b81bb7e673d18"
+  },
+  {
+    "file": "ncc.pdf",
+    "url": "https://www.ncc.gov.tw/chinese/show_file.aspx?file_sn=62370&table_name=news",
+    "error": "HTTP Error 403: Forbidden"
+  }
+]
