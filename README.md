@@ -25,6 +25,32 @@ Tests use Playwright Chromium (`npx playwright install chromium` if needed). An 
 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npx playwright test
 ```
 
+## Ocean styles
+
+Open the browser developer console on the running site:
+
+```js
+oceanStyle(4)  // Select a style immediately, without reloading the scene.
+oceanStyle(9)  // Return to the current ocean (default).
+oceanStyle()   // List all styles with numbers, names and descriptions.
+```
+
+The choice is saved in this browser and survives reloads and navigation. The command is available on every page; the selected surface appears in the overview's 3D ocean. Static/reduced-motion illustrations remain static. Water, buoy motion and network links use the same selected wave profile. Invalid values throw a `RangeError` and leave the current choice unchanged.
+
+| Number | Style | Version |
+| --- | --- | --- |
+| 1 | Original | Original fine sparkling ripples |
+| 2 | Smooth | Softer surface before the depth refinements |
+| 3 | Soft depth | Organic colour variation and soft highlights |
+| 4 | Fine ripples | Previous lake-like directional ripples |
+| 5 | Long swell | First long ocean swells |
+| 6 | Broad foam | Long waves with wide foam patches |
+| 7 | Crest ribbons | Narrow foam ribbons along crests |
+| 8 | Textured crests | Four waves, deeper colour and broken foam |
+| 9 | Ocean | Current six-wave ocean with large swells and sparse foam |
+
+Preset definitions are in `src/oceanStyles.ts`, the console command and saved choice in `src/oceanStyle.ts`, shared CPU/GPU wave functions in `src/ocean.ts`, and appearance variants in `src/OceanSurface.tsx`. Historical variants reuse the current buoy model, rectangular float and underwater scene; the original style retains its historical circular waterline. Only the selected surface shader is compiled.
+
 ## Future publication
 
 Publish `dist/` as a static site after `npm run build`. Configure the host to serve `index.html` for application paths (`/about`, `/technology`, `/build`, `/journal`, `/team`); asset paths must serve the actual files. A Netlify-style `_redirects` file is included. No backend or secrets are required. Hosting and domain remain undecided; nothing has been published. Add the final absolute site URL and social preview image to the metadata when the domain is chosen.
@@ -34,7 +60,10 @@ Publish `dist/` as a static site after `npm run build`. Configure the host to se
 - `src/locales/en.ts`: navigation, people and optional social links, resources, assembly steps, project updates, conceptual part descriptions.
 - `src/main.tsx`: page composition and English editorial paragraphs.
 - `src/content.ts`: active English catalog entrypoint. `ru` and `zh-TW` are registered as incomplete; no language selector is shown. Complete the editorial and UI translations before activating another locale.
-- `src/Scene.tsx`: deliberately conceptual model, not a verified CAD reconstruction.
+- `src/Scene.tsx`: ocean rendering, lighting and camera transitions.
+- `src/BuoyModel.tsx` and `src/BuoyDrawing.tsx`: lightweight 3D and static buoy illustrations, based on the supplied open-pisciculture reference.
+- `src/BuoyAnnotation.tsx` and `src/buoyAnchors.ts`: the annotation's fixed attachment point, SVG arrow and damped bend. The 3D scene projects the lid point after applying the buoy's current wave transforms; only the bend has inertia, while the tip tracks exactly. The static illustration uses its corresponding SVG point.
+- `src/SensorPanel.tsx`, `src/Underwater.tsx` and `src/sensors.css`: the underwater chapter, sensor explanations, projected probe controls, light and particles.
 - `src/styles.css`: desktop and separately composed mobile layouts, reduced-motion rules.
 - `public/resources/`: genuine supplied downloadable materials. Do not copy the entire engineering package into this public directory: it contains unapproved protocol details.
 - `public/assets/`: supplied engineering images and licensed ocean recording.
@@ -47,7 +76,9 @@ The opening section is one full viewport of ocean viewed from above, with a crea
 
 The Three.js ocean uses an actual displaced mesh, analytic wave normals, reflected sky, sun glints and fine wind ripples. The buoy samples the same four directional swells as the water, so its height and tilt follow the surface. Wave parameters and the shared CPU/GPU equations are in `src/ocean.ts`. Opening-section styles are in `src/ocean.css`.
 
-No texture downloads or post-processing passes are used. Animation runs only while the scene is visible and the browser tab is active. The secondary model renders on demand. Pending 3D uses a loading indicator rather than an SVG illustration. A static SVG is reserved for reduced motion, limited hardware, unavailable WebGL or a failed 3D download; those states leave loading immediately instead of waiting for a frame that cannot render. The illustrated buoy form and solar-style panels are conceptual, not confirmed hardware specifications. Scrolling stays native, with no pinned empty sections.
+The opening has three chapters in one persistent canvas: the overhead surface, a close look at the buoy, and the probes below the water. Each distinct vertical wheel gesture, swipe or navigation key advances one adjacent chapter. Short anchors, 56–96 px apart, replace the empty viewport-length gaps. Further input is consumed until the camera and copy have settled and the current gesture has paused for 280 ms, preventing momentum from skipping a chapter. Leaving the last chapter returns to ordinary page scrolling; its remaining momentum is consumed until that gesture ends. Chapter links and the dive cue provide direct navigation. Pinch zoom, horizontal gestures and text/button input retain their normal controls. The underwater camera travels around and beneath the float; the background, underside of the water and light change with it. Text and its gradient appear together once the camera settles. The pH and temperature controls select a matching explanation, probe highlight and pulse colour. Moving labels attached to the probe array offer duplicate pointer controls; the stationary selector provides keyboard and screen-reader access. No live measurements are simulated. Reduced motion and unavailable WebGL retain all chapter navigation and sensor explanations with the static illustration.
+
+No texture downloads or post-processing passes are used. The enclosure label is drawn locally on a small canvas. Animation runs only while the scene is visible and the browser tab is active. The secondary model renders on demand. Pending 3D uses a loading indicator rather than an SVG illustration. A static SVG is reserved for reduced motion, limited hardware, unavailable WebGL or a failed 3D download; those states leave loading immediately instead of waiting for a frame that cannot render. The buoy follows the open-pisciculture reference's rectangular float, central mast, upright enclosure and lower probe tube, with softened edges and an AquaNode finish. Its dimensions and details remain illustrative. Scrolling stays native.
 
 ## Evidence and unfinished content
 
@@ -65,14 +96,14 @@ The 3D chunk still contains the Three.js renderer and is significantly larger th
 
 - Supplied `AquaNode_R0.3/`: README, Engineering, Purchase_and_test, Verification, BOM, Assembly and PCB drawings. Original directory is preserved. Public attribution: `public/resources/ATTRIBUTION.md`. New package documentation is CC BY 4.0; hardware CERN-OHL-P-2.0, with upstream notices in the original package.
 - Award and historical context: https://thegeep.org/programs/youth-innovation-challenge/aquanode-team (checked 2026-10-21). Current user facts take precedence over its earlier capability description.
-- Ocean audio: **Oceanwavescrushing.ogg**, Luftrum, 2008, unmodified. https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg . Download: https://upload.wikimedia.org/wikipedia/commons/f/f1/Oceanwavescrushing.ogg . **CC BY 3.0**: https://creativecommons.org/licenses/by/3.0/ . Attribution and licence link appear in every page footer. Playback volume is reduced, original file unchanged.
+- Ocean audio: **Oceanwavescrushing.ogg**, Luftrum, 2008. https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg . Download: https://upload.wikimedia.org/wikipedia/commons/f/f1/Oceanwavescrushing.ogg . **CC BY 3.0**: https://creativecommons.org/licenses/by/3.0/ . Attribution and licence link appear in every page footer. The original file is unchanged; AquaNode applies a quieter mix and real-time underwater filtering. Playback is opt-in and limited to the five ocean chapters on the overview. Leaving the scene, changing page or hiding the tab fades and pauses it; returning resumes only if sound was enabled.
 - Type: DM Sans and Manrope from Google Fonts, SIL Open Font License; https://fonts.google.com/specimen/DM+Sans and https://fonts.google.com/specimen/Manrope . Loaded from Google Fonts, not bundled.
 - Design references reviewed: https://www.hut8.com (clear hierarchy and scale); https://15th.plus-ex.com (object-led reference, text access limited). https://encoder.digital/en was unavailable to the research tool; no claim of a completed visual review. No reference site's code or imagery was copied.
-- Model and SVG fallback: authored for this website, purely illustrative. No third-party 3D assets.
+- Model and SVG fallback: authored for this website using the [open-pisciculture mechanical assembly and photographs](https://github.com/open-pisciculture/open-source-fish-farming-prototypes/tree/1ff67e96c81d22075cd6b9517ece5539700fd0e9/data-buoy-node) as visual references. The STEP assembly was reviewed; upstream meshes and photographs are not bundled. Source credits and adaptation details are in `public/resources/ATTRIBUTION.md`.
 
 ## Remaining user inputs
 
 1. Real photographs of the working prototype and any existing full buoy assembly instructions (absent from the workspace).
 2. Clarification of which board is used by the working buoy versus R0.3, and evidence the team wants to publish.
-3. Contact email / social links only when the team is ready; contacts and forms are currently deferred.
+3. Real team portraits and contact addresses. Portrait slots and multiple contacts per person are ready; see [docs/team-contacts.md](docs/team-contacts.md). Unfilled contacts remain disabled.
 4. Hosting and domain only when publication is requested.

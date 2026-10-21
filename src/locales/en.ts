@@ -1,6 +1,18 @@
 export const nav = [['/','Overview'],['/about','The project'],['/technology','The buoy'],['/build','Build & resources'],['/journal','Journal'],['/team','The team']] as const;
-export const team: {name:string;role:string;links:{label:string;url:string}[]}[] = [
-{name:'Kirill Dubinin',role:'Engineering & outreach',links:[]}, {name:'Artur Kanyshev',role:'Engineering',links:[]}, {name:'Roman Benzler',role:'Co-founder',links:[]}, {name:'Timur Kuandykov',role:'Co-founder',links:[]}, {name:'Ayan Kuandyk',role:'Sponsor',links:[]}];
+export type TeamContact={label:string;url:string|null;kind:'email'|'telegram'|'github'|'website'|'linkedin'};
+export type TeamMember={slug:string;name:string;role:string;photo:string|null;links:TeamContact[]};
+export const team:TeamMember[]=[
+  {slug:'timur-kuandykov',name:'Timur Kuandykov',role:'Co-founder',photo:null,links:[]},
+  {slug:'roman-benzler',name:'Roman Benzler',role:'Co-founder',photo:null,links:[]},
+  // Replace each null with a real address to enable that contact. See docs/team-contacts.md.
+  {slug:'kirill-dubinin',name:'Kirill Dubinin',role:'Engineering & outreach',photo:null,links:[
+    {kind:'email',label:'Email',url:null},
+    {kind:'telegram',label:'Telegram',url:null},
+    {kind:'website',label:'Website',url:null},
+  ]},
+  {slug:'artur-kanyshev',name:'Artur Kanyshev',role:'Engineering',photo:null,links:[]},
+  {slug:'ayan-kuandyk',name:'Ayan Kuandyk',role:'Sponsor',photo:null,links:[]},
+];
 export const awardUrl='https://thegeep.org/programs/youth-innovation-challenge/aquanode-team';
 export const resources=[{name:'Assembly drawing',detail:'R0.3 · SVG · Original engineering drawing',url:'/resources/Assembly.svg'},{name:'Bill of materials',detail:'R0.3 · Markdown · Russian source',url:'/resources/BOM_ru.md'},{name:'Attribution & licences',detail:'Markdown · Sources and reuse conditions',url:'/resources/ATTRIBUTION.md'}];
 export const updates=[{date:'Current status · Team report',title:'One working prototype',body:'The team reports a working buoy measuring water pH and temperature, with data transmitted once an hour. Public measurement logs and prototype photographs have not yet been supplied.',status:'Working now'},{date:'20 October 2026 · Engineering package',title:'R0.3 carrier design reviewed',body:'The supplied KiCad design reports no ERC or DRC issues. These are digital design checks. Physical assembly, calibration, power behaviour and enclosure validation remain unverified for this revision.',status:'In development'},{date:'Next steps · Undated',title:'Make the evidence available',body:'Document the physical prototype, publish validated measurements and clarify which hardware revision it uses. Extend the assembly documentation with photographs and tested steps.',status:'Planned'},{date:'Future direction · Undated',title:'From one buoy to shared observations',body:'Explore additional measurement parameters and multiple observation points as needs become clearer. There is no deployed buoy network or live map today.',status:'Planned'}];

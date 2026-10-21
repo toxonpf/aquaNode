@@ -20,6 +20,12 @@ Carrier revised for XIAO ESP32S3 + Wio SX1262. DS18B20 and enable controls now c
 
 New hardware source in this package is offered under **CERN-OHL-P-2.0**, matching the reference hardware licence. New documentation is offered under **CC BY 4.0** with attribution to this AquaNode package and preservation of original attribution for referenced material: https://creativecommons.org/licenses/by/4.0/
 
+## Website buoy illustration, 2026-10-21
+
+The lightweight procedural model in `src/BuoyModel.tsx` and the static SVG illustration use the reference project's `data-buoy-node/images/assembled.png`, `images/view.png`, `images/operating.jpeg` and `mechanical/3dmodels/step/DataBuoy.step` at the reviewed commit above as visual references. The rectangular float, central mast, upright enclosure and lower probe tube follow that general arrangement. Rounded surfaces, colours, markings, fasteners and probe guard are an illustrative AquaNode adaptation. They do not establish the actual AquaNode enclosure dimensions or internal assembly. No upstream CAD meshes, photographs, PCB models or third-party component models are redistributed by the website.
+
+The upper water scene includes “Rubber Duck - toy” by [Brian Trepanier](https://sketchfab.com/CMBC), from [Sketchfab](https://sketchfab.com/3d-models/rubber-duck-toy-e8545145f67342c794f2d9bb5f572042), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Its unmodified source files and licence are in `public/models/rubber-duck/`.
+
 The new test tools are offered under MIT; see `licenses/MIT-AquaNode.txt`. These declarations apply only to newly supplied material and do not relicense third-party works.
 
 ## KiCad libraries and other third-party material

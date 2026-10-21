@@ -1,0 +1,17 @@
+:root{--site-gutter:5vw}
+.site-header{position:fixed;top:0;left:0;right:0;padding-inline:var(--site-gutter);transition:height .35s ease,background-color .4s ease,color .35s ease,border-color .35s ease,box-shadow .4s ease}
+.site-header .logo:before{transition:width .35s ease,height .35s ease,background-color .35s ease}
+.site-header.is-solid{height:64px;background:var(--paper);color:#123c49;border-bottom:1px solid #173e4924;box-shadow:0 4px 24px #123c4909}
+.site-header.is-solid .logo{color:#123c49}.site-header.is-solid .logo:before{width:148px;height:27px;background:currentColor}
+.site-header.is-solid nav a{color:#53696d}.site-header.is-solid nav a:hover,.site-header.is-solid nav a.active{color:#123c49}.site-header.is-solid nav a.active:after{background:#174d58}
+.site-header.is-solid .header-cta{padding:9px 13px;background:transparent;border-color:#b5c8c0;color:#173f48}.site-header.is-solid .header-cta:hover{background:#e5ecdf}
+.site-header.is-solid :focus-visible{outline-color:#123c49}
+main.has-compact-header{padding-top:64px}
+.build-layout aside{top:88px}.build-step{scroll-margin-top:88px}
+@media(max-width:1150px){:root{--site-gutter:4vw}}
+@media(max-width:760px){
+  :root{--site-gutter:6vw}
+  .site-header.is-solid{height:56px}.site-header.is-solid .logo:before{width:134px;height:25px}.site-header.is-solid .menu-button{color:#123c49}
+  .site-header.is-solid nav{top:56px;background:var(--paper);border-color:#173e4924}
+  main.has-compact-header{padding-top:56px}
+}

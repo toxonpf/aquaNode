@@ -1,16 +1,35 @@
-import React,{Suspense,lazy,useCallback,useEffect,useId,useRef,useState} from 'react';
+import React,{Suspense,lazy,useCallback,useEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
-import {BrowserRouter,Routes,Route,Link,NavLink,useLocation} from 'react-router-dom';
+import {BrowserRouter,Routes,Route,Link,NavLink} from 'react-router-dom';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import {nav,team,awardUrl,resources,updates,steps,parts} from './content';
+import {nav,awardUrl,resources,updates,steps,parts} from './content';
 import './styles.css';
 import './ocean.css';
+import './sensors.css';
+import BuoyDrawing from './BuoyDrawing';
+import BuoyAnnotation,{type BuoyAnnotationHandle} from './BuoyAnnotation';
+import type {BuoyAnchorHandler} from './buoyAnchors';
+import SensorPanel from './SensorPanel';
+import type {SceneShot,SensorKind} from './sceneTypes';
+import {chapters,useStoryNavigation} from './useStoryNavigation';
+import {PageCurtain,usePageTransition} from './PageTransition';
+import './signal.css';
+import StoryPanel from './StoryPanel';
+import './story-reading.css';
+import FlexibleArrow from './FlexibleArrow';
+import {useHeaderMode} from './useHeaderMode';
+import './header.css';
+import './chapters.css';
+import NetworkDrawing from './NetworkDrawing';
+import TeamRoster from './TeamRoster';
+import {MeetNode,FutureNetwork} from './HomeFeatures';
+import {OceanAudioProvider,AudioToggle,useOceanAudio} from './OceanAudio';
+import './oceanStyle';
 gsap.registerPlugin(ScrollTrigger);
 let sceneModule:Promise<typeof import('./Scene')>|undefined;
 const loadScene=()=>sceneModule??=import('./Scene');
 const Scene=lazy(loadScene);
-function BuoyDrawing(){const id=useId();return <svg className="buoy-drawing" viewBox="0 0 600 520" role="img" aria-label="Conceptual buoy illustration, not an engineering model"><defs><linearGradient id={id} x2="1" y2="1"><stop stopColor="#fafcf4"/><stop offset="1" stopColor="#91adb0"/></linearGradient><radialGradient id={id+'water'}><stop stopColor="#79b7bf" stopOpacity=".65"/><stop offset="1" stopColor="#8dc7cb" stopOpacity="0"/></radialGradient></defs><ellipse cx="300" cy="300" rx="290" ry="170" fill={'url(#'+id+'water)'}/><g fill="none" stroke="#73a7ad" opacity=".38"><ellipse cx="300" cy="295" rx="230" ry="108"/><ellipse cx="300" cy="295" rx="185" ry="85"/><ellipse cx="300" cy="295" rx="145" ry="64"/></g><path d="M278 305v112l17 12 5-126" fill="#bdc8cb"/><path d="M324 308v81l12 9 9-95" fill="#839fa9"/><path d="M183 242v59c0 61 234 61 234 0v-59" fill={'url(#'+id+')'}/><path d="M183 278v23c0 61 234 61 234 0v-23c0 61-234 61-234 0" fill="#214f60"/><ellipse cx="300" cy="242" rx="117" ry="49" fill="#ed8a63"/><ellipse cx="300" cy="242" rx="99" ry="38" fill="#edf1e6"/><path d="m217 235 27-13 24 11-26 14zm115 24 27-13 24 11-26 14z" fill="#214552"/><path d="M247 186v54c0 27 106 27 106 0v-54" fill={'url(#'+id+')'}/><ellipse cx="300" cy="186" rx="53" ry="22" fill="#193e4d"/><ellipse cx="300" cy="186" rx="40" ry="15" fill="#386774"/><path d="M285 173v26m19-28v30m18-27v24" stroke="#86b2b8" strokeWidth="1"/><path d="M320 183v-78" stroke="#173b49" strokeWidth="5"/><circle cx="320" cy="101" r="5" fill="#ed764f"/></svg>}
 type SceneState='loading'|'ready'|'static';
 class SceneBoundary extends React.Component<{children:React.ReactNode;onUnavailable:()=>void},{failed:boolean}>{
   state={failed:false};
@@ -18,15 +37,16 @@ class SceneBoundary extends React.Component<{children:React.ReactNode;onUnavaila
   componentDidCatch(){this.props.onUnavailable()}
   render(){return this.state.failed?null:this.props.children}
 }
-type SceneShot='surface'|'detail';
 function LoadingIndicator({ocean=false,progress}:{ocean?:boolean;progress?:number}){
   return <div className="loading-indicator" role="status">
     <div className="loading-caption"><span>{ocean?'LOADING THE OCEAN':'LOADING THE MODEL'}</span>{progress!==undefined&&<span className="loading-percentage">{progress}%</span>}</div>
     <div className={'loading-bar'+(progress===undefined?' is-indeterminate':'')} role="progressbar" aria-label={ocean?'Loading the ocean':'Loading the model'} aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}><span style={progress!==undefined?{transform:`scaleX(${progress/100})`}:undefined}/></div>
   </div>;
 }
-function Viewer({hero=false,onStateChange,onProgress,shot='surface',onShotSettled}:{hero?:boolean;onStateChange?:(state:SceneState)=>void;onProgress?:(progress:number)=>void;shot?:SceneShot;onShotSettled?:(shot:SceneShot)=>void}){
-  const [active,setActive]=useState(0),[angle,setAngle]=useState(0),[expanded,setExpanded]=useState(false);
+function Viewer({hero=false,onStateChange,onProgress,shot='surface',onShotSettled,sensor='ph',onSensorChange,onBuoyAnchor,onImmersionChange,insideVisible=false,showcase=false,activePart,onPartChange}:{hero?:boolean;onStateChange?:(state:SceneState)=>void;onProgress?:(progress:number)=>void;shot?:SceneShot;onShotSettled?:(shot:SceneShot)=>void;sensor?:SensorKind;onSensorChange?:(sensor:SensorKind)=>void;onBuoyAnchor?:BuoyAnchorHandler;onImmersionChange?:(value:number)=>void;insideVisible?:boolean;showcase?:boolean;activePart?:number;onPartChange?:(part:number)=>void}){
+  const [localActive,setLocalActive]=useState(0),[angle,setAngle]=useState(0),[expanded,setExpanded]=useState(false);
+  const active=activePart??localActive;
+  const setActive=(value:number)=>{setLocalActive(value);onPartChange?.(value)};
   const [mode,setMode]=useState<'checking'|'webgl'|'static'>('checking');
   const [visible,setVisible]=useState(hero),[ready,setReady]=useState(false);
   const enabled=mode==='webgl';
@@ -65,32 +85,38 @@ function Viewer({hero=false,onStateChange,onProgress,shot='surface',onShotSettle
     return()=>media.removeEventListener('change',check);
   },[]);
   const unavailable=()=>{setReady(false);setMode('static')};
-  return <div ref={viewerRef} className={'viewer '+(hero?'hero-viewer':'')} data-scene-state={state}>
+  useEffect(()=>{
+    if(!enabled||!visible||ready)return;
+    const timeout=window.setTimeout(()=>setMode('static'),15000);
+    return()=>window.clearTimeout(timeout);
+  },[enabled,visible,ready]);
+  return <div ref={viewerRef} className={'viewer '+(hero?'hero-viewer':'')+(showcase?' node-viewer':'')} data-scene-state={state}>
     <div className="scene" aria-label="Conceptual buoy model" aria-busy={state==='loading'}>
-      {mode==='static'?<BuoyDrawing/>:enabled&&visible?<div className="scene-live" data-ready={ready} aria-hidden={!ready}><SceneBoundary onUnavailable={unavailable}><Suspense fallback={null}><Scene hero={hero} shot={shot} onShotSettled={onShotSettled} onProgress={onProgress} active={active} angle={angle} expanded={expanded} onReady={()=>{setReady(true);onProgress?.(100)}} onUnavailable={unavailable}/></Suspense></SceneBoundary></div>:null}
+      {mode==='static'?(hero&&shot==='signal'?<NetworkDrawing/>:<BuoyDrawing/>):enabled&&visible?<div className="scene-live" data-ready={ready} aria-hidden={!ready}><SceneBoundary onUnavailable={unavailable}><Suspense fallback={null}><Scene hero={hero} onBuoyAnchor={onBuoyAnchor} onImmersionChange={onImmersionChange} shot={shot} showInside={insideVisible} sensor={sensor} onSensorChange={onSensorChange} onShotSettled={onShotSettled} onProgress={onProgress} active={active} angle={angle} expanded={expanded} onReady={()=>{setReady(true);onProgress?.(100)}} onUnavailable={unavailable}/></Suspense></SceneBoundary></div>:null}
       {!hero&&state==='loading'&&<div className="model-loading"><LoadingIndicator/></div>}
     </div>
     <div className="scene-caption"><span className="tiny-dot"/> CONCEPT MODEL <span>Illustrative design</span></div>
-    {!hero&&<><div className="viewer-controls"><button onClick={()=>setAngle(v=>v-.4)} disabled={!enabled} aria-label="Rotate buoy left">↶</button><button onClick={()=>setAngle(v=>v+.4)} disabled={!enabled} aria-label="Rotate buoy right">↷</button><button aria-pressed={expanded} onClick={()=>setExpanded(!expanded)} disabled={!enabled}>{expanded?'Close structure':'Separate parts'}</button><button onClick={()=>{setAngle(0);setExpanded(false);setActive(0)}} disabled={!enabled}>Reset</button></div><div className="part-tabs" aria-label="Buoy parts">{parts.map((p,i)=><button key={p.name} onClick={()=>setActive(i)} aria-pressed={i===active}>{String(i+1).padStart(2,'0')} {p.name}</button>)}</div><p className="part-description" aria-live="polite">{parts[active].text}</p><p className="helper">{enabled?'Drag to orbit · Pinch to zoom · Use buttons for keyboard control':'Static view for reduced motion, limited hardware or unavailable WebGL. All part descriptions remain available.'}</p></>}
+    {!hero&&<><div className="viewer-controls"><button onClick={()=>setAngle(v=>v-.4)} disabled={!enabled} aria-label="Rotate buoy left">↶</button><button onClick={()=>setAngle(v=>v+.4)} disabled={!enabled} aria-label="Rotate buoy right">↷</button><button aria-pressed={expanded} onClick={()=>setExpanded(!expanded)} disabled={!enabled}>{expanded?'Close structure':'Separate parts'}</button><button onClick={()=>{setAngle(0);setExpanded(false);setActive(0)}} disabled={!enabled}>Reset</button></div>{!showcase&&<><div className="part-tabs" aria-label="Buoy parts">{parts.map((p,i)=><button key={p.name} onClick={()=>setActive(i)} aria-pressed={i===active}>{String(i+1).padStart(2,'0')} {p.name}</button>)}</div><p className="part-description" aria-live="polite">{parts[active].text}</p></>}<p className="helper">{enabled?'Drag to orbit · Pinch to zoom · Use buttons for keyboard control':showcase?'Select a part to explore the buoy.':'Static view for reduced motion, limited hardware or unavailable WebGL. All part descriptions remain available.'}</p></>}
   </div>;
 }
 function Kicker({children}:{children:React.ReactNode}){return <p className="kicker">{children}</p>}
-function ArrowLink({to,children}:{to:string;children:React.ReactNode}){return <Link className="arrow-link" to={to}>{children}<span>↗</span></Link>}
+function ArrowLink({to,children}:{to:string;children:React.ReactNode}){return <Link className="arrow-link" to={to}>{children}<span className="arrow-link-icon"><FlexibleArrow direction="up-right"/></span></Link>}
 function Flow(){return <div className="flow">{[['01','Sense','Probes contact the water.'],['02','Measure','pH and temperature are measured.'],['03','Transmit','Data is sent once an hour using our own protocol.'],['04','Learn','Recorded observations can inform further investigation.']].map(([n,t,d])=><div key={n}><span>{n} —</span><h3>{t}</h3><p>{d}</p></div>)}</div>}
 function Status(){return <div className="status-grid"><article className="status-current"><div className="status-top"><span className="badge"><span className="tiny-dot"/> Working now</span><span className="status-number">01</span></div><h3>The first node is working.</h3><p>One prototype measures pH and temperature, transmitting data every hour. Current status reported by the team.</p><span className="status-foot">PROTOTYPE / MEASURE / TRANSMIT</span></article><article><div className="status-top"><span className="badge muted">In development</span><span className="status-number">02</span></div><h3>Refine. Assemble. Test.</h3><p>The R0.3 carrier-board design is reviewed. Its physical assembly and testing are the next engineering steps.</p><span className="status-foot">DESIGN / ASSEMBLY / VALIDATION</span></article><article><div className="status-top"><span className="badge muted">Looking ahead</span><span className="status-number">03</span></div><h3>More points of view.</h3><p>Additional parameters and observation points, shaped by real needs. A wider network is a future direction.</p><span className="status-foot">LEARN / EXTEND / CONNECT</span></article></div>}
 function OceanStory(){
+  const {setImmersion}=useOceanAudio();
   const story=useRef<HTMLDivElement>(null);
+  const annotation=useRef<BuoyAnnotationHandle>(null);
+  const updateBuoyAnchor=useCallback<BuoyAnchorHandler>((x,y,delta,outwardX,outwardY)=>annotation.current?.updateAnchor(x,y,delta,outwardX,outwardY),[]);
   const [sceneState,setSceneState]=useState<SceneState>('loading');
   const [progress,setProgress]=useState(0);
   const reportProgress=useCallback((value:number)=>setProgress(current=>Math.max(current,value)),[]);
-  const [shot,setShot]=useState<SceneShot>('surface'),[settledShot,setSettledShot]=useState<SceneShot>('surface');
+  const [sensor,setSensor]=useState<SensorKind>('ph');
   const [presented,setPresented]=useState(false),[labelVisible,setLabelVisible]=useState(false);
   const loaded=sceneState!=='loading';
-  useEffect(()=>{
-    const trigger=ScrollTrigger.create({trigger:story.current,start:'top -42%',end:'bottom top',onEnter:()=>setShot('detail'),onLeaveBack:()=>setShot('surface')});
-    return()=>trigger.kill();
-  },[]);
-  useEffect(()=>{if(sceneState==='static')setSettledShot(shot)},[sceneState,shot]);
+  const {shot,settledShot,onShotSettled,navigate}=useStoryNavigation(story,presented,sceneState==='static');
+  useEffect(()=>{if(sceneState==='static')setImmersion(shot==='sensing'?1:0)},[sceneState,shot,setImmersion]);
+  useEffect(()=>()=>setImmersion(0),[setImmersion]);
   useEffect(()=>{
     setPresented(false);
     if(!loaded)return;
@@ -100,39 +126,103 @@ function OceanStory(){
   },[loaded]);
   useEffect(()=>{
     setLabelVisible(false);
-    if(!presented)return;
+    if(!loaded)return;
     const timer=window.setTimeout(()=>setLabelVisible(true),1000);
     return()=>window.clearTimeout(timer);
-  },[presented]);
-  const detail=shot==='detail';
+  },[loaded]);
+  const detail=shot==='detail',sensing=shot==='sensing',inside=shot==='inside',signal=shot==='signal';
+  const goToShot=(event:React.MouseEvent<HTMLAnchorElement>,destination:SceneShot)=>{
+    event.preventDefault();
+    navigate(destination);
+  };
   return <div ref={story} className="ocean-story">
     <span id="buoy-intro" className="buoy-scroll-target" aria-hidden="true"/>
-    <div className={'hero ocean-hero ocean-stage'+(loaded?' is-loaded':'')+(presented?' is-presented':'')+(detail&&settledShot==='detail'?' is-detail-ready':'')} data-scene-state={sceneState} data-shot={shot} data-camera-state={shot===settledShot?'settled':'moving'}>
-      <Viewer hero onStateChange={setSceneState} onProgress={reportProgress} shot={shot} onShotSettled={setSettledShot}/>
+    <span id="buoy-sensors" className="sensor-scroll-target" aria-hidden="true"/><span id="buoy-inside" className="inside-scroll-target" aria-hidden="true"/><span id="buoy-signal" className="signal-scroll-target" aria-hidden="true"/>
+    <div className={'hero ocean-hero ocean-stage'+(loaded?' is-loaded':'')+(presented?' is-presented':'')+(detail&&settledShot==='detail'?' is-detail-ready':'')+(sensing&&settledShot==='sensing'?' is-sensing-ready':'')+(inside&&settledShot==='inside'?' is-inside-ready':'')+(signal&&settledShot==='signal'?' is-signal-ready':'')} data-scene-state={sceneState} data-shot={shot} data-sensor={sensor} data-camera-state={shot===settledShot?'settled':'moving'}>
+      <Viewer hero onBuoyAnchor={updateBuoyAnchor} onImmersionChange={setImmersion} sensor={sensor} onSensorChange={setSensor} insideVisible={inside&&settledShot==='inside'} onStateChange={setSceneState} onProgress={reportProgress} shot={shot} onShotSettled={onShotSettled}/>
       <div className="ocean-loading-screen" aria-hidden={loaded}><LoadingIndicator ocean progress={progress}/></div>
       <div className="ocean-vignette" aria-hidden="true"/>
-      <section className="ocean-introduction" aria-labelledby="ocean-title" aria-hidden={detail} inert={detail}>
+      <div className="underwater-rays" aria-hidden="true"/>
+      <section className="ocean-introduction" aria-labelledby="ocean-title" aria-hidden={shot!=='surface'} inert={shot!=='surface'}>
         <h1 id="ocean-title" className="sr-only">AquaNode — a closer look at our water</h1>
-        <a href="#buoy-intro" className={'buoy-annotation'+(labelVisible?' is-visible':'')} aria-label="What is this? Discover AquaNode" tabIndex={labelVisible?0:-1}>
-          <span>what is this?</span>
-          <svg viewBox="0 0 200 120" fill="none" aria-hidden="true"><path className="annotation-curve" d="M177 12C164 53 104 15 83 43 65 66 68 89 25 100"/><path className="annotation-head" d="m37 86-14 15 21 2"/></svg>
-        </a>
+        <BuoyAnnotation ref={annotation} visible={labelVisible} active={shot==='surface'} staticScene={sceneState==='static'} onClick={event=>goToShot(event,'detail')}/>
         <span className="ocean-corner ocean-corner-left">01 / THE SURFACE</span>
-        <a className="ocean-scroll" href="#buoy-intro" tabIndex={presented?0:-1} aria-label="Scroll to explore AquaNode"><span>SCROLL TO EXPLORE</span><span className="scroll-track" aria-hidden="true"><i/></span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2v14m-5-5 5 5 5-5"/></svg></a>
+        <a className="ocean-scroll" href="#buoy-intro" onClick={event=>goToShot(event,'detail')} tabIndex={presented?0:-1} aria-label="Scroll to explore AquaNode"><span>SCROLL TO EXPLORE</span><span className="scroll-track" aria-hidden="true"><FlexibleArrow direction="down" active showHead={false} trail/></span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2v14m-5-5 5 5 5-5"/></svg></a>
         <span className="ocean-corner ocean-corner-right">A SMALL NODE.<br/>A WORLD TO UNDERSTAND.</span>
       </section>
       <section className="buoy-introduction" aria-labelledby="buoy-intro-title" aria-hidden={!detail} inert={!detail}>
-        <div className="buoy-copy">
+        <StoryPanel chapter="detail" className="buoy-copy" label="About the buoy">
           <Kicker>02 / MEET AQUANODE</Kicker>
-          <h2 id="buoy-intro-title">A small buoy.<br/>A closer look<br/>at our water.</h2>
+          <h2 id="buoy-intro-title">A small buoy.<br/>A closer look at our water.</h2>
           <p>AquaNode is a water-monitoring prototype that brings regular observation and hands-on engineering together.</p>
           <dl className="buoy-reading-types"><div><dt>pH</dt><dd>Water acidity</dd></div><div><dt>°C</dt><dd>Water temperature</dd></div></dl>
           <p className="buoy-interval">Measurements transmitted once an hour.<br/>One working prototype. More possibilities ahead.</p>
+          <div className="story-details">
+            <article><span>01 / STAY AT THE SURFACE</span><h3>A platform for observation.</h3><p>The floating body brings the two parts of the instrument together: electronics above the surface and probes in the water. In this conceptual model, the central mast connects them into one compact device.</p></article>
+            <article><span>02 / KEEP THE SYSTEM TOGETHER</span><h3>Every part has a purpose.</h3><p>The upper enclosure houses the measurement and transmission electronics. The antenna provides the communication link, while the submerged probes measure pH and temperature. Explore the following chapters to see each part more closely.</p></article>
+            <article><span>03 / LEARN BY BUILDING</span><h3>One working prototype.</h3><p>AquaNode combines regular water observation with hands-on engineering. The team reports one operating buoy; a separate R0.3 carrier-board design and assembly resources make the engineering work available to inspect.</p></article>
+          </div>
           <ArrowLink to="/technology">Explore the technology</ArrowLink>
-        </div>
-        <a className="back-to-surface" href="#ocean-title" onClick={event=>{event.preventDefault();if(story.current)window.scrollTo({top:window.scrollY+story.current.getBoundingClientRect().top,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}}>↑ Back to the surface</a>
+        </StoryPanel>
+        <a className="back-to-surface" href="#ocean-title" onClick={event=>goToShot(event,'surface')}>↑ Back to the surface</a>
+        <a className="story-dive" href="#buoy-sensors" onClick={event=>goToShot(event,'sensing')}><span>THERE’S MORE BELOW</span><FlexibleArrow direction="down" active/></a>
         <span className="ocean-corner ocean-corner-left">02 / THE BUOY</span>
       </section>
+      <section className="sensor-introduction" aria-labelledby="sensor-story-title" aria-hidden={!sensing} inert={!sensing}>
+        <SensorPanel sensor={sensor} onChange={setSensor} onExplore={()=>navigate('inside')}/>
+        <a className="story-dive" href="#buoy-inside" onClick={event=>goToShot(event,'inside')}><span>SCROLL TO SEE INSIDE</span><FlexibleArrow direction="down" active/></a>
+        <span className="ocean-corner ocean-corner-left">03 / THE WATER</span>
+        <span className="sensor-model-note">CONCEPTUAL PROBE VIEW <span>pH + TEMPERATURE</span></span>
+      </section>
+      <section className="inside-introduction" aria-labelledby="inside-story-title" aria-hidden={!inside} inert={!inside}>
+        <StoryPanel chapter="inside" className="inside-copy" label="Inside the buoy">
+          <p className="kicker">04 / INSIDE THE NODE</p>
+          <h2 id="inside-story-title">A small system<br/>with a clear job.</h2>
+          <p>Inside the weatherproof enclosure, a compact board connects the controller, radio, power and sensor interfaces.</p>
+          <dl className="inside-parts">
+            <div><dt>01</dt><dd><b>Controller</b><span>Coordinates each measurement.</span></dd></div>
+            <div><dt>02</dt><dd><b>Radio</b><span>Sends a small update on schedule.</span></dd></div>
+            <div><dt>03</dt><dd><b>Power + ports</b><span>Feeds the board and connects the probes.</span></dd></div>
+          </dl>
+          <p className="inside-note">Conceptual layout based on AquaNode R0.3 design work.</p>
+          <div className="story-details">
+            <article><span>01 / THE CARRIER BOARD</span><h3>A place for every connection.</h3><p>The R0.3 design uses an 80 × 60 mm, two-layer carrier board. It brings the controller, measurement inputs and power connections together in a layout that can be inspected in the assembly drawing.</p></article>
+            <article><span>02 / THE MEASUREMENT PATH</span><h3>From input to a reading.</h3><p>The design specifies a XIAO ESP32S3 controller, ADS1115 conversion and a DS18B20 temperature input. The pH front end has its own power and analogue input connections. These are documented design choices for R0.3.</p></article>
+            <article><span>03 / FROM DRAWING TO DEVICE</span><h3>Designed, then validated.</h3><p>Module fit, calibration, power transitions and water sealing are physical checks that follow the digital design. R0.3 still needs assembly and testing; the cutaway illustrates the arrangement rather than an exact inventory of the working buoy.</p></article>
+          </div>
+          <ArrowLink to="/build">Inspect the engineering</ArrowLink>
+        </StoryPanel>
+        <a className="back-to-sensors" href="#buoy-sensors" onClick={event=>goToShot(event,'sensing')}>↑ Back to the probes</a>
+        <a className="story-dive" href="#buoy-signal" onClick={event=>goToShot(event,'signal')}><span>FOLLOW THE SIGNAL</span><FlexibleArrow direction="down" active/></a>
+        <span className="ocean-corner ocean-corner-left">04 / THE NODE</span>
+      </section>
+      <section className="signal-introduction" aria-labelledby="signal-story-title" aria-hidden={!signal} inert={!signal}>
+        <StoryPanel chapter="signal" className="signal-copy" label="How the buoy transmits measurements">
+          <Kicker>05 / BEYOND THE BUOY</Kicker>
+          <h2 id="signal-story-title">A small signal.<br/>A closer connection.</h2>
+          <p>One buoy observes the water today. A future network could connect observations from several locations, with each node sending a regular update.</p>
+          <div className="signal-route" aria-label="Illustration: measurements travel from the buoy to a receiver">
+            <div><span className="signal-node">≈</span><span>OBSERVATION NODES</span></div>
+            <div className="signal-path" aria-hidden="true"><i/><i/><i/></div>
+            <div><span className="signal-receiver"><i/><i/><i/></span><span>RECEIVER</span></div>
+          </div>
+          <div className="signal-facts"><div><strong>01<span> h</span></strong><span>BETWEEN UPDATES</span></div><div><strong>pH <span>+ </span>°C</strong><span>TWO WATER PARAMETERS</span></div></div>
+          <p className="signal-note">Future network concept. One working prototype today; additional buoys and links are illustrated.</p>
+          <div className="story-details">
+            <article><span>01 / OBSERVE</span><h3>Start with the water.</h3><p>The probes provide pH and temperature measurements. A useful record begins with calibrated sensors and a clear account of where and how each observation was made.</p></article>
+            <article><span>02 / TRANSMIT</span><h3>A regular update.</h3><p>The working buoy transmits measurements once an hour using the team’s own protocol. The moving pulses illustrate that link; they do not represent live traffic. Protocol details and measured range have not been published.</p></article>
+            <article><span>03 / UNDERSTAND</span><h3>Follow change over time.</h3><p>Repeated observations can help frame the next question about the water. A public dataset and a deployed network are future work. Today, AquaNode starts with one prototype and engineering that you can explore.</p></article>
+          </div>
+          <ArrowLink to="/technology">Follow the technology</ArrowLink>
+        </StoryPanel>
+        <a className="signal-back" href="#buoy-inside" onClick={event=>goToShot(event,'inside')}>↑ Back inside the node</a>
+        <a className="story-dive" href="#progress" onClick={event=>{event.preventDefault();document.querySelector('.award')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}}><span>THE STORY CONTINUES</span><FlexibleArrow direction="down" active/></a>
+        <span className="ocean-corner ocean-corner-left">05 / THE SIGNAL</span>
+        <span className="network-scene-note">A FUTURE NETWORK <span>CONCEPT VIEW · ONE PROTOTYPE TODAY</span></span>
+      </section>
+      <nav className="ocean-chapters" aria-label="Buoy story" inert={!presented}>
+        {chapters.map((chapter,i)=><a key={chapter} href={['#ocean-title','#buoy-intro','#buoy-sensors','#buoy-inside','#buoy-signal'][i]} onClick={event=>goToShot(event,chapter)} aria-label={['View the surface','Meet the buoy','Explore below the surface','See inside the buoy','Follow the signal'][i]} data-label={['The surface','Meet AquaNode','Water probes','Inside the node','Buoy network'][i]} aria-current={shot===chapter?'step':undefined}><span>0{i+1}</span><i/></a>)}
+      </nav>
     </div>
   </div>;
 }
@@ -141,9 +231,9 @@ function Home(){return <>
   <div className="award"><span className="award-mark" aria-hidden="true">✳</span><p>Youth Innovation Challenge 2026 <b>Winner</b></p><a href={awardUrl} target="_blank" rel="noreferrer">A small team. A recognised idea. <span>↗</span></a></div>
   <section id="progress" className="section progress-section"><div className="section-heading"><div><Kicker>01 / THE PROJECT TODAY</Kicker><h2>A working prototype.<br/>An open path forward.</h2></div><div className="heading-aside"><p>Follow the steps from a first device to a wider understanding of water.</p><ArrowLink to="/journal">Follow our development</ArrowLink></div></div><Status/></section>
   <section id="why" className="section reason-section"><div className="reason-visual" aria-hidden="true"><div className="water-line water-line-1"/><div className="water-line water-line-2"/><div className="water-line water-line-3"/><span className="reason-plus">+</span><span className="reason-word">Look closer.</span><span className="reason-caption">A CHANGE BEGINS WITH A QUESTION.</span></div><div><Kicker>02 / WHY WATER?</Kicker><h2>We can only care for<br/>what we understand.</h2><p className="lead">Water changes every day. Understanding it starts with paying attention.</p><p>AquaNode brings regular measurement and hands-on learning together. From a sensor in the water to a reading worth investigating, we make the process of observation tangible.</p><ArrowLink to="/about">The idea behind AquaNode</ArrowLink></div></section>
-  <section className="section dark device-section"><div className="device-intro"><Kicker>03 / MEET THE NODE</Kicker><h2>Purpose in<br/>every part.</h2><p>A floating body. Protected electronics. Sensors in the water. Explore how a simple concept becomes an instrument for observation.</p><div className="device-facts"><span>01 <b>Float</b></span><span>02 <b>Measure</b></span><span>03 <b>Connect</b></span></div><ArrowLink to="/technology">Inside the technology</ArrowLink></div><Viewer/></section>
+  <MeetNode renderViewer={(active,onChange)=><Viewer showcase activePart={active} onPartChange={onChange}/>}/>
   <section className="section cycle-section"><div className="section-heading"><div><Kicker>04 / THE OBSERVATION CYCLE</Kicker><h2>From water to understanding.</h2></div><span className="cycle-mark" aria-hidden="true">↻</span></div><Flow/><p className="note">Public measurement data is not yet available. The site presents our development progress.</p></section>
-  <section className="future section"><div><Kicker>05 / LOOKING AHEAD</Kicker><h2>One node is a start.<br/>A network is a possibility.</h2><p>More observation points. More questions we can explore together. Our next chapter is shaped by what we learn from the first.</p><span className="badge muted">Future network concept · not deployed</span></div><div className="network-art" role="img" aria-label="Illustration of a possible future network, not actual installations"><div className="network-connection"/>{[0,1,2,3,4].map(i=><span key={i} className={'node node-'+i}><i/></span>)}<span className="network-caption">INDIVIDUAL NODES. SHARED PERSPECTIVE.</span></div></section>
+  <FutureNetwork/>
   <section className="section evidence-section"><div className="section-heading"><div><Kicker>06 / OPEN ENGINEERING</Kicker><h2>The work behind the water.</h2></div><ArrowLink to="/build">Build & resources</ArrowLink></div><div className="evidence"><figure><span className="figure-label">ENGINEERING ARCHIVE / R0.3</span><img src="/assets/PCB_F.png" alt="R0.3 PCB front copper and silkscreen drawing" loading="lazy"/><figcaption>Original PCB drawing · R0.3 · Awaiting physical validation</figcaption></figure><div><span className="badge muted">On the workbench</span><h3>Made to be explored.<br/>Documented as we go.</h3><p>Inspect the board layout, assembly drawing and bill of materials. Follow the decisions and questions that take us from a design to its next test.</p><ArrowLink to="/build">Open the engineering resources</ArrowLink><ArrowLink to="/journal">Read the project journal</ArrowLink></div></div></section>
   <section className="team-invitation"><Kicker>CURIOUS MINDS. A SHARED DIRECTION.</Kicker><h2>It starts with people.</h2><ArrowLink to="/team">Meet the AquaNode team</ArrowLink></section>
 </>}
@@ -152,16 +242,11 @@ function About(){return <><PageIntro label="THE PROJECT" title="Understanding st
 function Technology(){return <><PageIntro label="THE BUOY / TECHNOLOGY" title="An instrument for asking better questions." text="Explore a conceptual view of the buoy, then read what is confirmed about the working prototype and the separate R0.3 design."/><section className="section dark"><Viewer/></section><section className="section split"><h2>What works now.</h2><dl className="specs">{[['Prototype count','One, reported by the team'],['Water parameters','pH and temperature'],['Transmission interval','Once an hour'],['Communication','Own protocol; details not published'],['Public measurements','Not yet available'],['Deployed network','None']].map(([a,b])=><div key={a}><dt>{a}</dt><dd>{b}</dd></div>)}</dl></section><section className="section soft"><Kicker>ENGINEERING / R0.3</Kicker><h2>A design you can inspect.</h2><div className="evidence"><figure><img src="/assets/Assembly.png" alt="Actual supplied R0.3 component placement drawing" loading="lazy"/><figcaption>R0.3 assembly layout · CAD source, not a photograph</figcaption></figure><div><p>The provided engineering package specifies an 80 × 60 mm, two-layer carrier with XIAO ESP32S3, ADS1115 conversion and a DS18B20 temperature input. These are R0.3 design choices, not a verified inventory of the existing buoy.</p><p>Native CAD checks passed according to the release report. Module fit, analog performance, power transitions and water sealing still require physical validation.</p><ArrowLink to="/build">Inspect the assembly resources</ArrowLink></div></div></section><section className="section"><h2>The observation cycle.</h2><Flow/></section></>}
 function Build(){return <><PageIntro label="BUILD / RESOURCES" title="Learn by putting it together." text="A readable orientation to the supplied R0.3 assembly and test notes. This engineering revision still needs physical validation."/><section className="section build-layout"><aside><Kicker>ASSEMBLY GUIDE</Kicker>{steps.map(([title],i)=><a key={title} href={'#step-'+i}>{String(i+1).padStart(2,'0')} {title}</a>)}<a href="#downloads">↓ Source materials</a></aside><div><p className="note">Scope: the steps below summarize the supplied Russian engineering notes. They are not a complete, tested buoy assembly manual. Firmware and physical build photographs were not included.</p>{steps.map(([title,text],i)=><article className="build-step" id={'step-'+i} key={title}><Kicker>STEP {String(i+1).padStart(2,'0')}</Kicker><h2>{title}</h2><p>{text}</p></article>)}</div></section><section className="section soft" id="downloads"><Kicker>REAL FILES / NO PLACEHOLDERS</Kicker><h2>On the workbench.</h2>{resources.map(r=><a key={r.url} className="download" href={r.url} download><div><h3>{r.name}</h3><p>{r.detail}</p></div><span>Download ↓</span></a>)}<p className="note">Source documentation is supplied in Russian. Hardware and documentation attribution is preserved in the included notice. Protocol details and unpublished firmware are not distributed here.</p></section></>}
 function Journal(){return <><PageIntro label="PROJECT JOURNAL" title="The work, as it stands." text="Confirmed milestones, engineering evidence and open questions. Dates are shown only where the source provides them."/><section className="section journal">{updates.map(u=><article key={u.title}><div><Kicker>{u.date}</Kicker><span className="badge muted">{u.status}</span></div><div><h2>{u.title}</h2><p>{u.body}</p></div></article>)}</section></>}
-function Team(){return <><PageIntro label="PEOPLE / AQUANODE" title="A shared curiosity about water." text="The people bringing together the engineering, learning and long-term vision of AquaNode."/><section className="section team-list">{team.map((p,i)=><article key={p.name}><span className="person-number">0{i+1}</span><h2>{p.name}</h2><p>{p.role}</p>{p.links.map(l=><a key={l.url} href={l.url}>{l.label} ↗</a>)}</article>)}</section><section className="section soft"><Kicker>FOLLOW THE PROJECT</Kicker><h2>Get to know AquaNode.</h2><p>Our public GEEP profile introduces the project and its recognition. Direct contact details will be added when the team makes them available.</p><a className="arrow-link" href={awardUrl} target="_blank" rel="noreferrer">Visit our GEEP profile ↗</a></section></>}
-function AudioToggle(){const audio=useRef<HTMLAudioElement|null>(null),[playing,setPlaying]=useState(false),[error,setError]=useState(false),[busy,setBusy]=useState(false);useEffect(()=>()=>{audio.current?.pause()},[]);async function toggle(){if(playing){audio.current?.pause();setPlaying(false);return}setBusy(true);try{if(!audio.current){audio.current=new Audio('/assets/ocean.ogg');audio.current.loop=true;audio.current.volume=.28}await audio.current.play();setPlaying(true);setError(false)}catch{setError(true)}finally{setBusy(false)}}return <div className="audio-control"><button disabled={busy} onClick={toggle} aria-pressed={playing}>{playing?'Ⅱ Sound on':'≈ Sound off'}</button>{error&&<span role="status">Audio unavailable. Try again.</span>}</div>}
-function App(){const {pathname}=useLocation(),[menu,setMenu]=useState(false);useEffect(()=>{setMenu(false);window.scrollTo({top:0,behavior:'instant'});const title=nav.find(([p])=>p===pathname)?.[1]||'Page not found';document.title=`${title} — AquaNode`;const description=pathname==='/'?'One working buoy. pH and temperature. Explore AquaNode and its open engineering resources.':`${title}: AquaNode water observation, current progress and engineering materials.`;document.querySelector('meta[name="description"]')?.setAttribute('content',description);document.querySelector('meta[property="og:title"]')?.setAttribute('content',document.title);document.querySelector('meta[property="og:description"]')?.setAttribute('content',description);const ctx=gsap.context(()=>{
+function Team(){return <TeamRoster/>}
+function App(){const {displayed,curtain}=usePageTransition(),{pathname}=displayed,[menu,setMenu]=useState(false),solidHeader=useHeaderMode(pathname);useEffect(()=>{setMenu(false);window.scrollTo({top:0,behavior:'instant'});const title=nav.find(([p])=>p===pathname)?.[1]||'Page not found';document.title=`${title} — AquaNode`;const description=pathname==='/'?'One working buoy. pH and temperature. Explore AquaNode and its open engineering resources.':`${title}: AquaNode water observation, current progress and engineering materials.`;document.querySelector('meta[name="description"]')?.setAttribute('content',description);document.querySelector('meta[property="og:title"]')?.setAttribute('content',document.title);document.querySelector('meta[property="og:description"]')?.setAttribute('content',description);const ctx=gsap.context(()=>{
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   gsap.utils.toArray<HTMLElement>('.section h2').forEach(el=>gsap.from(el,{y:18,duration:.7,scrollTrigger:{trigger:el,start:'top 92%',once:true}}));
-  if(document.querySelector('.network-art')){
-    gsap.from('.network-art .node:not(.node-0)',{opacity:0,y:12,scale:.7,stagger:.13,duration:.7,ease:'power2.out',scrollTrigger:{trigger:'.network-art',start:'top 85%',once:true}});
-    gsap.from('.network-connection',{opacity:0,duration:1.2,scrollTrigger:{trigger:'.network-art',start:'top 85%',once:true}});
-  }
-});return()=>ctx.revert()},[pathname]);return <><a className="skip-link" href="#main">Skip to content</a><header className={'site-header'+(pathname==='/'?' ocean-header':'')}><Link className="logo" to="/" aria-label="AquaNode home"><svg viewBox="0 0 30 32" aria-hidden="true"><path d="M2 27 15 4 28 27H20l-5-9-5 9Z" fill="currentColor"/></svg>AquaNode</Link><button className="menu-button" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-controls="navigation">{menu?'Close':'Menu'} {menu?'−':'+'}</button><nav id="navigation" className={menu?'open':''} aria-label="Main navigation">{nav.map(([p,l])=><NavLink key={p} to={p} end>{l}</NavLink>)}</nav><Link className="header-cta" to="/journal">Project progress <span>↗</span></Link></header><main id="main" tabIndex={-1}><Routes><Route path="/" element={<Home/>}/><Route path="/about" element={<About/>}/><Route path="/technology" element={<Technology/>}/><Route path="/build" element={<Build/>}/><Route path="/journal" element={<Journal/>}/><Route path="/team" element={<Team/>}/><Route path="*" element={<section className="section"><h1>This page is uncharted.</h1><ArrowLink to="/">Return to the overview</ArrowLink></section>}/></Routes></main><footer><Link className="footer-logo" to="/">AquaNode</Link><div className="footer-row"><p>Observe with curiosity.<br/>Build with care.</p><Link to="/build">Explore the resources ↗</Link><span>KAZAKHSTAN · 2026</span></div><div className="footer-legal"><span>AquaNode · One prototype. An open-ended possibility.</span><span>Ocean audio: <a href="https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg">Luftrum</a> · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · Unmodified</span></div></footer><AudioToggle/></>}
-createRoot(document.getElementById('root')!).render(<React.StrictMode><BrowserRouter><App/></BrowserRouter></React.StrictMode>);
+});return()=>ctx.revert()},[pathname]);return <><a className="skip-link" href="#main">Skip to content</a><header className={'site-header'+(pathname==='/'?' ocean-header':'')+(solidHeader?' is-solid':'')}><Link className="logo" to="/" aria-label="AquaNode home"><svg viewBox="0 0 30 32" aria-hidden="true"><path d="M2 27 15 4 28 27H20l-5-9-5 9Z" fill="currentColor"/></svg>AquaNode</Link><button className="menu-button" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-controls="navigation">{menu?'Close':'Menu'} {menu?'−':'+'}</button><nav id="navigation" className={menu?'open':''} aria-label="Main navigation">{nav.map(([p,l])=><NavLink key={p} to={p} end>{l}</NavLink>)}</nav><Link className="header-cta" to="/journal">Project progress <span>↗</span></Link></header><main id="main" className={pathname!=='/'?'has-compact-header':undefined} tabIndex={-1}><Routes location={displayed}><Route path="/" element={<Home/>}/><Route path="/about" element={<About/>}/><Route path="/technology" element={<Technology/>}/><Route path="/build" element={<Build/>}/><Route path="/journal" element={<Journal/>}/><Route path="/team" element={<Team/>}/><Route path="*" element={<section className="section"><h1>This page is uncharted.</h1><ArrowLink to="/">Return to the overview</ArrowLink></section>}/></Routes></main><footer><Link className="footer-logo" to="/">AquaNode</Link><div className="footer-row"><p>Observe with curiosity.<br/>Build with care.</p><Link to="/build">Explore the resources ↗</Link><span>KAZAKHSTAN · 2026</span></div><div className="footer-legal"><span>AquaNode · One prototype. An open-ended possibility.</span><span>Ocean audio: <a href="https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg">Luftrum</a> · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · Underwater mix adapted</span></div></footer><AudioToggle/><PageCurtain curtain={curtain}/></>}
+createRoot(document.getElementById('root')!).render(<React.StrictMode><BrowserRouter><OceanAudioProvider><App/></OceanAudioProvider></BrowserRouter></React.StrictMode>);
 
 

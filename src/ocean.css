@@ -15,7 +15,7 @@
 .ocean-hero .buoy-drawing {position:absolute;top:50%;left:50%;width:65vh;max-width:none;height:auto;transform:translate(-50%,-50%)}
 .ocean-vignette {position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#031e3466,transparent 24%,transparent 72%,#032c4166);box-shadow:inset 0 0 150px #03202b30}
 .sr-only {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.site-header.ocean-header {position:absolute;top:0;left:0;right:0;background:transparent;border-bottom:1px solid #e6f2eb1a;color:#f1f5e9;height:94px}
+.site-header.ocean-header {position:fixed;top:0;left:0;right:0;background:transparent;border-bottom:1px solid #e6f2eb1a;color:#f1f5e9;height:94px}
 .ocean-header .logo {color:#f1f5e9}
 .ocean-header nav a {color:#deebe4c9}
 .ocean-header nav a:hover,.ocean-header nav a.active {color:#f6f7e9}
@@ -27,22 +27,22 @@
 .buoy-annotation.is-visible {opacity:1;visibility:visible;transform:translate(106px,-154px)}
 .buoy-annotation>span {display:block;text-align:right;font-family:'Manrope',sans-serif;font-size:31px;font-style:italic;font-weight:400;line-height:1.4;letter-spacing:-.045em}
 .buoy-annotation svg {display:block;width:100%;height:auto;overflow:visible;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.annotation-curve {stroke-dasharray:245;stroke-dashoffset:245}
+.annotation-curve {stroke-dasharray:1;stroke-dashoffset:1}
 .annotation-head {opacity:0}
 .is-visible .annotation-curve {animation:draw-ocean-arrow .9s .15s ease-out forwards}
 .is-visible .annotation-head {animation:show-ocean-arrow .35s .85s ease-out forwards}
+.ocean-stage[data-camera-state=moving] .buoy-annotation {opacity:0;visibility:hidden}
 .buoy-annotation:hover {color:#e5f1b7}
 .ocean-scroll {position:absolute;bottom:25px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:#edf3e3;z-index:2;padding:12px 18px 0}
 .ocean-scroll>span:first-child {font-size:9px;font-weight:400;letter-spacing:.24em;white-space:nowrap}
-.scroll-track {position:relative;width:1px;height:44px;background:#d8ebe333;overflow:hidden}
-.scroll-track i {position:absolute;top:0;left:0;width:1px;height:19px;background:#f0f4db;animation:ocean-scroll-line 2s cubic-bezier(.4,0,.25,1) infinite}
+.scroll-track {position:relative;display:block;width:16px;height:44px}
+.scroll-track>.flexible-arrow {width:100%;height:100%;stroke:#d8ebe359;stroke-width:1.1}
 .ocean-scroll>svg {width:15px;height:15px;stroke:currentColor;stroke-width:1;animation:ocean-scroll-arrow 2s ease-in-out infinite}
 .ocean-corner {position:absolute;bottom:37px;font-size:9px;font-weight:400;letter-spacing:.16em;line-height:1.8;color:#c8ded6a6;z-index:1}
 .ocean-corner-left {left:5%}
 .ocean-corner-right {right:5%;bottom:90px;text-align:right;font-size:8px;letter-spacing:.12em}
 @keyframes draw-ocean-arrow {to{stroke-dashoffset:0}}
 @keyframes show-ocean-arrow {to{opacity:1}}
-@keyframes ocean-scroll-line {0%{transform:translateY(-22px);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:translateY(48px);opacity:0}}
 @keyframes ocean-scroll-arrow {0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(5px);opacity:1}}
 @media(max-width:1150px){.site-header.ocean-header{height:78px}}
 @media(max-width:760px){
@@ -70,7 +70,6 @@
   .buoy-annotation{transition:none}
   .is-visible .annotation-curve{stroke-dashoffset:0}
   .is-visible .annotation-head{opacity:1}
-  .scroll-track i{top:10px}
 }
 
 /* Keep the actual loading state dark; reveal only after the first WebGL frame. */
@@ -89,27 +88,29 @@
 @keyframes ocean-loading-spin {to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.ocean-loading-screen{transition:none}.is-loaded .ocean-loading-screen{visibility:hidden}}
 
-/* One persistent canvas connects the first two sections. Scroll only selects a shot. */
-.ocean-story {height:200svh;position:relative;background:#074550}
-.hero.ocean-stage {position:sticky;top:0}
-.buoy-scroll-target {position:absolute;top:100svh;left:0;width:1px;height:1px;scroll-margin-top:0}
+/* Short anchors keep one gesture per chapter without empty viewport-length gaps. */
+.ocean-story {--story-step:clamp(56px,10svh,96px);height:calc(100svh + var(--story-step) * 4);position:relative;background:#074550}
+.hero.ocean-stage {position:sticky;top:0;overflow:clip}
+.buoy-scroll-target,.sensor-scroll-target,.inside-scroll-target {position:absolute;top:var(--story-step);left:0;width:1px;height:1px;scroll-margin-top:0}
+.sensor-scroll-target {top:calc(var(--story-step) + var(--story-step))}
+.inside-scroll-target {top:calc(var(--story-step) + var(--story-step) + var(--story-step))}
 .ocean-introduction,.buoy-introduction {position:absolute;inset:0;transition:opacity .55s ease,visibility .55s;pointer-events:none}
 .ocean-introduction a,.buoy-introduction a {pointer-events:auto}
-.ocean-stage[data-shot=detail] .ocean-introduction {opacity:0;visibility:hidden}
-.buoy-introduction {display:flex;align-items:center;padding:65px 7% 65px 56%;opacity:0;visibility:hidden;background:linear-gradient(90deg,transparent 35%,#062c3fc4 60%,#062c3fe8);color:#f0f4e7}
-.ocean-stage[data-shot=detail] .buoy-introduction {opacity:1;visibility:visible}
-.buoy-copy {width:100%;max-width:450px;opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .75s ease}
-.is-detail-ready .buoy-copy {opacity:1;transform:translateY(0)}
+.ocean-stage:not([data-shot=surface]) .ocean-introduction {opacity:0;visibility:hidden}
+.buoy-introduction {display:flex;align-items:center;padding:65px 7% 65px 56%;opacity:0;visibility:hidden;background:linear-gradient(90deg,transparent 35%,#062c3fc4 60%,#062c3fe8);color:#f0f4e7;transition:opacity .65s ease,visibility .65s}
+.is-detail-ready .buoy-introduction {opacity:1;visibility:visible}
+.buoy-copy {width:100%;max-width:450px;margin-left:auto;text-align:right;transform:translateY(18px);transition:transform .75s ease}
+.is-detail-ready .buoy-copy {transform:translateY(0)}
 .buoy-copy .kicker {font-size:10px;letter-spacing:.2em;color:#c9dccf;margin-bottom:26px}
 .buoy-copy h2 {font-size:clamp(38px,4.1vw,66px);line-height:1.12;letter-spacing:-.055em;margin-bottom:25px}
-.buoy-copy>p {color:#d1e1dc;font-size:14px;line-height:1.85;max-width:390px}
+.buoy-copy>p {color:#d1e1dc;font-size:14px;line-height:1.85;max-width:390px;margin-left:auto}
 .buoy-reading-types {display:grid;grid-template-columns:1fr 1fr;gap:25px;border-top:1px solid #d9ece435;border-bottom:1px solid #d9ece435;padding:22px 0;margin:27px 0 22px}
-.buoy-reading-types>div {display:flex;align-items:center;gap:15px}
+.buoy-reading-types>div {display:flex;align-items:center;justify-content:flex-end;gap:15px}
 .buoy-reading-types dt {font-family:'Manrope',sans-serif;font-size:29px;letter-spacing:-.05em}
-.buoy-reading-types dd {font-size:10px;margin:0;color:#c4d8d1;line-height:1.6;max-width:70px}
+.buoy-reading-types dd {font-size:10px;margin:0;color:#c4d8d1;line-height:1.6;max-width:70px;text-align:right}
 .buoy-copy .buoy-interval {font-size:11px;line-height:1.8;color:#b6cec8}
-.buoy-copy .arrow-link {color:#dceeb5;border-color:#c0d0ad73;margin-top:6px;min-width:220px}
-.back-to-surface {position:absolute;left:5%;top:34px;font-size:11px;color:#edf3e4;letter-spacing:.02em}
+.buoy-copy .arrow-link {color:#dceeb5;border-color:#c0d0ad73;margin-top:6px;margin-left:auto;min-width:220px}
+.back-to-surface {position:absolute;left:5%;top:114px;font-size:11px;color:#edf3e4;letter-spacing:.02em}
 .ocean-stage[data-shot=detail] .buoy-drawing {left:28%;width:90vh}
 .loading-indicator {gap:15px;width:240px}
 .loading-caption {display:flex;width:100%;align-items:center;justify-content:space-between;gap:18px;font-size:9px;letter-spacing:.17em}
@@ -130,11 +131,19 @@
   .buoy-reading-types dt{font-size:25px}.buoy-reading-types dd{font-size:9px}
   .buoy-copy .buoy-interval{font-size:10px;line-height:1.7;margin-bottom:8px}
   .buoy-copy .arrow-link{font-size:11px;padding:10px 0;min-width:195px}
-  .back-to-surface{top:26px;left:7%;font-size:10px}
+  .back-to-surface{top:92px;left:7%;font-size:10px}
   .ocean-stage[data-shot=detail] .buoy-drawing{top:28%;left:50%;width:72vh}
   .loading-indicator{width:210px}
 }
 @media(max-height:620px) and (min-width:761px){
-  .buoy-introduction{padding-top:30px;padding-bottom:30px}.buoy-copy .kicker{margin-bottom:15px}.buoy-copy h2{font-size:34px;margin-bottom:15px}.buoy-copy>p{font-size:12px}.buoy-reading-types{margin:16px 0;padding:13px 0}.buoy-copy .buoy-interval{font-size:10px}.back-to-surface{top:20px}
+  .buoy-introduction{padding-top:88px;padding-bottom:18px}
+  .buoy-copy .kicker{font-size:8px;margin-bottom:8px}
+  .buoy-copy h2{font-size:26px;line-height:1.08;margin-bottom:12px}
+  .buoy-copy>p{font-size:10px;line-height:1.5;margin-bottom:10px}
+  .buoy-reading-types{margin:12px 0;padding:10px 0}
+  .buoy-reading-types dt{font-size:24px}.buoy-reading-types dd{font-size:9px}
+  .buoy-copy .buoy-interval{font-size:9px;line-height:1.5;margin-bottom:6px}
+  .buoy-copy .arrow-link{font-size:10px;padding:8px 0;margin-top:0}
+  .back-to-surface{top:98px}
 }
 @media(prefers-reduced-motion:reduce){.is-detail-ready .buoy-copy{transform:none}}

@@ -1,0 +1,15 @@
+.ocean-chapters{right:2%;z-index:8;padding:0;gap:8px;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none}
+.ocean-chapters:before{display:none}
+.ocean-chapters a{position:relative;justify-content:flex-end;min-width:50px;min-height:34px;gap:11px;padding:8px 4px;border-radius:0;font-size:10px;font-weight:500;color:#e1ece2c9;text-shadow:0 1px 7px #002c3fcc;transition:color .25s}
+.ocean-chapters a:hover,.ocean-chapters a:focus-visible{background:transparent;color:#f3f6e7}
+.ocean-chapters a[aria-current=step]{background:transparent;color:#e8f2c5;box-shadow:none}
+.ocean-chapters i{width:15px;height:2px;border-radius:2px;background:currentColor;box-shadow:0 1px 6px #002c3f99;flex:none;transition:width .3s}
+.ocean-chapters a[aria-current=step] i{width:26px;height:2px;border-radius:2px;background:currentColor}
+.ocean-chapters a:after{content:attr(data-label);position:absolute;right:calc(100% + 16px);padding:10px 13px;border:1px solid #bed8c840;border-radius:8px;background:#07333ef2;color:#edf3e4;font-size:10px;font-weight:400;letter-spacing:.01em;white-space:nowrap;opacity:0;visibility:hidden;transform:translateX(5px);transition:opacity .2s,transform .2s,visibility .2s;pointer-events:none}
+.ocean-chapters a:hover:after,.ocean-chapters a:focus-visible:after{opacity:1;visibility:visible;transform:none}
+@media(max-width:760px){
+  .ocean-chapters{top:84px;left:auto;right:5%;transform:none;padding:0;gap:5px;max-width:calc(100% - 32px)}
+  .ocean-chapters a{min-width:34px;min-height:30px;padding:6px 2px;gap:6px;font-size:9px}.ocean-chapters i{width:7px;height:2px}.ocean-chapters a[aria-current=step] i{width:15px;height:2px}
+  .ocean-chapters a:after{display:none}
+  .back-to-surface,.back-to-buoy,.back-to-sensors,.signal-back{top:140px}
+}
