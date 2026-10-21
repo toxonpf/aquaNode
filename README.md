@@ -19,7 +19,11 @@ npm run preview
 npx playwright test
 ```
 
-Tests use installed Google Chrome. On a machine without Chrome, install Playwright Chromium and remove `channel: 'chrome'` from playwright.config.ts.
+Tests use Playwright Chromium (`npx playwright install chromium` if needed). An installed browser can be selected without editing the config:
+
+```sh
+PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npx playwright test
+```
 
 ## Future publication
 
@@ -39,7 +43,11 @@ New journal entries are objects in `updates`; leave dates undated when unknown. 
 
 ## Design
 
-Deep marine blue anchors the object-focused narrative; off-white sections make evidence and instructions readable. A restrained pale lime accent identifies status, selected parts and key actions. The story moves from one conceptual buoy to why observation matters, the device, the measurement cycle, a clearly labelled future network, and evidence. Scrolling is native: no pinned empty sections or scroll hijacking.
+The opening section is one full viewport of ocean viewed from above, with a cream and marine-blue buoy at its centre. A dark loading screen with a small spinner covers the scene until its first WebGL frame is rendered, then fades out over 900 ms to reveal the brighter ocean. The navigation sits over the water. One second after that reveal, “what is this?” fades in and a curved arrow draws toward the buoy. A moving line and downward arrow invite scrolling; both the annotation and cue link to the current project section. The rest of the overview remains available below while sections are refined individually.
+
+The Three.js ocean uses an actual displaced mesh, analytic wave normals, reflected sky, sun glints and fine wind ripples. The buoy samples the same four directional swells as the water, so its height and tilt follow the surface. Wave parameters and the shared CPU/GPU equations are in `src/ocean.ts`. Opening-section styles are in `src/ocean.css`.
+
+No texture downloads or post-processing passes are used. Animation runs only while the scene is visible and the browser tab is active. The secondary model renders on demand. Pending 3D uses a loading indicator rather than an SVG illustration. A static SVG is reserved for reduced motion, limited hardware, unavailable WebGL or a failed 3D download; those states leave loading immediately instead of waiting for a frame that cannot render. The illustrated buoy form and solar-style panels are conceptual, not confirmed hardware specifications. Scrolling stays native, with no pinned empty sections.
 
 ## Evidence and unfinished content
 
@@ -49,7 +57,7 @@ The current statement that a prototype works comes from the user's brief. The su
 
 ## Accessibility and loading
 
-Model code is lazy-loaded, the secondary model waits for proximity to the viewport, and rendering uses demand mode with DPR capped at 1.5. Reduced motion, data saver, limited reported memory, missing WebGL2 and lost contexts use a lightweight SVG view. Descriptions remain accessible without 3D. No automatic audio playback or audio download; one persistent toggle starts/stops the recording. Large imagery uses lazy loading. Native navigation, focus outlines, skip link, descriptive image alternatives and keyboard controls are present.
+Model code is lazy-loaded, the secondary model waits for proximity to the viewport, and DPR is capped at 1.5. The hero animates only while visible in an active tab; secondary rendering uses demand mode. Reduced motion, data saver, limited reported memory, missing WebGL2 and lost contexts use a lightweight SVG view. Descriptions remain accessible without 3D. No automatic audio playback or audio download; one persistent toggle starts/stops the recording. Large imagery uses lazy loading. Native navigation, focus outlines, skip link, descriptive image alternatives and keyboard controls are present.
 
 The 3D chunk still contains the Three.js renderer and is significantly larger than the core page. Users who request reduced motion or cannot use WebGL do not load it. Google Fonts uses display=swap with system fallbacks; the site is usable if fonts cannot load.
 
