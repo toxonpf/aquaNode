@@ -4,6 +4,7 @@ import {DoubleSide,type ShaderMaterial} from 'three';
 import {OCEAN_LEVEL,oceanWaveShader} from './ocean';
 import {useOceanStyle} from './oceanStyle';
 import type {OceanStyle} from './oceanStyles';
+import {createOceanGeometry} from './oceanGeometry';
 
 // Only the selected variant is compiled. Historical styles add no per-pixel
 // branching or additional rendering passes to the current ocean.
@@ -154,11 +155,12 @@ export default function OceanSurface(){
   const material=useRef<ShaderMaterial>(null);
   const {gl,invalidate}=useThree();
   const uniforms=useMemo(()=>({uTime:{value:0}}),[]);
+  const geometry=useMemo(createOceanGeometry,[]);
+  useEffect(()=>()=>geometry.dispose(),[geometry]);
   const shaders=useMemo(()=>makeShaders(style),[style]);
   useEffect(()=>{gl.domElement.dataset.oceanStyle=String(style.id);invalidate()},[style,gl,invalidate]);
   useFrame(({clock})=>{if(material.current)material.current.uniforms.uTime.value=clock.elapsedTime});
-  return <mesh frustumCulled={false} name="ocean-surface">
-    <planeGeometry args={[80,80,256,256]}/>
+  return <mesh geometry={geometry} frustumCulled={false} name="ocean-surface">
     <shaderMaterial key={style.id} ref={material} uniforms={uniforms} side={DoubleSide} {...shaders}/>
   </mesh>;
 }

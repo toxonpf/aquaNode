@@ -2,7 +2,7 @@ import {useLayoutEffect,useRef,useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import gsap from 'gsap';
 import './transitions.css';
-import {logoUrl} from './brand';
+import BrandLogo from './BrandLogo';
 
 // Mount the new route under an opaque cover. Only reveal scenes after their first frame.
 function waitForPage(onReady:()=>void){
@@ -109,5 +109,5 @@ export function usePageTransition(){
 }
 
 export function PageCurtain({curtain}:{curtain:React.RefObject<HTMLDivElement|null>}){
-  return <div ref={curtain} className="page-curtain" aria-hidden="true"><div className="page-curtain-ripples"><i/><i/><i/></div><span className="page-curtain-wordmark"><img src={logoUrl} alt=""/><span>OBSERVE. UNDERSTAND.</span><span className="page-curtain-loading"><i/></span></span></div>;
+  return <div ref={curtain} className="page-curtain" aria-hidden="true"><div className="page-curtain-ripples"><i/><i/><i/></div><span className="page-curtain-wordmark"><BrandLogo loading/><span>OBSERVE. UNDERSTAND.</span><span className="page-curtain-loading"><i/></span></span></div>;
 }

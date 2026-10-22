@@ -11,7 +11,7 @@ export default function StoryPanel({chapter,className,label,children}:{chapter:S
     const measure=()=>{
       const distance=node.scrollHeight-node.clientHeight;
       setOverflow(distance>2);
-      setProgress(distance>2?Math.min(1,Math.max(0,node.scrollTop/distance)):1);
+      setProgress(distance>2&&distance-node.scrollTop>.5?Math.min(.9999,Math.max(0,node.scrollTop/distance)):1);
     };
     node.addEventListener('scroll',measure,{passive:true});
     const resize=new ResizeObserver(measure);
@@ -20,8 +20,8 @@ export default function StoryPanel({chapter,className,label,children}:{chapter:S
     measure();
     return()=>{node.removeEventListener('scroll',measure);resize.disconnect()};
   },[]);
-  return <div className="story-panel" data-reader={chapter} data-at-start={progress<.005} data-at-end={progress>.995}>
+  return <div className="story-panel" data-reader={chapter} data-at-start={progress<.005} data-at-end={progress===1}>
     <div ref={reader} className={className+' story-scroll'} data-story-scroll tabIndex={0} role="region" aria-label={label}>{children}</div>
-    <div className="story-reading-status" aria-hidden="true"><span>{overflow&&progress<.995?'SCROLL TO READ MORE':'SCROLL TO THE NEXT CHAPTER'}</span><span>{overflow?String(Math.round(progress*100)).padStart(2,'0')+'%':'↓'}</span><div><i style={{transform:`scaleX(${progress})`}}/></div></div>
+    <div className="story-reading-status" aria-hidden="true"><span>{overflow&&progress<1?'SCROLL TO READ MORE':'SCROLL TO THE NEXT CHAPTER'}</span><span>{overflow?String(Math.floor(progress*100)).padStart(2,'0')+'%':'↓'}</span><div><i style={{transform:`scaleX(${progress})`}}/></div></div>
   </div>;
 }

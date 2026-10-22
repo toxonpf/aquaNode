@@ -1,3 +1,4 @@
+import Heading from './Heading';
 import {useEffect,useId,useRef,useState,type ReactNode} from 'react';
 import {Link} from 'react-router-dom';
 import FlexibleArrow from './FlexibleArrow';
@@ -10,7 +11,7 @@ export function MeetNode({renderViewer}:{renderViewer:(active:number,onChange:(p
   return <section className="section dark node-showcase" aria-labelledby="meet-node-title">
     <div className="feature-section-top"><p className="kicker">03 / MEET THE NODE</p><span>ONE INSTRUMENT. THREE CONNECTED PARTS.</span></div>
     <div className="node-showcase-layout"><div className="node-intro">
-      <h2 id="meet-node-title">Purpose in<br/><em>every part.</em></h2>
+      <Heading as="h2" id="meet-node-title">Purpose in<br/><em>every part.</em></Heading>
       <p>A small presence on the water. A considered system above and below it.</p>
       <div className="node-parts" role="group" aria-label="Explore the parts of AquaNode">{parts.map((part,index)=><button key={part.name} type="button" aria-pressed={active===index} aria-controls="node-model-viewer" onClick={()=>setActive(index)}>
         <span className="node-part-heading"><span>{String(index+1).padStart(2,'0')}</span><b>{['Stay afloat','Protect the electronics','Read the water'][index]}</b><FlexibleArrow direction="up-right"/></span>
@@ -35,7 +36,7 @@ export function FutureNetwork(){
   },[]);
   return <section ref={section} className={'section future-section'+(expanded?' is-network':'')+(inView?' is-in-view':'')} aria-labelledby="future-title">
     <div className="feature-section-top"><p className="kicker">05 / LOOKING AHEAD</p><span>THE NEXT CHAPTER IS OPEN</span></div>
-    <div className="future-heading"><h2 id="future-title">One node.<br/><em>A wider perspective.</em></h2><p>The first buoy is a starting point. More observation points could help us see how conditions differ across the water — and follow the questions that emerge.</p></div>
+    <div className="future-heading"><Heading as="h2" id="future-title">One node.<br/><em>A wider perspective.</em></Heading><p>The first buoy is a starting point. More observation points could help us see how conditions differ across the water — and follow the questions that emerge.</p></div>
     <div className="future-workbench"><div className="future-map">
       <div className="future-map-top"><span>{expanded?'02 / A POSSIBLE NEXT CHAPTER':'01 / WHERE WE START'}</span><span>CONCEPTUAL LAYOUT</span></div>
       <svg viewBox="0 0 720 580" role="img" aria-label={expanded?'Concept of a future buoy network, not deployed':'One working buoy, with possible future locations shown faintly'}>
@@ -50,7 +51,7 @@ export function FutureNetwork(){
       <div className="future-map-foot"><span><i/> WORKING PROTOTYPE</span><span><i/> FUTURE POSSIBILITY</span></div>
     </div><div className="future-notes">
       <div className="future-switch" role="group" aria-label="Explore today and the future network"><button type="button" aria-pressed={!expanded} onClick={()=>setExpanded(false)}>One buoy today</button><button type="button" aria-pressed={expanded} onClick={()=>setExpanded(true)}>A future network</button></div>
-      <div className="future-description" aria-live="polite"><span>{expanded?'NEXT / A SHARED VIEW':'NOW / A PLACE TO START'}</span><h3>{expanded?<>More points.<br/>Better questions.</>:<>Begin with one<br/>good observation.</>}</h3><p>{expanded?'Several buoys could add context to each reading: different places, observed over time. A deployed network and a public dataset are future work.':'One working prototype measures pH and temperature and transmits an update every hour. What we learn from it will shape what comes next.'}</p></div>
+      <div className="future-description" aria-live="polite"><span>{expanded?'NEXT / A SHARED VIEW':'NOW / A PLACE TO START'}</span><Heading as="h3">{expanded?<>More points.<br/>Better questions.</>:<>Begin with one<br/>good observation.</>}</Heading><p>{expanded?'Several buoys could add context to each reading: different places, observed over time. A deployed network and a public dataset are future work.':'One working prototype measures pH and temperature and transmits an update every hour. What we learn from it will shape what comes next.'}</p></div>
       <dl className="future-evidence"><div><dt>Working today</dt><dd>01 prototype</dd></div><div><dt>Next to explore</dt><dd>More observation points</dd></div></dl>
       <Link className="arrow-link" to="/journal">Follow the next chapter <FlexibleArrow direction="up-right"/></Link>
     </div></div>

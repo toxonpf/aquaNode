@@ -60,14 +60,16 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
     // Reserve the reading column while keeping the outer buoys inside narrow viewports.
     const signalDistance=Math.max(1,2/(size.width/size.height))*(size.width<1600?1.1:1);
     const signalLookX=size.width<1600?8.5:4.3;
+    const insideDistance=Math.max(1,1.5/(size.width/size.height));
+    const insideLookX=size.width<1050?-1.9:-1.55;
     const destination=shot==='signal'
       ?mobile?{x:0,y:75,z:35,tx:0,ty:-75,tz:0,fov:48}:{x:2,y:25*signalDistance,z:15*signalDistance,tx:signalLookX,ty:0,tz:0,fov:43}
       :shot==='inside'
-      ?mobile?{x:1.8,y:2.5,z:7.2,tx:0,ty:1.2,tz:0,fov:45}:{x:3.25,y:2.15,z:5.2,tx:0,ty:1.25,tz:0,fov:38}
+      ?mobile?{x:1.8,y:1.2,z:10.5,tx:-.35,ty:-.55,tz:0,fov:48}:{x:3.25*insideDistance,y:1.25+.9*insideDistance,z:5.2*insideDistance,tx:insideLookX,ty:1.25,tz:0,fov:42}
       :shot==='sensing'
       ?mobile?{x:.8,y:-1.8,z:compactMobile?8:7.5,tx:0,ty:compactMobile?-3.55:-3,tz:0,fov:48}:{x:-3.1,y:-1.7,z:6.1,tx:-1.6,ty:-1.35,tz:0,fov:43}
       :detail
-      ?mobile?{x:1,y:1.85,z:10.4,tx:0,ty:-1.1,tz:0,fov:48}:{x:2.8,y:2.2,z:7.2,tx:1.95,ty:.6,tz:0,fov:42}
+      ?mobile?{x:1,y:2.65,z:10.4,tx:0,ty:-1.1,tz:0,fov:48}:{x:2.8,y:3.15,z:7.2,tx:1.95,ty:.6,tz:0,fov:42}
       :{x:0,y:12.8,z:7.2,tx:0,ty:0,tz:0,fov:42};
     const rig={x:camera.position.x,y:camera.position.y,z:camera.position.z,tx:target.current.x,ty:target.current.y,tz:target.current.z,fov:camera.fov};
     const apply=()=>{

@@ -29,3 +29,15 @@ Published downloads are Assembly.svg, BOM_ru.md and ATTRIBUTION.md. Original pro
 ## Follow-up requested
 
 The user deferred contacts, form integration and hosting. The distinction between the reported prototype and unbuilt R0.3 was explained; no technical confirmation was received. Preserve cautious separation until clarified.
+
+## Editorial pass — 22 October 2026
+
+- Overview introduces the buoy and observation cycle. Key prototype facts remain here as orientation.
+- About explains purpose and learning: Ask / Build / Reflect. Removed its buoy illustration, duplicate pH/temperature explainer and shared status grid. Recognition remains here with a link to current journal milestones.
+- The buoy explains the R0.3 carrier, component placement and functional paths. Removed the repeated prototype-status table and the observation cycle copied from Overview.
+- Build owns assembly sequence, calibration procedure and downloadable resources. The overview of the carrier on The buoy links here for practical checks.
+- Journal owns release evidence and pending validation. Added digital verification results and revision changes, sourced from `Verification_ru.md` and `README_ru.md`; no physical performance is inferred from them.
+- Team focuses on people; removed prototype-status copy from the gallery note.
+- The probe chapter retains parameter meaning and interpretation. Calibration instructions remain in Build instead of being repeated here.
+
+R0.3 sources used for The buoy: `Engineering_ru.md` (board dimensions, construction, ADC channel assignment and power path) and `README_ru.md` (module clearance and component placement changes). Source notes remain local; no protocol implementation details or unpublished files were added to downloads.

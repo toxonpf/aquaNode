@@ -1,5 +1,31 @@
 # Verification — 2026-10-21
 
+## Body text motion — 2026-10-22
+
+- Body copy, captions, labels, facts and text controls rise 13px with a brief three-pixel blur as they enter the viewport. Their 0.62-second motion is quieter than the word-by-word heading reveal, and follows after the page curtain has cleared. Hidden/inert chapter content is excluded until it becomes active. Reduced motion makes every text element available immediately. Browser coverage confirms the layered heading/body reveal, page text, chapter rail and 320px layout; the production build passes.
+- Position-sensitive controls are excluded from the body-copy transform. In particular, the buoy annotation retains its 106px horizontal and −154px vertical anchor transform after loading. Resting flexible arrows now retain 42% of their wave height instead of 32%; active and hovered arrows remain full height.
+- The opening project and Why Water sections use the shared five-percent desktop content rails. The project status grid fills its section's content box and the Why Water visual starts on the same left rail.
+- Observation Cycle and Open Engineering now use the same rails as Project Today and Why Water; the regression checks all four sections at desktop width.
+
+## Word reveals, loading crest and chapter rail — 2026-10-22
+
+- H1–H3 headings reveal upward one word at a time through small masks. Original heading elements, explicit line breaks, emphasis and accessible text remain intact. Regular headings wait until visible; chapter headings wait for their camera and replay on returning to the chapter. Dynamic titles use the same React component, and reduced motion shows the words immediately. Removed the former whole-heading section animation.
+- The loading crest now blends to the periodic contour at phase zero before travelling. This avoids crossfading two displaced crests during startup. The existing travelling-shape and lettering regression passes.
+- SKIP and scene links share a 64px desktop column and 38px mobile targets. The curved arrow stays within its target. Width equality and page overflow were checked at 1440, 390 and 320px.
+- Raised the detail camera from Y=2.2 to 3.15 on desktop and from 1.85 to 2.65 on mobile. Desktop and settled 320px mobile views were visually inspected. Heading/rail browser checks and the production build pass.
+
+## Navigation, reading boundaries and loading logo — 2026-10-22
+
+- Clicking a header link for the currently displayed/requested route returns to the top and closes the mobile menu without a route transition. The home logo and Overview link reset the ocean story directly to the surface; intermediate chapter anchors are ignored during that scroll.
+- SKIP ends the chapter rail with its label beside the start of a short, gently curved arrow, whose smaller tip aligns below the chapter marks. The curve moves subtly without stretching or shifting on hover. Hover/focus brightens the drawing and sends a light pulse with a softer trailing stroke along synchronized paths; leaving fades and pauses both. Their moving offsets were checked across three frames, retaining the 13-unit separation between trail and core. Reduced motion keeps the drawing static. It exits to the award/project content below the sticky story, accounting for the compact header. The final story continuation uses the same controlled scroll. Desktop resting/hover states and views at 320, 390 and 760px were inspected. The mobile label and target are larger, with no overflow or runtime errors. Both skip regressions and the production build pass.
+- Continued wheel input can advance after the reader actually reaches its end, without requiring a pause. Diminishing momentum is ignored, unfinished scroll tweens cannot advance, and reading progress stays below 100% until the boundary is reached. Continued touch movement uses the same boundary guard.
+- Wheel input during a scene transition is discarded, never replayed into the incoming reader. Forward entry stays at 0%; reverse entry retains its end position. Once the camera and copy are ready, new ongoing input is accepted without requiring a pause. Input that takes the reader to its boundary cannot also change chapters, including input during its final tween. A fresh gesture at the visible boundary advances immediately; ongoing scrolling requires at least two additional non-diminishing pulses totalling 80px there. Regression coverage checks both boundaries with normal and reduced motion, fading momentum, and deliberate continuous input. The reader becomes available after 180ms rather than the former 700ms copy-only delay.
+- The inside camera frames the buoy to the right of the desktop copy, adjusts distance on narrow tablets and puts the circuit board above mobile copy. Views at 1440, 1024, 768, 390 and 320 pixels were inspected without runtime errors.
+- Header and loading logos reuse the SVG artwork inline. Each original asymmetric crest travels from left to right, with all three lines moving together at their original spacing. The endpoints can rise with the passing wave while keeping their horizontal positions; lettering remains unchanged. Loading waves stop outside the curtain and restore the source artwork for reduced motion.
+- The logo regression measures more than 35 SVG units of crest movement, compares the moving profile against circular shifts of the source SVG (less than 2 SVG units RMS error and within 5% of its original height), verifies fixed horizontal bounds and lettering, and checks reduced-motion restoration. Seven logo, navigation and page-loading scenarios pass; the production build also passes.
+- Logo shape refinement: removed the sinusoidal replacement and amplitude envelope that flattened the original crest. Periodic cubic interpolation retains its shape, with narrow smoothing concentrated at the loop join. The cycle remains 3.8 seconds with soft entry and exit. Three phases were visually reviewed; the profile regression also passes after an additional local seam-smoothing adjustment.
+- Twenty distinct navigation, reading, loading and transition browser scenarios pass across targeted runs, including five new regression checks for the requested behaviour.
+
 ## Selectable ocean history — 2026-10-22
 
 - Collected nine numbered presets: original, smooth, depth, fine ripples, long swell, broad foam, crest ribbons, textured four-wave crests and the current six-wave ocean. The default remains 9.
@@ -46,6 +72,36 @@
 - Desktop, small-phone, landscape and static screenshots were reviewed. Generated captures remain in ignored `test-results/`. No measurement values are simulated.
 
 ## Original site checks
+
+### Action links — downloads, external destinations and navigation
+
+- File downloads use a dedicated card with file format, description and a downward tray icon. Build resource files and the Technology assembly download use the same component.
+- Outbound links use a square external icon; prominent links also show the destination domain. Compact attribution links use the inline variant. New-tab behaviour is announced to assistive technology.
+- Internal page links retain the flexible angled arrow; section links point downward. Header and footer navigation use the same directional language.
+- Download events return the original Assembly.svg and leave the route unchanged. Resource requests return nonempty files. External link semantics, distinct icons and mobile widths down to 320 px were checked. Heading reveal, Technology interactions and minimum font-size checks pass; production build passes.
+
+### Deliberate story return — 23 October 2026
+
+- Upward input from the document stops at the same boundary used when exiting the story. Momentum and held keys cannot immediately cross into the ocean; a subsequent gesture re-enters the fifth scene at the end of its text.
+- A contextual return hint appears only after scrolling down into the document and returning to its start. The slim strip is centred in the upper content gutter below the award, acts as a keyboard-accessible return button, and is hidden on the initial story exit and on story re-entry.
+- Upward document input is bounded before scrolling. The scroll observer no longer rewinds an already-painted position. Frame sampling during animated upward input verifies that the ocean is not exposed before a deliberate return gesture.
+- Wheel, keyboard, touch and animated-return scenarios are covered in `story-return.spec.ts`. Existing sequential-chapter tests pass.
+- Outbound icons use a subtle travelling wave in the shaft; hover/focus smoothly strengthen it and send a highlight along the frame. Reduced motion keeps the icon static. Internal navigation keeps its original angled flexible arrow.
+- Outbound arrows visibly leave their frame and return on hover or keyboard focus, including at the 12 px attribution size. Download arrows land in a flexible tray with a short ripple on hover or focus. At rest only the shafts gently wave; arrow movement, tray movement and ripples stop immediately on exit. Reduced motion disables all icon animation. Idle, hover, focus and reduced-motion states are checked, and original file downloads still succeed.
+
+### Learning by doing — 23 October 2026
+
+- Replaced the large decorative symbol with an interactive learning workbench: a field question, the original R0.3 assembly drawing and reflection prompts. Each step includes a practical task, an outcome and a relevant internal link.
+- Selected steps have a visible number and state; changes are announced politely. The detail panel uses a brief upward fade and respects reduced motion.
+- Production build and seven targeted browser checks pass. Step switching, drawing loading, download delivery, icon interactions and widths from 320 to 1920 px are covered. Desktop and phone captures of the workbench were reviewed.
+
+### Technology and mobile readability — 22 October 2026
+
+- Technology now presents the controllable model, carrier specifications, original Assembly / Copper drawing switch and four selectable functional paths. R0.3 source scope remains explicit.
+- Replaced 168 authored CSS font sizes below 10 px. Computed-size checks pass on all six routes at 390 px and 1440 px; model/diagram SVG artwork is excluded from the interface text check.
+- The ocean retains the original 80-unit near-field density and adds a stretched peripheral grid to 320 units, preventing the mobile aerial shot from exposing its edge. The 406 × 900 screenshot was visually reviewed.
+- Technology, font-size and aerial-view tests pass; all nine ocean variants and heading/transition regressions pass. Model rotate / separate / reset and WebGL fallback checks pass. Production build passes.
+- Updated Technology fits 320, 390, 768, 1024, 1440 and 1920 px without horizontal overflow. Drawing and path switches were tested.
 
 - `npm run build`: passed, TypeScript and Vite production output generated in dist/.
 - `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npx playwright test`: 9/9 passed using installed Chromium.

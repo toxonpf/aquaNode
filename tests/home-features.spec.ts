@@ -20,24 +20,25 @@ test('the new home sections work on desktop, tablet and phone without overflow',
   }
 });
 
-test('button arrows smoothly grow from a quiet wave to a strong wave on hover',async({page})=>{
-  await page.goto('/team');
-  const button=page.locator('.team-outro-link'),line=button.locator('.flexible-arrow-line');
+test('internal navigation arrows smoothly grow from a quiet wave to a strong wave on hover',async({page})=>{
+  await page.goto('/about');
+  const button=page.locator('.about-next .arrow-link'),line=button.locator('.flexible-arrow-line');
   await button.scrollIntoViewIfNeeded();
   await page.mouse.move(5,400);
   const strength=()=>line.evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d);
   await expect(line).toHaveCSS('animation-name','flexible-arrow-snake');
-  await expect.poll(strength).toBeCloseTo(.32,2);
+  await expect.poll(strength).toBeCloseTo(.42,2);
   await button.hover({position:{x:8,y:10}});
   const samples=await line.evaluate(el=>new Promise<number[]>(resolve=>{
     const values:number[]=[],start=performance.now();
     const sample=()=>{values.push(new DOMMatrix(getComputedStyle(el).transform).d);if(performance.now()-start<500)requestAnimationFrame(sample);else resolve(values)};
     sample();
   }));
-  expect(samples.some(value=>value>.34&&value<.95)).toBe(true);
+  expect(samples.some(value=>value>.44&&value<.95)).toBe(true);
   await expect.poll(strength).toBeCloseTo(1,2);
   await page.mouse.move(5,400);
-  await expect.poll(strength).toBeCloseTo(.32,2);
+  await expect.poll(strength).toBeCloseTo(.42,2);
+  await page.goto('/team');
   await expect.poll(()=>page.locator('.team-gallery-note .flexible-arrow-line').evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)).toBeCloseTo(1,2);
 });
 
@@ -50,7 +51,7 @@ test('the expanded node part keeps a strong wave after the pointer leaves',async
   await selected.evaluate(el=>el.blur());
   const scale=(selector:string)=>node.locator(selector).evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d);
   await expect.poll(()=>scale('[aria-pressed=true] .flexible-arrow-line')).toBeCloseTo(1,2);
-  await expect.poll(()=>node.locator('[aria-pressed=false] .flexible-arrow-line').first().evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)).toBeCloseTo(.32,2);
+  await expect.poll(()=>node.locator('[aria-pressed=false] .flexible-arrow-line').first().evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)).toBeCloseTo(.42,2);
 });
 
 test('selected sensor arrows and scroll hints keep their strong wave without hover',async({page})=>{
@@ -68,7 +69,7 @@ test('selected sensor arrows and scroll hints keep their strong wave without hov
   await temperature.click();await page.mouse.move(5,200);await temperature.evaluate(el=>el.blur());
   const strength=(selector:string)=>page.locator(selector).evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d);
   await expect.poll(()=>strength('.sensor-picker [aria-pressed=true] .flexible-arrow-line')).toBeCloseTo(1,2);
-  await expect.poll(()=>strength('.sensor-picker [aria-pressed=false] .flexible-arrow-line')).toBeCloseTo(.32,2);
+  await expect.poll(()=>strength('.sensor-picker [aria-pressed=false] .flexible-arrow-line')).toBeCloseTo(.42,2);
   await expect.poll(()=>strength('.sensor-introduction .story-dive .flexible-arrow-line')).toBeCloseTo(1,2);
 });
 

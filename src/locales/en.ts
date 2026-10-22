@@ -1,9 +1,11 @@
 export const nav = [['/','Overview'],['/about','The project'],['/technology','The buoy'],['/build','Build & resources'],['/journal','Journal'],['/team','The team']] as const;
 export type TeamContact={label:string;url:string|null;kind:'email'|'telegram'|'github'|'website'|'linkedin'};
-export type TeamMember={slug:string;name:string;role:string;photo:string|null;links:TeamContact[]};
+export type TeamMember={slug:string;name:string;role:string;photo:string|null;profilePhoto?:string|null;links:TeamContact[]};
+const timurProfilePhoto=new URL('../../20261022_180543.jpg',import.meta.url).href;
+const romanProfilePhoto=new URL('../../20261022_180722.jpg',import.meta.url).href;
 export const team:TeamMember[]=[
-  {slug:'timur-kuandykov',name:'Timur Kuandykov',role:'Co-founder',photo:null,links:[]},
-  {slug:'roman-benzler',name:'Roman Benzler',role:'Co-founder',photo:null,links:[]},
+  {slug:'timur-kuandykov',name:'Timur Kuandykov',role:'Co-founder',photo:null,profilePhoto:timurProfilePhoto,links:[]},
+  {slug:'roman-benzler',name:'Roman Benzler',role:'Co-founder',photo:null,profilePhoto:romanProfilePhoto,links:[]},
   // Replace each null with a real address to enable that contact. See docs/team-contacts.md.
   {slug:'kirill-dubinin',name:'Kirill Dubinin',role:'Engineering & outreach',photo:null,links:[
     {kind:'email',label:'Email',url:null},
@@ -15,7 +17,12 @@ export const team:TeamMember[]=[
 ];
 export const awardUrl='https://thegeep.org/programs/youth-innovation-challenge/aquanode-team';
 export const resources=[{name:'Assembly drawing',detail:'R0.3 · SVG · Original engineering drawing',url:'/resources/Assembly.svg'},{name:'Bill of materials',detail:'R0.3 · Markdown · Russian source',url:'/resources/BOM_ru.md'},{name:'Attribution & licences',detail:'Markdown · Sources and reuse conditions',url:'/resources/ATTRIBUTION.md'}];
-export const updates=[{date:'Current status · Team report',title:'One working prototype',body:'The team reports a working buoy measuring water pH and temperature, with data transmitted once an hour. Public measurement logs and prototype photographs have not yet been supplied.',status:'Working now'},{date:'20 October 2026 · Engineering package',title:'R0.3 carrier design reviewed',body:'The supplied KiCad design reports no ERC or DRC issues. These are digital design checks. Physical assembly, calibration, power behaviour and enclosure validation remain unverified for this revision.',status:'In development'},{date:'Next steps · Undated',title:'Make the evidence available',body:'Document the physical prototype, publish validated measurements and clarify which hardware revision it uses. Extend the assembly documentation with photographs and tested steps.',status:'Planned'},{date:'Future direction · Undated',title:'From one buoy to shared observations',body:'Explore additional measurement parameters and multiple observation points as needs become clearer. There is no deployed buoy network or live map today.',status:'Planned'}];
+export const updates=[
+ {date:'Current status · Team report',title:'One working prototype',body:'The team reports a working buoy measuring pH and temperature, with an update transmitted once an hour. The next documentation step is to identify its hardware revision and publish a traceable measurement record.',status:'Working now'},
+ {date:'20 October 2026 · Engineering package',title:'R0.3 carrier design reviewed',body:'The release verification records zero ERC and DRC findings in KiCad 8.0.9 and no mismatches across 130 named pads in the schematic-to-PCB comparison. These results verify the digital design; physical performance remains to be tested.',status:'In development'},
+ {date:'20 October 2026 · Revision notes',title:'Clearance and power routing revised',body:'C17 and C18 were moved outside the module footprint, leaving a 4 mm access zone below it. The power components were regrouped, with 0.6 mm power tracks except for a documented short neck-down, and 71 ground stitching vias were added.',status:'Design revision'},
+ {date:'Next steps · Undated',title:'Move from CAD checks to bench evidence',body:'The release lists module fit, analog loading, power transitions, sleep current, calibration and sealing as unverified. These checks need recorded conditions and results before the revision can be treated as physically validated.',status:'Planned'},
+];
 export const parts=[{name:'Floating body',text:'Keeps the device at the water surface. The shape shown here is an illustration; actual housing dimensions are not confirmed.'},{name:'Electronics enclosure',text:'Represents the protected measurement and transmission electronics. The illustration does not show an exact internal assembly.'},{name:'Water probes',text:'The working prototype measures pH and temperature. Probe shapes and placement here are conceptual.'}];
 export const locales={en:{label:'English',complete:true},ru:{label:'Русский',complete:false},'zh-TW':{label:'繁體中文',complete:false}};
 export const steps=[

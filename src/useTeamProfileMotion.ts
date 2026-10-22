@@ -154,8 +154,10 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
     const picture=portrait.querySelector<HTMLElement>('.team-portrait:not(.team-profile-previous)')!;
     const viewport=element.querySelector<HTMLElement>('.team-profile-info-viewport')!;
     const info=element.querySelector<HTMLElement>('.team-profile-info')!;
-    const details=info.querySelectorAll<HTMLElement>(':scope > *');
+    const fieldPhoto=info.querySelector<HTMLElement>('.team-profile-field-photo');
+    const details=Array.from(info.querySelectorAll<HTMLElement>(':scope > *')).filter(detail=>detail!==fieldPhoto);
     const close=element.querySelector('.team-dialog-close');
+    if(opening)(close as HTMLButtonElement|null)?.focus({preventScroll:true});
     const content=element.querySelector<HTMLElement>('.team-profile-content')!;
     content.scrollTop=0;
     gsap.set([portrait,picture,viewport,info,...details],{clearProps:'transform,opacity,clipPath'});gsap.set(close,{opacity:1});
@@ -188,6 +190,7 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
       .to(info,{xPercent:0,yPercent:0,duration:.68,ease:'power3.inOut'},expandAt)
       .fromTo(details,{y:6,opacity:0},{y:0,opacity:1,duration:.32,stagger:.02,ease:'sine.out'},expandAt+.3)
       .fromTo(close,{opacity:0},{opacity:1,duration:.22},expandAt+.4);
+    if(fieldPhoto)timeline.fromTo(fieldPhoto,{x:26,opacity:0},{x:0,opacity:1,duration:.58,ease:'power3.out'},expandAt+.23);
     motion.current=timeline;
     return()=>{timeline.kill()};
   },[selected,dialog]);

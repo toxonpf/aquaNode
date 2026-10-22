@@ -1,7 +1,9 @@
+import Heading from './Heading';
 import {useRef,useState,type PointerEvent} from 'react';
 import {team,awardUrl,type TeamMember,type TeamContact} from './content';
 import FlexibleArrow from './FlexibleArrow';
 import './team.css';
+import {ExternalLink,ExternalIcon} from './ActionLinks';
 import {useTeamGalleryFlow} from './useTeamGalleryFlow';
 import {useTeamProfileMotion} from './useTeamProfileMotion';
 
@@ -35,7 +37,7 @@ function Portrait({person}:{person:TeamMember}){
 function Contacts({person}:{person:TeamMember}){
   return <div className="team-contacts" role="group" aria-label={`Contacts for ${person.name}`}>
     {person.links.length?person.links.map(contact=>contact.url?
-      <a className="team-contact" key={contact.kind+contact.label} href={contact.url} target={/^https?:/.test(contact.url)?'_blank':undefined} rel={/^https?:/.test(contact.url)?'noreferrer':undefined}><ContactIcon kind={contact.kind}/>{contact.label}<span aria-hidden="true">↗</span></a>:
+      <a className="team-contact" key={contact.kind+contact.label} href={contact.url} target={/^https?:/.test(contact.url)?'_blank':undefined} rel={/^https?:/.test(contact.url)?'noopener noreferrer':undefined}><ContactIcon kind={contact.kind}/>{contact.label}{/^https?:/.test(contact.url)&&<ExternalIcon/>}</a>:
       <span className="team-contact is-pending" key={contact.kind+contact.label} aria-disabled="true" title="Contact details to be added"><ContactIcon kind={contact.kind}/>{contact.label}</span>):
       <span className="team-contact-note">Contact details to follow</span>}
   </div>;
@@ -58,7 +60,7 @@ export default function TeamRoster(){
   return <div className="team-page">
     <header className="team-hero">
       <div className="team-hero-top"><span>THE AQUANODE COLLECTIVE</span><span>KAZAKHSTAN · A SHARED CURIOSITY</span></div>
-      <div className="team-hero-heading"><h1>People behind <br/><span>the node.</span></h1><div className="team-hero-aside"><span className="team-hero-count">{count}<i>↗</i></span><p>Different minds.<br/>One shared direction.</p></div></div>
+      <div className="team-hero-heading"><Heading as="h1">People behind <br/><span>the node.</span></Heading><div className="team-hero-aside"><span className="team-hero-count">{count}<i>↗</i></span><p>Different minds.<br/>One shared direction.</p></div></div>
       <div className="team-hero-bottom"><p>Engineering, observation and a little curiosity.<br/>Meet the people moving AquaNode forward.</p><a href="#team-gallery" className="team-meet-link">MEET THE PEOPLE <FlexibleArrow direction="down"/></a></div>
       <svg className="team-hero-current" viewBox="0 0 900 240" fill="none" aria-hidden="true"><path d="M-30 145C180 310 300-40 510 100S795 270 960 22M-30 172C180 337 300-13 510 127S795 297 960 49M-30 199C180 364 300 14 510 154S795 324 960 76"/></svg>
     </header>
@@ -69,19 +71,25 @@ export default function TeamRoster(){
         <button type="button" className="team-portrait-trigger" onClick={event=>openProfile(index,event.currentTarget)} onPointerMove={movePortrait} aria-label={`View profile of ${member.name}`} aria-haspopup="dialog" aria-controls="team-profile-dialog">
           <div className="team-portrait-visual"><Portrait person={member}/></div><span className="team-portrait-cursor" aria-hidden="true">MEET<br/>{member.name.split(' ')[0]} <span>↗</span></span><span className="team-portrait-open" aria-hidden="true">VIEW PROFILE <span>↗</span></span>
         </button>
-        <div className="team-person-info"><h2 id={'person-'+member.slug}>{member.name}</h2><p>{member.role}</p></div>
+        <div className="team-person-info"><Heading as="h2" id={'person-'+member.slug}>{member.name}</Heading><p>{member.role}</p></div>
         <Contacts person={member}/>
         {team[index+1]&&<a className={'team-next-preview team-profile-tone-'+(index+1)} href={'#team-card-'+team[index+1].slug} aria-label={`Continue to ${team[index+1].name}`}><span>NEXT / {String(index+2).padStart(2,'0')}</span><Portrait person={team[index+1]}/><span aria-hidden="true">↓</span></a>}
-      </article>)}<aside className="team-gallery-note"><span>CURIOUS MINDS.<br/>SHARED WATERS.</span><FlexibleArrow direction="down"/><p>One working prototype.<br/>More possibilities ahead.</p></aside></div>
+      </article>)}<aside className="team-gallery-note"><span>CURIOUS MINDS.<br/>SHARED WATERS.</span><FlexibleArrow direction="down"/><p>Meet the founders, engineers<br/>and supporters behind the work.</p></aside></div>
     </section>
-    <section className="team-outro"><span>THE NEXT CHAPTER IS OPEN</span><h2>It starts with people.<br/><em>And a question.</em></h2><a className="team-outro-link" href={awardUrl} target="_blank" rel="noreferrer">Get to know AquaNode <FlexibleArrow direction="up-right"/></a></section>
+    <section className="team-outro"><span>THE NEXT CHAPTER IS OPEN</span><Heading as="h2">It starts with people.<br/><em>And a question.</em></Heading><ExternalLink className="team-outro-link" href={awardUrl}>Get to know AquaNode</ExternalLink></section>
     <dialog ref={dialog} id="team-profile-dialog" className="team-profile-dialog" aria-labelledby="team-profile-name" onClose={onClosed} onCancel={event=>{event.preventDefault();closeProfile()}} onClick={event=>{if(event.target===event.currentTarget)closeProfile()}}>
       {person&&<div className="team-profile-content">
         <button type="button" className="team-dialog-close" onClick={closeProfile} autoFocus>CLOSE <span aria-hidden="true">×</span></button>
         <div className={'team-profile-portrait team-profile-tone-'+selected}><Portrait key={person.slug} person={person}/></div>
         <div className="team-profile-info-viewport"><div className="team-profile-info" aria-live="polite">
           <span className="team-profile-kicker">THE AQUANODE COLLECTIVE / {String(selected!+1).padStart(2,'0')}</span>
-          <h2 id="team-profile-name">{person.name}</h2><p className="team-profile-role">{person.role}</p>
+          <Heading as="h2" id="team-profile-name">{person.name}</Heading><p className="team-profile-role">{person.role}</p>
+          {person.profilePhoto&&<figure className={`team-profile-field-photo team-profile-field-photo--${person.slug}`}>
+            <img src={person.profilePhoto} alt={`${person.name} during a project moment`} loading="eager" decoding="async"/>
+            <span className="team-profile-field-index" aria-hidden="true"><b>{String(selected!+1).padStart(2,'0')}</b><span>PROJECT<br/>FRAME</span></span>
+            <svg className="team-profile-photo-current" viewBox="0 0 180 220" fill="none" aria-hidden="true"><path d="M-8 168C22 145 39 177 65 150S103 105 126 125 155 141 188 67"/><circle cx="126" cy="125" r="3"/></svg>
+            <figcaption><span>AN OBSERVATION</span><span>{String(selected!+1).padStart(2,'0')} / {count}</span></figcaption>
+          </figure>}
           <p className="team-profile-intro">A shared curiosity about water. A hands-on approach to building the tools that help us understand it.</p>
           <span className="team-profile-contact-label">STAY IN TOUCH</span><Contacts person={person}/>
           <div className="team-profile-pagination"><button type="button" onClick={()=>changeMember(-1)} aria-label="Previous team member">← Previous</button><span>{String(selected!+1).padStart(2,'0')} / {count}</span><button type="button" onClick={()=>changeMember(1)} aria-label="Next team member">Next →</button></div>

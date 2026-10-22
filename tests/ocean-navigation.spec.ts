@@ -7,7 +7,7 @@ async function finishReading(page:Page){
   });
 }
 
-test('one wheel gesture advances one chapter and ignores momentum during animation',async({page})=>{
+test('one wheel gesture advances one chapter without pre-scrolling its text',async({page})=>{
   await page.setViewportSize({width:1440,height:900});
   await page.goto('/');
   const stage=page.locator('.ocean-stage');
@@ -27,7 +27,9 @@ test('one wheel gesture advances one chapter and ignores momentum during animati
   for(const delta of [1100,400,60])await page.mouse.wheel(0,delta);
   await expect(stage).toHaveAttribute('data-shot','sensing');
   await expect(page.locator('.sensor-introduction')).toHaveCSS('opacity','1');
-  await page.waitForTimeout(120);
+  const sensing=page.locator('[data-reader=sensing] [data-story-scroll]');
+  await page.waitForTimeout(400);
+  expect(await sensing.evaluate(node=>node.scrollTop)).toBe(0);
   await page.mouse.wheel(0,-1400);
   await expect(stage).toHaveAttribute('data-shot','detail');
 });

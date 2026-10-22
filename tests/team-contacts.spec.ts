@@ -15,12 +15,31 @@ test('team has portrait slots and multiple unfilled contacts without fake links'
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
+test('field photos appear only inside their member profiles',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('/team');
+ await expect(page.locator('.team-person .team-profile-field-photo')).toHaveCount(0);
+ await page.getByRole('button',{name:'View profile of Timur Kuandykov'}).click();
+ const photo=page.getByRole('dialog').locator('.team-profile-field-photo img');
+ await expect(photo).toBeVisible();
+ await expect(photo).toHaveJSProperty('complete',true);
+ expect(await photo.evaluate((node:HTMLImageElement)=>node.naturalWidth)).toBeGreaterThan(0);
+ await page.getByRole('dialog').getByRole('button',{name:'Next team member'}).click();
+ const secondPhoto=page.getByRole('dialog').locator('.team-profile-field-photo--roman-benzler img');
+ await expect(secondPhoto).toBeVisible();
+ await expect(secondPhoto).toHaveJSProperty('complete',true);
+ expect(await secondPhoto.evaluate((node:HTMLImageElement)=>node.naturalWidth)).toBeGreaterThan(0);
+ await expect(page.getByRole('dialog').locator('.team-profile-field-index b')).toHaveText('02');
+ await page.setViewportSize({width:390,height:844});
+ expect(await page.getByRole('dialog').evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
+});
+
 test('one member can have several working contacts and a portrait',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/about');
   // Test-only configuration; no fabricated addresses are saved in the site data.
   await page.evaluate(async()=>{
-    const path='/src/locales/en.ts';
+    const path='/src/content.ts';
     const {team}=await import(path);
     team[0].links=[
       {kind:'email',label:'Work email',url:'mailto:team@example.com'},
