@@ -78,8 +78,9 @@ export default function TeamRoster(){
     </section>
     <section className="team-outro"><span>THE NEXT CHAPTER IS OPEN</span><Heading as="h2">It starts with people.<br/><em>And a question.</em></Heading><ExternalLink className="team-outro-link" href={awardUrl}>Get to know AquaNode</ExternalLink></section>
     <dialog ref={dialog} id="team-profile-dialog" className="team-profile-dialog" aria-labelledby="team-profile-name" onClose={onClosed} onCancel={event=>{event.preventDefault();closeProfile()}} onClick={event=>{if(event.target===event.currentTarget)closeProfile()}}>
-      {person&&<div className="team-profile-content">
+      {person&&<>
         <button type="button" className="team-dialog-close" onClick={closeProfile} autoFocus>CLOSE <span aria-hidden="true">×</span></button>
+        <div className="team-profile-content">
         <div className={'team-profile-portrait team-profile-tone-'+selected}><Portrait key={person.slug} person={person}/></div>
         <div className="team-profile-info-viewport"><div className="team-profile-info" aria-live="polite">
           <span className="team-profile-kicker">THE AQUANODE COLLECTIVE / {String(selected!+1).padStart(2,'0')}</span>
@@ -94,7 +95,8 @@ export default function TeamRoster(){
           <span className="team-profile-contact-label">STAY IN TOUCH</span><Contacts person={person}/>
           <div className="team-profile-pagination"><button type="button" onClick={()=>changeMember(-1)} aria-label="Previous team member">← Previous</button><span>{String(selected!+1).padStart(2,'0')} / {count}</span><button type="button" onClick={()=>changeMember(1)} aria-label="Next team member">Next →</button></div>
         </div></div>
-      </div>}
+        </div>
+      </>}
     </dialog>
   </div>;
 }

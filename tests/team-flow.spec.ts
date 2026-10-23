@@ -69,3 +69,45 @@ test('switching participants keeps only the destination portrait hidden until it
   await expect(portraits.nth(1)).toHaveCSS('visibility','visible');
   await expect(page.locator('.team-portrait-flight,.team-profile-previous')).toHaveCount(0);
 });
+
+test('profile keeps its dimensions and top edge when switching members',async({page})=>{
+  await page.setViewportSize({width:1440,height:900});
+  await page.goto('/team');
+  const names=await page.locator('.team-person h2').allTextContents();
+  await page.getByRole('button',{name:'View profile of Timur Kuandykov'}).click();
+  const profile=page.getByRole('dialog');
+  await expect(profile).toHaveAttribute('data-profile-phase','open');
+  const initial=await profile.boundingBox();
+  expect(initial!.width).toBe(1100);
+  await page.evaluate(()=>{
+    const frames:{top:number;height:number;portraitTop:number;cardTop:number;phase:string|undefined;infoHidden:boolean}[]=[];
+    const state={running:true,frames};
+    (window as any).__profileGeometry=state;
+    const capture=()=>{
+      const dialog=document.querySelector('.team-profile-dialog')!;
+      const rect=dialog.getBoundingClientRect();
+      frames.push({top:rect.top,height:rect.height,portraitTop:dialog.querySelector('.team-profile-portrait')!.getBoundingClientRect().top,cardTop:dialog.querySelector('.team-profile-content')!.getBoundingClientRect().top,phase:(dialog as HTMLElement).dataset.profilePhase,infoHidden:getComputedStyle(dialog.querySelector('.team-profile-info-viewport')!).visibility==='hidden'});
+      if(state.running)requestAnimationFrame(capture);
+    };
+    capture();
+  });
+  for(let index=1;index<=names.length;index++){
+    await profile.getByRole('button',{name:'Next team member'}).click();
+    await expect(profile.getByRole('heading',{name:names[index%names.length],exact:true})).toBeVisible();
+    await expect(profile).toHaveAttribute('data-profile-phase','open');
+    const overflow=await profile.locator('.team-profile-content,.team-profile-info-viewport,.team-profile-info').evaluateAll(nodes=>nodes.some(node=>node.scrollHeight>node.clientHeight+1||node.scrollWidth>node.clientWidth+1));
+    expect(overflow).toBe(false);
+  }
+  const frames=await page.evaluate(()=>{
+    const state=(window as any).__profileGeometry;
+    state.running=false;
+    return state.frames as {top:number;height:number;portraitTop:number;cardTop:number;phase:string|undefined;infoHidden:boolean}[];
+  });
+  expect(frames.length).toBeGreaterThan(30);
+  for(const frame of frames){
+    expect(Math.abs(frame.top-initial!.y)).toBeLessThan(1);
+    expect(Math.abs(frame.height-initial!.height)).toBeLessThan(1);
+    expect(Math.abs(frame.portraitTop-frame.cardTop)).toBeLessThan(1);
+    if(frame.phase==='changing'||frame.phase==='centered')expect(frame.infoHidden).toBe(true);
+  }
+});

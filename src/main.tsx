@@ -4,7 +4,7 @@ import {createRoot} from 'react-dom/client';
 import {BrowserRouter,Routes,Route,Link,NavLink} from 'react-router-dom';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import {nav,awardUrl,resources,updates,steps,parts} from './content';
+import {nav,awardUrl,updates,parts} from './content';
 import './styles.css';
 import './ocean.css';
 import './sensors.css';
@@ -33,7 +33,9 @@ import {useTextReveal} from './useTextReveal';
 import './text-reveal.css';
 import AboutPage from './AboutPage';
 import TechnologyPage from './TechnologyPage';
-import {DownloadLink,ExternalLink} from './ActionLinks';
+import {ExternalLink} from './ActionLinks';
+import BuildPage from './BuildPage';
+import './readability.css';
 gsap.registerPlugin(ScrollTrigger);
 let sceneModule:Promise<typeof import('./Scene')>|undefined;
 const loadScene=()=>sceneModule??=import('./Scene');
@@ -250,7 +252,7 @@ function Home(){return <>
 function PageIntro({label,title,text}:{label:string;title:string;text:string}){return <header className="page-intro"><Kicker>{label}</Kicker><Heading as="h1">{title}</Heading><p>{text}</p></header>}
 function About(){return <AboutPage/>}
 function Technology(){return <TechnologyPage renderViewer={()=><Viewer/>}/>}
-function Build(){return <><PageIntro label="BUILD / RESOURCES" title="Learn by putting it together." text="A readable orientation to the supplied R0.3 assembly and test notes. This engineering revision still needs physical validation."/><section className="section build-layout"><aside><Kicker>ASSEMBLY GUIDE</Kicker>{steps.map(([title],i)=><a key={title} href={'#step-'+i}>{String(i+1).padStart(2,'0')} {title}</a>)}<a href="#downloads">↓ Source materials</a></aside><div><p className="note">Scope: the steps below summarize the supplied Russian engineering notes. They are not a complete, tested buoy assembly manual. Firmware and physical build photographs were not included.</p>{steps.map(([title,text],i)=><article className="build-step" id={'step-'+i} key={title}><Kicker>STEP {String(i+1).padStart(2,'0')}</Kicker><Heading as="h2">{title}</Heading><p>{text}</p></article>)}</div></section><section className="section soft" id="downloads"><Kicker>REAL FILES / NO PLACEHOLDERS</Kicker><Heading as="h2">On the workbench.</Heading>{resources.map(r=><DownloadLink key={r.url} className="resource-download" href={r.url} label={r.name} format={r.url.split('.').pop()!.toUpperCase()} detail={r.detail}/>)}<p className="note">Source documentation is supplied in Russian. Hardware and documentation attribution is preserved in the included notice. Protocol details and unpublished firmware are not distributed here.</p></section></>}
+function Build(){return <BuildPage/>}
 function Journal(){return <><PageIntro label="PROJECT JOURNAL" title="The work, as it stands." text="Confirmed milestones, engineering evidence and open questions. Dates are shown only where the source provides them."/><section className="section journal">{updates.map(u=><article key={u.title}><div><Kicker>{u.date}</Kicker><span className="badge muted">{u.status}</span></div><div><Heading as="h2">{u.title}</Heading><p>{u.body}</p></div></article>)}</section></>}
 function Team(){return <TeamRoster/>}
 function headerReturn(event:React.MouseEvent<HTMLElement>,pathname:string,closeMenu:()=>void){

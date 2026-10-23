@@ -25,7 +25,7 @@ test('technology switches original drawings and explains board paths',async({pag
  expect(errors).toEqual([]);
 });
 
-test('interface captions stay at least ten pixels on desktop and phone',async({page})=>{
+test('interface text stays at least fourteen pixels on desktop and phone',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  for(const width of [1440,390]){
   await page.setViewportSize({width,height:900});
@@ -35,9 +35,26 @@ test('interface captions stay at least ten pixels on desktop and phone',async({p
     if(node.closest('svg,[aria-hidden="true"],.sr-only'))return false;
     if(!Array.from(node.childNodes).some(child=>child.nodeType===Node.TEXT_NODE&&child.textContent?.trim()))return false;
     const rect=node.getBoundingClientRect(),style=getComputedStyle(node);
-    return rect.width>0&&rect.height>0&&style.display!=='none'&&Number.parseFloat(style.fontSize)<9.99;
+    return rect.width>0&&rect.height>0&&style.display!=='none'&&Number.parseFloat(style.fontSize)<13.99;
    }).map(node=>({element:node.tagName,class:node.className,size:getComputedStyle(node).fontSize,text:node.textContent?.slice(0,45)})));
    expect(tooSmall,`${route} at ${width}px`).toEqual([]);
+   const prose={
+    '/':'.status-grid p',
+    '/about':'.about-idea-copy>p:not(.kicker)',
+    '/technology':'.tech-hero-copy>p:not(.kicker)',
+    '/build':'.build-step-content>p',
+    '/journal':'.journal article p:not(.kicker)',
+    '/team':'.team-person-info>p',
+   }[route]!;
+   const sizes=await page.locator(prose).evaluateAll(nodes=>nodes.map(node=>{
+    const style=getComputedStyle(node);
+    return {size:parseFloat(style.fontSize),spacing:Number((parseFloat(style.lineHeight)/parseFloat(style.fontSize)).toFixed(3))};
+   }));
+   expect(sizes.length,`${route} has reading text`).toBeGreaterThan(0);
+   for(const text of sizes){
+    expect(text.size,`${route} body text at ${width}px`).toBeGreaterThanOrEqual(18);
+    expect(text.spacing,`${route} line spacing at ${width}px`).toBeGreaterThanOrEqual(1.6);
+   }
   }
  }
 });

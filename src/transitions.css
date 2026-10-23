@@ -2,7 +2,7 @@
 .page-curtain[data-active=true]{pointer-events:auto}
 .page-curtain:before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 80%,#408f8e80,transparent 70%),linear-gradient(155deg,#12637440,transparent 65%)}
 .page-curtain-wordmark{position:relative;font-family:Manrope,sans-serif;text-align:center;opacity:0}
-.page-curtain-wordmark>span{display:block;font-size:10px;letter-spacing:.3em;margin-top:18px;color:#b7d1c7}
+.page-curtain-wordmark>span{display:block;font-size:14px;letter-spacing:.3em;margin-top:18px;color:#b7d1c7}
 .page-curtain-wordmark>img{display:block;width:clamp(220px,32vw,430px);max-width:calc(100vw - 70px);height:auto}
 .page-curtain-wordmark>.page-curtain-loading{position:relative;width:140px;height:1px;margin:30px auto 0;background:#b7d1c72b;overflow:hidden}
 .page-curtain-loading i{position:absolute;inset:0;background:#d8e8bf;transform-origin:left;animation:page-loading-current 1.6s ease-in-out infinite;animation-play-state:paused}

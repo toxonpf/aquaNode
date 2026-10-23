@@ -87,5 +87,5 @@ test('profiles open by keyboard and remain usable on phones',async({page})=>{
   expect(await profile.evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
   await profile.getByRole('button',{name:'CLOSE',exact:true}).click();
   await expect(profile).not.toBeVisible();
-  expect(await page.evaluate(()=>document.body.style.overflow)).toBe('');
+  await expect.poll(()=>page.evaluate(()=>document.body.style.overflow)).toBe('');
 });

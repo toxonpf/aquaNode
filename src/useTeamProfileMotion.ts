@@ -7,6 +7,7 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
   const cards=useRef(new Map<HTMLButtonElement,{opacity:string;visibility:string;tween?:gsap.core.Tween}>());
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
   const tucked=()=>matchMedia('(max-width:760px)').matches?{xPercent:0,yPercent:-100}:{xPercent:-100,yPercent:0};
+  const concealed=()=>matchMedia('(max-width:760px)').matches?'inset(0% 0% 100% 0%)':'inset(0% 100% 0% 0%)';
   const phase=(value:string)=>{if(dialog.current)dialog.current.dataset.profilePhase=value};
   const removeFlight=()=>{flight.current?.remove();flight.current=null};
   const removePrevious=()=>{previous.current?.remove();previous.current=null};
@@ -27,9 +28,9 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
   };
   const centered=(portrait:HTMLElement)=>{
     const rect=portrait.getBoundingClientRect();
-    const content=dialog.current!.querySelector<HTMLElement>('.team-profile-content')!;
-    const x=Number(gsap.getProperty(portrait,'x')),y=Number(gsap.getProperty(portrait,'y'));
-    return {x:(innerWidth-rect.width)/2-rect.left+x,y:(innerHeight-rect.height)/2-rect.top+y-content.scrollTop};
+    const x=Number(gsap.getProperty(portrait,'x'));
+    // Keep the portrait on the card's top edge while it moves to the centre.
+    return {x:(innerWidth-rect.width)/2-rect.left+x,y:0};
   };
   const makeFlight=(portrait:HTMLElement,rect:DOMRect)=>{
     removeFlight();
@@ -77,11 +78,12 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
     const moving=flight.current??makeFlight(picture,portrait.getBoundingClientRect());
     const destination=source.current?.getBoundingClientRect();
     const onScreen=destination&&destination.bottom>60&&destination.top<innerHeight-30;
-    const centerRect={left:(innerWidth-portrait.offsetWidth)/2,top:(innerHeight-portrait.offsetHeight)/2,width:portrait.offsetWidth,height:portrait.offsetHeight};
+    const centerRect={left:(innerWidth-portrait.offsetWidth)/2,top:portrait.getBoundingClientRect().top-Number(gsap.getProperty(portrait,'y')),width:portrait.offsetWidth,height:portrait.offsetHeight};
     gsap.set(moving,{opacity:1});gsap.set(portrait,{opacity:0});fadeCard(source.current,false,.2);
     const timeline=gsap.timeline({onComplete:finishClose})
       .to(info,{...tucked(),duration:.44,ease:'power3.inOut'},0)
-      .to(viewport,{...center,duration:.44,ease:'power3.inOut'},0)
+      .to(viewport,{...center,clipPath:concealed(),duration:.44,ease:'power3.inOut'},0)
+      .set(viewport,{autoAlpha:0},.44)
       .to(content,{scrollTop:0,duration:.35,ease:'power2.inOut'},0)
       .to(moving,{...centerRect,duration:.44,ease:'power3.inOut'},0)
       .to(element.querySelector('.team-dialog-close'),{opacity:0,duration:.18},0);
@@ -128,6 +130,8 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
     motion.current=gsap.timeline({onComplete:commit})
       .to(info,{...tucked(),duration:.46,ease:'power3.inOut'},0)
       .to([portrait,viewport],{...center,duration:.46,ease:'power3.inOut'},0)
+      .to(viewport,{clipPath:concealed(),duration:.46,ease:'power3.inOut'},0)
+      .set(viewport,{autoAlpha:0},.46)
       .to(content,{scrollTop:0,duration:.35,ease:'power2.inOut'},0)
       .to(element.querySelector('.team-dialog-close'),{opacity:0,duration:.18},0)
       .call(()=>phase('centered'),[],.46)
@@ -160,11 +164,12 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
     if(opening)(close as HTMLButtonElement|null)?.focus({preventScroll:true});
     const content=element.querySelector<HTMLElement>('.team-profile-content')!;
     content.scrollTop=0;
-    gsap.set([portrait,picture,viewport,info,...details],{clearProps:'transform,opacity,clipPath'});gsap.set(close,{opacity:1});
+    gsap.set([portrait,picture,viewport,info,...details],{clearProps:'transform,opacity,visibility,clipPath'});gsap.set(close,{opacity:1});
     if(!opening)gsap.set(element,{'--backdrop-strength':1});
     if(reduced()){removePrevious();switching.current=false;phase('open');gsap.set(element,{'--backdrop-strength':1});return}
     const center=centered(portrait);
     gsap.set([portrait,viewport],center);gsap.set(info,tucked());
+    gsap.set(viewport,{autoAlpha:0,clipPath:concealed()});
     const timeline=gsap.timeline({onComplete:()=>{switching.current=false;phase('open')}});
     let expandAt=.56;
     if(opening&&source.current){
@@ -186,7 +191,9 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
         .call(()=>phase('centered'),[],.52);
     }
     timeline.call(()=>phase('expanding'),[],expandAt)
+      .set(viewport,{autoAlpha:1},expandAt)
       .to([portrait,viewport],{x:0,y:0,duration:.68,ease:'power3.inOut'},expandAt)
+      .to(viewport,{clipPath:'inset(0% 0% 0% 0%)',duration:.68,ease:'power3.inOut'},expandAt)
       .to(info,{xPercent:0,yPercent:0,duration:.68,ease:'power3.inOut'},expandAt)
       .fromTo(details,{y:6,opacity:0},{y:0,opacity:1,duration:.32,stagger:.02,ease:'sine.out'},expandAt+.3)
       .fromTo(close,{opacity:0},{opacity:1,duration:.22},expandAt+.4);
@@ -201,6 +208,7 @@ export function useTeamProfileMotion({gallery,dialog,selected,setSelected,count}
       if(closing.current)return;
       const elements=dialog.current.querySelectorAll('.team-profile-portrait,.team-profile-info-viewport,.team-profile-info');
       gsap.set(elements,{clearProps:'transform'});
+      gsap.set(dialog.current.querySelector('.team-profile-info-viewport'),{autoAlpha:1,clipPath:'inset(0% 0% 0% 0%)'});
     };
     window.addEventListener('resize',resize);
     return()=>{window.removeEventListener('resize',resize);motion.current?.kill();restoreCards();removeFlight();removePrevious()};
