@@ -79,6 +79,7 @@ test('member dialog is narrower, uses its text width and photos cover every edge
 
 test('custom cursor reacts to links and stays available in native dialogs',async({page})=>{
   await page.setViewportSize({width:1440,height:1000});await page.goto('/team');
+  await page.evaluate(()=>window.cursorStyle(1));
   await page.mouse.move(740,250);
   const cursor=page.locator('.site-cursor');
   await expect(cursor).toHaveAttribute('data-visible','true');
@@ -101,6 +102,7 @@ test('custom cursor reacts to links and stays available in native dialogs',async
 
 test('water cursor stays on the hotspot, has a bounded wake and responds to portraits and clicks',async({page})=>{
   await page.setViewportSize({width:1440,height:1000});await page.goto('/team');
+  await page.evaluate(()=>window.cursorStyle(1));
   await page.mouse.move(740,250);
   const cursor=page.locator('.site-cursor'),line=cursor.locator('.site-cursor-current');
   await expect(line).toHaveAttribute('d',/^M64\.00 64\.00C/);

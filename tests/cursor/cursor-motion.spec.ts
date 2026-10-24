@@ -1,6 +1,7 @@
 import {test,expect,type Page} from '@playwright/test';
 
 const frames=(page:Page)=>page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
+test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('aquanode:cursor-style','1'))});
 
 test('larger cursor stretches behind movement in all directions and rests without a tail',async({page})=>{
   await page.setViewportSize({width:1440,height:1000});await page.goto('/team');

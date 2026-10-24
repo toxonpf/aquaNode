@@ -3,8 +3,10 @@ import {useSyncExternalStore} from 'react';
 export type CursorStyle=0|1;
 const storageKey='aquanode:cursor-style';
 const listeners=new Set<()=>void>();
-const saved=(value:string|null):CursorStyle=>value==='0'?0:1;
-let current:CursorStyle=1;
+// Native pointer is the public default. The water cursor remains an explicit,
+// remembered opt-in through cursorStyle(1).
+const saved=(value:string|null):CursorStyle=>value==='1'?1:0;
+let current:CursorStyle=0;
 try{current=saved(localStorage.getItem(storageKey))}catch{/* Keep the default when storage is unavailable. */}
 
 const apply=(next:CursorStyle)=>{
@@ -14,7 +16,7 @@ const apply=(next:CursorStyle)=>{
 };
 apply(current);
 const subscribe=(listener:()=>void)=>{listeners.add(listener);return()=>{listeners.delete(listener)}};
-export const useCursorStyle=()=>useSyncExternalStore(subscribe,()=>current,()=>1 as CursorStyle);
+export const useCursorStyle=()=>useSyncExternalStore(subscribe,()=>current,()=>0 as CursorStyle);
 
 /** Console: 0 = native pointer, 1 = water trail; no argument reads the choice. */
 export function cursorStyle():CursorStyle;

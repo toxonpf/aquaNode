@@ -4,9 +4,11 @@ import type {} from '../../src/features/cursor/cursorStyle';
 test('console switches between native and water cursors without moving the pointer or reloading',async({page})=>{
   await page.goto('/team');await page.mouse.move(740,250);
   const cursor=page.locator('.site-cursor');
-  await expect(cursor).toHaveAttribute('data-visible','true');
-  expect(await page.evaluate(()=>window.cursorStyle())).toBe(1);
+  await expect(cursor).not.toBeVisible();
+  expect(await page.evaluate(()=>window.cursorStyle())).toBe(0);
   await page.evaluate(()=>{(window as any).__cursorMain=document.querySelector('main')});
+  expect(await page.evaluate(()=>window.cursorStyle(1))).toBe(1);
+  await expect(cursor).toHaveAttribute('data-visible','true');
   expect(await page.evaluate(()=>window.cursorStyle(0))).toBe(0);
   await expect(cursor).not.toBeVisible();
   await expect(page.locator('html')).not.toHaveAttribute('data-custom-cursor');
@@ -58,7 +60,7 @@ test('blocked storage does not prevent switching cursor styles',async({page})=>{
     Storage.prototype.setItem=()=>{throw new DOMException('Blocked','SecurityError')};
   });
   await page.goto('/about');await page.mouse.move(500,300);
-  expect(await page.evaluate(()=>window.cursorStyle())).toBe(1);
+  expect(await page.evaluate(()=>window.cursorStyle())).toBe(0);
   await page.evaluate(()=>window.cursorStyle(0));await expect(page.locator('.site-cursor')).not.toBeVisible();
   await page.evaluate(()=>window.cursorStyle(1));
   await expect(page.locator('.site-cursor')).toHaveAttribute('data-visible','true');
