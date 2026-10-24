@@ -1,0 +1,5 @@
+@media(prefers-reduced-motion:reduce){
+  main p,main .kicker,main .note,main .badge,main .figure-label,main figcaption,main dt,main dd,main a,main button,main label{filter:none!important;transform:none!important;opacity:1!important}
+  /* Keep layout positioning when disabling the reveal transform. */
+  main a.ocean-scroll,main a.story-dive{transform:translateX(-50%)!important}
+}

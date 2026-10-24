@@ -1,0 +1,5 @@
+.word-heading .heading-word-mask,.word-heading .heading-word{font:inherit;letter-spacing:inherit;color:inherit}
+.word-heading .heading-word-mask{display:inline-block;vertical-align:top;overflow:clip;padding:.12em .05em .15em;margin:-.12em -.05em -.15em}
+.word-heading .heading-word{display:inline-block}
+@media(prefers-reduced-motion:reduce){.word-heading .heading-word{transform:none!important;opacity:1!important}}
+.word-heading{min-width:0;max-width:100%;padding-right:.06em;text-wrap:balance}

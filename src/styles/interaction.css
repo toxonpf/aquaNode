@@ -1,0 +1,24 @@
+/* Shared feedback for text actions, including controls with inline arrows. */
+:root{--action-hover:#17664d}
+:where(.dark,.ocean-stage,.site-footer,.about-hero,.tech-hero,.build-hero,.journal-hero,.ocean-header:not(.is-solid)){--action-hover:#e2f3aa}
+:is(a,button,summary,[role=button]):has(.flexible-arrow),.arrow-link{transition:color .22s,border-color .22s,background-color .22s}
+:is(a,button,summary,[role=button]):has(.flexible-arrow):not(:disabled):is(:hover,:focus-visible),.arrow-link:is(:hover,:focus-visible){color:var(--action-hover);border-color:currentColor}
+:is(a,button,summary,[role=button]):has(.flexible-arrow):not(:disabled):is(:hover,:focus-visible) .flexible-arrow{color:inherit}
+@media(prefers-reduced-motion:reduce){:is(a,button,summary,[role=button]):has(.flexible-arrow),.arrow-link{transition:none}}
+
+/* Anchor cues keep the underline close to both the text and the arrow. */
+main a.arrow-link[href^="#"]{align-items:center;line-height:1.4;padding-block:8px 4px;min-height:44px;gap:22px;max-width:100%}
+main a.arrow-link[href^="#"]>.flexible-arrow--down,main a.arrow-link[href^="#"]>.flexible-arrow--up{height:26px;width:15px}
+.build-hero .build-hero-actions{align-items:flex-end;gap:24px}
+.build-hero .build-hero-actions>a{display:inline-flex;align-items:center;justify-content:space-between;gap:22px;min-height:44px;padding:8px 0 4px;border-bottom:1px solid #b7ce9d80;color:#e0edc2;font-size:16px;font-weight:500;line-height:1.4;text-decoration:none}
+.build-hero .build-hero-actions>a:is(:hover,:focus-visible){color:#f1ffd0;border-color:#d2e5ae;background:transparent;text-decoration:none}
+.journal-stage{--action-hover:#194f35}
+.journal-stage .journal-entry-toggle{padding-inline:0;border:0;border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
+.journal-stage .journal-entry-toggle:is(:hover,:focus-visible){background:transparent;border-bottom-color:#547c46}
+.journal-stage .arrow-link:is(:hover,:focus-visible){background:transparent;box-shadow:none;border-color:#547c46}
+.journal-stage :is(.journal-entry-toggle,.arrow-link)>.flexible-arrow{transition:translate .25s ease}
+.journal-stage :is(.journal-entry-toggle,.arrow-link):is(:hover,:focus-visible)>.flexible-arrow{translate:3px 0}
+.viewer-controls button:is(:hover,:focus-visible){color:var(--action-hover);border-color:currentColor}
+.site-header .header-cta:is(:hover,:focus-visible),.action-external:is(:hover,:focus-visible){background:transparent}
+.team-dialog-close:is(:hover,:focus-visible) .team-close-icon{color:#edf4cf;background:transparent;border-color:#dbe9bd}
+@media(prefers-reduced-motion:reduce){.journal-stage .journal-entry-toggle,.journal-stage :is(.journal-entry-toggle,.arrow-link)>.flexible-arrow{transition:none}}

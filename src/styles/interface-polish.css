@@ -1,0 +1,63 @@
+/* Equal outer columns keep navigation centred as the language and CTA change. */
+.site-header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:28px}
+.site-header>.logo{justify-self:start;min-width:0}.site-header>nav{grid-column:2;justify-self:center}
+.header-tools{grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:18px;justify-self:end;min-width:0}
+.header-tools .header-cta{margin:0;gap:15px;font-size:14px}
+.header-tools .menu-button{order:3;white-space:nowrap;padding:8px 0;font-size:16px;line-height:1.5}
+.header-tools .language-switch{margin:0;gap:0}
+.header-tools .menu-button>span{display:inline-block;min-width:12px;text-align:center}
+@media(max-width:1320px){.header-tools .header-cta{display:none}}
+@media(max-width:1200px){
+ .site-header{grid-template-columns:minmax(0,1fr) auto;column-gap:20px}
+ .header-tools{grid-column:2;gap:22px}.site-header>nav{grid-column:auto;grid-row:auto;justify-self:stretch}
+}
+@media(max-width:760px){.site-header{column-gap:14px}.header-tools{gap:18px}.header-tools .language-switch{width:74px}.header-tools .menu-button{padding:6px 0}}
+@media(max-width:360px){.header-tools{gap:10px}.site-header,html[lang=ru] .site-header{column-gap:10px}}
+
+/* The card, dialog and moving copy share the same photo treatment. */
+.team-member-portrait{--portrait-shade:0}
+.team-member-portrait[data-portrait-kind=profile]{--portrait-shade:1}
+.team-member-portrait::after{opacity:var(--portrait-shade)}
+.team-member-portrait>img{object-position:var(--member-photo-position,66% 61%);filter:saturate(.48) contrast(1.04);transform:scaleX(-1);transition:none}
+/* Cover fractional pixel edges after mirroring, without exposing the dark backing. */
+.team-member-portrait>img{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px)}
+.team-profile-intro{max-width:none;width:100%}
+.team-profile-image-portrait--timur-kuandykov{--member-photo-position:69% 61%}
+.team-profile-image-portrait--roman-benzler{--member-photo-position:66% 58%}
+.team-next-preview :is(.team-profile-photo-wave,.team-profile-photo-label,.team-profile-photo-index,.team-profile-photo-monogram){display:none}
+.team-member-portrait .team-profile-photo-label{max-width:calc(100% - 112px)}
+.team-portrait-flight .team-member-portrait{pointer-events:none}
+
+/* A lightweight exit control on the existing reserved toolbar above the portrait. */
+.team-dialog-close{top:0;right:0;height:42px;gap:12px;padding:0 0 0 12px;border:0;border-radius:0;background:transparent;color:#edf2df;letter-spacing:.01em;line-height:1.2}
+.team-dialog-close .team-close-label{font-size:14px;line-height:1.2;font-weight:400}
+.team-dialog-close kbd{font-family:inherit;font-size:14px;font-weight:400;line-height:1;padding:5px 7px;border:1px solid #d8e5d44d;border-radius:4px;color:#b1c7bd}
+.team-dialog-close .team-close-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid #d8e5d477;background:#cbdcc00a;transition:background .35s,color .35s,border-color .35s}
+.team-close-icon>svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;transition:transform .45s cubic-bezier(.2,.7,.3,1)}
+.team-dialog-close:is(:hover,:focus-visible) .team-close-icon{color:#173f3c;background:#dbe9bd;border-color:#dbe9bd}
+.team-dialog-close:is(:hover,:focus-visible) .team-close-icon>svg{transform:rotate(90deg)}
+.team-dialog-close:focus-visible{outline:none}.team-dialog-close:focus-visible .team-close-icon{outline:2px solid #dbe9bd;outline-offset:4px}
+@media(max-width:760px){.team-dialog-close kbd{display:none}.team-dialog-close{gap:10px;padding:0}}
+
+/* Arrow tips stay attached to the tangent; only the flexible shaft carries the wave. */
+.flexible-arrow--up{width:22px;height:48px}
+.flow>div:after{display:none}.flow>div>.flexible-arrow{position:absolute;right:0;top:18px;width:28px;height:18px;color:#71917b}
+.viewer-controls button:has(>.flexible-arrow){display:grid;place-items:center;min-width:44px}.viewer-controls button>.flexible-arrow{width:25px;height:20px}
+.about-recognition-note a{display:inline-flex;align-items:center;gap:7px}.about-recognition-note a>.flexible-arrow{width:25px;height:18px}
+.build-files-link>.flexible-arrow{width:32px;height:21px}.build-status-mark>.flexible-arrow{width:28px;height:23px}
+.build-guide-nav nav a>.flexible-arrow{width:25px;height:19px;margin-left:auto}
+.team-hero-count i>.flexible-arrow{width:36px;height:26px}
+.team-portrait-cursor>.flexible-arrow{width:32px;height:20px;margin-top:7px}
+.team-portrait-open>.flexible-arrow{width:30px;height:20px}
+.team-next-preview>.flexible-arrow{width:18px;height:38px;margin-left:auto;color:inherit}
+.team-profile-pagination button{display:inline-flex;align-items:center;gap:10px}
+.team-profile-pagination button>.flexible-arrow{width:28px;height:20px}
+.story-reading-status>span>.flexible-arrow{width:12px;height:22px}
+.journal-cover-foot{flex-wrap:wrap;gap:8px 15px}
+.journal-thread-label{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.journal-thread-label>.flexible-arrow{width:26px;height:18px}
+@media(max-width:760px){.build-guide-nav nav a>.flexible-arrow{display:none}.team-profile-pagination button{gap:7px}.team-profile-pagination button>.flexible-arrow{width:23px}}
+@media(max-width:760px){
+ .team-next-preview>.flexible-arrow{position:absolute;right:6px;bottom:4px;width:12px;height:26px;margin:0;color:#e4efcf}
+}
+@media(prefers-reduced-motion:reduce){.team-close-icon>svg,.team-dialog-close .team-close-icon{transition:none}}

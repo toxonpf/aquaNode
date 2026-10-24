@@ -1,0 +1,10 @@
+.team-dialog-close kbd{display:grid;place-items:center;min-width:43px;height:28px;padding:5px 9px;border:1px solid #c3d8c97a;border-radius:4px;background:transparent;box-shadow:0 2px 0 #294e4833;font:500 14px/1 'DM Sans',sans-serif;letter-spacing:0;color:#e6efda;box-sizing:border-box}
+.team-portrait-open{transition:opacity .32s ease,transform .4s ease;will-change:opacity,transform}
+.team-portrait-flight .team-flight-open{z-index:4;transition:none;will-change:opacity,transform;pointer-events:none}
+.team-profile-portrait :is(.team-profile-photo-label,.team-profile-photo-index){font-size:12px;letter-spacing:.07em;line-height:1.5}
+.team-profile-info .team-profile-pagination{position:relative;border-top:0}
+.team-pagination-current{position:absolute;top:-12px;left:0;display:block;width:100%;height:24px;stroke:#789774;stroke-width:1;pointer-events:none;overflow:visible}
+.team-pagination-current path{vector-effect:non-scaling-stroke;opacity:.18}
+.team-pagination-current path:nth-child(2){opacity:.65}
+@media(max-width:760px){.team-dialog-close kbd{display:none}.team-profile-portrait :is(.team-profile-photo-label,.team-profile-photo-index){font-size:11px}}
+@media(prefers-reduced-motion:reduce){.team-portrait-open{transition:none}}

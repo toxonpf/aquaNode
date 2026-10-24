@@ -1,0 +1,35 @@
+.ocean-chapters{right:2%;z-index:8;width:64px;align-items:stretch;padding:0;gap:8px;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none}
+.ocean-chapters:before{display:none}
+.ocean-chapters a{position:relative;justify-content:flex-end;min-width:50px;min-height:34px;gap:11px;padding:8px 4px;border-radius:0;font-size:14px;font-weight:500;color:#e1ece2c9;text-shadow:0 1px 7px #002c3fcc;transition:color .25s}
+.ocean-chapters a:hover,.ocean-chapters a:focus-visible{background:transparent;color:#f3f6e7}
+.ocean-chapters a[aria-current=step]{background:transparent;color:#e8f2c5;box-shadow:none}
+.ocean-chapters i{width:15px;height:2px;border-radius:2px;background:currentColor;box-shadow:0 1px 6px #002c3f99;flex:none;transition:width .3s}
+.ocean-chapters a[aria-current=step] i{width:26px;height:2px;border-radius:2px;background:currentColor}
+.ocean-chapters a:after{content:attr(data-label);position:absolute;right:calc(100% + 16px);padding:10px 13px;border:1px solid #bed8c840;border-radius:8px;background:#07333ef2;color:#edf3e4;font-size:14px;font-weight:400;letter-spacing:.01em;white-space:nowrap;opacity:0;visibility:hidden;transform:translateX(5px);transition:opacity .2s,transform .2s,visibility .2s;pointer-events:none}
+.ocean-chapters a:hover:after,.ocean-chapters a:focus-visible:after{opacity:1;visibility:visible;transform:none}
+.ocean-chapters .ocean-chapters-skip{width:100%;min-width:0;height:70px;margin-top:8px;padding:0;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;color:#e6efc7c9;font-size:14px;font-weight:400;letter-spacing:.04em}
+.ocean-chapters-skip-label{display:block;position:absolute;top:5px;left:50%;transform:translateX(-50%);font-weight:500;line-height:1.2;letter-spacing:.01em;white-space:nowrap;transition:color .35s}
+.ocean-chapters-skip-icon{position:absolute;inset:0;display:block;width:100%;height:100%;flex:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;overflow:visible;pointer-events:none}
+.ocean-chapters-skip-icon path{vector-effect:non-scaling-stroke}
+.ocean-chapters-skip-line{opacity:.85;transition:opacity .35s}
+.ocean-chapters-skip-head{opacity:.85;transition:opacity .35s}
+.ocean-chapters-skip-line.ocean-chapters-skip-current{--skip-pulse-offset:0px;stroke:#f0f5d6;stroke-width:1.5;stroke-dasharray:5 95;animation:chapter-skip-current 1.9s linear infinite;animation-play-state:paused;opacity:0}
+.ocean-chapters-skip-current.ocean-chapters-skip-trail{--skip-pulse-offset:13px;stroke-width:2.6;stroke-dasharray:18 82}
+.ocean-chapters-skip-current{stroke-linecap:butt}
+.ocean-chapters-skip:is(:hover,:focus-visible) .ocean-chapters-skip-label{color:#f0f5d6}
+.ocean-chapters-skip:is(:hover,:focus-visible) :is(.ocean-chapters-skip-line,.ocean-chapters-skip-head){opacity:1}
+.ocean-chapters-skip:is(:hover,:focus-visible) .ocean-chapters-skip-trail{opacity:.2}
+.ocean-chapters a.ocean-chapters-skip:after{display:none}
+@media(prefers-reduced-motion:no-preference){
+  .ocean-chapters-skip:is(:hover,:focus-visible) .ocean-chapters-skip-current{animation-play-state:running}
+}
+@keyframes chapter-skip-current{from{stroke-dashoffset:calc(100px + var(--skip-pulse-offset))}to{stroke-dashoffset:var(--skip-pulse-offset)}}
+
+@media(max-width:760px){
+  .ocean-chapters{top:84px;left:auto;right:5%;width:auto;transform:none;padding:0;gap:5px;max-width:calc(100% - 32px)}
+  .ocean-chapters a{width:38px;min-width:38px;min-height:30px;padding:6px 2px;gap:6px;font-size:14px}.ocean-chapters i{width:7px;height:2px}.ocean-chapters a[aria-current=step] i{width:15px;height:2px}
+  .ocean-chapters a:after{display:none}
+  .ocean-chapters .ocean-chapters-skip{flex:none;width:44px;min-width:44px;margin:0;padding:0;gap:0;justify-content:center;font-size:14px;height:44px}
+  .ocean-chapters-skip-label{top:1px}.ocean-chapters-skip-icon{stroke-width:1.1}
+}
+@media(prefers-reduced-motion:reduce){.ocean-chapters-skip-line,.ocean-chapters-skip-line.ocean-chapters-skip-current{animation:none;transition:none}.ocean-chapters-skip-current{display:none}.ocean-chapters-skip-label{transition:none}}

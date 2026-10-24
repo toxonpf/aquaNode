@@ -1,6 +1,6 @@
 # AquaNode website
 
-React + TypeScript + Vite, React Router, React Three Fiber / Three.js and GSAP ScrollTrigger. English public interface; six routes. No deployment or contact form configured, as requested.
+React + TypeScript + Vite, React Router, React Three Fiber / Three.js and GSAP ScrollTrigger. Russian and English public interfaces; six routes. Russian is the default, with a saved RU / EN selection in the header and footer. No deployment or contact form configured, as requested.
 
 ## Run
 
@@ -49,7 +49,19 @@ The choice is saved in this browser and survives reloads and navigation. The com
 | 8 | Textured crests | Four waves, deeper colour and broken foam |
 | 9 | Ocean | Current six-wave ocean with large swells and sparse foam |
 
-Preset definitions are in `src/oceanStyles.ts`, the console command and saved choice in `src/oceanStyle.ts`, shared CPU/GPU wave functions in `src/ocean.ts`, and appearance variants in `src/OceanSurface.tsx`. Historical variants reuse the current buoy model, rectangular float and underwater scene; the original style retains its historical circular waterline. Only the selected surface shader is compiled.
+Preset definitions are in `src/features/ocean/scene/oceanStyles.ts`, the console command and saved choice in `src/features/ocean/scene/oceanStyle.ts`, shared CPU/GPU wave functions in `src/features/ocean/scene/ocean.ts`, and appearance variants in `src/features/ocean/scene/OceanSurface.tsx`. Historical variants reuse the current buoy model, rectangular float and underwater scene; the original style retains its historical circular waterline. Only the selected surface shader is compiled.
+
+## Cursor styles
+
+Switch immediately in the browser console; the selection is saved across pages and reloads:
+
+```js
+cursorStyle(0) // Native system cursor.
+cursorStyle(1) // Water trail with animated arrows (default).
+cursorStyle()  // Read the selected number.
+```
+
+The command is available on every page. Touch, reduced motion and forced colors retain native controls. The console store is in `src/features/cursor/cursorStyle.ts`; the pointer rendering is in `src/features/cursor/SiteCursor.tsx`.
 
 ## Future publication
 
@@ -57,14 +69,17 @@ Publish `dist/` as a static site after `npm run build`. Configure the host to se
 
 ## Editing
 
-- `src/locales/en.ts`: navigation, people and optional social links, resources, assembly steps, project updates, conceptual part descriptions.
-- `src/main.tsx`: page composition and English editorial paragraphs.
-- `src/content.ts`: active English catalog entrypoint. `ru` and `zh-TW` are registered as incomplete; no language selector is shown. Complete the editorial and UI translations before activating another locale.
-- `src/Scene.tsx`: ocean rendering, lighting and camera transitions.
-- `src/BuoyModel.tsx` and `src/BuoyDrawing.tsx`: lightweight 3D and static buoy illustrations, based on the supplied open-pisciculture reference.
-- `src/BuoyAnnotation.tsx` and `src/buoyAnchors.ts`: the annotation's fixed attachment point, SVG arrow and damped bend. The 3D scene projects the lid point after applying the buoy's current wave transforms; only the bend has inertia, while the tip tracks exactly. The static illustration uses its corresponding SVG point.
-- `src/SensorPanel.tsx`, `src/Underwater.tsx` and `src/sensors.css`: the underwater chapter, sensor explanations, projected probe controls, light and particles.
-- `src/styles.css`: desktop and separately composed mobile layouts, reduced-motion rules.
+See the [project structure and editing map](docs/project-structure.md) for source folders, CSS order and test groups.
+
+- `src/data/catalog.ts`: navigation, people and optional social links, resources, assembly steps, project updates, conceptual part descriptions.
+- `src/main.tsx`: React startup; `src/app/App.tsx`: routes and page shell; `src/pages/`: page composition and English source phrases passed to `t()`.
+- `src/data/content.ts`: localizes shared editorial records for the selected language.
+- `src/features/i18n/i18n.ts` and `src/features/i18n/locales/ru*.ts`: language selection, Russian copy and named placeholders. See [localization notes](docs/localization.md).
+- `src/features/ocean/scene/Scene.tsx`: ocean rendering, lighting and camera transitions.
+- `src/features/buoy/BuoyModel.tsx` and `src/features/buoy/BuoyDrawing.tsx`: lightweight 3D and static buoy illustrations, based on the supplied open-pisciculture reference.
+- `src/features/ocean/story/BuoyAnnotation.tsx` and `src/features/buoy/buoyAnchors.ts`: the annotation's fixed attachment point, SVG arrow and damped bend. The 3D scene projects the lid point after applying the buoy's current wave transforms; only the bend has inertia, while the tip tracks exactly. The static illustration uses its corresponding SVG point.
+- `src/features/ocean/story/SensorPanel.tsx`, `src/features/ocean/scene/Underwater.tsx` and `src/features/ocean/styles/sensors.css`: the underwater chapter, sensor explanations, projected probe controls, light and particles.
+- `src/styles/base.css`: desktop and separately composed mobile layouts, reduced-motion rules.
 - `public/resources/`: genuine supplied downloadable materials. Do not copy the entire engineering package into this public directory: it contains unapproved protocol details.
 - `public/assets/`: supplied engineering images and licensed ocean recording.
 
@@ -74,7 +89,7 @@ New journal entries are objects in `updates`; leave dates undated when unknown. 
 
 The opening section is one full viewport of ocean viewed from above, with a cream and marine-blue buoy at its centre. A dark loading screen with a small spinner covers the scene until its first WebGL frame is rendered, then fades out over 900 ms to reveal the brighter ocean. The navigation sits over the water. One second after that reveal, “what is this?” fades in and a curved arrow draws toward the buoy. A moving line and downward arrow invite scrolling; both the annotation and cue link to the current project section. The rest of the overview remains available below while sections are refined individually.
 
-The Three.js ocean uses an actual displaced mesh, analytic wave normals, reflected sky, sun glints and fine wind ripples. The buoy samples the same four directional swells as the water, so its height and tilt follow the surface. Wave parameters and the shared CPU/GPU equations are in `src/ocean.ts`. Opening-section styles are in `src/ocean.css`.
+The Three.js ocean uses an actual displaced mesh, analytic wave normals, reflected sky, sun glints and fine wind ripples. The buoy samples the same four directional swells as the water, so its height and tilt follow the surface. Wave parameters and the shared CPU/GPU equations are in `src/features/ocean/scene/ocean.ts`. Opening-section styles are in `src/features/ocean/styles/ocean.css`.
 
 The opening has three chapters in one persistent canvas: the overhead surface, a close look at the buoy, and the probes below the water. Each distinct vertical wheel gesture, swipe or navigation key advances one adjacent chapter. Short anchors, 56–96 px apart, replace the empty viewport-length gaps. Further input is consumed until the camera and copy have settled and the current gesture has paused for 280 ms, preventing momentum from skipping a chapter. Leaving the last chapter returns to ordinary page scrolling; its remaining momentum is consumed until that gesture ends. Chapter links and the dive cue provide direct navigation. Pinch zoom, horizontal gestures and text/button input retain their normal controls. The underwater camera travels around and beneath the float; the background, underside of the water and light change with it. Text and its gradient appear together once the camera settles. The pH and temperature controls select a matching explanation, probe highlight and pulse colour. Moving labels attached to the probe array offer duplicate pointer controls; the stationary selector provides keyboard and screen-reader access. No live measurements are simulated. Reduced motion and unavailable WebGL retain all chapter navigation and sensor explanations with the static illustration.
 
@@ -82,7 +97,7 @@ No texture downloads or post-processing passes are used. The enclosure label is 
 
 ## Evidence and unfinished content
 
-See CONTENT_AUDIT.md. Prototype photos were not supplied: the PNGs in the workspace are CAD drawings, not photos. Do not replace missing photos with synthetic documentary images. The original supplied notes are a board assembly/testing plan, not a complete, tested buoy build manual. Public English assembly text is a labelled summary of those notes. A download of the actual assembly drawing and BOM is provided; the private protocol-bearing notes remain private.
+See docs/audits/content-audit.md. Prototype photos were not supplied: the PNGs in the workspace are CAD drawings, not photos. Do not replace missing photos with synthetic documentary images. The original supplied notes are a board assembly/testing plan, not a complete, tested buoy build manual. Public English assembly text is a labelled summary of those notes. A download of the actual assembly drawing and BOM is provided; the private protocol-bearing notes remain private.
 
 The current statement that a prototype works comes from the user's brief. The supplied R0.3 documents explicitly say that revision has not been physically built or validated. No equivalence between them is claimed.
 
