@@ -30,7 +30,7 @@ test('skip leaves the story and the home logo returns directly to the surface',a
  await expect(page.locator('.ocean-stage.is-inside-ready')).toBeVisible();
  const canvas=await page.locator('.ocean-hero canvas').elementHandle();
  await page.getByRole('link',{name:'Skip buoy story',exact:true}).click();
- await expect.poll(()=>page.locator('.award').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(64);
+ await expect.poll(()=>page.locator('.award').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
  await expect(page.locator('.site-header')).toHaveClass(/is-solid/);
  await page.evaluate(()=>{
   (window as any).homeShots=[];
@@ -53,7 +53,7 @@ test('skip fits phones and the active Overview link resets the story',async({pag
   await expect(page.getByRole('link',{name:'Skip buoy story',exact:true})).toBeInViewport();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.getByRole('link',{name:'Skip buoy story',exact:true}).focus();await page.keyboard.press('Enter');
-  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(56);
+  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
   await page.getByRole('button',{name:'Menu +'}).click();
   await page.locator('.site-header nav').getByRole('link',{name:'Overview',exact:true}).click();
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);

@@ -75,7 +75,7 @@ test('the return hint animates in and keeps its return action',async({page})=>{
   await page.addInitScript(()=>Object.defineProperty(navigator,'connection',{value:{saveData:true}}));
   await page.goto('/');await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
   await page.getByRole('link',{name:'Skip buoy story',exact:true}).click();
-  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(64);
+  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
   await page.waitForTimeout(350);
   await page.evaluate(()=>scrollTo({top:scrollY+600,behavior:'instant'}));await page.mouse.wheel(0,-1800);
   const hint=page.locator('.story-return-hint');await expect(hint).toHaveAttribute('data-visible','true');

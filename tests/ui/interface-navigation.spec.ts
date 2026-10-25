@@ -27,7 +27,7 @@ test('skip wave starts beside the caption in both languages and fits every rail'
   }
   expect(await page.locator('.back-to-sensors').count()).toBe(0);
   await page.locator('.ocean-chapters-skip').click();
-  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(56);
+  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
 });
 
 test('journal thread follows the cover size and chapter row centres',async({page})=>{

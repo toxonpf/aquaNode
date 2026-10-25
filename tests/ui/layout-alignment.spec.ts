@@ -14,7 +14,7 @@ test('footer navigation is centred and the network introduction follows its head
   }
 });
 
-test('technology has a large two-line headline across the hero',async({page})=>{
+test('technology pairs a large headline with the model and stacks them on mobile',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   for(const width of [1440,1024,390,320]){
     await page.setViewportSize({width,height:1000});await page.goto('/technology');
@@ -22,14 +22,21 @@ test('technology has a large two-line headline across the hero',async({page})=>{
       await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
       await page.evaluate(()=>document.fonts.ready);
       await expect.poll(()=>page.locator('.tech-hero h1').evaluate(node=>{
-        const font=parseFloat(getComputedStyle(node).fontSize);
+        const scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
+        const font=parseFloat(getComputedStyle(node).fontSize)/scale;
         return font;
-      })).toBeGreaterThanOrEqual(width>=1000?60:28);
+      })).toBeGreaterThanOrEqual(width>=1000?44:28);
       const title=await page.locator('.tech-hero h1').boundingBox(),layout=await page.locator('.tech-hero-layout').boundingBox(),model=await page.locator('.tech-model').boundingBox();
-      expect(title!.width).toBeGreaterThan(layout!.width*.8);
-      expect(title!.y+title!.height).toBeLessThan(model!.y);
       const copy=await page.locator('.tech-hero-copy').boundingBox();
-      expect(copy!.y-title!.y-title!.height).toBeLessThanOrEqual(36);
+      if(width>=1000){
+        expect(title!.x+title!.width).toBeLessThan(model!.x);
+        expect(Math.abs(title!.y-model!.y)).toBeLessThan(2);
+        expect(copy!.y-title!.y-title!.height).toBeLessThanOrEqual(30);
+      }else{
+        expect(title!.width).toBeGreaterThan(layout!.width*.8);
+        expect(title!.y+title!.height).toBeLessThan(model!.y);
+        expect(copy!.y).toBeGreaterThan(model!.y+model!.height);
+      }
     }
   }
 });

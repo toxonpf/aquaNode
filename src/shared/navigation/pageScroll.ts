@@ -1,5 +1,9 @@
 export const STORY_HOME_EVENT='aquanode:story-home';
 
+export function siteHeaderHeight(){
+  return document.querySelector('.site-header')?.getBoundingClientRect().height??64;
+}
+
 export function scrollToPageStart(){
   // The pinned story handles its own return so scrolling past chapter anchors
   // does not briefly select every camera shot on the way to the top.

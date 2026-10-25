@@ -12,7 +12,7 @@ html[data-cursor-style="0"] :is(.site-cursor,.team-portrait-cursor){display:none
 .site-cursor-drag{stroke:currentColor;stroke-width:2;opacity:0;transition:opacity .2s}
 .site-cursor-drag-line{stroke-width:1.8;opacity:.85}
 .site-cursor[data-mode=drag] .site-cursor-drag{opacity:.9}
-.site-cursor-label{position:absolute;left:0;top:0;white-space:nowrap;font-size:10px;line-height:1.4;letter-spacing:.08em;opacity:0;transform:translate3d(calc(var(--cursor-x) + 16px),calc(var(--cursor-y) + 17px),0);transition:opacity .3s}
+.site-cursor-label{position:absolute;left:0;top:0;white-space:nowrap;font-size:0.625rem;line-height:1.4;letter-spacing:.08em;opacity:0;transform:translate3d(calc(var(--cursor-x) + 16px),calc(var(--cursor-y) + 17px),0);transition:opacity .3s}
 .site-cursor[data-mode=portrait] .site-cursor-label{opacity:1}
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) and (forced-colors:none){
  html[data-custom-cursor],html[data-custom-cursor] *{cursor:none!important}

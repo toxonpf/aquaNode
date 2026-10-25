@@ -1,10 +1,10 @@
 /* Reading scale: 18px prose, 16px controls, 14px supporting labels.
    Component styles share these minimums, including their compact layouts. */
 :root{--muted:#435f65;--reading-ink:#405e53;--reading-light:#d0e0da}
-body{font-size:18px;line-height:1.6}
-p{font-size:18px;line-height:1.75;text-wrap:pretty}
+body{font-size:1.125rem;line-height:1.6}
+p{font-size:1.125rem;line-height:1.75;text-wrap:pretty}
 h1,h2,h3{overflow-wrap:normal}
-.arrow-link,.primary-link,.text-link,.header-cta,.site-header nav{font-size:16px}
+.arrow-link,.primary-link,.text-link,.header-cta,.site-header nav{font-size:1rem}
 .site-header nav{gap:22px;line-height:1.5}
 .site-header nav a{white-space:nowrap}
 .site-header{gap:24px}
@@ -13,11 +13,11 @@ h1,h2,h3{overflow-wrap:normal}
 .about-page p,.technology-page p,.node-intro>p,.future-heading>p,
 .future-description p,.learning-lab .learning-task p,.learning-sheet .learning-notebook p,
 .story-panel .story-details p,.buoy-copy>p,.sensor-explanation p,.signal-copy>p,
-.inside-copy>p:not(.kicker),.sensor-lead,.status-grid p,.flow p,.cycle-aside p{font-size:18px;line-height:1.75}
-.about-page .kicker,.technology-page .kicker,.buoy-copy .kicker,.signal-copy .kicker{font-size:14px}
+.inside-copy>p:not(.kicker),.sensor-lead,.status-grid p,.flow p,.cycle-aside p{font-size:1.125rem;line-height:1.75}
+.about-page .kicker,.technology-page .kicker,.buoy-copy .kicker,.signal-copy .kicker{font-size:0.875rem}
 .about-hero-foot p,.about-reading-foot>p,.about-page .about-reading-caveat,
 .about-recognition .about-recognition-note,.technology-page .tech-scope,
-.tech-hero-foot p,.tech-path-text .tech-path-note{font-size:16px;line-height:1.7}
+.tech-hero-foot p,.tech-path-text .tech-path-note{font-size:1rem;line-height:1.7}
 .about-principles p,.tech-drawing-copy p{color:var(--reading-ink)}
 .about-hero-foot p,.about-section-top>span,.about-hero-top>span,
 .about-parameter-meta,.about-reading-foot>span,.about-reading-foot>p,
@@ -26,15 +26,15 @@ h1,h2,h3{overflow-wrap:normal}
 .team-contact-note,.team-contact.is-pending,.team-profile-kicker,
 .team-profile-contact-label,.team-profile-role,.team-profile-intro,
 .team-profile-pagination>span{color:var(--reading-ink)}
-.team-hero-aside p,.team-hero-bottom>p,.team-gallery-note>p,.team-person-info>p{font-size:18px;line-height:1.7}
-.team-contact,.team-meet-link,.team-profile-pagination button,.team-dialog-close{font-size:16px}
+.team-hero-aside p,.team-hero-bottom>p,.team-gallery-note>p,.team-person-info>p{font-size:1.125rem;line-height:1.7}
+.team-contact,.team-meet-link,.team-profile-pagination button,.team-dialog-close{font-size:1rem}
 .team-contact{min-height:40px}
 .team-profile-info{padding:32px 36px 24px}
 .team-profile-info:has(.team-profile-field-photo){padding-right:calc(34% + 24px)}
 .team-profile-field-photo{width:34%}
-.team-profile-info h2{font-size:clamp(32px,3.8vw,48px);line-height:1.12;margin:16px 0 12px}
-.team-profile-role{font-size:18px;line-height:1.5}
-.team-profile-intro{font-size:18px;line-height:1.65;margin:18px 0}
+.team-profile-info h2{font-size:clamp(2rem,3.8vw,3rem);line-height:1.12;margin:16px 0 12px}
+.team-profile-role{font-size:1.125rem;line-height:1.5}
+.team-profile-intro{font-size:1.125rem;line-height:1.65;margin:18px 0}
 .team-profile-info .team-contacts{margin:8px 0 16px;padding-top:8px}
 .team-profile-pagination{gap:12px;padding-top:12px}
 .team-profile-pagination button{min-height:44px}
@@ -43,21 +43,21 @@ h1,h2,h3{overflow-wrap:normal}
 .team-profile-field-photo figcaption{left:20px;right:16px;flex-wrap:wrap;letter-spacing:.02em}
 .team-profile-field-photo figcaption span{max-width:100%}
 .team-portrait-label{letter-spacing:.05em}
-.team-profile-portrait .team-portrait-label{max-width:calc(100% - 40px)}
-.story-panel{max-width:620px}
+.team-profile-portrait .team-portrait-label{max-width:calc(100% - 2.5rem)}
+.story-panel{max-width:38.75rem}
 .story-reading-status{line-height:1.6;letter-spacing:.04em}
 .sensor-picker button>span:nth-child(2),.sensor-copy .arrow-link,
-.inside-parts b,.story-return-hint>span:last-child{font-size:16px}
-.inside-parts span,.signal-route>div>span:last-child{font-size:16px;line-height:1.6}
+.inside-parts b,.story-return-hint>span:last-child{font-size:1rem}
+.inside-parts span,.signal-route>div>span:last-child{font-size:1rem;line-height:1.6}
 .ocean-chapters a{min-height:44px}
 .tech-model .part-tabs,.viewer-controls{flex-wrap:wrap}
 .viewer-controls button,.tech-model .viewer-controls button,.node-viewer .viewer-controls button,
 .part-tabs button,.tech-model .part-tabs button,.tech-drawing-switch button,
-.future-switch button,.about-parameter-picker button{font-size:16px;min-height:44px}
+.future-switch button,.about-parameter-picker button{font-size:1rem;min-height:44px}
 .part-tabs{flex-wrap:wrap}
 .part-description,.tech-model .part-description,.node-part-detail>span,
-.learning-step-copy>span,.learning-question dd{font-size:18px;line-height:1.7}
-.future-evidence>div{font-size:16px;line-height:1.7}
+.learning-step-copy>span,.learning-question dd{font-size:1.125rem;line-height:1.7}
+.future-evidence>div{font-size:1rem;line-height:1.7}
 .node-display-top,.node-display-bottom,.tech-model-top,.tech-hero-foot p,
 .tech-hero .tech-section-top>span,.tech-path-caption,.tech-path-text .tech-path-note,
 .learning-control-heading,.learning-loop p,.learning-footer>span,
@@ -71,9 +71,9 @@ h1,h2,h3{overflow-wrap:normal}
 .about-reading-foot>p,.about-parameter-copy p,.about-parameter-copy .about-reading-caveat{color:var(--reading-light)}
 .learning-sheet-top,.learning-sheet-foot{flex-wrap:wrap}
 .footer-legal{color:#ccdce1}
-.audio-control button{font-size:14px;min-height:44px}
-.specs>div,.tech-carrier .specs>div{font-size:18px;line-height:1.65}
-.build-layout aside a{font-size:16px}
+.audio-control button{font-size:0.875rem;min-height:44px}
+.specs>div,.tech-carrier .specs>div{font-size:1.125rem;line-height:1.65}
+.build-layout aside a{font-size:1rem}
 .status-number,.status-foot,.flow>div>span,.figure-label,
 .future-section .feature-section-top>span,.future-heading>p,.future-description p,
 .learning-sheet .learning-mini-label,.learning-question dt,.tech-section-top>span,
@@ -87,21 +87,21 @@ h1,h2,h3{overflow-wrap:normal}
 .tech-paths .tech-section-top>span{color:var(--reading-light)}
 .node-part-heading>span{color:#acc9be}
 .ocean-corner{color:#e0ede5}
-.team-portrait-label{opacity:1;color:#f4f8ec;padding:5px 8px;max-width:calc(100% - 40px)}
+.team-portrait-label{opacity:1;color:#f4f8ec;padding:5px 8px;max-width:calc(100% - 2.5rem)}
 .journal p,.build-step>p{max-width:65ch}
-.future-point text{font-size:16px;letter-spacing:0}
+.future-point text{font-size:1rem;letter-spacing:0}
 
 /* Switch to a menu before larger navigation labels run out of space. */
 @media(min-width:761px) and (max-width:1200px){
  .header-cta{display:none}
- .menu-button{display:block;font-size:16px;border:0;padding-right:0}
+ .menu-button{display:block;font-size:1rem;border:0;padding-right:0}
  .site-header nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);padding:18px var(--site-gutter) 28px;border-bottom:1px solid var(--line)}
- .site-header nav.open{display:flex;flex-direction:column;gap:4px;font-size:18px;color:var(--navy)}
+ .site-header nav.open{display:flex;flex-direction:column;gap:4px;font-size:1.125rem;color:var(--navy)}
  .site-header.ocean-header nav{background:#0a3541f5;border-color:#42636a}
  .site-header nav a.active:after{bottom:5px;right:auto;width:24px}
 }
 @media(max-width:760px){
- .site-header nav.open{font-size:18px}
+ .site-header nav.open{font-size:1.125rem}
  .section-heading>p,.heading-aside,.heading-aside p{max-width:60ch}
  .award{flex-wrap:wrap;gap:12px}
  .award p{flex:1;min-width:0}
@@ -109,30 +109,30 @@ h1,h2,h3{overflow-wrap:normal}
  .team-hero-bottom{flex-wrap:wrap}
  .team-meet-link{max-width:none}
  .team-profile-info,.team-profile-info:has(.team-profile-field-photo){padding:18px 22px}
- .team-profile-info h2{font-size:32px;line-height:1.1;margin:10px 0}
+ .team-profile-info h2{font-size:2rem;line-height:1.1;margin:10px 0}
  .team-profile-kicker,.team-profile-contact-label{line-height:1.5;letter-spacing:.03em}
  .team-profile-field-photo{width:auto;height:clamp(80px,12svh,110px);margin:12px 0 0}
- .team-profile-intro{font-size:18px;line-height:1.6;margin:12px 0}
+ .team-profile-intro{font-size:1.125rem;line-height:1.6;margin:12px 0}
  .team-profile-info .team-contacts{margin:6px 0 10px;padding-top:6px}
  .team-profile-pagination{padding-top:6px;gap:8px}
- .team-profile-pagination button{font-size:15px}
+ .team-profile-pagination button{font-size:0.9375rem}
  .team-profile-pagination>span{letter-spacing:0}
  .team-profile-field-index{top:16px}
  .team-profile-field-photo figcaption{bottom:12px}
  .team-profile-field-photo figcaption>span:first-child{max-width:70%}
- .ocean-scroll,.story-dive{width:max-content;max-width:calc(100% - 32px)}
+ .ocean-scroll,.story-dive{width:max-content;max-width:calc(100% - 2rem)}
  .ocean-scroll>span:first-child{letter-spacing:.08em;white-space:normal;text-align:center}
  .sensor-picker{flex-wrap:wrap;gap:12px 24px}
  .sensor-picker button{min-width:0}
  .evidence>*{min-width:0}
  .evidence .arrow-link{width:100%;gap:18px}
  .ocean-chapters{gap:3px;right:5%}
- .ocean-chapters a{width:43px;min-width:43px;min-height:44px;gap:4px}
- .ocean-chapters .ocean-chapters-skip{width:44px;min-width:44px;height:44px}
+ .ocean-chapters a{width:43px;min-width:2.6875rem;min-height:44px;gap:4px}
+ .ocean-chapters .ocean-chapters-skip{width:44px;min-width:2.75rem;height:44px}
  .node-display-top,.node-display-bottom,.future-map-top,.future-map-foot{flex-wrap:wrap;gap:12px}
  .node-display-bottom>span{max-width:100%;line-height:1.6}
  .future-switch{flex-wrap:wrap}
- .future-point text{font-size:24px}
+ .future-point text{font-size:1.5rem}
  .tech-model-top,.tech-drawing-meta,.tech-drawing-switch{flex-wrap:wrap}
  .tech-drawing-switch{gap:8px 20px}
  .tech-model .part-tabs button{padding-inline:9px}
@@ -141,14 +141,14 @@ h1,h2,h3{overflow-wrap:normal}
 }
 @media(min-width:761px) and (max-height:620px){
  .team-profile-info{padding:20px 26px 14px}
- .team-profile-info h2{font-size:30px;margin:10px 0 8px}
- .team-profile-intro{font-size:16px;line-height:1.6;margin:12px 0}
+ .team-profile-info h2{font-size:1.875rem;margin:10px 0 8px}
+ .team-profile-intro{font-size:1rem;line-height:1.6;margin:12px 0}
  .team-profile-info .team-contacts{margin:6px 0 10px}
 }
 @media(min-width:761px) and (max-height:500px){
  .team-profile-info{padding:12px 22px}
- .team-profile-info h2{font-size:26px;margin:8px 0}
- .team-profile-role{font-size:16px}
+ .team-profile-info h2{font-size:1.625rem;margin:8px 0}
+ .team-profile-role{font-size:1rem}
  .team-profile-info:has(.team-profile-field-photo){padding-right:calc(28% + 18px)}
  .team-profile-field-photo{width:28%}
  .team-profile-info .team-contacts{margin:8px 0}
@@ -157,15 +157,15 @@ h1,h2,h3{overflow-wrap:normal}
 @media(max-width:760px) and (max-height:740px){
  .team-profile-content{grid-template-rows:min(15svh,100px) minmax(0,1fr)}
  .team-profile-info,.team-profile-info:has(.team-profile-field-photo){padding:12px 18px}
- .team-profile-info h2{font-size:28px;margin:8px 0}
+ .team-profile-info h2{font-size:1.75rem;margin:8px 0}
  .team-profile-intro{display:none}
  .team-profile-field-photo{height:clamp(70px,12svh,90px);margin:10px 0}
  .team-profile-info .team-contacts{margin:4px 0 8px}
  .team-profile-contact-label{line-height:1.4}
- .team-profile-portrait .team-monogram{font-size:42px;bottom:10px}
+ .team-profile-portrait .team-monogram{font-size:2.625rem;bottom:10px}
  .team-profile-portrait .team-portrait-label{top:8px;line-height:1.2;padding:2px 6px}
  .team-profile-field-index{top:8px;left:14px}
- .team-profile-field-index>b{font-size:22px}
+ .team-profile-field-index>b{font-size:1.375rem}
  .team-profile-field-index>span{display:none}
  .team-profile-field-photo figcaption{left:14px;right:14px;bottom:8px;line-height:1.3}
  .team-profile-field-photo figcaption>span:first-child{max-width:none}

@@ -1,0 +1,146 @@
+/* Desktop ocean storyboard: one 1920×1080 composition, one shared scale.
+   1 design px = min(100vw / 1920, 100svh / 1080). No page zoom or transforms.
+   Touch devices retain their independent, readable responsive layout. */
+@media(hover:hover) and (pointer:fine){
+  .ocean-stage,.audio-control{
+    --ocean-unit:min(.0520833333vw,.0925925926svh);
+    --ocean-frame-width:calc(1920 * var(--ocean-unit));
+    --ocean-frame-height:calc(1080 * var(--ocean-unit));
+    --ocean-frame-left:calc((100vw - var(--ocean-frame-width))/2);
+    --ocean-frame-top:calc((100svh - var(--ocean-frame-height))/2);
+    --ocean-gutter:var(--site-gutter);
+    --ocean-label:calc(14 * var(--ocean-unit));
+    --ocean-body:calc(18 * var(--ocean-unit));
+  }
+  .ocean-stage{font-size:var(--ocean-body);line-height:1.75}
+  .ocean-stage :is(.buoy-introduction,.sensor-introduction,.inside-introduction,.signal-introduction){
+    padding-top:calc(var(--ocean-frame-top) + 150 * var(--ocean-unit));
+    padding-bottom:calc(var(--ocean-frame-top) + 136 * var(--ocean-unit));
+    padding-inline:var(--ocean-gutter);
+    align-items:center;
+  }
+  .ocean-stage :is(.sensor-introduction,.inside-introduction){justify-content:flex-start;background:linear-gradient(90deg,#052630e8 0%,#052d37d9 31%,#052d3759 53%,transparent 73%)}
+  .ocean-stage :is(.buoy-introduction,.signal-introduction){justify-content:flex-end;background:linear-gradient(90deg,transparent 30%,#073842a6 55%,#062d39eb)}
+  .ocean-stage .story-panel[data-reader]{width:calc(620 * var(--ocean-unit));max-width:none;margin:0;min-width:0}
+  .ocean-stage .story-panel .story-scroll{
+    width:100%;max-width:none;max-height:calc(698 * var(--ocean-unit));min-height:0;
+    padding:calc(2 * var(--ocean-unit)) calc(16 * var(--ocean-unit)) calc(18 * var(--ocean-unit)) 0;
+    outline-offset:calc(5 * var(--ocean-unit));
+  }
+  /* Reserve a separate lower band for the scene action, regardless of zoom. */
+  .ocean-stage .story-panel{max-height:calc(794 * var(--ocean-unit))}
+  .ocean-stage .story-reading-status{flex-shrink:0}
+  .ocean-stage .story-panel[data-at-start=false] .story-scroll{mask-image:linear-gradient(transparent,#000 calc(15 * var(--ocean-unit)),#000)}
+  .ocean-stage .story-panel[data-at-end=false] .story-scroll{mask-image:linear-gradient(#000 calc(100% - 24 * var(--ocean-unit)),transparent)}
+  .ocean-stage .story-panel[data-at-start=false][data-at-end=false] .story-scroll{mask-image:linear-gradient(transparent,#000 calc(15 * var(--ocean-unit)),#000 calc(100% - 24 * var(--ocean-unit)),transparent)}
+  .ocean-stage:not(.is-detail-ready) .buoy-copy,.ocean-stage:not(.is-sensing-ready) .sensor-copy,
+  .ocean-stage:not(.is-inside-ready) .inside-copy,.ocean-stage:not(.is-signal-ready) .signal-copy{transform:translateY(calc(18 * var(--ocean-unit)))}
+  .ocean-stage .story-scroll p:not(.kicker){font-size:var(--ocean-body);line-height:1.75;max-width:none;margin:0 0 calc(18 * var(--ocean-unit))}
+  .ocean-stage .story-panel h2{font-size:calc(56 * var(--ocean-unit));line-height:1.12;letter-spacing:-.035em;margin:0 0 calc(22 * var(--ocean-unit))}
+  .ocean-stage .story-panel h3{font-size:calc(24 * var(--ocean-unit));line-height:1.3;margin:calc(13 * var(--ocean-unit)) 0 calc(12 * var(--ocean-unit))}
+  .ocean-stage .story-panel .kicker{font-size:var(--ocean-label);line-height:1.6;letter-spacing:.12em;margin:0 0 calc(22 * var(--ocean-unit))}
+  .ocean-stage .story-panel .story-details{margin:calc(30 * var(--ocean-unit)) 0 calc(22 * var(--ocean-unit));border-top-width:var(--ocean-unit)}
+  .ocean-stage .story-details article{padding:calc(25 * var(--ocean-unit)) 0;border-bottom-width:var(--ocean-unit)}
+  .ocean-stage .story-details article>span{font-size:var(--ocean-label);line-height:1.6;letter-spacing:.08em}
+  .ocean-stage .story-details p{font-size:var(--ocean-body);line-height:1.75;margin:0}
+  .ocean-stage .story-reading-status{font-size:var(--ocean-label);line-height:1.6;letter-spacing:.04em;gap:calc(20 * var(--ocean-unit));padding:calc(16 * var(--ocean-unit)) calc(16 * var(--ocean-unit)) 0 0}
+  .ocean-stage .story-reading-status>div{height:var(--ocean-unit);margin-top:calc(-7 * var(--ocean-unit))}
+  .ocean-stage .story-reading-status>span>.flexible-arrow{width:calc(12 * var(--ocean-unit));height:calc(22 * var(--ocean-unit))}
+  .ocean-stage .story-panel .arrow-link{
+    font-size:calc(16 * var(--ocean-unit));line-height:1.5;gap:calc(24 * var(--ocean-unit));
+    min-width:calc(225 * var(--ocean-unit));max-width:100%;min-height:0;
+    margin-top:calc(8 * var(--ocean-unit));padding:calc(13 * var(--ocean-unit)) 0;
+    border-width:var(--ocean-unit);
+  }
+  .ocean-stage .arrow-link>span{font-size:inherit}
+  .ocean-stage .arrow-link-icon{min-width:calc(52 * var(--ocean-unit))}
+  .ocean-stage .flexible-arrow{width:calc(64 * var(--ocean-unit));height:calc(28 * var(--ocean-unit));stroke-width:calc(1.3 * var(--ocean-unit))}
+  .ocean-stage .flexible-arrow--up-right{width:calc(52 * var(--ocean-unit));height:calc(24 * var(--ocean-unit))}
+  .ocean-stage .story-panel .sensor-copy .sensor-explore{padding:calc(13 * var(--ocean-unit)) calc(18 * var(--ocean-unit));gap:calc(24 * var(--ocean-unit))}
+
+  .ocean-stage .buoy-reading-types{gap:calc(25 * var(--ocean-unit));padding:calc(22 * var(--ocean-unit)) 0;margin:calc(27 * var(--ocean-unit)) 0 calc(22 * var(--ocean-unit));border-width:var(--ocean-unit)}
+  .ocean-stage .buoy-reading-types>div{gap:calc(15 * var(--ocean-unit))}
+  .ocean-stage .buoy-reading-types dt{font-size:calc(29 * var(--ocean-unit))}
+  .ocean-stage .buoy-reading-types dd{font-size:var(--ocean-label);line-height:1.6;max-width:calc(90 * var(--ocean-unit))}
+  .ocean-stage .story-scroll .buoy-interval{font-size:calc(15 * var(--ocean-unit));line-height:1.8}
+  .ocean-stage .sensor-lead{display:block}
+  .ocean-stage .sensor-picker{gap:calc(22 * var(--ocean-unit));margin:calc(26 * var(--ocean-unit)) 0 calc(22 * var(--ocean-unit));border-width:var(--ocean-unit)}
+  .ocean-stage .sensor-picker button{gap:calc(12 * var(--ocean-unit));padding:calc(17 * var(--ocean-unit)) 0;min-width:0;min-height:0;border:0;font-size:calc(16 * var(--ocean-unit))}
+  .ocean-stage .sensor-picker button::after{height:calc(2 * var(--ocean-unit));bottom:calc(-1 * var(--ocean-unit))}
+  .ocean-stage .sensor-picker-symbol{font-size:calc(29 * var(--ocean-unit));min-width:calc(40 * var(--ocean-unit))}
+  .ocean-stage .sensor-picker button>span:nth-child(2){font-size:calc(16 * var(--ocean-unit));line-height:1.5}
+  .ocean-stage .sensor-picker small{font-size:var(--ocean-label);margin-top:calc(3 * var(--ocean-unit))}
+  .ocean-stage .sensor-picker .flexible-arrow{display:block;width:calc(28 * var(--ocean-unit));height:calc(18 * var(--ocean-unit));margin-left:auto}
+  .ocean-stage .sensor-explanation{min-height:calc(126 * var(--ocean-unit))}
+  .ocean-stage .sensor-small-label{font-size:var(--ocean-label);letter-spacing:.08em}
+  .ocean-stage .sensor-explanation h3{font-size:calc(23 * var(--ocean-unit));margin:calc(10 * var(--ocean-unit)) 0}
+  .ocean-stage .sensor-explanation p{font-size:calc(16 * var(--ocean-unit));line-height:1.8;margin:0}
+  .ocean-stage .sensor-cadence{display:flex;gap:calc(15 * var(--ocean-unit));padding:calc(17 * var(--ocean-unit)) 0;margin-top:calc(20 * var(--ocean-unit));border-top-width:var(--ocean-unit)}
+  .ocean-stage .sensor-cadence>span:nth-child(2){font-size:var(--ocean-label);line-height:1.7}
+  .ocean-stage .cadence-orbit{width:calc(28 * var(--ocean-unit));height:calc(28 * var(--ocean-unit));border-width:var(--ocean-unit)}
+  .ocean-stage .cadence-orbit::after{inset:calc(9 * var(--ocean-unit));border-width:var(--ocean-unit)}
+  .ocean-stage .cadence-orbit i{width:calc(4 * var(--ocean-unit));height:calc(4 * var(--ocean-unit));left:calc(12 * var(--ocean-unit));top:calc(-2 * var(--ocean-unit))}
+  .ocean-stage .sensor-hour{font-size:calc(36 * var(--ocean-unit))}
+  .ocean-stage .sensor-hour span{font-size:calc(18 * var(--ocean-unit));margin-left:calc(4 * var(--ocean-unit))}
+  .ocean-stage .inside-parts{margin:calc(26 * var(--ocean-unit)) 0 calc(16 * var(--ocean-unit));border-top-width:var(--ocean-unit)}
+  .ocean-stage .inside-parts>div{grid-template-columns:calc(42 * var(--ocean-unit)) 1fr;gap:calc(14 * var(--ocean-unit));padding:calc(13 * var(--ocean-unit)) 0;border-bottom-width:var(--ocean-unit)}
+  .ocean-stage .inside-parts dt{font-size:var(--ocean-label);padding-top:calc(2 * var(--ocean-unit))}
+  .ocean-stage .inside-parts dd{gap:calc(5 * var(--ocean-unit))}
+  .ocean-stage .inside-parts b,.ocean-stage .inside-parts span{font-size:calc(16 * var(--ocean-unit));line-height:1.6}
+  .ocean-stage .story-scroll .inside-note{font-size:var(--ocean-label)!important;letter-spacing:.08em}
+  .ocean-stage .signal-route{gap:calc(22 * var(--ocean-unit));margin:calc(28 * var(--ocean-unit)) 0}
+  .ocean-stage .signal-route>div:not(.signal-path){gap:calc(12 * var(--ocean-unit))}
+  .ocean-stage .signal-route>div>span:last-child{font-size:var(--ocean-label);letter-spacing:.08em}
+  .ocean-stage .signal-route .signal-node{width:calc(36 * var(--ocean-unit));height:calc(36 * var(--ocean-unit));font-size:calc(24 * var(--ocean-unit));border-width:var(--ocean-unit)}
+  .ocean-stage .signal-path,.ocean-stage .signal-path i{height:var(--ocean-unit)}
+  .ocean-stage .signal-receiver{height:calc(36 * var(--ocean-unit));gap:calc(5 * var(--ocean-unit));padding:calc(6 * var(--ocean-unit))}
+  .ocean-stage .signal-receiver i{width:calc(3 * var(--ocean-unit));height:calc(10 * var(--ocean-unit))}
+  .ocean-stage .signal-receiver i:nth-child(2){height:calc(17 * var(--ocean-unit))}
+  .ocean-stage .signal-receiver i:nth-child(3){height:calc(24 * var(--ocean-unit))}
+  .ocean-stage .signal-facts{gap:calc(20 * var(--ocean-unit));padding:calc(20 * var(--ocean-unit)) 0;border-width:var(--ocean-unit)}
+  .ocean-stage .signal-facts>div{gap:calc(10 * var(--ocean-unit))}
+  .ocean-stage .signal-facts strong{font-size:calc(34 * var(--ocean-unit))}
+  .ocean-stage .signal-facts strong span{font-size:calc(20 * var(--ocean-unit))}
+  .ocean-stage .signal-facts>div>span{font-size:var(--ocean-label);letter-spacing:.08em}
+  .ocean-stage .story-scroll .signal-note{font-size:var(--ocean-label);line-height:1.75;margin:calc(17 * var(--ocean-unit)) 0 calc(9 * var(--ocean-unit))}
+
+  .ocean-stage .ocean-chapters{width:calc(64 * var(--ocean-unit));max-width:none;right:1.5vw;left:auto;top:50%;gap:calc(8 * var(--ocean-unit));flex-direction:column;transform:translateY(-50%)}
+  .ocean-stage .ocean-chapters a{width:100%;min-width:0;min-height:calc(44 * var(--ocean-unit));padding:calc(8 * var(--ocean-unit)) calc(4 * var(--ocean-unit));gap:calc(11 * var(--ocean-unit));font-size:var(--ocean-label);line-height:1.5;text-shadow:0 var(--ocean-unit) calc(7 * var(--ocean-unit)) #002c3fcc}
+  .ocean-stage .ocean-chapters i{width:calc(15 * var(--ocean-unit));height:calc(2 * var(--ocean-unit));border-radius:calc(2 * var(--ocean-unit));box-shadow:0 var(--ocean-unit) calc(6 * var(--ocean-unit)) #002c3f99}
+  .ocean-stage .ocean-chapters a[aria-current=step] i{width:calc(26 * var(--ocean-unit));height:calc(2 * var(--ocean-unit))}
+  .ocean-stage .ocean-chapters a::after{right:calc(100% + 16 * var(--ocean-unit));padding:calc(10 * var(--ocean-unit)) calc(13 * var(--ocean-unit));font-size:var(--ocean-label);border-width:var(--ocean-unit);border-radius:calc(8 * var(--ocean-unit))}
+  .ocean-stage .ocean-chapters .ocean-chapters-skip{width:100%;min-width:0;height:calc(70 * var(--ocean-unit));margin-top:calc(8 * var(--ocean-unit));padding:0;gap:calc(3 * var(--ocean-unit));font-size:var(--ocean-label)}
+  .ocean-stage .ocean-chapters .ocean-chapters-skip-label{font-size:var(--ocean-label);top:calc(5 * var(--ocean-unit));line-height:1.2}
+  .ocean-stage .ocean-chapters-skip-icon{stroke-width:calc(1.25 * var(--ocean-unit))}
+  .ocean-stage .ocean-chapters-skip-current{stroke-width:calc(1.5 * var(--ocean-unit))}
+  .ocean-stage .ocean-chapters-skip-trail{stroke-width:calc(2.6 * var(--ocean-unit))}
+  .ocean-stage :is(.ocean-scroll,.story-dive){left:50%;bottom:calc(var(--ocean-frame-top) + 24 * var(--ocean-unit));padding:calc(10 * var(--ocean-unit));gap:calc(5 * var(--ocean-unit));font-size:var(--ocean-label);line-height:1.6}
+  .ocean-stage :is(.ocean-scroll,.story-dive)>span{display:block;font-size:var(--ocean-label);letter-spacing:.08em;line-height:1.6}
+  .ocean-stage :is(.ocean-scroll,.story-dive)>.flexible-arrow{width:calc(18 * var(--ocean-unit));height:calc(40 * var(--ocean-unit))}
+  .ocean-stage .ocean-corner{display:block;font-size:var(--ocean-label);bottom:calc(var(--ocean-frame-top) + 37 * var(--ocean-unit));line-height:1.8}
+  .ocean-stage .ocean-corner-left{left:var(--ocean-gutter)}
+  .ocean-stage .ocean-corner-right{right:var(--ocean-gutter);bottom:calc(var(--ocean-frame-top) + 90 * var(--ocean-unit));font-size:var(--ocean-label)}
+  .ocean-stage :is(.sensor-model-note,.network-scene-note){display:block;font-size:var(--ocean-label);line-height:1.9}
+  .ocean-stage :is(.sensor-model-note,.network-scene-note) span{font-size:var(--ocean-label)}
+  .ocean-stage .sensor-model-note{right:calc(var(--ocean-frame-left) + 288 * var(--ocean-unit));bottom:calc(var(--ocean-frame-top) + 42 * var(--ocean-unit))}
+  .ocean-stage .network-scene-note{left:var(--ocean-gutter);top:calc(var(--ocean-frame-top) + 160 * var(--ocean-unit))}
+  .ocean-stage .buoy-annotation{width:calc(200 * var(--ocean-unit));transform:translate(calc(106 * var(--ocean-unit)),calc(-144 * var(--ocean-unit)))}
+  .ocean-stage .buoy-annotation.is-visible{transform:translate(calc(106 * var(--ocean-unit)),calc(-154 * var(--ocean-unit)))}
+  .ocean-stage .buoy-annotation>span{font-size:calc(31 * var(--ocean-unit));line-height:1.4}
+  .ocean-stage .sensor-hotspot{font-size:calc(15 * var(--ocean-unit));min-width:calc(56 * var(--ocean-unit));padding:calc(9 * var(--ocean-unit)) calc(13 * var(--ocean-unit));gap:calc(9 * var(--ocean-unit));border-width:var(--ocean-unit);border-radius:calc(30 * var(--ocean-unit))}
+  .ocean-stage .sensor-hotspot i{width:calc(5 * var(--ocean-unit));height:calc(5 * var(--ocean-unit));border-width:var(--ocean-unit)}
+  .ocean-stage .loading-indicator{font-size:var(--ocean-label);width:calc(240 * var(--ocean-unit));gap:calc(15 * var(--ocean-unit))}
+  .ocean-stage .loading-caption,.ocean-stage .loading-percentage{font-size:var(--ocean-label)}
+  .ocean-stage .loading-bar{height:calc(2 * var(--ocean-unit))}
+
+  .ocean-stage[data-shot=surface] .buoy-drawing{left:50%;top:50%;width:calc(702 * var(--ocean-unit))}
+  .ocean-stage[data-shot=detail] .buoy-drawing{left:calc(var(--ocean-frame-left) + 538 * var(--ocean-unit));top:50%;width:calc(972 * var(--ocean-unit))}
+  .ocean-stage[data-shot=sensing] .buoy-drawing{left:calc(var(--ocean-frame-left) + 1382 * var(--ocean-unit));top:calc(var(--ocean-frame-top) + 518 * var(--ocean-unit));width:calc(605 * var(--ocean-unit))}
+  .ocean-stage[data-shot=inside] .buoy-drawing{left:calc(var(--ocean-frame-left) + 1382 * var(--ocean-unit));top:50%;width:calc(800 * var(--ocean-unit))}
+  .ocean-stage .network-drawing{left:calc(var(--ocean-frame-left) + 19.2 * var(--ocean-unit));top:calc(var(--ocean-frame-top) + 162 * var(--ocean-unit));width:calc(1018 * var(--ocean-unit));height:calc(702 * var(--ocean-unit))}
+  .audio-control{right:calc(var(--ocean-frame-left) + 24 * var(--ocean-unit));bottom:calc(var(--ocean-frame-top) + 20 * var(--ocean-unit));gap:calc(10 * var(--ocean-unit))}
+  .audio-control button{font-size:var(--ocean-label);min-width:0;min-height:calc(44 * var(--ocean-unit));padding:calc(11 * var(--ocean-unit)) calc(16 * var(--ocean-unit));border-width:var(--ocean-unit);border-radius:calc(30 * var(--ocean-unit))}
+  .audio-control button>.audio-toggle-label{display:inline}
+  .audio-control .audio-toggle-icon{display:none}
+
+}

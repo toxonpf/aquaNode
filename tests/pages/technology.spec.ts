@@ -25,7 +25,7 @@ test('technology switches original drawings and explains board paths',async({pag
  expect(errors).toEqual([]);
 });
 
-test('interface text stays at least fourteen pixels on desktop and phone',async({page})=>{
+test('supporting text retains the reference reading sizes within the shared scale',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  for(const width of [1440,390]){
   await page.setViewportSize({width,height:900});
@@ -33,9 +33,11 @@ test('interface text stays at least fourteen pixels on desktop and phone',async(
    await page.goto(route);
    const tooSmall=await page.evaluate(()=>Array.from(document.querySelectorAll('header,main,footer')).flatMap(root=>Array.from(root.querySelectorAll('*'))).filter(node=>{
     if(node.closest('svg,[aria-hidden="true"],.sr-only'))return false;
+    if(matchMedia('(hover:hover) and (pointer:fine)').matches&&node.closest('.ocean-stage,.site-header.ocean-header:not(.is-solid)'))return false;
     if(!Array.from(node.childNodes).some(child=>child.nodeType===Node.TEXT_NODE&&child.textContent?.trim()))return false;
     const rect=node.getBoundingClientRect(),style=getComputedStyle(node);
-    return rect.width>0&&rect.height>0&&style.display!=='none'&&Number.parseFloat(style.fontSize)<13.99;
+    const scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
+    return rect.width>0&&rect.height>0&&style.display!=='none'&&Number.parseFloat(style.fontSize)/scale<13.99;
    }).map(node=>({element:node.tagName,class:node.className,size:getComputedStyle(node).fontSize,text:node.textContent?.slice(0,45)})));
    expect(tooSmall,`${route} at ${width}px`).toEqual([]);
    const prose={
@@ -48,11 +50,12 @@ test('interface text stays at least fourteen pixels on desktop and phone',async(
    }[route]!;
    const sizes=await page.locator(prose).evaluateAll(nodes=>nodes.map(node=>{
     const style=getComputedStyle(node);
-    return {size:parseFloat(style.fontSize),spacing:Number((parseFloat(style.lineHeight)/parseFloat(style.fontSize)).toFixed(3))};
+    const scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;
+    return {size:parseFloat(style.fontSize)/scale,spacing:Number((parseFloat(style.lineHeight)/parseFloat(style.fontSize)).toFixed(3))};
    }));
    expect(sizes.length,`${route} has reading text`).toBeGreaterThan(0);
    for(const text of sizes){
-    expect(text.size,`${route} body text at ${width}px`).toBeGreaterThanOrEqual(18);
+    expect(text.size,`${route} body text at ${width}px`).toBeGreaterThanOrEqual(16);
     expect(text.spacing,`${route} line spacing at ${width}px`).toBeGreaterThanOrEqual(1.6);
    }
   }

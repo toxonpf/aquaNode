@@ -23,7 +23,9 @@ export default function OceanSkip({onSkip}:{onSkip:()=>void}){
     const measure=()=>{
       if(!alive||!link.current||!label.current)return;
       const box=link.current.getBoundingClientRect(),text=label.current.getBoundingClientRect();
-      const next=geometry(box.width,box.height,text.right-box.left-5,text.bottom-box.top+3);
+      const desktop=matchMedia('(hover:hover) and (pointer:fine)').matches;
+      const unit=desktop?box.width/64:1;
+      const next=geometry(box.width/unit,box.height/unit,(text.right-box.left)/unit-5,(text.bottom-box.top)/unit+3);
       setShape(previous=>JSON.stringify(previous)===JSON.stringify(next)?previous:next);
     };
     const observer=new ResizeObserver(measure);observer.observe(link.current!);observer.observe(label.current!);

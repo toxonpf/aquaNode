@@ -3,4 +3,5 @@ dist/
 .npm-cache/
 test-results/
 playwright-report/
+artifacts/
 *.tsbuildinfo

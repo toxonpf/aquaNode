@@ -1,0 +1,32 @@
+/* One desktop typography and navigation scale for every route.
+   Font sizes are rem; 16 reference pixels correspond to a 1920px viewport.
+   Touch layouts keep their normal root size and independent responsive rules. */
+@media(hover:hover) and (pointer:fine){
+  html{font-size:.8333333333vw;scroll-padding-top:5.5rem}
+  :root{
+    --site-gutter:4.5vw;
+    --content-width:91vw;
+    --site-header-height:4rem;
+    --reading-size:1.125rem;
+    --section-space:5.25rem;
+    --layout-gap:4rem;
+  }
+  main.has-compact-header{padding-top:var(--site-header-height)}
+  html[lang] .site-header.site-header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);height:var(--site-header-height);padding-inline:var(--site-gutter);gap:1.75rem;border-bottom-width:.0625rem}
+  .site-header.site-header>.logo{grid-column:1;grid-row:1;justify-self:start}
+  html[lang] .site-header .logo .brand-mark{width:9.25rem}
+  html[lang] .site-header.site-header>nav{
+    display:flex;position:static;grid-column:2;grid-row:1;flex-direction:row;
+    align-items:center;justify-self:center;width:auto;max-height:none;overflow:visible;
+    padding:0;border:0;background:transparent;gap:1.375rem;font-size:.875rem;line-height:1.5;
+  }
+  html[lang] .site-header.site-header>nav a{font-size:.875rem;white-space:nowrap;min-height:0;padding-block:.75rem}
+  .site-header.site-header>nav a.active::after{left:0;right:0;bottom:.1875rem;width:auto;height:.0625rem}
+  .site-header.site-header>.header-tools{grid-column:3;grid-row:1;justify-self:end;gap:1.25rem}
+  html[lang] .site-header.site-header .header-cta{display:flex;align-items:center;font-size:.875rem;line-height:1.5;gap:1.125rem;padding:.6875rem 1rem;border-width:.0625rem;border-radius:.1875rem}
+  .site-header.site-header .header-cta>.flexible-arrow{width:2rem;height:1.25rem}
+  .site-header.site-header .menu-button{display:none}
+  .site-header.site-header .language-switch{width:4.875rem;height:2.25rem;padding:.1875rem;border-width:.0625rem;border-radius:1.875rem}
+  .site-header.site-header .language-switch::before{top:.1875rem;left:.1875rem;width:calc((100% - .375rem)/2);height:calc(100% - .375rem);border-radius:1.25rem}
+  .site-header.site-header .language-switch>button{font-size:.875rem;height:1.75rem;min-height:0;border-radius:1.25rem}
+}

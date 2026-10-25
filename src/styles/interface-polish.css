@@ -2,10 +2,10 @@
 .site-header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:28px}
 .site-header>.logo{justify-self:start;min-width:0}.site-header>nav{grid-column:2;justify-self:center}
 .header-tools{grid-column:3;display:flex;align-items:center;justify-content:flex-end;gap:18px;justify-self:end;min-width:0}
-.header-tools .header-cta{margin:0;gap:15px;font-size:14px}
-.header-tools .menu-button{order:3;white-space:nowrap;padding:8px 0;font-size:16px;line-height:1.5}
+.header-tools .header-cta{margin:0;gap:15px;font-size:0.875rem}
+.header-tools .menu-button{order:3;white-space:nowrap;padding:8px 0;font-size:1rem;line-height:1.5}
 .header-tools .language-switch{margin:0;gap:0}
-.header-tools .menu-button>span{display:inline-block;min-width:12px;text-align:center}
+.header-tools .menu-button>span{display:inline-block;min-width:0.75rem;text-align:center}
 @media(max-width:1320px){.header-tools .header-cta{display:none}}
 @media(max-width:1200px){
  .site-header{grid-template-columns:minmax(0,1fr) auto;column-gap:20px}
@@ -25,13 +25,13 @@
 .team-profile-image-portrait--timur-kuandykov{--member-photo-position:69% 61%}
 .team-profile-image-portrait--roman-benzler{--member-photo-position:66% 58%}
 .team-next-preview :is(.team-profile-photo-wave,.team-profile-photo-label,.team-profile-photo-index,.team-profile-photo-monogram){display:none}
-.team-member-portrait .team-profile-photo-label{max-width:calc(100% - 112px)}
+.team-member-portrait .team-profile-photo-label{max-width:calc(100% - 7rem)}
 .team-portrait-flight .team-member-portrait{pointer-events:none}
 
 /* A lightweight exit control on the existing reserved toolbar above the portrait. */
 .team-dialog-close{top:0;right:0;height:42px;gap:12px;padding:0 0 0 12px;border:0;border-radius:0;background:transparent;color:#edf2df;letter-spacing:.01em;line-height:1.2}
-.team-dialog-close .team-close-label{font-size:14px;line-height:1.2;font-weight:400}
-.team-dialog-close kbd{font-family:inherit;font-size:14px;font-weight:400;line-height:1;padding:5px 7px;border:1px solid #d8e5d44d;border-radius:4px;color:#b1c7bd}
+.team-dialog-close .team-close-label{font-size:0.875rem;line-height:1.2;font-weight:400}
+.team-dialog-close kbd{font-family:inherit;font-size:0.875rem;font-weight:400;line-height:1;padding:5px 7px;border:1px solid #d8e5d44d;border-radius:4px;color:#b1c7bd}
 .team-dialog-close .team-close-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid #d8e5d477;background:#cbdcc00a;transition:background .35s,color .35s,border-color .35s}
 .team-close-icon>svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;transition:transform .45s cubic-bezier(.2,.7,.3,1)}
 .team-dialog-close:is(:hover,:focus-visible) .team-close-icon{color:#173f3c;background:#dbe9bd;border-color:#dbe9bd}
@@ -42,7 +42,7 @@
 /* Arrow tips stay attached to the tangent; only the flexible shaft carries the wave. */
 .flexible-arrow--up{width:22px;height:48px}
 .flow>div:after{display:none}.flow>div>.flexible-arrow{position:absolute;right:0;top:18px;width:28px;height:18px;color:#71917b}
-.viewer-controls button:has(>.flexible-arrow){display:grid;place-items:center;min-width:44px}.viewer-controls button>.flexible-arrow{width:25px;height:20px}
+.viewer-controls button:has(>.flexible-arrow){display:grid;place-items:center;min-width:2.75rem}.viewer-controls button>.flexible-arrow{width:1.5625rem;height:1.25rem;max-width:100%}
 .about-recognition-note a{display:inline-flex;align-items:center;gap:7px}.about-recognition-note a>.flexible-arrow{width:25px;height:18px}
 .build-files-link>.flexible-arrow{width:32px;height:21px}.build-status-mark>.flexible-arrow{width:28px;height:23px}
 .build-guide-nav nav a>.flexible-arrow{width:25px;height:19px;margin-left:auto}

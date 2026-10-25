@@ -6,27 +6,27 @@ html[lang=ru] main h2{letter-spacing:-.035em}
 html[lang=ru] main h3{letter-spacing:-.02em}
 html[lang=ru] .kicker{letter-spacing:.04em}
 html[lang=ru] .site-header nav{gap:20px}
-html[lang=ru] .site-header nav a{font-size:14px}
-html[lang=ru] .header-cta{font-size:14px;gap:16px}
-html[lang=ru] .ocean-chapters-skip-label{font-size:14px;letter-spacing:0;white-space:nowrap}
-html[lang=ru] .journal-cover-heading h2{font-size:clamp(25px,2.3vw,34px)}
-html[lang=ru] .journal-cover-chapter b{font-size:21px}
+html[lang=ru] .site-header nav a{font-size:0.875rem}
+html[lang=ru] .header-cta{font-size:0.875rem;gap:16px}
+html[lang=ru] .ocean-chapters-skip-label{font-size:0.875rem;letter-spacing:0;white-space:nowrap}
+html[lang=ru] .journal-cover-heading h2{font-size:clamp(1.5625rem,2.3vw,2.125rem)}
+html[lang=ru] .journal-cover-chapter b{font-size:1.3125rem}
 html[lang=ru] .journal-cover-chapter small{letter-spacing:0}
-html[lang=ru] .footer-invitation h2{font-size:clamp(36px,5vw,72px)}
+html[lang=ru] .footer-invitation h2{font-size:clamp(2.25rem,5vw,4.5rem)}
 @media(max-width:1200px){.site-header .menu-button{order:3}.site-header>.language-switch{margin-left:auto}}
 @media(max-width:1150px){html[lang=ru] .site-header nav{gap:14px}html[lang=ru] .site-header{gap:16px}html[lang=ru] .header-cta{display:none}}
-@media(max-width:760px){html[lang=ru] .site-header nav a{font-size:18px}html[lang=ru] .site-header .logo .brand-mark{width:134px}html[lang=ru] .journal-cover-chapter b{font-size:21px}.ocean-chapters a{width:44px;min-width:44px}}
+@media(max-width:760px){html[lang=ru] .site-header nav a{font-size:1.125rem}html[lang=ru] .site-header .logo .brand-mark{width:134px}html[lang=ru] .journal-cover-chapter b{font-size:1.3125rem}.ocean-chapters a{width:44px;min-width:2.75rem}}
 @media(max-width:760px){
- .site-header .menu-button{white-space:nowrap;padding-left:0;font-size:16px}
+ .site-header .menu-button{white-space:nowrap;padding-left:0;font-size:1rem}
  html[lang=ru] .feature-section-top{flex-wrap:wrap;gap:12px}
  html[lang=ru] .feature-section-top .kicker{white-space:normal}
  html[lang=ru] .feature-section-top>span{max-width:none;text-align:left}
- html[lang=ru] .reason-word{font-size:clamp(30px,8vw,48px)}
- html[lang=ru] .reason-caption{max-width:calc(100% - 50px);letter-spacing:.03em}
+ html[lang=ru] .reason-word{font-size:clamp(1.875rem,8vw,3rem)}
+ html[lang=ru] .reason-caption{max-width:calc(100% - 3.125rem);letter-spacing:.03em}
  html[lang=ru] .signal-route{gap:12px}
  html[lang=ru] .signal-route>div:not(.signal-path){min-width:0;flex-shrink:1;text-align:center}
  html[lang=ru] .signal-route>div>span:last-child{letter-spacing:0}
- html[lang=ru] .signal-path{min-width:35px}
+ html[lang=ru] .signal-path{min-width:2.1875rem}
  html[lang=ru] .story-dive>span{white-space:normal;text-align:center}
 }
 @media(max-width:760px){html[lang=ru] .flow{grid-template-columns:repeat(2,minmax(0,1fr))}html[lang=ru] .flow>div{min-width:0}html[lang=ru] .flow p{overflow-wrap:anywhere}}

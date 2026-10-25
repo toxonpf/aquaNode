@@ -94,7 +94,7 @@ test('the showcase canvas lets wheel input scroll the page without zooming the b
   await page.setViewportSize({width:1440,height:1000});await page.goto('/');
   await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true',{timeout:25000});
   await page.getByRole('link',{name:'Skip buoy story',exact:true}).click();
-  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(64);
+  await expect.poll(()=>page.locator('.award').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
   const viewer=page.locator('.node-display .viewer');await viewer.scrollIntoViewIfNeeded();
   await expect(viewer).toHaveAttribute('data-scene-state','ready',{timeout:20000});
   const canvas=viewer.locator('canvas');await canvas.scrollIntoViewIfNeeded();

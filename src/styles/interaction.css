@@ -10,7 +10,7 @@
 main a.arrow-link[href^="#"]{align-items:center;line-height:1.4;padding-block:8px 4px;min-height:44px;gap:22px;max-width:100%}
 main a.arrow-link[href^="#"]>.flexible-arrow--down,main a.arrow-link[href^="#"]>.flexible-arrow--up{height:26px;width:15px}
 .build-hero .build-hero-actions{align-items:flex-end;gap:24px}
-.build-hero .build-hero-actions>a{display:inline-flex;align-items:center;justify-content:space-between;gap:22px;min-height:44px;padding:8px 0 4px;border-bottom:1px solid #b7ce9d80;color:#e0edc2;font-size:16px;font-weight:500;line-height:1.4;text-decoration:none}
+.build-hero .build-hero-actions>a{display:inline-flex;align-items:center;justify-content:space-between;gap:22px;min-height:44px;padding:8px 0 4px;border-bottom:1px solid #b7ce9d80;color:#e0edc2;font-size:1rem;font-weight:500;line-height:1.4;text-decoration:none}
 .build-hero .build-hero-actions>a:is(:hover,:focus-visible){color:#f1ffd0;border-color:#d2e5ae;background:transparent;text-decoration:none}
 .journal-stage{--action-hover:#194f35}
 .journal-stage .journal-entry-toggle{padding-inline:0;border:0;border-bottom:1px solid transparent;transition:color .25s,border-color .25s}

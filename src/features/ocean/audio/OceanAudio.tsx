@@ -113,5 +113,6 @@ export function OceanAudioProvider({children}:{children:ReactNode}){
 export function AudioToggle(){
   const {available,enabled,busy,error,environment,toggle}=useOceanAudio();
   if(!available)return null;
-  return <div className="audio-control" data-environment={environment}><button disabled={busy} onClick={toggle} aria-pressed={enabled}>{enabled?t("Ⅱ Sound on"):t("≈ Sound off")}</button>{error&&<span role="status">{t("Audio unavailable. Try again.")}</span>}</div>;
+  const label=enabled?t("Ⅱ Sound on"):t("≈ Sound off");
+  return <div className="audio-control" data-environment={environment}><button disabled={busy} onClick={toggle} aria-pressed={enabled} aria-label={label} title={label}><svg className="audio-toggle-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/>{enabled?<><path d="M16 8c2 2 2 6 0 8M19 5c4 4 4 10 0 14"/></>:<path d="m17 9 5 6m0-6-5 6"/>}</svg><span className="audio-toggle-label">{label}</span></button>{error&&<span role="status">{t("Audio unavailable. Try again.")}</span>}</div>;
 }

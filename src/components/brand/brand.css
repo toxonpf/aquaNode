@@ -3,6 +3,6 @@
 .site-header .logo .brand-mark{width:174px;height:auto;transition:width .35s ease}
 .site-header .logo .brand-mark svg{display:block}
 .site-header.is-solid .logo .brand-mark{width:148px}
-.page-curtain-wordmark>.brand-mark{width:clamp(220px,32vw,430px);max-width:calc(100vw - 70px);margin:0;color:#fff;font-size:inherit;letter-spacing:normal}
+.page-curtain-wordmark>.brand-mark{width:clamp(220px,32vw,430px);max-width:calc(100vw - 4.375rem);margin:0;color:#fff;font-size:inherit;letter-spacing:normal}
 @media(max-width:760px){.site-header.is-solid .logo .brand-mark{width:134px}.site-header .logo .brand-mark{width:148px}}
 @media(prefers-reduced-motion:reduce){.site-header .logo .brand-mark{transition:none}}

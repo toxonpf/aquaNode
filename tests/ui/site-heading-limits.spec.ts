@@ -34,10 +34,10 @@ test('the team anchor is a generous target and lands the gallery below the heade
       await page.setViewportSize({width,height:900});await page.goto('/team');
       await page.locator('.site-header').getByRole('button',{name:'Русский',exact:true}).click();
       const link=page.locator('.team-meet-link');
-      expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(48);
+      expect(Math.round((await link.boundingBox())!.height)).toBeGreaterThanOrEqual(48);
       if(width<760)expect((await link.boundingBox())!.width).toBeGreaterThan(width*.8);
       await link.focus();await page.keyboard.press('Enter');
-      await expect.poll(()=>page.locator('#team-gallery').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(width<760?56:64);
+      await expect.poll(()=>page.locator('#team-gallery').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
       await expect(page.locator('#team-gallery')).toBeFocused();
       expect(await page.locator('.team-portrait-trigger').first().evaluate(node=>node.getBoundingClientRect().top)).toBeLessThan(500);
     }

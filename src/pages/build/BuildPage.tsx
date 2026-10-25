@@ -48,7 +48,37 @@ export default function BuildPage(){
   const guideElement=guideSteps.current;
   const target=document.getElementById(anchorTarget.id);
   if(!target)return;
-  let cancelled=false;
+  let cancelled=false,ready=false,alignedTop=NaN;
+  const schedule=()=>{
+   if(cancelled||!ready)return;
+   cancelAnimationFrame(frame);
+   let previous=NaN,stableFrames=0;
+   const alignWhenStable=()=>{
+    if(cancelled)return;
+    const top=window.scrollY+target.getBoundingClientRect().top;
+    stableFrames=Math.abs(top-previous)<.5?stableFrames+1:0;previous=top;
+    if(stableFrames<3){frame=requestAnimationFrame(alignWhenStable);return}
+    if(Math.abs(top-alignedTop)<.5)return;
+    alignedTop=top;
+    const headerBottom=document.querySelector('.site-header')?.getBoundingClientRect().bottom??0;
+    window.scrollTo({top:top-headerBottom-24,
+     behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+   };
+   frame=requestAnimationFrame(alignWhenStable);
+  };
+  // Scrolling can expose another font weight and start a second font load.
+  // Follow that reflow while the anchor owns scrolling, then yield to input.
+  const resize=new ResizeObserver(schedule);
+  const page=target.closest('.build-page');
+  if(page)resize.observe(page);
+  resize.observe(guideElement);
+  const interrupt=()=>{cancelled=true;cancelAnimationFrame(frame);resize.disconnect()};
+  const scrollKey=(event:KeyboardEvent)=>{if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key))interrupt()};
+  document.fonts.addEventListener('loadingdone',schedule);
+  window.addEventListener('wheel',interrupt,{passive:true});
+  window.addEventListener('touchstart',interrupt,{passive:true});
+  window.addEventListener('pointerdown',interrupt,{passive:true});
+  window.addEventListener('keydown',scrollKey);
   let frame=requestAnimationFrame(()=>{
    // Both the old and new panels must settle before measuring the anchor.
    // A native fragment jump uses the position before the accordion reflows.
@@ -58,15 +88,14 @@ export default function BuildPage(){
    const loaded=document.readyState==='complete'?Promise.resolve():new Promise<void>(resolve=>window.addEventListener('load',()=>resolve(),{once:true}));
    Promise.allSettled([loaded,document.fonts.ready,...transitions.map(animation=>animation.finished)]).then(()=>{
     if(cancelled)return;
-    frame=requestAnimationFrame(()=>{
-     if(cancelled)return;
-     const headerBottom=document.querySelector('.site-header')?.getBoundingClientRect().bottom??0;
-     window.scrollTo({top:window.scrollY+target.getBoundingClientRect().top-headerBottom-24,
-      behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
-    });
+    ready=true;schedule();
    });
   });
-  return()=>{cancelled=true;cancelAnimationFrame(frame)};
+  return()=>{
+   interrupt();document.fonts.removeEventListener('loadingdone',schedule);
+   window.removeEventListener('wheel',interrupt);window.removeEventListener('touchstart',interrupt);
+   window.removeEventListener('pointerdown',interrupt);window.removeEventListener('keydown',scrollKey);
+  };
  },[anchorTarget]);
  const navigateToAnchor=(event:MouseEvent<HTMLAnchorElement>,id:string)=>{
   if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
@@ -113,7 +142,7 @@ export default function BuildPage(){
    <div className="build-section-top"><p className="kicker">{t("02 / FROM DESIGN TO TEST")}</p><span>{t("SEVEN STEPS. ONE CAREFUL SEQUENCE.")}</span></div>
    <div className="build-guide-heading"><Heading as="h2" id="build-guide-title">{t("One connection")}<br/>{t("at a time.")}</Heading><p>{t("Work from an unpowered inspection to individual measurement paths, then the complete system. Open a step for the details.")}</p></div>
    <div className="build-guide-layout">
-    <aside className="build-guide-nav"><span className="build-nav-label">{t("ASSEMBLY GUIDE")}</span><nav aria-label={t("Assembly steps")}>{guide.map((item,index)=><a key={item.label} href={`#step-${index}`} aria-current={openStep===index?'step':undefined} onClick={event=>navigateToAnchor(event,`step-${index}`)}><span>0{index+1}</span>{item.label}<FlexibleArrow direction="up-right"/></a>)}</nav><p>{t("Based on the supplied Russian engineering notes. Keep the original drawing and parts list alongside the guide.")}</p><a className="arrow-link" href="#downloads" onClick={event=>navigateToAnchor(event,'downloads')}>{t("Source materials")} <FlexibleArrow direction="down"/></a></aside>
+    <aside className="build-guide-nav"><span className="build-nav-label">{t("ASSEMBLY GUIDE")}</span><nav aria-label={t("Assembly steps")}>{guide.map((item,index)=><a key={item.label} href={`#step-${index}`} aria-current={openStep===index?'step':undefined} onClick={event=>navigateToAnchor(event,`step-${index}`)}><span>0{index+1}</span><span className="build-nav-copy">{item.label}</span><FlexibleArrow direction="up-right"/></a>)}</nav><p>{t("Based on the supplied Russian engineering notes. Keep the original drawing and parts list alongside the guide.")}</p><a className="arrow-link" href="#downloads" onClick={event=>navigateToAnchor(event,'downloads')}>{t("Source materials")} <FlexibleArrow direction="down"/></a></aside>
     <div className="build-guide-steps" ref={guideSteps}>{steps.map(([title,text],index)=><article className="build-step" id={`step-${index}`} key={title} data-open={openStep===index}><h3 className="build-step-heading"><button type="button" id={`build-step-toggle-${index}`} aria-expanded={openStep===index} aria-controls={`build-step-content-${index}`} onClick={()=>toggleStep(index)}><span className="build-step-number">0{index+1}</span><Heading as="span" className="build-step-title">{title}</Heading><FlexibleArrow direction="up-right"/></button></h3><div className="build-step-reveal" aria-hidden={openStep!==index} inert={openStep!==index}><div className="build-step-clip"><div className="build-step-content" id={`build-step-content-${index}`} role="region" aria-labelledby={`build-step-toggle-${index}`}><span className="build-step-phase">{guide[index].phase}</span><p>{text}</p><div className="build-checkpoint"><span>{t("BEFORE MOVING ON")}</span><p>{guide[index].check}</p></div></div></div></div></article>)}</div>
    </div>
   </section>

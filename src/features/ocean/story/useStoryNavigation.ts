@@ -2,8 +2,9 @@ import {useCallback,useEffect,useRef,useState,type RefObject} from 'react';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import gsap from 'gsap';
 import type {SceneShot} from '../sceneTypes';
-import {STORY_HOME_EVENT} from '../../../shared/navigation/pageScroll';
+import {STORY_HOME_EVENT,siteHeaderHeight} from '../../../shared/navigation/pageScroll';
 import {createPageScroller} from '../../../shared/navigation/pageScroller';
+import {readingMetrics} from './readingMetrics';
 
 export const chapters:SceneShot[]=['surface','detail','sensing','inside','signal'];
 const GESTURE_PAUSE=280;
@@ -36,7 +37,7 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
     const host=story.current;
     if(!host)return;
     let lastInput=-Infinity,lastDelta=0,edgeIntent=0,edgePulses=0,consumed=false,accumulated=0,direction=0,edgeUntil=0,gestureRead=false,keyRead=false;
-    let touch:{x:number;y:number;lastY:number;captured:boolean;blocked:boolean;read:boolean;edgeIntent:number}|null=null;
+    let touch:{x:number;y:number;lastY:number;captured:boolean;blocked:boolean;read:boolean}|null=null;
     let readerMotion:{node:HTMLElement;target:number;tween:gsap.core.Tween}|null=null;
     let pageMotion:gsap.core.Tween|null=null;
     let contentMotion:{target:number;tween:gsap.core.Tween}|null=null;
@@ -56,12 +57,12 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
       return {top:scrollY+host.getBoundingClientRect().top,height,step:(host.offsetHeight-height)/(chapters.length-1),bottom:scrollY+host.getBoundingClientRect().bottom};
     };
     let previousStep=dimensions().step;
-    const contentEdge=()=>dimensions().bottom-(innerWidth<=760?56:64);
+    const contentEdge=()=>dimensions().bottom-siteHeaderHeight();
     const updateReturnHint=()=>{
       const visible=contentMode&&exploredContent&&options.current.presented&&Math.abs(scrollY-contentEdge())<=2;
       if(visible){
         const award=document.querySelector<HTMLElement>('.award');
-        host.style.setProperty('--return-hint-top',`${(innerWidth<=760?56:64)+(award?.offsetHeight??70)+12}px`);
+        host.style.setProperty('--return-hint-top',`${siteHeaderHeight()+(award?.offsetHeight??70)+12}px`);
       }
       setReturnHint(visible);
     };
@@ -96,7 +97,7 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
     const skip=()=>{
       exploredContent=false;setReturnHint(false);
       const content=document.querySelector('.award')??document.querySelector('#progress');
-      if(content)scrollPage(scrollY+content.getBoundingClientRect().top-(innerWidth<=760?56:64));
+      if(content)scrollPage(scrollY+content.getBoundingClientRect().top-siteHeaderHeight());
     };
     const home=(event:Event)=>{
       event.preventDefault();contentMode=false;exploredContent=false;setReturnHint(false);select('surface');
@@ -114,7 +115,7 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
     };
     const canHandle=(delta:number)=>{
       const {top,bottom}=dimensions();
-      const exit=bottom-(innerWidth<=760?56:64);
+      const exit=bottom-siteHeaderHeight();
       const y=scrollY;
       const now=performance.now();
       const leavingGesture=edgeUntil>0&&(now<edgeUntil||now-lastInput<GESTURE_PAUSE);
@@ -159,17 +160,19 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
     };
     const atReadingEdge=(sign:number)=>{
       const reader=readerFor(current.current);
-      return !reader||(sign>0?reader.scrollHeight-reader.clientHeight-reader.scrollTop<=.5:reader.scrollTop<=.5);
+      if(!reader)return true;
+      const state=readingMetrics(reader);
+      return sign>0?state.atEnd:state.atStart;
     };
     const scrollReading=(delta:number)=>{
       const {top,step}=dimensions();
       if(scrollY<top-2||scrollY>top+step*(chapters.length-1)+2)return false;
       const reader=readerFor(current.current);
       if(!reader)return false;
-      const maximum=reader.scrollHeight-reader.clientHeight;
+      const {maximum,overflow,atStart,atEnd}=readingMetrics(reader);
+      if(!overflow||(delta>0?atEnd:atStart))return false;
       const position=readerMotion?.node===reader?readerMotion.target:reader.scrollTop;
       const next=Math.max(0,Math.min(maximum,position+delta));
-      if(maximum<2)return false;
       if(Math.abs(next-position)<.5)return !atReadingEdge(Math.sign(delta));
       stopReading();
       if(matchMedia('(prefers-reduced-motion: reduce)').matches){reader.scrollTop=next;return true}
@@ -194,7 +197,7 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
       if(next>=0&&next<chapters.length){navigate(chapters[next],sign<0?'end':'start');return}
       if(next>=chapters.length){
         edgeUntil=performance.now()+800;
-        scrollPage(bottom-(innerWidth<=760?56:64));
+        scrollPage(bottom-siteHeaderHeight());
       }else if(top>0){
         edgeUntil=performance.now()+800;
         window.scrollTo({top:Math.max(0,top-dimensions().height),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
@@ -270,7 +273,7 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
     const touchstart=(event:TouchEvent)=>{
       stopDocument();
       if(event.touches.length!==1||(event.target as Element)?.closest?.('.site-header')){touch=null;return}
-      touch={x:event.touches[0].clientX,y:event.touches[0].clientY,lastY:event.touches[0].clientY,captured:false,blocked:blocked(),read:false,edgeIntent:0};
+      touch={x:event.touches[0].clientX,y:event.touches[0].clientY,lastY:event.touches[0].clientY,captured:false,blocked:blocked(),read:false};
     };
     const touchmove=(event:TouchEvent)=>{
       if(!touch||event.touches.length!==1)return;
@@ -285,12 +288,10 @@ export function useStoryNavigation(story:RefObject<HTMLDivElement|null>,presente
         return;
       }
       if(touch.blocked||blocked())return;
-      if(scrollReading(delta)){touch.read=true;touch.edgeIntent=0;return}
-      if(touch.read){
-        if(!atReadingEdge(Math.sign(dy)))return;
-        touch.edgeIntent+=Math.sign(dy)*delta;
-        if(touch.edgeIntent<60)return;
-      }
+      if(scrollReading(delta)){touch.read=true;return}
+      // Finishing a short, scaled reader must not spend the remaining distance
+      // of the same swipe on advancing the scene. The next swipe can advance.
+      if(touch.read)return;
       // Consume the complete swipe, including any moves during the camera tween.
       if(Math.abs(dy)<30||touch.blocked)return;
       touch.blocked=true;consumed=true;lastInput=performance.now();

@@ -1,4 +1,4 @@
-// Explicit cascade order: component styles, reading scale, language, then interaction overrides.
+// Component styles, reading scale, language, interaction, then shared viewport rules.
 import '../components/ui/heading.css';
 import '../styles/base.css';
 import '../features/ocean/styles/ocean.css';
@@ -18,6 +18,7 @@ import '../shared/motion/text-reveal.css';
 import '../pages/about/about.css';
 import '../pages/about/learning-lab.css';
 import '../pages/technology/technology.css';
+import '../pages/technology/technology-hero.css';
 import '../pages/build/build.css';
 import '../pages/journal/journal.css';
 import '../features/i18n/language-switch.css';
@@ -29,3 +30,6 @@ import '../styles/interface-polish.css';
 import '../components/ui/animated-height.css';
 import '../pages/team/profile-details.css';
 import '../styles/interaction.css';
+import '../styles/responsive.css';
+import '../features/ocean/styles/desktop-composition.css';
+import '../styles/desktop-scale.css';

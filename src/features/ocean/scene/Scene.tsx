@@ -12,6 +12,7 @@ import SignalPulse from './SignalPulse';
 import BuoyNetwork from './BuoyNetwork';
 import {sampleOcean,oceanImmersion} from './ocean';
 import Ocean from './OceanSurface';
+import {desktopOceanFov} from './desktopFraming';
 
 type Props={hero:boolean;active:number;angle:number;expanded:boolean;enableZoom?:boolean;onUnavailable:()=>void;onReady?:()=>void;onProgress?:(progress:number)=>void;shot?:SceneShot;showInside?:boolean;sensor?:SensorKind;onSensorChange?:(sensor:SensorKind)=>void;onShotSettled?:(shot:SceneShot)=>void;onBuoyAnchor?:BuoyAnchorHandler;onImmersionChange?:(value:number)=>void};
 
@@ -53,15 +54,23 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
   const camera=sceneCamera as PerspectiveCamera;
   const target=useRef({x:0,y:0,z:0});
   const first=useRef(true);
-  const mobile=size.width<=760;
+  const previousShot=useRef<SceneShot|null>(null);
+  const [finePointer,setFinePointer]=useState(()=>matchMedia('(hover:hover) and (pointer:fine)').matches);
+  useEffect(()=>{
+    const media=matchMedia('(hover:hover) and (pointer:fine)'),update=()=>setFinePointer(media.matches);
+    media.addEventListener('change',update);return()=>media.removeEventListener('change',update);
+  },[]);
+  const mobile=size.width<=760&&!finePointer;
   const compactMobile=mobile&&size.height<780;
   useEffect(()=>{
     const detail=shot==='detail';
-    // Reserve the reading column while keeping the outer buoys inside narrow viewports.
-    const signalDistance=Math.max(1,2/(size.width/size.height))*(size.width<1600?1.1:1);
-    const signalLookX=size.width<1600?8.5:4.3;
-    const insideDistance=Math.max(1,1.5/(size.width/size.height));
-    const insideLookX=size.width<1050?-1.9:-1.55;
+    const proportional=!mobile&&finePointer;
+    // Desktop keeps the reference viewpoint. Only its projection fits the frame;
+    // resolution breakpoints previously moved the network and cutaway separately.
+    const signalDistance=proportional?1.125:Math.max(1,2/(size.width/size.height))*(size.width<1600?1.1:1);
+    const signalLookX=proportional?4.3:size.width<1600?8.5:4.3;
+    const insideDistance=proportional?1:Math.max(1,1.5/(size.width/size.height));
+    const insideLookX=proportional?-1.55:size.width<1050?-1.9:-1.55;
     const destination=shot==='signal'
       ?mobile?{x:0,y:75,z:35,tx:0,ty:-75,tz:0,fov:48}:{x:2,y:25*signalDistance,z:15*signalDistance,tx:signalLookX,ty:0,tz:0,fov:43}
       :shot==='inside'
@@ -71,6 +80,8 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
       :detail
       ?mobile?{x:1,y:2.65,z:10.4,tx:0,ty:-1.1,tz:0,fov:48}:{x:2.8,y:3.15,z:7.2,tx:1.95,ty:.6,tz:0,fov:42}
       :{x:0,y:12.8,z:7.2,tx:0,ty:0,tz:0,fov:42};
+    if(proportional)destination.fov=desktopOceanFov(destination.fov,size.width,size.height);
+    const resized=previousShot.current===shot;previousShot.current=shot;
     const rig={x:camera.position.x,y:camera.position.y,z:camera.position.z,tx:target.current.x,ty:target.current.y,tz:target.current.z,fov:camera.fov};
     const apply=()=>{
       camera.position.set(rig.x,rig.y,rig.z);
@@ -80,13 +91,13 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
       camera.updateProjectionMatrix();
       invalidate();
     };
-    if(first.current&&shot==='surface'){
+    if(resized||first.current&&shot==='surface'){
       first.current=false;Object.assign(rig,destination);apply();onSettled?.(shot);return;
     }
     first.current=false;
     const tween=gsap.to(rig,{...destination,duration:shot==='sensing'?2.2:1.8,ease:'power3.inOut',onUpdate:apply,onComplete:()=>onSettled?.(shot)});
     return()=>{tween.kill()};
-  },[shot,mobile,compactMobile,size.width,size.height,camera,invalidate,onSettled]);
+  },[shot,mobile,compactMobile,finePointer,size.width,size.height,camera,invalidate,onSettled]);
   return null;
 }
 

@@ -2,6 +2,7 @@ import {t} from '../../i18n/i18n';
 import FlexibleArrow from '../../../components/ui/FlexibleArrow';
 import {useEffect,useRef,useState,type ReactNode} from 'react';
 import type {SceneShot} from '../sceneTypes';
+import {readingMetrics} from './readingMetrics';
 
 export default function StoryPanel({chapter,className,label,children}:{chapter:SceneShot;className:string;label:string;children:ReactNode}){
   const reader=useRef<HTMLDivElement>(null);
@@ -11,9 +12,9 @@ export default function StoryPanel({chapter,className,label,children}:{chapter:S
     const node=reader.current;
     if(!node)return;
     const measure=()=>{
-      const distance=node.scrollHeight-node.clientHeight;
-      setOverflow(distance>2);
-      setProgress(distance>2&&distance-node.scrollTop>.5?Math.min(.9999,Math.max(0,node.scrollTop/distance)):1);
+      const state=readingMetrics(node);
+      setOverflow(state.overflow);
+      setProgress(state.progress);
     };
     node.addEventListener('scroll',measure,{passive:true});
     const resize=new ResizeObserver(measure);

@@ -63,7 +63,7 @@ test('the animated boundary and return finish without crossing into an earlier s
  await page.setViewportSize({width:390,height:844});await page.goto('/');
  await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
  await page.getByRole('link',{name:'Skip buoy story',exact:true}).click();
- await expect.poll(()=>page.locator('.award').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(56);
+ await expect.poll(()=>page.locator('.award').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
  await expect(page.locator('.ocean-stage')).toHaveAttribute('data-camera-state','settled');
  const edge=await page.evaluate(()=>scrollY);
  const anchor=await page.locator('.ocean-story').evaluate(node=>node.offsetTop+node.offsetHeight-document.querySelector('.ocean-stage')!.clientHeight);
@@ -115,7 +115,7 @@ test('animated upward input never exposes the ocean before a deliberate second g
  await page.setViewportSize({width:390,height:844});await page.goto('/');
  await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
  await page.getByRole('link',{name:'Skip buoy story',exact:true}).click();
- await expect.poll(()=>page.locator('.award').evaluate(node=>Math.round(node.getBoundingClientRect().top))).toBe(56);
+ await expect.poll(()=>page.locator('.award').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().height??0)))).toBeLessThan(1);
  await expect(page.locator('.story-return-hint')).toHaveAttribute('data-visible','false');
  const edge=await page.evaluate(()=>scrollY);
  await page.evaluate(edge=>scrollTo({top:edge+80,behavior:'instant'}),edge);

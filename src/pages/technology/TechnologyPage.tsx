@@ -20,8 +20,9 @@ export default function TechnologyPage({renderViewer}:{renderViewer:()=>ReactNod
   const path=paths[active];
   return <div className="technology-page">
     <header className="page-intro tech-hero">
-      <div className="tech-section-top"><p className="kicker">{t("THE BUOY / TECHNOLOGY")}</p><span>{t("A SMALL SYSTEM. A CLEAR JOB.")}</span></div>
+      <div className="tech-section-top"><p className="kicker"><svg className="tech-hero-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 20c4-5 7-5 11 0s7 5 11 0M5 25c4-5 7-5 11 0s7 5 11 0M16 3v10m-5-5h10"/><circle cx="16" cy="8" r="6"/></svg><span>{t("THE BUOY / TECHNOLOGY")}</span></p><span className="tech-hero-status"><i aria-hidden="true"/>{t("CONCEPT MODEL")}</span></div>
       <div className="tech-hero-layout"><Heading as="h1">{t("Inside the buoy.")}</Heading><div className="tech-hero-copy"><p>{t("Explore the device, then follow the measurement and power paths in the R0.3 carrier design.")}</p><a className="arrow-link" href="#tech-carrier">{t("Follow the connections")}<FlexibleArrow direction="down"/></a></div>
+      <dl className="tech-hero-specs"><div><dt>{t("IN THE WATER")}</dt><dd>pH <span>+</span> °C</dd></div><div><dt>{t("THE CARRIER")}</dt><dd>R0.3</dd></div><div><dt>{t("BOARD SIZE")}</dt><dd>80 × 60 <span>mm</span></dd></div></dl>
       <div className="tech-model"><div className="tech-model-top"><span>{t("01 / EXPLORE THE DEVICE")}</span><span>{t("CONCEPT MODEL")}</span></div>{renderViewer()}</div></div>
       <div className="tech-hero-foot"><span>{t("FLOAT · PROTECT · OBSERVE")}</span><p>{t("The model illustrates the arrangement. The engineering drawings below document the R0.3 board.")}</p></div>
     </header>
