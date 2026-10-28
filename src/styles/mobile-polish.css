@@ -1,0 +1,31 @@
+@media(max-width:760px){
+ :root{--site-header-height:calc(56px + env(safe-area-inset-top))}
+ html[lang] .site-header.site-header{height:var(--site-header-height);padding-top:env(safe-area-inset-top)}
+ main.has-compact-header{padding-top:var(--site-header-height)}
+ html[lang] .site-header.site-header>nav.open{top:100%;max-height:calc(100dvh - var(--site-header-height));padding-bottom:calc(20px + env(safe-area-inset-bottom));box-shadow:0 16px 28px #062c3f18}
+ html[lang] .site-header.site-header>nav.open>a{font-size:17px;min-height:48px;padding-block:12px}
+ .site-header .menu-button{min-width:60px;min-height:44px}
+ .site-header .language-switch>button{min-height:30px}
+ .ocean-stage :is(.ocean-scroll,.story-dive){min-height:52px;bottom:calc(12px + env(safe-area-inset-bottom))}
+ .ocean-stage :is(.ocean-scroll,.story-dive)>span{font-size:14px;letter-spacing:.025em}
+ .ocean-stage :is(.buoy-introduction,.sensor-introduction,.inside-introduction,.signal-introduction){padding-bottom:calc(122px + env(safe-area-inset-bottom))}
+ .ocean-stage .story-reading-status{font-size:13px}
+ .audio-control{bottom:calc(12px + env(safe-area-inset-bottom))}
+ .award{flex-wrap:wrap;gap:12px 16px;padding-block:20px}
+ .award p{flex:1;font-size:15px;line-height:1.6;min-width:0}
+ .award .external-inline{margin-left:0;width:100%;justify-content:space-between;padding-left:36px;min-height:44px}
+ .node-parts>button{min-height:52px}
+ .footer-directory nav a{min-height:48px}
+ .team-portrait-open{min-height:44px;font-size:12px;padding:10px 12px}
+ .team-member-portrait.team-profile-image-portrait>img{object-position:66% 35%}
+ .team-member-portrait.team-profile-image-portrait--roman-benzler>img{object-position:66% 25%}
+ .team-dialog-close{height:44px;min-height:44px}
+ .team-dialog-close .team-close-icon{width:44px;height:44px}
+ .team-profile-info-viewport{overscroll-behavior:contain;scroll-padding:20px}
+ .team-profile-pagination>button{min-height:48px;padding-block:10px}
+ .build-guide-nav nav a{min-height:56px}
+}
+@media(max-width:760px) and (max-height:500px){
+ .ocean-stage :is(.buoy-introduction,.sensor-introduction,.inside-introduction,.signal-introduction){padding-bottom:64px}
+ .ocean-stage :is(.ocean-scroll,.story-dive)>span{display:none}
+}

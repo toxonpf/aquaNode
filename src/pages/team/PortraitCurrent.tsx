@@ -43,8 +43,12 @@ export function syncPortraitCurrent(figure:Element){
   const x=(photo.width-1000*scale)*(position[0]??.5),y=(photo.height-imageHeight*scale)*(position[1]??.5);
   const transform=`translate(${photo.left+photo.width} ${photo.top}) scale(-1 1) translate(${x} ${y}) scale(${scale})`;
   svg.setAttribute('viewBox',`0 0 ${width} ${height}`);
-  const fit=Math.min(width/400,height/500);
-  svg.querySelector('.portrait-current-curves')?.setAttribute('transform',svg.dataset.composition==='photo'?transform:`translate(${(width-400*fit)/2} ${(height-500*fit)/2}) scale(${fit})`);
+  svg.querySelector('.portrait-current-curves')?.setAttribute('transform',transform);
+  // Timur's original frame drawing is mapped back into photo coordinates.
+  // Keeping that reference fixed makes the curve follow the face while the
+  // profile changes from a tall card to a shorter crop, including flight copies.
+  const referenceY=(500-imageHeight*.4)*.35;
+  svg.querySelector('.portrait-current-artwork')?.setAttribute('transform',svg.dataset.reference==='frame'?`translate(1000 ${-referenceY/.4}) scale(-2.5 2.5)`:'');
 }
 
 export default function PortraitCurrent({slug}:{slug:string}){
@@ -68,10 +72,10 @@ export default function PortraitCurrent({slug}:{slug:string}){
 
   const roman=slug==='roman-benzler';
   const curves=roman?[romanCurve,romanCurve,romanCurve]:timurCurves;
-  return <svg ref={host} className="team-profile-photo-wave" data-composition={roman?'photo':'frame'} viewBox="0 0 400 500" fill="none" preserveAspectRatio="none" aria-hidden="true">
-      <g className="portrait-current-curves">{curves.map((curve,index)=><g key={index} transform={roman?`translate(${index*20} ${index*29})`:undefined}>
+  return <svg ref={host} className="team-profile-photo-wave" data-composition="photo" data-reference={roman?'photo':'frame'} viewBox="0 0 400 500" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <g className="portrait-current-curves"><g className="portrait-current-artwork">{curves.map((curve,index)=><g key={index} transform={roman?`translate(${index*20} ${index*29})`:undefined}>
         <path className="portrait-current-line" d={curve}/>
         <path className="portrait-current-flow" pathLength="100" d={curve}/>
-      </g>)}</g>
+      </g>)}</g></g>
   </svg>;
 }

@@ -22,45 +22,37 @@ test('desktop projection keeps the reference shot inside the same scaled frame',
   }
 });
 
-test('all five desktop scenes share proportional text, panels and navigation',async({page})=>{
+test('all five scenes keep readable UI and reflow across viewport shapes',async({page})=>{
   test.setTimeout(120000);
   await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:1920,height:1080});await page.goto('/');
   const stage=page.locator('.ocean-stage');
   for(const language of ['Русский','English']){
     await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
     await page.evaluate(()=>document.fonts.ready);
-    const reference=new Map<string,{x:number;y:number;width:number;height:number;font:number;body:number;content:number;lines:number[]}>();
-    for(const [width,height] of viewports){
+    for(const [width,height] of [...viewports,[1430,983],[1024,1366],[768,1024],[844,390],[390,844]]){
       await page.setViewportSize({width,height});
       for(const [href,chapter] of chapters){
         await page.locator(`.ocean-chapters a[href="${href}"]`).click();
         await expect(stage).toHaveAttribute('data-camera-state','settled');
         await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));
         const metrics=await page.locator(`[data-reader=${chapter}]`).evaluate(panel=>{
-          const reader=panel.querySelector<HTMLElement>('[data-story-scroll]')!,heading=reader.querySelector('h2')!,body=reader.querySelector('p:not(.kicker)')!,r=panel.getBoundingClientRect();
-          const lines=[...reader.querySelectorAll('p,h2,h3,.sensor-picker small')].map(node=>Math.round(node.getBoundingClientRect().height/parseFloat(getComputedStyle(node).lineHeight)));
-          return {x:r.x,y:r.y,width:r.width,height:r.height,font:parseFloat(getComputedStyle(heading).fontSize),body:parseFloat(getComputedStyle(body).fontSize),content:reader.scrollHeight,lines};
+          const reader=panel.querySelector<HTMLElement>('[data-story-scroll]')!,heading=reader.querySelector('h2')!,body=reader.querySelector('p:not(.kicker)')!,r=reader.getBoundingClientRect();
+          const rows=new Set([...heading.querySelectorAll('.heading-word-mask')].map(word=>Math.round(word.getBoundingClientRect().top)));
+          const navigation=document.querySelector('.ocean-chapters')!.getBoundingClientRect();
+          return {x:r.x,y:r.y,right:r.right,height:r.height,body:parseFloat(getComputedStyle(body).fontSize),rows:rows.size,navHorizontal:navigation.width>navigation.height,navBottom:navigation.bottom};
         });
-        if(width===1920){reference.set(chapter,metrics);continue}
-        const base=reference.get(chapter)!,scale=Math.min(width/1920,height/1080),top=(height-1080*scale)/2;
-        const x=['detail','signal'].includes(chapter)?width*.955-base.width*scale:width*.045;
-        expect(Math.abs(metrics.x-x)/scale,`${chapter} x at ${width}`).toBeLessThan(2);
-        expect(Math.abs((metrics.y-top)/scale-base.y),`${chapter} y at ${width}`).toBeLessThan(3);
-        expect(Math.abs(metrics.width/scale-base.width),`${chapter} width at ${width}`).toBeLessThan(2);
-        expect(Math.abs(metrics.height/scale-base.height),`${chapter} height at ${width}`).toBeLessThan(3);
-        expect(Math.abs(metrics.font/scale-base.font),`${chapter} font at ${width}`).toBeLessThan(.6);
-        expect(metrics.body/scale).toBeCloseTo(base.body,1);
-        expect(metrics.lines,`${chapter} line wrapping at ${width}`).toEqual(base.lines);
-        // Integer scrollHeight and border rounding accumulate at tiny CSS sizes.
-        expect(Math.abs(metrics.content/scale-base.content),`${chapter} content proportions at ${width}`).toBeLessThan(Math.max(20,8/scale));
+        expect(metrics.x,`${chapter} left at ${width}`).toBeGreaterThanOrEqual(0);
+        expect(metrics.right,`${chapter} right at ${width}`).toBeLessThanOrEqual(width);
+        expect(metrics.body,`${chapter} readable copy at ${width}`).toBeGreaterThanOrEqual(16);
+        expect(metrics.rows,`${chapter} heading rows at ${width}`).toBeLessThanOrEqual(2);
+        expect(metrics.height).toBeGreaterThanOrEqual(64);
+        if(metrics.navHorizontal)expect(metrics.y,`${chapter} clears chapter navigation at ${width}`).toBeGreaterThanOrEqual(metrics.navBottom+4);
       }
       await page.locator('.ocean-chapters a[href="#ocean-title"]').click();
-      const scale=Math.min(width/1920,height/1080);
-      expect(await page.locator('.buoy-annotation>span').evaluate(node=>parseFloat(getComputedStyle(node).fontSize))).toBeCloseTo(31*scale,1);
-      expect((await page.locator('.ocean-chapters').boundingBox())!.width).toBeCloseTo(64*scale,1);
-      expect(await page.locator('.ocean-chapters-skip-label').evaluate(node=>parseFloat(getComputedStyle(node).fontSize))).toBeCloseTo(14*scale,1);
-      expect((await page.locator('.site-header').boundingBox())!.height).toBeCloseTo(64*width/1920,1);
-      await expect(page.locator('.site-header>nav')).toBeVisible();
+      expect(await page.locator('.buoy-annotation>span').evaluate(node=>parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(24);
+      expect(await page.locator('.ocean-chapters-skip-label').evaluate(node=>parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(12);
+      expect((await page.locator('.site-header').boundingBox())!.height).toBeCloseTo(width<=760?56:64,1);
+      await expect(page.locator(width>1180?'.site-header>nav':'.site-header .menu-button')).toBeVisible();
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     }
   }

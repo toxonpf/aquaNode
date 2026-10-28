@@ -18,9 +18,11 @@ export function useTextReveal(key:string){
     const ctx=gsap.context(()=>{
       // The gallery owns portrait reveal and return opacity; a second tween
       // here can leave the restored card faded after an interrupted opening.
+      // Positioned diagram nodes and accordion hit areas stay stationary;
+      // their connections and native focus must not follow the copy's offset.
       const targets=gsap.utils.toArray<HTMLElement>(selector).filter(node=>
-        !node.closest('[inert],[aria-hidden=true],.page-curtain')&&
-        !node.matches('.team-portrait-trigger,.buoy-annotation,.story-dive,.ocean-chapters a,.story-return-hint')
+        !node.closest('[inert],[aria-hidden=true],.page-curtain,.atlas-map-shell')&&
+        !node.matches('.team-portrait-trigger,.buoy-annotation,.story-dive,.ocean-chapters a,.story-return-hint,.build-step-heading button,.circuit-node')
       );
       // Set the resting state during the layout phase, before the route can
       // paint beneath the page curtain. Previously the nodes painted once at

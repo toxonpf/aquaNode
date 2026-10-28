@@ -1,0 +1,20 @@
+.section-label.section-label{display:flex;align-items:center;gap:10px;min-width:0;line-height:1.5}
+.section-label>.section-icon{display:block;width:26px;height:26px;flex:0 0 auto;color:var(--section-icon-ink,#718e72);stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+.section-label>.section-label-text{min-width:0}
+:is(.dark,.ocean-stage,.about-hero,.tech-hero,.build-hero,.journal-hero,.team-hero) .section-label{--section-icon-ink:#c4d8ad}
+.page-intro>.section-label .section-icon,.page-intro>div>.section-label .section-icon{width:30px;height:30px}
+.tech-hero .tech-section-top .section-label{gap:12px}
+.tech-model-top>.section-label,.build-drawing-top>.section-label{margin:0;font-size:14px;letter-spacing:.03em}
+.tech-model-top>.section-label{--section-icon-ink:#c4d8ad}
+.team-hero-top>.section-label,.team-gallery-heading>.section-label{margin:0}
+.tech-drawing-chapter-label>.section-label{margin:0;font-size:15px;letter-spacing:0;color:inherit}
+.story-details article>.section-label{font-size:14px;letter-spacing:.035em}
+.story-details article>.section-label>.section-icon{width:22px;height:22px}
+.ocean-stage .ocean-corner.section-label{--section-icon-ink:#c4d8ad;gap:8px}
+.ocean-stage .ocean-corner.section-label>.section-icon{width:20px;height:20px}
+@media(max-width:760px){
+ .section-label.section-label{gap:9px}
+ .section-label>.section-icon{width:24px;height:24px}
+ .page-intro>div>.section-label .section-icon{width:26px;height:26px}
+ .team-gallery-heading>.section-label{font-size:14px;letter-spacing:.025em}
+}

@@ -8,7 +8,6 @@
 .tech-hero.page-intro::after{display:none}
 .tech-hero .tech-section-top{align-items:center;gap:20px;padding-bottom:16px;margin-bottom:0}
 .tech-hero .tech-section-top .kicker{display:flex;align-items:center;gap:12px;font-weight:400;letter-spacing:.06em;line-height:1.4}
-.tech-hero-mark{width:30px;height:30px;flex:none;stroke:#c4d8ad;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
 .tech-hero .tech-hero-status{display:flex;align-items:center;gap:9px;font-size:0.875rem;letter-spacing:.04em;color:#b5cec1}
 .tech-hero-status i{width:5px;height:5px;flex:none;border-radius:50%;background:#cadcad;box-shadow:0 0 0 4px #cadcad0c}
 .tech-hero-layout{
@@ -67,7 +66,6 @@
   .tech-hero.page-intro{padding-top:18px;--tech-scene-height:clamp(215px,32svh,290px)}
   .tech-hero .tech-section-top{padding-bottom:14px}
   .tech-hero .tech-section-top .kicker{gap:9px;font-size:0.875rem;letter-spacing:.025em}
-  .tech-hero-mark{width:25px;height:25px}
   .tech-hero .tech-hero-status{display:none}
   .tech-hero-layout{row-gap:22px;padding-block:24px}
   .tech-hero h1{font-size:clamp(2.375rem,10vw,3.25rem)}

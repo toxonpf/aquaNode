@@ -10,12 +10,12 @@ test('the new home sections work on desktop, tablet and phone without overflow',
     await expect(node.getByRole('button',{name:/03 Read the water/})).toHaveAttribute('aria-pressed','true');
     await expect(node.locator('[aria-pressed=true] .node-part-detail')).toContainText('pH and temperature');
     const future=page.locator('.future-section');
-    await future.getByRole('button',{name:'A future network',exact:true}).click();
-    await expect(future).toHaveClass(/is-network/);
-    await expect(future.locator('.future-description')).toContainText('More points.');
-    await expect(future.locator('.future-description')).not.toContainText('<br');
-    await future.getByRole('button',{name:'One buoy today',exact:true}).click();
-    await expect(future).not.toHaveClass(/is-network/);
+    await future.locator('.map-embed-toolbar').getByRole('button',{name:/Aktau/}).click();
+    await expect(future.locator('.atlas-map')).toBeVisible();
+    await expect(future.locator('.map-embed-toolbar [aria-pressed=true]')).toContainText('Aktau');
+    await expect(future.locator('.future-heading')).toContainText('Different shores');
+    await expect(future.locator('.map-embed-footer a')).toHaveAttribute('href','/map?region=aktau');
+    await expect(future.locator('.atlas-map-interaction')).not.toBeVisible();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
 });

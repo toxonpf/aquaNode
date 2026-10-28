@@ -2,14 +2,14 @@ import {test,expect} from '@playwright/test';
 
 const sizes=[
   [2560,1440],[1920,1080],[1440,900],[1366,768],[1280,800],
-  [1093,614],[1024,640],[911,512],[768,1024],[683,384],[430,932],[390,844],[360,740],[320,568],
+  [1430,983],[1093,614],[1024,1366],[1024,640],[911,512],[844,390],[768,1024],[683,384],[430,932],[390,844],[360,740],[320,568],
 ];
 const settle=()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
 
 test('all reading layouts fit desktop, scaled laptop and mobile viewports',async({page})=>{
   test.setTimeout(180000);
   await page.emulateMedia({reducedMotion:'reduce'});
-  for(const route of ['/','/about','/technology','/build','/journal','/team']){
+  for(const route of ['/','/about','/technology','/build','/journal','/team','/map']){
     await page.goto(route);
     for(const language of ['Русский','English']){
       await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
@@ -19,17 +19,18 @@ test('all reading layouts fit desktop, scaled laptop and mobile viewports',async
         const issues=await page.evaluate(()=>{
           const outside=[...document.querySelectorAll<HTMLElement>('main h1,main h2,main h3,main p,main a,main button')].flatMap(node=>{
             const rect=node.getBoundingClientRect(),style=getComputedStyle(node);
-            if(!rect.width||!rect.height||style.visibility==='hidden'||node.closest('.ocean-stage,[aria-hidden=true]'))return [];
+            if(!rect.width||!rect.height||style.visibility==='hidden'||node.closest('.ocean-stage,.atlas-map-shell,[aria-hidden=true]'))return [];
             return rect.left< -2||rect.right>innerWidth+2?[node.className+': '+node.textContent?.slice(0,50)]:[];
           });
           return {pageOverflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),outside};
         });
         expect.soft(issues,`${route}, ${language}, ${width} × ${height}`).toEqual({pageOverflow:0,outside:[]});
-        if(width>=1024){
+        expect(await page.evaluate(()=>parseFloat(getComputedStyle(document.documentElement).fontSize))).toBeGreaterThanOrEqual(14);
+        if(width>1180){
           await expect.soft(page.locator('.site-header>nav')).toBeVisible();
           const boxes=await page.locator('.site-header>.logo,.site-header>nav,.site-header>.header-tools').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right}}));
           expect.soft(boxes[0].right<=boxes[1].left&&boxes[1].right<=boxes[2].left,`header at ${width}`).toBe(true);
-        }
+        }else await expect.soft(page.locator('.site-header .menu-button')).toBeVisible();
       }
     }
   }

@@ -1,7 +1,6 @@
-/* Desktop ocean storyboard: one 1920×1080 composition, one shared scale.
-   1 design px = min(100vw / 1920, 100svh / 1080). No page zoom or transforms.
-   Touch devices retain their independent, readable responsive layout. */
-@media(hover:hover) and (pointer:fine){
+/* Wide ocean composition. Geometry follows the reference frame while reading
+   sizes have lower bounds. Compact/portrait windows use a separate layout. */
+@media(min-width:600px) and (min-aspect-ratio:6/5){
   .ocean-stage,.audio-control{
     --ocean-unit:min(.0520833333vw,.0925925926svh);
     --ocean-frame-width:calc(1920 * var(--ocean-unit));
@@ -9,8 +8,8 @@
     --ocean-frame-left:calc((100vw - var(--ocean-frame-width))/2);
     --ocean-frame-top:calc((100svh - var(--ocean-frame-height))/2);
     --ocean-gutter:var(--site-gutter);
-    --ocean-label:calc(14 * var(--ocean-unit));
-    --ocean-body:calc(18 * var(--ocean-unit));
+    --ocean-label:clamp(14px,calc(14 * var(--ocean-unit)),16px);
+    --ocean-body:clamp(16px,calc(18 * var(--ocean-unit)),20px);
   }
   .ocean-stage{font-size:var(--ocean-body);line-height:1.75}
   .ocean-stage :is(.buoy-introduction,.sensor-introduction,.inside-introduction,.signal-introduction){
@@ -21,7 +20,7 @@
   }
   .ocean-stage :is(.sensor-introduction,.inside-introduction){justify-content:flex-start;background:linear-gradient(90deg,#052630e8 0%,#052d37d9 31%,#052d3759 53%,transparent 73%)}
   .ocean-stage :is(.buoy-introduction,.signal-introduction){justify-content:flex-end;background:linear-gradient(90deg,transparent 30%,#073842a6 55%,#062d39eb)}
-  .ocean-stage .story-panel[data-reader]{width:calc(620 * var(--ocean-unit));max-width:none;margin:0;min-width:0}
+  .ocean-stage .story-panel[data-reader]{width:clamp(340px,calc(620 * var(--ocean-unit)),680px);max-width:44vw;margin:0;min-width:0}
   .ocean-stage .story-panel .story-scroll{
     width:100%;max-width:none;max-height:calc(698 * var(--ocean-unit));min-height:0;
     padding:calc(2 * var(--ocean-unit)) calc(16 * var(--ocean-unit)) calc(18 * var(--ocean-unit)) 0;
@@ -36,8 +35,8 @@
   .ocean-stage:not(.is-detail-ready) .buoy-copy,.ocean-stage:not(.is-sensing-ready) .sensor-copy,
   .ocean-stage:not(.is-inside-ready) .inside-copy,.ocean-stage:not(.is-signal-ready) .signal-copy{transform:translateY(calc(18 * var(--ocean-unit)))}
   .ocean-stage .story-scroll p:not(.kicker){font-size:var(--ocean-body);line-height:1.75;max-width:none;margin:0 0 calc(18 * var(--ocean-unit))}
-  .ocean-stage .story-panel h2{font-size:calc(56 * var(--ocean-unit));line-height:1.12;letter-spacing:-.035em;margin:0 0 calc(22 * var(--ocean-unit))}
-  .ocean-stage .story-panel h3{font-size:calc(24 * var(--ocean-unit));line-height:1.3;margin:calc(13 * var(--ocean-unit)) 0 calc(12 * var(--ocean-unit))}
+  .ocean-stage .story-panel h2{font-size:clamp(32px,calc(56 * var(--ocean-unit)),64px);line-height:1.12;letter-spacing:-.035em;margin:0 0 calc(22 * var(--ocean-unit))}
+  .ocean-stage .story-panel h3{font-size:clamp(20px,calc(24 * var(--ocean-unit)),28px);line-height:1.3;margin:calc(13 * var(--ocean-unit)) 0 calc(12 * var(--ocean-unit))}
   .ocean-stage .story-panel .kicker{font-size:var(--ocean-label);line-height:1.6;letter-spacing:.12em;margin:0 0 calc(22 * var(--ocean-unit))}
   .ocean-stage .story-panel .story-details{margin:calc(30 * var(--ocean-unit)) 0 calc(22 * var(--ocean-unit));border-top-width:var(--ocean-unit)}
   .ocean-stage .story-details article{padding:calc(25 * var(--ocean-unit)) 0;border-bottom-width:var(--ocean-unit)}
@@ -47,7 +46,7 @@
   .ocean-stage .story-reading-status>div{height:var(--ocean-unit);margin-top:calc(-7 * var(--ocean-unit))}
   .ocean-stage .story-reading-status>span>.flexible-arrow{width:calc(12 * var(--ocean-unit));height:calc(22 * var(--ocean-unit))}
   .ocean-stage .story-panel .arrow-link{
-    font-size:calc(16 * var(--ocean-unit));line-height:1.5;gap:calc(24 * var(--ocean-unit));
+    font-size:clamp(14px,calc(16 * var(--ocean-unit)),18px);line-height:1.5;gap:calc(24 * var(--ocean-unit));
     min-width:calc(225 * var(--ocean-unit));max-width:100%;min-height:0;
     margin-top:calc(8 * var(--ocean-unit));padding:calc(13 * var(--ocean-unit)) 0;
     border-width:var(--ocean-unit);
@@ -60,38 +59,38 @@
 
   .ocean-stage .buoy-reading-types{gap:calc(25 * var(--ocean-unit));padding:calc(22 * var(--ocean-unit)) 0;margin:calc(27 * var(--ocean-unit)) 0 calc(22 * var(--ocean-unit));border-width:var(--ocean-unit)}
   .ocean-stage .buoy-reading-types>div{gap:calc(15 * var(--ocean-unit))}
-  .ocean-stage .buoy-reading-types dt{font-size:calc(29 * var(--ocean-unit))}
+  .ocean-stage .buoy-reading-types dt{font-size:clamp(24px,calc(29 * var(--ocean-unit)),34px)}
   .ocean-stage .buoy-reading-types dd{font-size:var(--ocean-label);line-height:1.6;max-width:calc(90 * var(--ocean-unit))}
-  .ocean-stage .story-scroll .buoy-interval{font-size:calc(15 * var(--ocean-unit));line-height:1.8}
+  .ocean-stage .story-scroll .buoy-interval{font-size:clamp(14px,calc(15 * var(--ocean-unit)),18px);line-height:1.8}
   .ocean-stage .sensor-lead{display:block}
   .ocean-stage .sensor-picker{gap:calc(22 * var(--ocean-unit));margin:calc(26 * var(--ocean-unit)) 0 calc(22 * var(--ocean-unit));border-width:var(--ocean-unit)}
-  .ocean-stage .sensor-picker button{gap:calc(12 * var(--ocean-unit));padding:calc(17 * var(--ocean-unit)) 0;min-width:0;min-height:0;border:0;font-size:calc(16 * var(--ocean-unit))}
+  .ocean-stage .sensor-picker button{gap:calc(12 * var(--ocean-unit));padding:calc(17 * var(--ocean-unit)) 0;min-width:0;min-height:0;border:0;font-size:clamp(14px,calc(16 * var(--ocean-unit)),18px)}
   .ocean-stage .sensor-picker button::after{height:calc(2 * var(--ocean-unit));bottom:calc(-1 * var(--ocean-unit))}
-  .ocean-stage .sensor-picker-symbol{font-size:calc(29 * var(--ocean-unit));min-width:calc(40 * var(--ocean-unit))}
-  .ocean-stage .sensor-picker button>span:nth-child(2){font-size:calc(16 * var(--ocean-unit));line-height:1.5}
+  .ocean-stage .sensor-picker-symbol{font-size:clamp(24px,calc(29 * var(--ocean-unit)),34px);min-width:calc(40 * var(--ocean-unit))}
+  .ocean-stage .sensor-picker button>span:nth-child(2){font-size:clamp(14px,calc(16 * var(--ocean-unit)),18px);line-height:1.5}
   .ocean-stage .sensor-picker small{font-size:var(--ocean-label);margin-top:calc(3 * var(--ocean-unit))}
   .ocean-stage .sensor-picker .flexible-arrow{display:block;width:calc(28 * var(--ocean-unit));height:calc(18 * var(--ocean-unit));margin-left:auto}
   .ocean-stage .sensor-explanation{min-height:calc(126 * var(--ocean-unit))}
   .ocean-stage .sensor-small-label{font-size:var(--ocean-label);letter-spacing:.08em}
-  .ocean-stage .sensor-explanation h3{font-size:calc(23 * var(--ocean-unit));margin:calc(10 * var(--ocean-unit)) 0}
-  .ocean-stage .sensor-explanation p{font-size:calc(16 * var(--ocean-unit));line-height:1.8;margin:0}
+  .ocean-stage .sensor-explanation h3{font-size:clamp(20px,calc(23 * var(--ocean-unit)),28px);margin:calc(10 * var(--ocean-unit)) 0}
+  .ocean-stage .sensor-explanation p{font-size:clamp(14px,calc(16 * var(--ocean-unit)),18px);line-height:1.8;margin:0}
   .ocean-stage .sensor-cadence{display:flex;gap:calc(15 * var(--ocean-unit));padding:calc(17 * var(--ocean-unit)) 0;margin-top:calc(20 * var(--ocean-unit));border-top-width:var(--ocean-unit)}
   .ocean-stage .sensor-cadence>span:nth-child(2){font-size:var(--ocean-label);line-height:1.7}
   .ocean-stage .cadence-orbit{width:calc(28 * var(--ocean-unit));height:calc(28 * var(--ocean-unit));border-width:var(--ocean-unit)}
   .ocean-stage .cadence-orbit::after{inset:calc(9 * var(--ocean-unit));border-width:var(--ocean-unit)}
   .ocean-stage .cadence-orbit i{width:calc(4 * var(--ocean-unit));height:calc(4 * var(--ocean-unit));left:calc(12 * var(--ocean-unit));top:calc(-2 * var(--ocean-unit))}
-  .ocean-stage .sensor-hour{font-size:calc(36 * var(--ocean-unit))}
-  .ocean-stage .sensor-hour span{font-size:calc(18 * var(--ocean-unit));margin-left:calc(4 * var(--ocean-unit))}
+  .ocean-stage .sensor-hour{font-size:clamp(28px,calc(36 * var(--ocean-unit)),42px)}
+  .ocean-stage .sensor-hour span{font-size:clamp(16px,calc(18 * var(--ocean-unit)),20px);margin-left:calc(4 * var(--ocean-unit))}
   .ocean-stage .inside-parts{margin:calc(26 * var(--ocean-unit)) 0 calc(16 * var(--ocean-unit));border-top-width:var(--ocean-unit)}
   .ocean-stage .inside-parts>div{grid-template-columns:calc(42 * var(--ocean-unit)) 1fr;gap:calc(14 * var(--ocean-unit));padding:calc(13 * var(--ocean-unit)) 0;border-bottom-width:var(--ocean-unit)}
   .ocean-stage .inside-parts dt{font-size:var(--ocean-label);padding-top:calc(2 * var(--ocean-unit))}
   .ocean-stage .inside-parts dd{gap:calc(5 * var(--ocean-unit))}
-  .ocean-stage .inside-parts b,.ocean-stage .inside-parts span{font-size:calc(16 * var(--ocean-unit));line-height:1.6}
+  .ocean-stage .inside-parts b,.ocean-stage .inside-parts span{font-size:clamp(14px,calc(16 * var(--ocean-unit)),18px);line-height:1.6}
   .ocean-stage .story-scroll .inside-note{font-size:var(--ocean-label)!important;letter-spacing:.08em}
   .ocean-stage .signal-route{gap:calc(22 * var(--ocean-unit));margin:calc(28 * var(--ocean-unit)) 0}
   .ocean-stage .signal-route>div:not(.signal-path){gap:calc(12 * var(--ocean-unit))}
   .ocean-stage .signal-route>div>span:last-child{font-size:var(--ocean-label);letter-spacing:.08em}
-  .ocean-stage .signal-route .signal-node{width:calc(36 * var(--ocean-unit));height:calc(36 * var(--ocean-unit));font-size:calc(24 * var(--ocean-unit));border-width:var(--ocean-unit)}
+  .ocean-stage .signal-route .signal-node{width:calc(36 * var(--ocean-unit));height:calc(36 * var(--ocean-unit));font-size:clamp(20px,calc(24 * var(--ocean-unit)),28px);border-width:var(--ocean-unit)}
   .ocean-stage .signal-path,.ocean-stage .signal-path i{height:var(--ocean-unit)}
   .ocean-stage .signal-receiver{height:calc(36 * var(--ocean-unit));gap:calc(5 * var(--ocean-unit));padding:calc(6 * var(--ocean-unit))}
   .ocean-stage .signal-receiver i{width:calc(3 * var(--ocean-unit));height:calc(10 * var(--ocean-unit))}
@@ -99,8 +98,8 @@
   .ocean-stage .signal-receiver i:nth-child(3){height:calc(24 * var(--ocean-unit))}
   .ocean-stage .signal-facts{gap:calc(20 * var(--ocean-unit));padding:calc(20 * var(--ocean-unit)) 0;border-width:var(--ocean-unit)}
   .ocean-stage .signal-facts>div{gap:calc(10 * var(--ocean-unit))}
-  .ocean-stage .signal-facts strong{font-size:calc(34 * var(--ocean-unit))}
-  .ocean-stage .signal-facts strong span{font-size:calc(20 * var(--ocean-unit))}
+  .ocean-stage .signal-facts strong{font-size:clamp(28px,calc(34 * var(--ocean-unit)),40px)}
+  .ocean-stage .signal-facts strong span{font-size:clamp(18px,calc(20 * var(--ocean-unit)),24px)}
   .ocean-stage .signal-facts>div>span{font-size:var(--ocean-label);letter-spacing:.08em}
   .ocean-stage .story-scroll .signal-note{font-size:var(--ocean-label);line-height:1.75;margin:calc(17 * var(--ocean-unit)) 0 calc(9 * var(--ocean-unit))}
 
@@ -126,8 +125,8 @@
   .ocean-stage .network-scene-note{left:var(--ocean-gutter);top:calc(var(--ocean-frame-top) + 160 * var(--ocean-unit))}
   .ocean-stage .buoy-annotation{width:calc(200 * var(--ocean-unit));transform:translate(calc(106 * var(--ocean-unit)),calc(-144 * var(--ocean-unit)))}
   .ocean-stage .buoy-annotation.is-visible{transform:translate(calc(106 * var(--ocean-unit)),calc(-154 * var(--ocean-unit)))}
-  .ocean-stage .buoy-annotation>span{font-size:calc(31 * var(--ocean-unit));line-height:1.4}
-  .ocean-stage .sensor-hotspot{font-size:calc(15 * var(--ocean-unit));min-width:calc(56 * var(--ocean-unit));padding:calc(9 * var(--ocean-unit)) calc(13 * var(--ocean-unit));gap:calc(9 * var(--ocean-unit));border-width:var(--ocean-unit);border-radius:calc(30 * var(--ocean-unit))}
+  .ocean-stage .buoy-annotation>span{font-size:clamp(24px,calc(31 * var(--ocean-unit)),36px);line-height:1.4}
+  .ocean-stage .sensor-hotspot{font-size:clamp(14px,calc(15 * var(--ocean-unit)),18px);min-width:calc(56 * var(--ocean-unit));padding:calc(9 * var(--ocean-unit)) calc(13 * var(--ocean-unit));gap:calc(9 * var(--ocean-unit));border-width:var(--ocean-unit);border-radius:calc(30 * var(--ocean-unit))}
   .ocean-stage .sensor-hotspot i{width:calc(5 * var(--ocean-unit));height:calc(5 * var(--ocean-unit));border-width:var(--ocean-unit)}
   .ocean-stage .loading-indicator{font-size:var(--ocean-label);width:calc(240 * var(--ocean-unit));gap:calc(15 * var(--ocean-unit))}
   .ocean-stage .loading-caption,.ocean-stage .loading-percentage{font-size:var(--ocean-label)}

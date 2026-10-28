@@ -55,16 +55,11 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
   const target=useRef({x:0,y:0,z:0});
   const first=useRef(true);
   const previousShot=useRef<SceneShot|null>(null);
-  const [finePointer,setFinePointer]=useState(()=>matchMedia('(hover:hover) and (pointer:fine)').matches);
-  useEffect(()=>{
-    const media=matchMedia('(hover:hover) and (pointer:fine)'),update=()=>setFinePointer(media.matches);
-    media.addEventListener('change',update);return()=>media.removeEventListener('change',update);
-  },[]);
-  const mobile=size.width<=760&&!finePointer;
+  const mobile=size.width<600||size.width/size.height<1.2;
   const compactMobile=mobile&&size.height<780;
   useEffect(()=>{
     const detail=shot==='detail';
-    const proportional=!mobile&&finePointer;
+    const proportional=!mobile;
     // Desktop keeps the reference viewpoint. Only its projection fits the frame;
     // resolution breakpoints previously moved the network and cutaway separately.
     const signalDistance=proportional?1.125:Math.max(1,2/(size.width/size.height))*(size.width<1600?1.1:1);
@@ -80,7 +75,7 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
       :detail
       ?mobile?{x:1,y:2.65,z:10.4,tx:0,ty:-1.1,tz:0,fov:48}:{x:2.8,y:3.15,z:7.2,tx:1.95,ty:.6,tz:0,fov:42}
       :{x:0,y:12.8,z:7.2,tx:0,ty:0,tz:0,fov:42};
-    if(proportional)destination.fov=desktopOceanFov(destination.fov,size.width,size.height);
+    if(proportional&&shot!=='surface')destination.fov=desktopOceanFov(destination.fov,size.width,size.height);
     const resized=previousShot.current===shot;previousShot.current=shot;
     const rig={x:camera.position.x,y:camera.position.y,z:camera.position.z,tx:target.current.x,ty:target.current.y,tz:target.current.z,fov:camera.fov};
     const apply=()=>{
@@ -97,7 +92,7 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
     first.current=false;
     const tween=gsap.to(rig,{...destination,duration:shot==='sensing'?2.2:1.8,ease:'power3.inOut',onUpdate:apply,onComplete:()=>onSettled?.(shot)});
     return()=>{tween.kill()};
-  },[shot,mobile,compactMobile,finePointer,size.width,size.height,camera,invalidate,onSettled]);
+  },[shot,mobile,compactMobile,size.width,size.height,camera,invalidate,onSettled]);
   return null;
 }
 

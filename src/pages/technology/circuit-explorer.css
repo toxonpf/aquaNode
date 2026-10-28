@@ -1,0 +1,55 @@
+.circuit-explorer{--circuit-line:#a8c5ac38}
+.circuit-heading{display:grid;grid-template-columns:1.25fr 1fr;align-items:end;gap:8%;margin-bottom:36px}
+.circuit-explorer .circuit-heading h2{margin:0;max-width:100%}
+.circuit-heading>p{margin:0;max-width:46ch;color:#aec7bd}
+.circuit-workbench{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);border-block:1px solid var(--circuit-line)}
+.circuit-diagram{padding:24px 28px 20px;border-right:1px solid var(--circuit-line);background:radial-gradient(ellipse,#527c5e18,transparent 70%);min-width:0}
+.circuit-diagram-meta,.circuit-inspector-meta{display:flex;justify-content:space-between;gap:16px;color:#a8c0b3;font-size:14px;line-height:1.5;letter-spacing:.025em}
+.circuit-network{position:relative;height:400px;isolation:isolate}
+.circuit-traces{position:absolute;inset:0;width:100%;height:100%;stroke:#7eaa9666;stroke-width:1;overflow:visible}
+.circuit-traces path{vector-effect:non-scaling-stroke}
+.circuit-traces .is-active{stroke:#d7e8b4;stroke-width:1.5}
+.circuit-trace-pulse{opacity:0;stroke-dasharray:9 91;stroke-width:3}
+.circuit-traces .is-active .circuit-trace-pulse{opacity:1;animation:circuit-current 1.8s ease-out 1}
+.circuit-bus-label{position:absolute;top:calc(50% + 12px);left:50%;transform:translateX(-50%);font-size:14px;color:#a8c0b3}
+.circuit-node{position:absolute;display:flex;flex-direction:column;justify-content:center;text-align:left;gap:12px;width:40%;max-width:220px;min-height:94px;padding:16px;border:1px solid #6c988879;background:#103b44;border-radius:0;color:#abc4b7;transform:translate(-50%,-50%);transition:color .25s,border-color .25s,box-shadow .25s}
+.circuit-node{transform:none;translate:-50% -50%}
+.circuit-node--0{left:77%;top:50%}.circuit-node--1{left:23%;top:50%}.circuit-node--2{left:50%;top:81.25%}.circuit-node--3{left:50%;top:18.75%}
+.circuit-node-title{display:block;font-size:14px;line-height:1.4;overflow-wrap:anywhere;padding-right:8px}
+.circuit-node-title>span{opacity:.6;margin-right:8px}.circuit-node-title>i{position:absolute;right:16px;top:24px;width:5px;height:5px;border:1px solid currentColor;border-radius:50%}
+.circuit-node strong{font-size:clamp(14px,1.3vw,20px);font-weight:500;line-height:1.4}
+.circuit-node:is(:hover,:focus-visible,[aria-pressed=true]){color:#e2edc7;border-color:#c7dba6;box-shadow:0 0 0 3px #bdd59f0d}
+.circuit-node[aria-pressed=true] .circuit-node-title>i{background:currentColor}
+.circuit-diagram>.tech-path-caption{margin:0;letter-spacing:.02em;font-size:14px;line-height:1.6}
+.circuit-inspector{display:flex;flex-direction:column;min-width:0;padding:28px clamp(24px,3vw,48px)}
+.circuit-inspector-meta{padding-bottom:24px;border-bottom:1px solid var(--circuit-line)}
+.circuit-inspector .tech-path-copy{padding-top:28px}
+.circuit-inspector h3{font-size:clamp(28px,2.8vw,44px);line-height:1.15;margin:0 0 22px;color:#e1edc4}
+.circuit-inspector p{font-size:18px;line-height:1.75;color:#b7cdc2;margin:0 0 24px}
+.circuit-check{padding-left:18px;border-left:2px solid #a5be8b7a;margin:28px 0}
+.circuit-check>span{font-size:14px;color:#c0d4ad;letter-spacing:.04em}
+.circuit-check>p{font-size:16px;margin:10px 0 0;color:#a6beb2}
+.circuit-pagination{display:flex;justify-content:space-between;gap:20px;margin-top:auto;padding-top:18px;border-top:1px solid var(--circuit-line)}
+.circuit-pagination>button{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:48px;font-size:16px;color:#c7d9b2;border:0;padding:0}
+.circuit-pagination>button:is(:hover,:focus-visible){color:#eff7de}
+.circuit-pagination .flexible-arrow{width:32px;height:20px}
+@keyframes circuit-current{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@media(max-width:1000px){.circuit-workbench{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.circuit-diagram{padding-inline:16px}.circuit-node{padding:12px;gap:8px}.circuit-node-title{flex-wrap:wrap;gap:4px}.circuit-network{height:370px}.circuit-inspector{padding:24px}}
+@media(max-width:760px){
+ .circuit-heading{grid-template-columns:1fr;gap:18px;margin-bottom:24px}
+ .circuit-workbench{grid-template-columns:1fr}
+ .circuit-diagram{border-right:0;border-bottom:1px solid var(--circuit-line);padding:18px 0}
+ .circuit-network{height:350px;max-width:540px;margin:auto}
+ .circuit-node{padding:12px;min-height:88px;width:43%;gap:8px}
+ .circuit-node-title{display:block;font-size:14px;overflow-wrap:anywhere}
+ .circuit-node-title>span{margin-right:6px}
+ .circuit-node-title>i{display:none}
+ .circuit-node strong{font-size:15px;overflow-wrap:anywhere}
+ .circuit-inspector{padding:24px 0 0}
+ .circuit-inspector .tech-path-copy{padding-top:22px}
+ .circuit-inspector p{font-size:16px;line-height:1.75}
+ .circuit-inspector h3{font-size:30px}
+ .circuit-check{margin:24px 0;padding-left:14px}
+ .circuit-pagination{margin-top:8px}
+}
+@media(prefers-reduced-motion:reduce){.circuit-trace-pulse{animation:none!important}.circuit-node{transition:none}}

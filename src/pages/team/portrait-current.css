@@ -3,4 +3,6 @@
 .team-member-portrait .team-profile-photo-wave{stroke:#eff5d6;stroke-width:1.2;opacity:.72}
 .team-profile-image-portrait--roman-benzler .team-profile-photo-wave{transform:none;opacity:.72}
 .portrait-current-flow{stroke:#fcffe6;stroke-width:1.8;stroke-dasharray:13 87;opacity:0;visibility:hidden}
+/* Keep the centre/face clear; the profile motion still owns shade opacity. */
+.team-member-portrait.team-profile-image-portrait::after{background:linear-gradient(0deg,#082f3b9e 0%,#082f3b35 14%,transparent 34%),radial-gradient(ellipse 55% 28% at 0 0,#0a354966 0%,transparent 72%)}
 @media(prefers-reduced-motion:reduce){.portrait-current-flow{animation:none!important;display:none}}

@@ -3,6 +3,7 @@ import learning from './ru-learning';
 import build from './ru-build';
 /** Editorial Russian copy. Keep engineering identifiers, source filenames and units traceable. */
 const ru:Record<string,string>={
+  'Observation map':'Карта наблюдений',
   ...story,...learning,...build,
   'Different minds. One shared current.':'Разные люди. На одной волне.',
   'Make a wave':'Пустить волну',
@@ -312,5 +313,27 @@ const ru:Record<string,string>={
   'Continue to {name}':'Далее: {name}',
   'Close entry: {title}':'Свернуть запись: {title}',
   'Read entry: {title}':'Открыть запись: {title}',
+  'Connections with a purpose.':'У каждой связи — своя задача.',
+  'Tap a module to trace its role, from the probes to the controller and power supply.':'Выберите узел и проследите его роль: от датчиков до контроллера и питания.',
+  'WHAT TO CHECK':'ЧТО ПРОВЕРИТЬ',
+  'Previous board function':'Предыдущий узел схемы',
+  'Next board function':'Следующий узел схемы',
+  'Previous':'Назад',
+  'Next':'Далее',
+  'Explore the observation map':'Изучить карту наблюдений',
+  'Where will you observe?':'Где будем наблюдать?',
+  'What could change?':'Что может измениться?',
+  'What will you compare?':'С чем будем сравнивать?',
+  'What did you learn?':'Что удалось узнать?',
+  'BEFORE THE OBSERVATION':'ДО НАБЛЮДЕНИЯ',
+  'AFTER THE OBSERVATION':'ПОСЛЕ НАБЛЮДЕНИЯ',
+  'One small investigation, from the first question to a record you can return to. Follow the steps as you scroll.':'Одно небольшое исследование: от первого вопроса до записи, к которой можно вернуться. Три шага — по порядку.',
+  'Four connected modules. Follow their roles below, from the controller to the external connections.':'Четыре связанных узла. Ниже — роль каждого: от контроллера до внешних подключений.',
+  'View full-size drawing':'Открыть чертёж крупнее',
+  'Keep observing.':'Продолжим наблюдать.',
+  'Credits & sound':'Авторы и звук',
+  'We build tools to understand water.':'Создаём инструменты, чтобы понимать воду.',
+  'Choose an assembly step':'Выберите этап сборки',
+  'A small node. A world to understand.':'Маленький буй. Целый мир для изучения.',
 };
 export default ru;

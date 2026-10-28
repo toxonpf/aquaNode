@@ -1,3 +1,4 @@
+import SectionLabel from '../../components/ui/SectionLabel';
 import {t} from '../../features/i18n/i18n';
 import {useLayoutEffect,useRef,useState,type MouseEvent} from 'react';
 import {Link,useLocation,useNavigate} from 'react-router-dom';
@@ -37,6 +38,25 @@ export default function BuildPage(){
  const [drawing,setDrawing]=useState(0),[openStep,setOpenStep]=useState<number|null>(()=>stepFromHash(hash)??0);
  const [anchorTarget,setAnchorTarget]=useState<{id:string}|null>(null);
  const guideSteps=useRef<HTMLDivElement>(null);
+ const openedByHand=useRef<HTMLElement|null>(null);
+ useLayoutEffect(()=>{
+  const target=openedByHand.current;openedByHand.current=null;
+  if(!target||openStep===null)return;
+  let cancelled=false,frame=0;
+  const cancel=()=>{cancelled=true;cancelAnimationFrame(frame)};
+  const align=()=>{
+   if(cancelled)return;
+   const top=target.getBoundingClientRect().top;
+   const boundary=(document.querySelector('.site-header')?.getBoundingClientRect().bottom??0)+24;
+   if(top<boundary-2)window.scrollTo({top:scrollY+top-boundary,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
+  };
+  frame=requestAnimationFrame(()=>{
+   const transitions=guideSteps.current?.getAnimations({subtree:true}).filter(animation=>'transitionProperty' in animation&&animation.transitionProperty==='grid-template-rows')??[];
+   Promise.allSettled(transitions.map(animation=>animation.finished)).then(()=>{frame=requestAnimationFrame(align)});
+  });
+  window.addEventListener('wheel',cancel,{passive:true});window.addEventListener('touchstart',cancel,{passive:true});
+  return()=>{cancel();window.removeEventListener('wheel',cancel);window.removeEventListener('touchstart',cancel)};
+ },[openStep]);
  useLayoutEffect(()=>{
   const index=stepFromHash(hash);
   if(index!==null)setOpenStep(index);
@@ -108,12 +128,13 @@ export default function BuildPage(){
  };
  const toggleStep=(index:number)=>{
   setAnchorTarget(null);
+  openedByHand.current=openStep===index?null:document.getElementById(`step-${index}`);
   setOpenStep(current=>current===index?null:index);
  };
  const activeDrawing=drawings[drawing];
  return <div className="build-page">
   <header className="build-hero page-intro">
-   <div className="build-section-top"><p className="kicker">{t("BUILD / RESOURCES")}</p><span>{t("THE ENGINEERING WORKBENCH / R0.3")}</span></div>
+   <div className="build-section-top"><SectionLabel icon="tools">{t("BUILD / RESOURCES")}</SectionLabel><span>{t("THE ENGINEERING WORKBENCH / R0.3")}</span></div>
    <div className="build-hero-layout">
     <div className="build-hero-copy"><span className="build-release"><i/> {t("OPEN ENGINEERING · R0.3")}</span>
      <Heading as="h1">{t("Learn by")}<br/>{' '}{t("putting it")}<br/>{' '}<em>{t("together.")}</em></Heading>
@@ -121,7 +142,7 @@ export default function BuildPage(){
      <div className="build-hero-actions"><a className="arrow-link" href="#assembly-guide" onClick={event=>navigateToAnchor(event,'assembly-guide')}>{t("Explore the build")} <FlexibleArrow direction="down"/></a><a className="build-files-link arrow-link" href="#downloads" onClick={event=>navigateToAnchor(event,'downloads')}>{t("Get the source files")} <FlexibleArrow direction="down"/></a></div>
     </div>
     <div className="build-drawing-panel">
-     <div className="build-drawing-top"><span>{t("01 / ON THE DRAWING BOARD")}</span><span>R0.3</span></div>
+     <div className="build-drawing-top"><SectionLabel as="span" icon="drawing">{t("01 / ON THE DRAWING BOARD")}</SectionLabel><span>R0.3</span></div>
      <div className="build-drawing-picker" role="group" aria-label={t("Engineering drawing view")}>{drawings.map((view,index)=><button type="button" key={view.label} aria-pressed={drawing===index} aria-controls="build-drawing" onClick={()=>setDrawing(index)}>{view.label}</button>)}</div>
      <figure id="build-drawing" aria-live="polite"><img src={activeDrawing.src} alt={activeDrawing.alt} width="1378" height="1169"/><figcaption>{activeDrawing.caption}<span>{t("ORIGINAL CAD EXPORT")}</span></figcaption></figure>
     </div>
@@ -132,14 +153,14 @@ export default function BuildPage(){
   <section className="build-status" aria-label={t("Engineering release status")}><span className="build-status-mark" aria-hidden="true"><FlexibleArrow direction="up-right"/></span><div><Heading as="h2">{t("A working prototype. A separate design revision.")}</Heading><p>{t("The team has a working buoy. These resources document the R0.3 carrier board, which still needs physical assembly and testing. The guide is an orientation to that revision; firmware and a complete reproducible buoy build are not included.")}</p></div><Link className="arrow-link" to="/journal">{t("Current progress")} <FlexibleArrow direction="up-right"/></Link></section>
 
   <section className="build-equipment build-section" aria-labelledby="build-equipment-title">
-   <div className="build-section-top"><p className="kicker">{t("01 / PREPARE THE BENCH")}</p><span>{t("PARTS. TOOLS. A PLACE TO START.")}</span></div>
+   <div className="build-section-top"><SectionLabel icon="assembly">{t("01 / PREPARE THE BENCH")}</SectionLabel><span>{t("PARTS. TOOLS. A PLACE TO START.")}</span></div>
    <div className="build-equipment-layout"><div><Heading as="h2" id="build-equipment-title">{t("Know what")}<br/>{t("goes into it.")}</Heading><p>{t("Start with the actual modules and the R0.3 bill of materials. Check fit and compatibility before ordering the carrier board.")}</p><a className="arrow-link" href="#downloads" onClick={event=>navigateToAnchor(event,'downloads')}>{t("Find the parts list")} <FlexibleArrow direction="down"/></a></div>
     <ol className="build-equipment-list">{equipment.map((item,index)=><li key={item.name}><span className="build-item-number">0{index+1}</span><div><Heading as="h3">{item.name}</Heading><p className="build-equipment-parts">{item.parts}</p><p>{item.note}</p></div></li>)}</ol>
    </div>
   </section>
 
   <section className="build-guide build-section" id="assembly-guide" aria-labelledby="build-guide-title">
-   <div className="build-section-top"><p className="kicker">{t("02 / FROM DESIGN TO TEST")}</p><span>{t("SEVEN STEPS. ONE CAREFUL SEQUENCE.")}</span></div>
+   <div className="build-section-top"><SectionLabel icon="check">{t("02 / FROM DESIGN TO TEST")}</SectionLabel><span>{t("SEVEN STEPS. ONE CAREFUL SEQUENCE.")}</span></div>
    <div className="build-guide-heading"><Heading as="h2" id="build-guide-title">{t("One connection")}<br/>{t("at a time.")}</Heading><p>{t("Work from an unpowered inspection to individual measurement paths, then the complete system. Open a step for the details.")}</p></div>
    <div className="build-guide-layout">
     <aside className="build-guide-nav"><span className="build-nav-label">{t("ASSEMBLY GUIDE")}</span><nav aria-label={t("Assembly steps")}>{guide.map((item,index)=><a key={item.label} href={`#step-${index}`} aria-current={openStep===index?'step':undefined} onClick={event=>navigateToAnchor(event,`step-${index}`)}><span>0{index+1}</span><span className="build-nav-copy">{item.label}</span><FlexibleArrow direction="up-right"/></a>)}</nav><p>{t("Based on the supplied Russian engineering notes. Keep the original drawing and parts list alongside the guide.")}</p><a className="arrow-link" href="#downloads" onClick={event=>navigateToAnchor(event,'downloads')}>{t("Source materials")} <FlexibleArrow direction="down"/></a></aside>
@@ -148,10 +169,10 @@ export default function BuildPage(){
   </section>
 
   <section className="build-downloads build-section" id="downloads" aria-labelledby="build-downloads-title">
-   <div className="build-section-top"><p className="kicker">{t("03 / SOURCE MATERIALS")}</p><span>{t("ORIGINAL FILES / DIRECT DOWNLOADS")}</span></div>
+   <div className="build-section-top"><SectionLabel icon="resources">{t("03 / SOURCE MATERIALS")}</SectionLabel><span>{t("ORIGINAL FILES / DIRECT DOWNLOADS")}</span></div>
    <div className="build-download-layout"><div><Heading as="h2" id="build-downloads-title">{t("Off the page.")}<br/><em>{t("Onto the bench.")}</em></Heading><p>{t("Take the drawings and component list with you. Engineering notes are supplied in Russian; the attribution file explains sources and reuse conditions.")}</p><span className="build-download-count">{t("03 FILES · REVISION R0.3")}</span></div><div className="build-download-list">{resources.map(resource=><DownloadLink key={resource.url} href={resource.url} label={resource.name} format={resource.url.split('.').pop()!.toUpperCase()} detail={resource.detail} className="resource-download"/>)}<p className="build-download-note">{t("Firmware and protocol implementation are not part of this release.")}</p></div></div>
   </section>
 
-  <section className="build-next build-section"><div><p className="kicker">{t("THE NEXT CHAPTER")}</p><Heading as="h2">{t("The drawing is a start.")}<br/>{t("The evidence comes next.")}</Heading></div><div><p>{t("Follow the checks, revisions and open questions as the design moves towards physical validation.")}</p><Link className="arrow-link" to="/journal">{t("Follow development")} <FlexibleArrow direction="up-right"/></Link></div></section>
+  <section className="build-next build-section"><div><SectionLabel icon="notebook">{t("THE NEXT CHAPTER")}</SectionLabel><Heading as="h2">{t("The drawing is a start.")}<br/>{t("The evidence comes next.")}</Heading></div><div><p>{t("Follow the checks, revisions and open questions as the design moves towards physical validation.")}</p><Link className="arrow-link" to="/journal">{t("Follow development")} <FlexibleArrow direction="up-right"/></Link></div></section>
  </div>;
 }

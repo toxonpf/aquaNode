@@ -83,7 +83,8 @@ test('guide anchors align the expanded step below the header after the layout se
    await page.goto('/build');
    await page.evaluate(()=>document.fonts.ready);
    for(const index of [6,1,5,0]){
-    await page.locator(`.build-guide-nav nav a[href="#step-${index}"]`).click();
+    if(width<=760)await page.goto(`/build#step-${index}`);
+    else await page.locator(`.build-guide-nav nav a[href="#step-${index}"]`).click();
     await expect(page.locator(`#build-step-toggle-${index}`)).toHaveAttribute('aria-expanded','true');
     await expect.poll(()=>page.locator(`#step-${index}`).evaluate(node=>{
      const header=document.querySelector('.site-header')!.getBoundingClientRect();

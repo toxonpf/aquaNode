@@ -1,3 +1,4 @@
+import SectionLabel from '../../components/ui/SectionLabel';
 import {t} from '../../features/i18n/i18n';
 import Heading from '../../components/ui/Heading';
 import {useEffect,useRef,useState,type PointerEvent,type MouseEvent} from 'react';
@@ -67,13 +68,13 @@ export default function TeamRoster(){
   };
   return <div className="team-page">
     <header className="team-hero">
-      <div className="team-hero-top"><span>{t("THE AQUANODE COLLECTIVE")}</span><span>{t("KAZAKHSTAN · A SHARED CURIOSITY")}</span></div>
+      <div className="team-hero-top"><SectionLabel as="span" icon="people">{t("THE AQUANODE COLLECTIVE")}</SectionLabel><span>{t("KAZAKHSTAN · A SHARED CURIOSITY")}</span></div>
       <div className="team-hero-heading"><Heading as="h1">{t("People behind")} <br/><span>{t("the node.")}</span></Heading><div className="team-hero-aside"><span className="team-hero-count">{count}<i><FlexibleArrow direction="up-right"/></i></span><p>{t("Different minds.")}<br/>{t("One shared direction.")}</p></div></div>
       <div className="team-hero-bottom"><p>{t("Engineering, observation and a little curiosity.")}<br/>{t("Meet the people moving AquaNode forward.")}</p><a href="#team-gallery" className="team-meet-link" aria-controls="team-gallery" onClick={meetTeam}><span>{t("MEET THE PEOPLE")}</span><FlexibleArrow direction="down"/></a></div>
       <svg className="team-hero-current" viewBox="0 0 900 240" fill="none" aria-hidden="true"><path d="M-30 145C180 310 300-40 510 100S795 270 960 22M-30 172C180 337 300-13 510 127S795 297 960 49M-30 199C180 364 300 14 510 154S795 324 960 76"/></svg>
     </header>
     <section ref={gallery} id="team-gallery" className="team-roster" tabIndex={-1} aria-label={t("Team members and contacts")}>
-      <div className="team-gallery-heading"><span>{t("01 / THE PEOPLE")}</span><p>{t("A small team.")}<br/>{t("A world to understand.")}</p><span>{count} {t("MEMBERS")}</span></div>
+      <div className="team-gallery-heading"><SectionLabel as="span" icon="portrait">{t("01 / THE PEOPLE")}</SectionLabel><p>{t("A small team.")}<br/>{t("A world to understand.")}</p><span>{count} {t("MEMBERS")}</span></div>
       <div className="team-gallery-grid">{team.map((member,index)=><article id={'team-card-'+member.slug} className="team-person" key={member.slug} aria-labelledby={'person-'+member.slug}>
         <div className="team-card-top"><span>{String(index+1).padStart(2,'0')} / {count}</span><span>AQUANODE</span></div>
         <button type="button" className="team-portrait-trigger" onClick={event=>openProfile(index,event.currentTarget)} onPointerMove={movePortrait} aria-label={t('View profile of {name}',{name:member.name})} aria-haspopup="dialog" aria-controls="team-profile-dialog">
@@ -81,10 +82,10 @@ export default function TeamRoster(){
         </button>
         <div className="team-person-info"><Heading as="h2" id={'person-'+member.slug}>{member.name}</Heading><p>{member.role}</p></div>
         <Contacts person={member}/>
-        {team[index+1]&&<a className={'team-next-preview team-profile-tone-'+(index+1)} href={'#team-card-'+team[index+1].slug} aria-label={t('Continue to {name}',{name:team[index+1].name})}><span>{t("NEXT /")} {String(index+2).padStart(2,'0')}</span><TeamPortrait person={team[index+1]} index={index+1} count={count} kind="preview"/><FlexibleArrow direction="down"/></a>}
+        {team[index+1]&&<a className={'team-next-preview team-profile-tone-'+(index+1)} href={'#team-card-'+team[index+1].slug} aria-label={t('Continue to {name}',{name:team[index+1].name})}><span>{t("NEXT /")} {String(index+2).padStart(2,'0')}</span><TeamPortrait person={team[index+1]} index={index+1} count={count} kind="preview"/><span className="team-next-name">{team[index+1].name}</span><FlexibleArrow direction="down"/></a>}
       </article>)}<aside className="team-gallery-note"><span>{t("CURIOUS MINDS.")}<br/>{t("SHARED WATERS.")}</span><FlexibleArrow direction="down"/><p>{t("Meet the founders, engineers")}<br/>{t("and supporters behind the work.")}</p></aside></div>
     </section>
-    <section className="team-outro"><span>{t("THE NEXT CHAPTER IS OPEN")}</span><Heading as="h2">{t("It starts with people.")}<br/><em>{t("And a question.")}</em></Heading><ExternalLink className="team-outro-link" href={awardUrl}>{t("Get to know AquaNode")}</ExternalLink></section>
+    <section className="team-outro"><SectionLabel as="span" icon="future">{t("THE NEXT CHAPTER IS OPEN")}</SectionLabel><Heading as="h2">{t("It starts with people.")}<br/><em>{t("And a question.")}</em></Heading><ExternalLink className="team-outro-link" href={awardUrl}>{t("Get to know AquaNode")}</ExternalLink></section>
     <dialog ref={dialog} id="team-profile-dialog" className="team-profile-dialog" aria-labelledby="team-profile-name" onClose={onClosed} onKeyDown={event=>{if(event.key==='Escape'){event.preventDefault();if(!event.repeat)closeWithEscape()}}} onCancel={event=>{event.preventDefault();closeWithEscape()}} onClick={event=>{if(event.target===event.currentTarget)closeProfile()}}>
       {person&&<>
         <button type="button" className="team-dialog-close" aria-label={t('Close')} aria-keyshortcuts="Escape" onClick={closeProfile} autoFocus><span className="team-close-label">{t('Close')}</span><kbd aria-hidden="true">Esc</kbd><span className="team-close-icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="m5 5 10 10M15 5 5 15"/></svg></span></button>
@@ -93,8 +94,8 @@ export default function TeamRoster(){
         <div className="team-profile-info-viewport"><div className="team-profile-info" aria-live="polite">
           <span className="team-profile-kicker">{t("THE AQUANODE COLLECTIVE /")} {String(selected!+1).padStart(2,'0')}</span>
           <Heading as="h2" id="team-profile-name">{person.name}</Heading><p className="team-profile-role">{person.role}</p>
-          <p className="team-profile-intro">{t("A shared curiosity about water. A hands-on approach to building the tools that help us understand it.")}</p>
-          <span className="team-profile-contact-label">{t("STAY IN TOUCH")}</span><Contacts person={person}/>
+          <p className="team-profile-intro"><span className="team-profile-intro-full">{t("A shared curiosity about water. A hands-on approach to building the tools that help us understand it.")}</span><span className="team-profile-intro-compact">{t('We build tools to understand water.')}</span></p>
+          {person.links.length>0&&<span className="team-profile-contact-label">{t("STAY IN TOUCH")}</span>}<Contacts person={person}/>
           <div className="team-profile-pagination"><TeamCurrent key={person.slug} index={selected!}/><button type="button" onClick={()=>changeMember(-1)} aria-label={t("Previous team member")}><FlexibleArrow direction="left"/><span>{t("← Previous").replace("← ","")}</span></button><span>{String(selected!+1).padStart(2,'0')} / {count}</span><button type="button" onClick={()=>changeMember(1)} aria-label={t("Next team member")}><span>{t("Next →").replace(" →","")}</span><FlexibleArrow/></button></div>
         </div></div>
         </div>

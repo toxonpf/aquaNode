@@ -62,9 +62,8 @@ main :is(.section,.about-section,.tech-section,.build-section) h2{font-size:clam
   .site-header .logo .brand-mark{width:148px}
 }
 @media(min-width:761px){
+  .ocean-stage{--reader-top:clamp(96px,14svh,150px);--reader-bottom:clamp(108px,13svh,136px)}
   .buoy-introduction,.sensor-introduction,.inside-introduction,.signal-introduction{
-    --reader-top:clamp(96px,14svh,150px);
-    --reader-bottom:clamp(108px,13svh,136px);
     padding-top:var(--reader-top);padding-bottom:var(--reader-bottom);
   }
   .story-panel{max-width:38.75rem}

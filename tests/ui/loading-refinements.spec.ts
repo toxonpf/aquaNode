@@ -61,8 +61,8 @@ test('the ocean header has the same height as ordinary pages and its mobile menu
     const page=await context.newPage();
     await page.goto('http://127.0.0.1:5173/about');const normal=await page.locator('.site-header').boundingBox();
     await page.goto('http://127.0.0.1:5173/');const ocean=await page.locator('.site-header').boundingBox();
-    expect(ocean!.height).toBe(normal!.height);expect(ocean!.height).toBeCloseTo(width<=760?56:64*width/1920,1);
-    if(width<=760){
+    expect(ocean!.height).toBe(normal!.height);expect(ocean!.height).toBeCloseTo(width<=760?56:64,1);
+    if(width<=1180){
       await page.locator('.site-header .menu-button').click();
       const menu=await page.locator('#navigation').boundingBox();
       expect(Math.abs(menu!.y-(ocean!.y+ocean!.height))).toBeLessThanOrEqual(1);

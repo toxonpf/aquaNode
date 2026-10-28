@@ -1,5 +1,6 @@
 import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {t} from '../../i18n/i18n';
+import FlexibleArrow from '../../../components/ui/FlexibleArrow';
 
 function geometry(width:number,height:number,x:number,y:number){
   const end={x:width*.52,y:height-6},neck=end.y-8,space=Math.max(4,neck-y);
@@ -23,7 +24,7 @@ export default function OceanSkip({onSkip}:{onSkip:()=>void}){
     const measure=()=>{
       if(!alive||!link.current||!label.current)return;
       const box=link.current.getBoundingClientRect(),text=label.current.getBoundingClientRect();
-      const desktop=matchMedia('(hover:hover) and (pointer:fine)').matches;
+      const desktop=getComputedStyle(link.current.parentElement!).flexDirection==='column';
       const unit=desktop?box.width/64:1;
       const next=geometry(box.width/unit,box.height/unit,(text.right-box.left)/unit-5,(text.bottom-box.top)/unit+3);
       setShape(previous=>JSON.stringify(previous)===JSON.stringify(next)?previous:next);
@@ -34,6 +35,7 @@ export default function OceanSkip({onSkip}:{onSkip:()=>void}){
   },[]);
   return <a ref={link} className="ocean-chapters-skip" href="#progress" onClick={event=>{event.preventDefault();onSkip()}} aria-label={t('Skip buoy story')}>
     <span ref={label} className="ocean-chapters-skip-label">{t('SKIP')}</span>
+    <span className="ocean-skip-compact-arrow"><FlexibleArrow direction="down" active/></span>
     <svg className="ocean-chapters-skip-icon" viewBox={`0 0 ${shape.width} ${shape.height}`} fill="none" aria-hidden="true" focusable="false">
       {['',' ocean-chapters-skip-current ocean-chapters-skip-trail',' ocean-chapters-skip-current'].map(extra=><path key={extra} className={'ocean-chapters-skip-line'+extra} pathLength="100" d={shape.poses[0]}>
         {!reduced&&<animate attributeName="d" values={shape.poses.join(';')} dur="3.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.33;.66;1" keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1"/>}
