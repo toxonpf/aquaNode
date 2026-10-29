@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 import {readingMetrics} from '../../src/features/ocean/story/readingMetrics';
 
@@ -17,7 +18,7 @@ for(const zoom of [1,1.3,1.5,2,2.5]){
     const page=await context.newPage();
     try{
       await page.goto('http://127.0.0.1:5173/');
-      await page.locator('.site-header').getByRole('button',{name:'Русский',exact:true}).click();
+      await chooseLanguage(page,'Русский','.site-header');
       await page.evaluate(()=>document.fonts.ready);
       const header=await page.locator('.site-header').boundingBox();
       if(width>1180){

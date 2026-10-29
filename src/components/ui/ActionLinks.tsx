@@ -16,7 +16,7 @@ export function ExternalLink({href,children,className='',inline=false}:{href:str
   </a>;
 }
 
-export function DownloadLink({href,label,format,detail,className='',filename}:{href:string;label:string;format:string;detail:string;className?:string;filename?:string}){
+export function DownloadLink({href,label,format,detail,className='',filename,showActionLabel=true}:{href:string;label:string;format:string;detail:string;className?:string;filename?:string;showActionLabel?:boolean}){
   const sheet=useRef<SVGSVGElement>(null),motion=useRef<Animation|null>(null);
   const rules=useRef<Animation[]>([]);
   useEffect(()=>{
@@ -43,6 +43,6 @@ export function DownloadLink({href,label,format,detail,className='',filename}:{h
   return <a className={`action-download ${className}`.trim()} href={href} download={filename??true} onPointerEnter={event=>{if(event.pointerType==='mouse')play()}} onFocus={play}>
     <span className="download-file" aria-hidden="true"><svg ref={sheet} viewBox="0 0 48 56" fill="none"><path className="download-file-outline" pathLength="100" d="M8 2H30L40 12V50H8Z"/><path className="download-file-fold" d="M30 2V12H40"/><path className="download-file-rule" d="M16 21C18.67 19.4 21.33 19.4 24 21C26.67 22.6 29.33 22.6 32 21"/><path className="download-file-rule" d="M16 27C18 25.4 20 25.4 22 27C24 28.6 26 28.6 28 27"/></svg><span className="download-file-format">{format}</span></span>
     <span className="download-copy"><span className="download-label">{label}</span><span className="download-detail">{detail}</span></span>
-    <span className="download-action"><span aria-hidden="true">{t("DOWNLOAD")}</span><svg className="download-link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><g className="download-link-arrow"><path className="download-link-shaft" d="M12 3C12 6 12 6 12 9C12 12 12 12 12 15"/><path d="m7 10 5 5 5-5"/></g><path className="download-link-tray" d="M4 17v4h16v-4"/><path className="download-link-ripple" d="M9 21h6"/></svg></span>
+    <span className="download-action">{showActionLabel&&<span aria-hidden="true">{t("DOWNLOAD")}</span>}<svg className="download-link-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><g className="download-link-arrow"><path className="download-link-shaft" d="M12 3C12 6 12 6 12 9C12 12 12 12 12 15"/><path d="m7 10 5 5 5-5"/></g><path className="download-link-tray" d="M4 17v4h16v-4"/><path className="download-link-ripple" d="M9 21h6"/></svg></span>
   </a>;
 }

@@ -1,0 +1,14 @@
+2026-10-29 / Windows
+PowerShell execution and local project read/copy succeeded.
+The earlier invalid sandbox permission path URI error did not recur.
+Python 3.12.14 found in bundled codex-primary-runtime and used for host tests.
+Default WindowsApps python.exe alias failed; bundled Python used instead.
+Codex load_workspace_dependencies returned tool error.
+arduino-cli, pio, kicad-cli not found in PATH; no KiCad installation under Program Files.
+WSL is not installed.
+curl to www.python.org and downloads.arduino.cc: exit 6, Could not resolve host.
+curl to downloads.kicad.org: exit 6, Could not resolve host.
+No elevated installation or sandbox bypass attempted.
+repro scripts stopped at missing executable discovery. They did not run a compiler or ERC/DRC.
+See compile_attempt.txt and cad_attempt.txt.
+Poppler PDF rendering completed; warnings for unrelated unavailable fonts. Rendered Connection_review page inspected visually.

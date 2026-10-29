@@ -1,10 +1,20 @@
 import {Children,cloneElement,isValidElement,useLayoutEffect,useRef,type HTMLAttributes,type ReactNode} from 'react';
 import gsap from 'gsap';
+function wordSegments(text:string){
+ if(!/[\u3400-\u9fff]/.test(text))return text.split(/(\s+)/);
+ const segments=typeof Intl.Segmenter==='function'?[...new Intl.Segmenter('zh-TW',{granularity:'word'}).segment(text)].map(item=>item.segment):Array.from(text);
+ const result:string[]=[];
+ for(const segment of segments){
+  if(/^[，。！？、；：）】」』]+$/.test(segment)&&result.length)result[result.length-1]+=segment;
+  else result.push(segment);
+ }
+ return result;
+}
 function words(children:ReactNode):ReactNode{
   return Children.map(children,child=>{
     // Editorial breaks must not force three rows after translation or resizing.
     if(isValidElement(child)&&child.type==='br')return ' ';
-    if(typeof child==='string'||typeof child==='number')return String(child).split(/(\s+)/).map((word,index)=>
+    if(typeof child==='string'||typeof child==='number')return wordSegments(String(child)).map((word,index)=>
       /\S/.test(word)?<span className="heading-word-mask" key={index}><span className="heading-word">{word}</span></span>:word);
     if(isValidElement<{children?:ReactNode}>(child)&&child.props.children!==undefined)return cloneElement(child,{},words(child.props.children));
     return child;

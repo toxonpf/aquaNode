@@ -1,0 +1,8 @@
+Get-Command: C:\Users\novvi\Documents\Codex\2026-10-29\new-chat-4\AquaNode_R0.3_EC_revB\repro\check_cad.ps1:3
+Line |
+   3 |  $cli = Get-Command kicad-cli -ErrorAction Stop
+     |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | The term 'kicad-cli' is not recognized as a name of a cmdlet, function, script file, or executable program.
+     | Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+
+

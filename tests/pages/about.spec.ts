@@ -3,15 +3,15 @@ import {test,expect} from '@playwright/test';
 test('about explains the project without repeating the model, sensors or status grid',async({page})=>{
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto('/about');
- await expect(page.getByRole('heading',{level:1})).toHaveText('Understanding starts with observing.');
+ await expect(page.getByRole('heading',{level:1})).toHaveText('From the classroom to the shoreline.');
  await expect(page.locator('.about-page .buoy-drawing,.about-page canvas,.about-page .status-grid')).toHaveCount(0);
  await expect(page.locator('.learning-journey-step')).toHaveCount(3);
  await expect(page.locator('.learning-lab button')).toHaveCount(0);
- await expect(page.locator('.learning-journey-step').nth(1)).toContainText('Make the process visible.');
+ await expect(page.locator('.learning-journey-step').nth(1)).toContainText('Take the lesson to the water.');
  await page.locator('.learning-reference--drawing').scrollIntoViewIfNeeded();
  await expect(page.locator('.learning-reference--drawing img')).toHaveJSProperty('complete',true);
  expect(await page.locator('.learning-reference--drawing img').evaluate((node:HTMLImageElement)=>node.naturalWidth)).toBeGreaterThan(0);
- await expect(page.locator('.learning-journey-step').last()).toContainText('Leave a useful record.');
+ await expect(page.locator('.learning-journey-step').last()).toContainText('Make the result useful.');
  await expect(page.locator('.learning-journey-step').last().locator('a')).toHaveAttribute('href','/journal');
  expect(errors).toEqual([]);
 });
@@ -32,10 +32,10 @@ test('about fits desktop, tablet and phones and honours reduced motion',async({p
  await page.locator('.learning-lab').screenshot({path:'test-results/learning-mobile.png'});
 });
 
-test('technology and journal offer distinct R0.3 details',async({page})=>{
+test('technology and journal offer current revision and historical evidence',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/technology');
- await expect(page.locator('.specs')).toContainText('80 × 60 mm');
+ await expect(page.locator('.specs')).toContainText('SEN0244');
  await expect(page.locator('.specs')).toContainText('DS18B20');
  await expect(page.getByRole('heading',{name:'The observation cycle.'})).toHaveCount(0);
   await expect(page.getByRole('heading',{name:'Connections with a purpose.'})).toBeAttached();
@@ -44,8 +44,8 @@ test('technology and journal offer distinct R0.3 details',async({page})=>{
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  await page.goto('/journal');
- await expect(page.locator('.journal')).toContainText('130 named pads');
- await expect(page.locator('.journal')).toContainText('71 ground stitching vias');
+ await expect(page.locator('.journal')).toContainText('155');
+ await expect(page.locator('.journal')).toContainText('Historical');
 });
 
 test('the GEEP certificate has an optimised preview and an original download',async({page,request})=>{

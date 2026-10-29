@@ -3,15 +3,13 @@ import {test,expect} from '@playwright/test';
 test('build drawings and assembly navigation show the original engineering material',async({page})=>{
  await page.goto('/build');
  await expect(page.locator('h1')).toHaveText('Learn by putting it together.');
- await page.getByRole('button',{name:'Copper layout',exact:true}).click();
- await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/PCB_F.png');
- await page.getByRole('button',{name:'Assembly',exact:true}).click();
- await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/Assembly.png');
+ await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/engineering/ec-revb-architecture-en.svg');
+ await expect(page.locator('.build-status')).toContainText('How to use the workbench');
  await expect(page.locator('#build-step-content-0')).toBeVisible();
- await page.getByRole('navigation',{name:'Assembly steps'}).getByRole('link',{name:/06 Calibration/}).click();
+ await page.getByRole('navigation',{name:'Validation stages'}).getByRole('link',{name:/06 Calibration/}).click();
  await expect(page.locator('#build-step-content-5')).toBeVisible();
  await expect(page.locator('#build-step-content-0')).toBeHidden();
- await expect(page.locator('#build-step-content-5')).toContainText('fresh reference buffers');
+ await expect(page.locator('#build-step-content-5')).toContainText('independent EC standards');
  await expect(page.locator('#step-5')).toBeInViewport();
  await expect.poll(()=>page.locator('#build-step-content-5>p').evaluate(node=>getComputedStyle(node).opacity)).toBe('1');
  const toggle=page.locator('#build-step-toggle-5');
@@ -35,7 +33,7 @@ test('build fits small phones through large screens with all steps and downloads
   }
  }
  const downloads=page.locator('a[download]');
- await expect(downloads).toHaveCount(3);
+ await expect(downloads).toHaveCount(5);
  for(const link of await downloads.all()){
   const response=await request.get((await link.getAttribute('href'))!);
   expect(response.ok()).toBe(true);
@@ -105,7 +103,7 @@ test('direct step links and rapid selections keep the requested destination',asy
  await page.goto('/build#step-5');
  await expect(page.locator('#build-step-toggle-5')).toHaveAttribute('aria-expanded','true');
  await expect.poll(()=>page.locator('#step-5').evaluate(node=>Math.abs(node.getBoundingClientRect().top-(document.querySelector('.site-header')?.getBoundingClientRect().bottom??0)-24))).toBeLessThan(2);
- const nav=page.getByRole('navigation',{name:'Assembly steps'});
+ const nav=page.getByRole('navigation',{name:'Validation stages'});
  await nav.locator('a[href="#step-0"]').click();
  await nav.locator('a[href="#step-6"]').click();
  await expect(page.locator('#build-step-toggle-6')).toHaveAttribute('aria-expanded','true');

@@ -19,7 +19,7 @@ function useHousingLabel(){
     ctx.fillStyle='#edf1e7';ctx.fillRect(0,0,768,384);
     ctx.fillStyle='#748980';ctx.font='24px Arial';ctx.fillText('WATER OBSERVATION',49,225);
     ctx.fillStyle='#b9c7bd';ctx.fillRect(49,265,668,2);
-    ctx.fillStyle='#204853';ctx.font='28px Arial';ctx.fillText('pH  /  °C',49,329);
+    ctx.fillStyle='#204853';ctx.font='28px Arial';ctx.fillText('°C  /  EC ESTIMATE',49,329);
     ctx.fillStyle='#71877e';ctx.font='22px Arial';ctx.fillText('NODE 01',596,329);
     const label=new CanvasTexture(canvas);label.colorSpace=SRGBColorSpace;
     label.anisotropy=4;
@@ -40,7 +40,7 @@ function useHousingLabel(){
   return texture;
 }
 
-export default function BuoyModel({hero,active,angle,expanded,sensing=false,sensor='ph',inside=false}:Props){
+export default function BuoyModel({hero,active,angle,expanded,sensing=false,sensor='ec',inside=false}:Props){
   const root=useRef<Group>(null),electronics=useRef<Group>(null),probes=useRef<Group>(null),enclosure=useRef<(Mesh|null)[]>([]);
   const {invalidate}=useThree();
   const label=useHousingLabel();
@@ -137,7 +137,7 @@ export default function BuoyModel({hero,active,angle,expanded,sensing=false,sens
         <cylinderGeometry args={[.017,.017,.44,8]}/><meshStandardMaterial color={navy} roughness={.4}/>
       </mesh>)}
       {[-1,1].map((side,i)=><group key={side} position={[side*.058,-1.58,0]}>
-        <mesh><cylinderGeometry args={[.036,.036,.4,16]}/><meshStandardMaterial color={sensing?(i===0&&sensor==='ph'?'#d9ef9f':i===1&&sensor==='temperature'?'#9edbe5':ivory):shell(2)} emissive={sensing?(i===0&&sensor==='ph'?'#84a948':i===1&&sensor==='temperature'?'#4bafba':'#000000'):'#000000'} emissiveIntensity={.5} metalness={.35} roughness={.25}/></mesh>
+        <mesh><cylinderGeometry args={[.036,.036,.4,16]}/><meshStandardMaterial color={sensing?(i===0&&sensor==='ec'?'#d9ef9f':i===1&&sensor==='temperature'?'#9edbe5':ivory):shell(2)} emissive={sensing?(i===0&&sensor==='ec'?'#84a948':i===1&&sensor==='temperature'?'#4bafba':'#000000'):'#000000'} emissiveIntensity={.5} metalness={.35} roughness={.25}/></mesh>
         <mesh position={[0,-.215,0]}><sphereGeometry args={[.035,16,12]}/><meshPhysicalMaterial color={i?'#8eafac':'#c4b89c'} roughness={.2} metalness={.25}/></mesh>
       </group>)}
       <mesh position={[0,-1.9,0]}><cylinderGeometry args={[.18,.13,.08,32]}/><meshStandardMaterial color={navy} roughness={.4}/></mesh>

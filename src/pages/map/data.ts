@@ -4,7 +4,6 @@ import {aktauCoast,hawaiiCoasts,offshorePoint} from './shoreline';
 
 export {csvUrl};
 export const datasetUrl='https://data.gov.tw/dataset/155934';
-export const geepUrl='https://thegeep.org/programs/youth-innovation-challenge/2026-youth-innovation-challenge';
 export type RegionId='hawaii'|'aktau'|'taiwan';
 export type Coordinates=[number,number];
 export type Station={id:string;name:string;position:Coordinates;type:string;kmFromTaipei:number};
@@ -49,11 +48,15 @@ export const samples:Sample[]=csv.trim().split(/\r?\n/).slice(1).map(line=>{
   return {stationId,date,period:`${date.slice(0,4)}-Q${Math.ceil(Number(date.slice(5,7))/3)}`,values};
 }).filter(sample=>stations.some(station=>station.id===sample.stationId)&&/^\d{4}-\d{2}-\d{2}$/.test(sample.date));
 export const periods=[...new Set(samples.map(sample=>sample.period))].sort().reverse();
+const sampleDates=samples.map(sample=>sample.date).sort();
+/** Labels describe the supplied CSV extract, never the entire external dataset. */
+export const archiveSummary={count:samples.length,stationCount:new Set(samples.map(sample=>sample.stationId)).size,firstDate:sampleDates[0],lastDate:sampleDates.at(-1),years:`${sampleDates[0]?.slice(0,4)??'—'}–${sampleDates.at(-1)?.slice(0,4)??'—'}`};
 export function sampleFor(stationId:string,period:string){
   return samples.filter(sample=>sample.stationId===stationId&&sample.period===period).sort((a,b)=>b.date.localeCompare(a.date))[0];
 }
 // A reproducible design preview, never a measurement or evidence of accuracy.
-// Only pH and temperature correspond to the current AquaNode sensor pair.
+// Retain the original pH/temperature comparison scenarios. These are simulated
+// examples, separate from the current temperature/turbidity prototype.
 export type ExampleReading={key:'temperature'|'ph';value:string;reference:string;deviation:number};
 function modelReading(key:ExampleReading['key'],raw:string,seed:string,precision:number):ExampleReading|null{
   // Missing/censored observations cannot become exact synthetic measurements.

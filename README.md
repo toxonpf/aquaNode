@@ -1,6 +1,6 @@
 # AquaNode website
 
-React + TypeScript + Vite, React Router, React Three Fiber / Three.js and GSAP ScrollTrigger. Russian and English public interfaces; six routes. Russian is the default, with a saved RU / EN selection in the header and footer. No deployment or contact form configured, as requested.
+React + TypeScript + Vite, React Router, React Three Fiber / Three.js and GSAP ScrollTrigger. Russian, English and Traditional Chinese (Taiwan) public interfaces; seven routes. Russian is the default. An icon-triggered language menu in the header and footer saves the selection and updates the interface without a reload. No contact form is configured.
 
 ## Run
 
@@ -74,7 +74,7 @@ See the [project structure and editing map](docs/project-structure.md) for sourc
 - `src/data/catalog.ts`: navigation, people and optional social links, resources, assembly steps, project updates, conceptual part descriptions.
 - `src/main.tsx`: React startup; `src/app/App.tsx`: routes and page shell; `src/pages/`: page composition and English source phrases passed to `t()`.
 - `src/data/content.ts`: localizes shared editorial records for the selected language.
-- `src/features/i18n/i18n.ts` and `src/features/i18n/locales/ru*.ts`: language selection, Russian copy and named placeholders. See [localization notes](docs/localization.md).
+- `src/features/i18n/i18n.ts` and `src/features/i18n/locales/ru*.ts` / `zh-TW.ts`: language selection, Russian copy and named placeholders. See [localization notes](docs/localization.md).
 - `src/features/ocean/scene/Scene.tsx`: ocean rendering, lighting and camera transitions.
 - `src/features/buoy/BuoyModel.tsx` and `src/features/buoy/BuoyDrawing.tsx`: lightweight 3D and static buoy illustrations, based on the supplied open-pisciculture reference.
 - `src/features/ocean/story/BuoyAnnotation.tsx` and `src/features/buoy/buoyAnchors.ts`: the annotation's fixed attachment point, SVG arrow and damped bend. The 3D scene projects the lid point after applying the buoy's current wave transforms; only the bend has inertia, while the tip tracks exactly. The static illustration uses its corresponding SVG point.
@@ -97,9 +97,11 @@ No texture downloads or post-processing passes are used. The enclosure label is 
 
 ## Evidence and unfinished content
 
-See docs/audits/content-audit.md. Prototype photos were not supplied: the PNGs in the workspace are CAD drawings, not photos. Do not replace missing photos with synthetic documentary images. The original supplied notes are a board assembly/testing plan, not a complete, tested buoy build manual. Public English assembly text is a labelled summary of those notes. A download of the actual assembly drawing and BOM is provided; the private protocol-bearing notes remain private.
+Current engineering source: `AquaNode_R0.3_EC_revB/web_handoff/`, dated 29 October 2026. It supersedes the earlier current-status copy. This is a freshwater design investigating an experimental EC estimate with SEN0244 and temperature with DS18B20. Hardware validation, ESP32 compilation, native ERC/DRC and fabrication release remain pending. The 15 synthetic model tests and 155-contact structural comparison do not establish hardware operation or measured accuracy.
 
-The current statement that a prototype works comes from the user's brief. The supplied R0.3 documents explicitly say that revision has not been physically built or validated. No equivalence between them is claimed.
+`src/data/revisions/ec-revb.json` preserves the supplied status, including unknown outcomes as null. `src/data/project.ts` exposes revision metadata. `RevisionNotice` identifies the current stage; `ru-revb.ts` contains its Russian editorial copy. Public downloads under `public/resources/ec-revb/` are limited to permitted web materials; the architecture illustration is CC BY 4.0 and is not a prototype photo or an electrical schematic. Engineering/firmware sources and protocol-bearing material are not published through these downloads.
+
+The journal retains the 20 October R0.3 checks as historical baseline results, separately from revB. Original engineering directories remain unchanged. The map retains approximate geographic markers and the independent Taiwan station archive, with no simulated buoy readings presented as current measurements. The earlier presentation's school-participation figures remain future goals. The previously supplied GEEP certificate is separate recognition, not hardware validation. See `docs/audits/content-audit.md` for the source hierarchy and remaining limits.
 
 ## Accessibility and loading
 

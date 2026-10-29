@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test('footer navigation is centred and the network introduction follows its heading',async({page})=>{
@@ -19,7 +20,7 @@ test('technology pairs a large headline with the model and stacks them on mobile
   for(const width of [1440,1024,390,320]){
     await page.setViewportSize({width,height:1000});await page.goto('/technology');
     for(const language of ['Русский','English']){
-      await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+      await chooseLanguage(page,language,'.site-header');
       await page.evaluate(()=>document.fonts.ready);
       await expect.poll(()=>page.locator('.tech-hero h1').evaluate(node=>{
         const scale=parseFloat(getComputedStyle(document.documentElement).fontSize)/16;

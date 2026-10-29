@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 import {PerspectiveCamera,Vector3} from 'three';
 import {desktopOceanFov} from '../../src/features/ocean/scene/desktopFraming';
@@ -27,7 +28,7 @@ test('all five scenes keep readable UI and reflow across viewport shapes',async(
   await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:1920,height:1080});await page.goto('/');
   const stage=page.locator('.ocean-stage');
   for(const language of ['Русский','English']){
-    await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+    await chooseLanguage(page,language,'.site-header');
     await page.evaluate(()=>document.fonts.ready);
     for(const [width,height] of [...viewports,[1430,983],[1024,1366],[768,1024],[844,390],[390,844]]){
       await page.setViewportSize({width,height});

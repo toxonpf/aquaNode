@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test('language changes in place, including editorial catalogs and metadata',async({page})=>{
@@ -6,16 +7,16 @@ test('language changes in place, including editorial catalogs and metadata',asyn
   await expect(page.locator('.journal-entry').first()).toHaveAttribute('data-open','false');
   await page.evaluate(()=>{(window as any).__mountedMain=document.querySelector('main')});
   let navigations=0;page.on('request',request=>{if(request.isNavigationRequest())navigations++});
-  await page.locator('.site-header').getByRole('button',{name:'Русский',exact:true}).click();
+  await chooseLanguage(page,'Русский','.site-header');
   await expect(page.locator('html')).toHaveAttribute('lang','ru');
   await expect(page.locator('h1')).toHaveText('Наша работа на сегодня.');
   await expect(page).toHaveTitle('Журнал — AquaNode');
   await expect(page.locator('.journal-entry').first()).toHaveAttribute('data-open','false');
-  await expect(page.locator('.journal-entry h3').first()).not.toHaveText('R0.3 carrier design reviewed');
+  await expect(page.locator('.journal-entry h3').first()).not.toHaveText('Software evidence, with clear limits');
   expect(await page.evaluate(()=>document.querySelector('main')===(window as any).__mountedMain)).toBe(true);
   expect(navigations).toBe(0);
-  await page.locator('.site-header').getByRole('button',{name:'English',exact:true}).click();
-  await expect(page.locator('.journal-entry h3').first()).toHaveText('R0.3 carrier design reviewed');
+  await chooseLanguage(page,'English','.site-header');
+  await expect(page.locator('.journal-entry h3').first()).toHaveText('Software evidence, with clear limits');
   expect(await page.evaluate(()=>localStorage.getItem('aquanode.locale'))).toBe('en');
   expect(navigations).toBe(0);
 });
@@ -24,14 +25,12 @@ test('language keeps selected technology controls and the existing 3D canvas',as
   await page.goto('/technology');
   await expect(page.locator('canvas')).toBeVisible();
   await page.evaluate(()=>{(window as any).__sceneCanvas=document.querySelector('canvas')});
-  await page.getByRole('button',{name:'Copper layout',exact:true}).click();
-  await page.locator('.tech-path-picker button').nth(2).click();
+  await page.locator('.circuit-node').nth(2).click();
   await page.evaluate(()=>{(window as any).__languageScroll=scrollY});
-  await page.locator('.site-header').getByRole('button',{name:'Русский',exact:true}).click();
-  await expect(page.locator('.tech-path-picker button').nth(2)).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('.tech-path-picker button').nth(2)).toContainText('Питание');
-  await expect(page.getByRole('button',{name:'Топология меди',exact:true})).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('.tech-path-text .kicker')).toHaveText('ЦЕПЬ ПИТАНИЯ');
+  await chooseLanguage(page,'Русский','.site-header');
+  await expect(page.locator('.circuit-node').nth(2)).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('.circuit-node').nth(2)).toContainText('Температура');
+  await expect(page.locator('.circuit-inspector-meta>span').first()).toHaveText('ТЕМПЕРАТУРНЫЙ ВХОД');
   expect(await page.evaluate(()=>document.querySelector('canvas')===(window as any).__sceneCanvas)).toBe(true);
   // Reflow may move the reading position slightly; changing language must not jump to the top.
   expect(await page.evaluate(()=>scrollY)).toBeGreaterThan(500);
@@ -44,7 +43,7 @@ test('ocean language changes preserve the chapter and selected probe',async({pag
   await page.getByRole('button',{name:/Temperature/}).click();
   await page.evaluate(()=>{(window as any).__oceanStage=document.querySelector('.ocean-stage')});
   const description=await page.locator('#sensor-explanation p').textContent();
-  await page.locator('.site-header').getByRole('button',{name:'Русский',exact:true}).click();
+  await chooseLanguage(page,'Русский','.site-header');
   await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','sensing');
   await expect(page.locator('.ocean-stage')).toHaveAttribute('data-sensor','temperature');
   await expect(page.locator('#sensor-explanation p')).not.toHaveText(description!);

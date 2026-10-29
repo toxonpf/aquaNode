@@ -1,10 +1,11 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test('skip wave starts beside the caption in both languages and fits every rail',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');
   await expect(page.locator('.ocean-stage.is-presented')).toBeVisible();
   for(const language of ['Русский','English']){
-    await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+    await chooseLanguage(page,language,'.site-header');
     for(const width of [1440,390,320]){
       await page.setViewportSize({width,height:1000});await page.evaluate(()=>document.fonts.ready);
       await expect.poll(()=>page.locator('.ocean-chapters-skip').evaluate(link=>{
@@ -33,7 +34,7 @@ test('skip wave starts beside the caption in both languages and fits every rail'
 test('journal thread follows the cover size and chapter row centres',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/journal');
   for(const language of ['English','Русский']){
-    await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+    await chooseLanguage(page,language,'.site-header');
     for(const width of [1440,390,320]){
       await page.setViewportSize({width,height:1000});await page.evaluate(()=>document.fonts.ready);
       await expect(page.locator('.journal-thread-stop')).toHaveCount(3);

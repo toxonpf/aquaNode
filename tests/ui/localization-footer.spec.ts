@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test.use({reducedMotion:'reduce',storageState:{cookies:[],origins:[]}});
@@ -11,17 +12,17 @@ test('Russian is the default and language selection survives navigation and relo
   const cover=await page.locator('.journal-cover').boundingBox();
   const curve=await page.locator('.journal-cover-current').boundingBox();
   expect(Math.abs(cover!.height-curve!.height)).toBeLessThan(1);
-  await page.locator('header.site-header').getByRole('button',{name:'English',exact:true}).click();
+  await chooseLanguage(page,'English','header.site-header');
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   await expect(page.locator('h1')).toHaveText('The work, as it stands.');
   await page.locator('#navigation').getByRole('link',{name:'The project',exact:true}).click();
-  await expect(page.locator('h1')).toHaveText('Understanding starts with observing.');
+  await expect(page.locator('h1')).toHaveText('From the classroom to the shoreline.');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('lang','en');
-  await page.locator('.site-footer').getByRole('button',{name:'Русский',exact:true}).click();
+  await chooseLanguage(page,'Русский','.site-footer');
   await expect(page.locator('html')).toHaveAttribute('lang','ru');
-  await expect(page.locator('h1')).toHaveText('Понимание начинается с наблюдения.');
-  await expect(page.locator('meta[name=description]')).toHaveAttribute('content',/наблюдения за водой/);
+  await expect(page.locator('h1')).toHaveText('Из класса — к берегу.');
+  await expect(page.locator('meta[name=description]')).toHaveAttribute('content',/пресной воды/);
 });
 
 test('Russian pages and footer fit desktop and narrow phones',async({page})=>{
@@ -36,7 +37,7 @@ test('Russian pages and footer fit desktop and narrow phones',async({page})=>{
       const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
       expect(overflow,`${path} at ${width}px`).toBeLessThanOrEqual(1);
       const footer=page.locator('.site-footer');
-      await expect(footer.getByRole('navigation',{name:'Навигация в подвале'}).getByRole('link')).toHaveCount(6);
+      await expect(footer.getByRole('navigation',{name:'Навигация в подвале'}).getByRole('link')).toHaveCount(7);
       const language=await footer.locator('.language-switch').boundingBox();
       expect(language!.x+language!.width).toBeLessThanOrEqual(width);
       if(width<760)expect((await page.locator('.menu-button').boundingBox())!.height).toBeLessThanOrEqual(56);
@@ -56,7 +57,7 @@ test('footer links and return control work',async({page})=>{
   await expect.poll(()=>page.evaluate(()=>scrollY)).toBe(0);
   await page.locator('.site-footer nav').getByRole('link',{name:/Устройство/}).click();
   await expect(page).toHaveURL('/technology');
-  await expect(page.locator('h1')).toContainText('Устройство');
+  await expect(page.locator('h1')).toHaveText('Как устроен буй.');
 });
 
 test('Russian chapter controls and member profiles stay usable on phones',async({page})=>{

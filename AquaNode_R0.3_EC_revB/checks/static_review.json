@@ -1,0 +1,14 @@
+{
+  "kind": "STRUCTURAL SOURCE CHECK, NOT ERC/DRC",
+  "schematic_pin_checks": 155,
+  "schematic_design_agreement": true,
+  "pcb_pad_design_agreement": true,
+  "copper_segments_vias_zones_unchanged": true,
+  "pads_and_placement_unchanged": true,
+  "R3_DNP_in_all_sources": true,
+  "native_erc": "NOT_RUN",
+  "native_drc": "NOT_RUN",
+  "firmware_esp32_compile": "NOT_RUN",
+  "hardware_tests": "NOT_RUN",
+  "source_hash_comparison": "see source_preservation.json from original run"
+}

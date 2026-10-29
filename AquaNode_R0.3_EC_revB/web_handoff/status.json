@@ -1,0 +1,46 @@
+{
+  "schema": "aquanode.project-status.v1",
+  "revision": "R0.3-EC-revB",
+  "as_of": "2026-10-29",
+  "stage": "engineering_review",
+  "freshwater_only": true,
+  "sensor": "DFRobot SEN0244 TDS module",
+  "ec_kind": "experimental_estimate",
+  "hardware_tested": false,
+  "firmware_compiled": false,
+  "native_erc_run": false,
+  "native_drc_run": false,
+  "fabrication_ready": false,
+  "radio_verified": false,
+  "mesh_verified": false,
+  "ph_verified": false,
+  "accuracy": null,
+  "battery_life": null,
+  "field_pilots_verified": null,
+  "users_verified": null,
+  "partners_verified": null,
+  "mit_solve": "possible_future_application_only",
+  "software_tests": {
+    "type": "synthetic_host_model",
+    "report": "../checks/python_tests.txt",
+    "result": "passed",
+    "count": 15
+  },
+  "power_design": "external TP5 5V_PH wire; no J7.2 cable contact",
+  "assets": [
+    {
+      "file": "assets/architecture.svg",
+      "kind": "design_diagram",
+      "photo": false,
+      "license": "CC-BY-4.0"
+    }
+  ],
+  "release_blockers": [
+    "native CAD verification/export",
+    "ESP32 compile and device test",
+    "power and ADC tests",
+    "independent EC validation",
+    "pH interaction",
+    "mechanical and field validation"
+  ]
+}

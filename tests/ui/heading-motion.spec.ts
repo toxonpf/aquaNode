@@ -4,8 +4,8 @@ test('headings reveal individual words without changing their text or wrapping',
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto('/about');
  const heading=page.locator('.page-intro h1');
- await expect(heading).toHaveText('Understanding starts with observing.');
- await expect(heading.locator('.heading-word')).toHaveCount(4);
+ await expect(heading).toHaveText('From the classroom to the shoreline.');
+ await expect(heading.locator('.heading-word')).toHaveCount(6);
  await expect.poll(()=>heading.locator('.heading-word').evaluateAll(words=>words.every(word=>getComputedStyle(word).opacity==='1'))).toBe(true);
  for(const width of [1440,390,320]){
   await page.setViewportSize({width,height:1000});

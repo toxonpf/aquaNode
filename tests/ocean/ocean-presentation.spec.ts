@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test('all chapter cues share one animated arrow and no previous-chapter buttons remain',async({page})=>{
@@ -41,7 +42,7 @@ test('chapter headings reveal even when an initially hidden heading gets no new 
   for(const width of [1440,390]){
     await page.setViewportSize({width,height:1000});
     for(const language of ['Русский','English']){
-      await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+      await chooseLanguage(page,language,'.site-header');
       for(const [index,chapter] of [[1,'detail'],[2,'sensing'],[3,'inside'],[4,'signal'],[2,'sensing']] as const){
         await stage.locator('.ocean-chapters a').nth(index).click();
         const panel=stage.locator(`[data-reader=${chapter}]`),heading=panel.locator('h2');

@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 const sizes=[
@@ -12,7 +13,7 @@ test('all reading layouts fit desktop, scaled laptop and mobile viewports',async
   for(const route of ['/','/about','/technology','/build','/journal','/team','/map']){
     await page.goto(route);
     for(const language of ['Русский','English']){
-      await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+      await chooseLanguage(page,language,'.site-header');
       await page.evaluate(()=>document.fonts.ready);
       for(const [width,height] of sizes){
         await page.setViewportSize({width,height});await page.evaluate(settle);

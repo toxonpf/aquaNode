@@ -81,7 +81,7 @@ export default function App(){
   useEffect(()=>{
     const title=pathname==='/map'?t('Observation map'):nav.find(([path])=>path===pathname)?.[1]||t('Page not found');
     document.title=`${title} — AquaNode`;
-    const description=pathname==='/'?t('One working buoy. pH and temperature. Explore AquaNode and its open engineering resources.'):`${title}: ${t('AquaNode water observation, current progress and engineering materials.')}`;
+    const description=pathname==='/'?t("AquaNode develops an educational freshwater buoy. R0.3-EC-revB explores an experimental EC estimate and temperature sensing; hardware validation is pending."):`${title}: ${t("AquaNode: an educational freshwater project, engineering development and planned practical learning.")}`;
     document.querySelector('meta[name="description"]')?.setAttribute('content',description);
     document.querySelector('meta[property="og:title"]')?.setAttribute('content',document.title);
     document.querySelector('meta[property="og:description"]')?.setAttribute('content',description);

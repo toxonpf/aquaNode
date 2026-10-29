@@ -26,7 +26,7 @@ function RubberDuck(){
 
 useGLTF.preload('/models/rubber-duck/scene.gltf');
 
-function FloatingBuoy({visible,shot,showInside=false,sensor='ph',onSensorChange,onBuoyAnchor}:{visible:boolean;shot?:SceneShot;showInside?:boolean;sensor?:SensorKind;onSensorChange?:(sensor:SensorKind)=>void;onBuoyAnchor?:BuoyAnchorHandler}){
+function FloatingBuoy({visible,shot,showInside=false,sensor='ec',onSensorChange,onBuoyAnchor}:{visible:boolean;shot?:SceneShot;showInside?:boolean;sensor?:SensorKind;onSensorChange?:(sensor:SensorKind)=>void;onBuoyAnchor?:BuoyAnchorHandler}){
   const group=useRef<Group>(null);
   const anchor=useMemo(()=>new Vector3(),[]);
   const outward=useMemo(()=>new Vector3(),[]);

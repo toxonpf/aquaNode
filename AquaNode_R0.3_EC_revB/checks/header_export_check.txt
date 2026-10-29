@@ -1,0 +1,1 @@
+Host-only checks: synthetic identifier rejected; generated header preserves false acceptance flags. PASS. No calibration data installed into firmware. Not an ESP32 compile.

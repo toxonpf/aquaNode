@@ -70,7 +70,7 @@ export default function TeamRoster(){
     <header className="team-hero">
       <div className="team-hero-top"><SectionLabel as="span" icon="people">{t("THE AQUANODE COLLECTIVE")}</SectionLabel><span>{t("KAZAKHSTAN · A SHARED CURIOSITY")}</span></div>
       <div className="team-hero-heading"><Heading as="h1">{t("People behind")} <br/><span>{t("the node.")}</span></Heading><div className="team-hero-aside"><span className="team-hero-count">{count}<i><FlexibleArrow direction="up-right"/></i></span><p>{t("Different minds.")}<br/>{t("One shared direction.")}</p></div></div>
-      <div className="team-hero-bottom"><p>{t("Engineering, observation and a little curiosity.")}<br/>{t("Meet the people moving AquaNode forward.")}</p><a href="#team-gallery" className="team-meet-link" aria-controls="team-gallery" onClick={meetTeam}><span>{t("MEET THE PEOPLE")}</span><FlexibleArrow direction="down"/></a></div>
+      <div className="team-hero-bottom"><p>{t("Engineering you can build. Environmental learning you can measure.")}<br/>{t("Meet the people moving AquaNode forward.")}</p><a href="#team-gallery" className="team-meet-link" aria-controls="team-gallery" onClick={meetTeam}><span>{t("MEET THE PEOPLE")}</span><FlexibleArrow direction="down"/></a></div>
       <svg className="team-hero-current" viewBox="0 0 900 240" fill="none" aria-hidden="true"><path d="M-30 145C180 310 300-40 510 100S795 270 960 22M-30 172C180 337 300-13 510 127S795 297 960 49M-30 199C180 364 300 14 510 154S795 324 960 76"/></svg>
     </header>
     <section ref={gallery} id="team-gallery" className="team-roster" tabIndex={-1} aria-label={t("Team members and contacts")}>
@@ -94,7 +94,7 @@ export default function TeamRoster(){
         <div className="team-profile-info-viewport"><div className="team-profile-info" aria-live="polite">
           <span className="team-profile-kicker">{t("THE AQUANODE COLLECTIVE /")} {String(selected!+1).padStart(2,'0')}</span>
           <Heading as="h2" id="team-profile-name">{person.name}</Heading><p className="team-profile-role">{person.role}</p>
-          <p className="team-profile-intro"><span className="team-profile-intro-full">{t("A shared curiosity about water. A hands-on approach to building the tools that help us understand it.")}</span><span className="team-profile-intro-compact">{t('We build tools to understand water.')}</span></p>
+          <p className="team-profile-intro"><span className="team-profile-intro-full">{t("A shared curiosity about water. A hands-on approach to building the tools that help us understand it.")}</span><span className="team-profile-intro-compact">{t("We build tools for hands-on water learning.")}</span></p>
           {person.links.length>0&&<span className="team-profile-contact-label">{t("STAY IN TOUCH")}</span>}<Contacts person={person}/>
           <div className="team-profile-pagination"><TeamCurrent key={person.slug} index={selected!}/><button type="button" onClick={()=>changeMember(-1)} aria-label={t("Previous team member")}><FlexibleArrow direction="left"/><span>{t("← Previous").replace("← ","")}</span></button><span>{String(selected!+1).padStart(2,'0')} / {count}</span><button type="button" onClick={()=>changeMember(1)} aria-label={t("Next team member")}><span>{t("Next →").replace(" →","")}</span><FlexibleArrow/></button></div>
         </div></div>

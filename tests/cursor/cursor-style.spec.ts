@@ -35,7 +35,7 @@ test('console switches between native and water cursors without moving the point
 test('cursor selection persists and invalid values do not alter it',async({page})=>{
   await page.goto('/journal');await page.evaluate(()=>window.cursorStyle(0));
   await page.locator('#navigation a[href="/about"]').click();
-  await expect(page.locator('h1')).toHaveText('Understanding starts with observing.');
+  await expect(page.locator('h1')).toHaveText('From the classroom to the shoreline.');
   expect(await page.evaluate(()=>window.cursorStyle())).toBe(0);
   await page.reload();await page.mouse.move(500,300);
   await expect(page.locator('html')).toHaveAttribute('data-cursor-style','0');

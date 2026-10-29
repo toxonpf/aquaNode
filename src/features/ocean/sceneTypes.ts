@@ -1,2 +1,2 @@
 export type SceneShot='surface'|'detail'|'sensing'|'inside'|'signal';
-export type SensorKind='ph'|'temperature';
+export type SensorKind='ec'|'temperature';

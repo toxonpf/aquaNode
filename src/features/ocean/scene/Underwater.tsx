@@ -39,7 +39,7 @@ export function WaterParticles({active}:{active:boolean}){
 
 export function ProbeFocus({sensor,onChange}:{sensor:SensorKind;onChange?:(sensor:SensorKind)=>void}){
   const rings=useRef<(Mesh|null)[]>([]);
-  const color=sensor==='ph'?'#d9ef9f':'#9edbe5';
+  const color=sensor==='ec'?'#d9ef9f':'#9edbe5';
   useFrame(({clock,camera})=>{
     rings.current.forEach((ring,i)=>{
       if(!ring)return;
@@ -54,8 +54,8 @@ export function ProbeFocus({sensor,onChange}:{sensor:SensorKind;onChange?:(senso
     {[0,1].map(i=><mesh key={i} ref={el=>{rings.current[i]=el}} position={[0,-2.32,.2]}>
       <ringGeometry args={[.29,.295,64]}/><meshBasicMaterial color={color} transparent opacity={0} depthWrite={false}/>
     </mesh>)}
-    {(['ph','temperature'] as SensorKind[]).map((kind,i)=><Html key={kind} position={[i===0?-.67:.67,-2.25-i*.35,.35]} center zIndexRange={[3,1]}>
-      <button className={'sensor-hotspot'+(sensor===kind?' is-active':'')} type="button" tabIndex={-1} aria-hidden="true" onPointerDown={event=>event.preventDefault()} onClick={()=>onChange?.(kind)} aria-pressed={sensor===kind} data-sensor={kind}><i/><span>{kind==='ph'?'pH':'°C'}</span></button>
+    {(['ec','temperature'] as SensorKind[]).map((kind,i)=><Html key={kind} position={[i===0?-.67:.67,-2.25-i*.35,.35]} center zIndexRange={[3,1]}>
+      <button className={'sensor-hotspot'+(sensor===kind?' is-active':'')} type="button" tabIndex={-1} aria-hidden="true" onPointerDown={event=>event.preventDefault()} onClick={()=>onChange?.(kind)} aria-pressed={sensor===kind} data-sensor={kind}><i/><span>{kind==='ec'?'EC':'°C'}</span></button>
     </Html>)}
   </group>;
 }

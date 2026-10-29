@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test('ocean headings use no more than two complete lines in either language',async({page})=>{
@@ -5,7 +6,7 @@ test('ocean headings use no more than two complete lines in either language',asy
   for(const width of [1440,390,320]){
     await page.setViewportSize({width,height:1000});
     for(const language of ['Русский','English']){
-      await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+      await chooseLanguage(page,language,'.site-header');
       await page.evaluate(()=>document.fonts.ready);
       await expect.poll(()=>page.locator('.story-panel h2,.story-panel h3').evaluateAll(headings=>headings.every(node=>{
         const style=getComputedStyle(node);return node.getBoundingClientRect().height<=parseFloat(style.lineHeight)*2+1&&node.scrollWidth<=node.clientWidth+1;

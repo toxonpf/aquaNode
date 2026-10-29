@@ -1,0 +1,19 @@
+{
+  "base": "R0.3 directly; no R0.4 SHT40",
+  "R3_DNP_schematic_PCB_design": "passed",
+  "GPIO1_EC_GPIO43_temperature": "passed",
+  "external_symbol_pins_and_labels": "passed",
+  "carrier_copper_geometry_unchanged": "passed",
+  "PDF_pages": 2,
+  "python_model_tests": 10,
+  "native_ERC_DRC": "not performed",
+  "ESP32_compile": "not performed",
+  "physical_tests": "not performed",
+  "measurement_status": "estimated EC only after real calibration; no claimed sensor accuracy",
+  "open_acceptance_items": [
+    "sensor supply >=3.3V under load",
+    "ADC calibration and independent EC standards",
+    "pH/EC cross-interference",
+    "native CAD checks and ESP32 compilation"
+  ]
+}

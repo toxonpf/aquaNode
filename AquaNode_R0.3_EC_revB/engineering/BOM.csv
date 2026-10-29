@@ -1,0 +1,77 @@
+reference,value,mpn,location,fit,notes
+J1,XIAO_LEFT_D0..D6,Samtec TSW-107-07-G-S,carrier,FIT,D0/GPIO1 EC ADC; D6/GPIO43 DS18B20. USB CDC only; do not use UART0 TX.
+J2,XIAO_RIGHT_D7..5V,Samtec TSW-107-07-G-S,carrier,FIT,Pin 7 at USB end. USB_DEV is XIAO 5V/VBUS; never inject boosted power.
+J3,BATTERY + -,B2B-PH-K-S(LF)(SN),carrier,FIT,Protected 1S pack only. Verify actual plug polarity; JST housing does not guarantee polarity.
+J4,TO XIAO BAT PADS,B2B-PH-K-S(LF)(SN),carrier,FIT,Pigtail soldered to XIAO underside BAT+/BAT- pads. Not to 3V3 or 5V.
+J5,SPST BATTERY SWITCH,B2B-PH-K-S(LF)(SN),carrier,FIT,External two-wire SPST. USB remains a service power source; unplug USB for full shutdown.
+J7,EC G / 3V3-NO-CABLE / A,B3B-PH-K-S(LF)(SN),carrier,FIT,"Pin 2 remains 3V3 copper. Depopulate and insulate cable contact 2. SEN0244 VCC comes from TP5, never bridge TP5 to J7.2."
+J9,PH AFE G V A,B3B-PH-K-S(LF)(SN),carrier,FIT,"Universal low-voltage pH AFE adapter: 1 GND, 2 selected supply, 3 output. Verify actual module cable pinout before connecting. No bare glass electrode."
+JP1,PH POWER 3V3 / 5V,Samtec TSW-103-07-G-S,carrier,FIT,Default jumper 2-3 (5V). One shunt only. 1-2 is optional 3V3 variant; DNP boost/LDO in that assembly.
+U1,ADS1115,ADS1115IDGSR,carrier,FIT,"0x48; single-shot, PGA +/-4.096V; 16 SPS."
+U7,TPS61040,TPS61040DBVR,carrier,FIT,EN tied to switched input to avoid EN > VIN during power-off.
+U8,5V LDO,TPS7A2050PDBVR,carrier,FIT,EN follows switched boost input; check startup and shutdown transients.
+Q1,P-MOS high side,AO3401A,carrier,FIT,
+Q2,N-MOS gate driver,"2N7002,215",carrier,FIT,
+D1,Schottky 20V,MBR0520LT1G,carrier,FIT,
+D2,EC input ESD,"PESD3V3S1BA,115",carrier,FIT,"ESD only; leakage/clamp require bench verification, not powered-off isolation."
+L1,10uH 1.4A sat,SRN4018-100M,carrier,FIT,"Semi-shielded; land pattern from Bourns recommended layout, still requires CAD review."
+R1,4.7k,CRCW08054K70FKEA,carrier,FIT,
+R2,4.7k,CRCW08054K70FKEA,carrier,FIT,
+R3,DNP - REMOVE 4.7k,CRCW08054K70FKEA,carrier,DNP,Mandatory removal; otherwise biases EC analog input.
+R4,100R,CRCW0805100RFKEA,carrier,FIT,
+R5,100k,CRCW0805100KFKEA,carrier,FIT,
+R6,100k,CRCW0805100KFKEA,carrier,FIT,
+R7,69.8k 0.1%,RNCS0805BKE69K8,carrier,FIT,
+R8,20k 0.1%,RT0805BRD0720KL,carrier,FIT,
+R9,49.9k 0.1%,RT0805BRD0749K9L,carrier,FIT,
+R10,49.9k 0.1%,RT0805BRD0749K9L,carrier,FIT,
+R11,100k 0.1%,RT0805BRD07100KL,carrier,FIT,
+R12,100k 0.1%,RT0805BRD07100KL,carrier,FIT,
+R15,1k,CRCW08051K00FKEA,carrier,FIT,
+R16,1k,CRCW08051K00FKEA,carrier,FIT,
+C1,100nF,GRM21BR71H104KA01L,carrier,FIT,
+C7,10uF,GRM21BR61A106KE19L,carrier,FIT,
+C8,22uF,GRM32ER71C226KEA8L,carrier,FIT,
+C9,1uF,GRM21BR71E105KA99L,carrier,FIT,
+C10,10uF,GRM21BR61A106KE19L,carrier,FIT,
+C11,1uF,GRM21BR71E105KA99L,carrier,FIT,
+C12,1uF,GRM21BR71E105KA99L,carrier,FIT,
+C13,100nF,GRM21BR71H104KA01L,carrier,FIT,
+C14,100nF,GRM21BR71H104KA01L,carrier,FIT,
+C15,100nF,GRM21BR71H104KA01L,carrier,FIT,
+C16,1uF,GRM21BR71E105KA99L,carrier,FIT,
+C17,22uF,GRM32ER71C226KEA8L,carrier,FIT,
+C18,22uF,GRM32ER71C226KEA8L,carrier,FIT,
+TP1,VBAT_RAW,PCB copper pad,carrier,FIT,No purchased component.
+TP2,VBAT,PCB copper pad,carrier,FIT,No purchased component.
+TP3,3V3,PCB copper pad,carrier,FIT,No purchased component.
+TP4,BAT_EN,PCB copper pad,carrier,FIT,No purchased component.
+TP5,5V_PH,PCB copper pad,carrier,FIT,No purchased component.
+TP6,GND,PCB copper pad,carrier,FIT,No purchased component.
+TP7,I2C_SDA,PCB copper pad,carrier,FIT,No purchased component.
+TP8,I2C_SCL,PCB copper pad,carrier,FIT,No purchased component.
+TP9,EC_FILTERED,PCB copper pad,carrier,FIT,No purchased component.
+TP10,PH_OUT,PCB copper pad,carrier,FIT,No purchased component.
+TP11,PH_EN,PCB copper pad,carrier,FIT,No purchased component.
+TP12,BOOST_RAW,PCB copper pad,carrier,FIT,No purchased component.
+TP13,ADC_PH,PCB copper pad,carrier,FIT,No purchased component.
+TP14,ADC_BAT,PCB copper pad,carrier,FIT,No purchased component.
+H1,M3 NPTH,M3 nylon standoff,carrier,FIT,3.2mm drill; copper keepout radius 3.2mm.
+H2,M3 NPTH,M3 nylon standoff,carrier,FIT,3.2mm drill; copper keepout radius 3.2mm.
+H3,M3 NPTH,M3 nylon standoff,carrier,FIT,3.2mm drill; copper keepout radius 3.2mm.
+H4,M3 NPTH,M3 nylon standoff,carrier,FIT,3.2mm drill; copper keepout radius 3.2mm.
+Q3,Battery sense P-MOS,AO3401A,carrier,FIT,
+Q4,Battery sense driver,"2N7002,215",carrier,FIT,
+R17,1M,CRCW08051M00FKEA,carrier,FIT,
+R18,100k,CRCW0805100KFKEA,carrier,FIT,
+M1,DFRobot SEN0244,SEN0244,external harness,FIT,Not on carrier PCB
+R19,4.7k,select rating per integration guide,external harness,FIT,Not on carrier PCB
+R20,100R,select rating per integration guide,external harness,FIT,Not on carrier PCB
+D3,PESD3V3S1BA,"PESD3V3S1BA,115",external harness,FIT,Not on carrier PCB
+M2,Existing DS18B20 probe,select rating per integration guide,external harness,FIT,Not on carrier PCB
+R21,1k,select rating per integration guide,external harness,FIT,Not on carrier PCB
+C19,100nF,select rating per integration guide,external harness,FIT,Not on carrier PCB
+W1,insulated wire TP5 to SEN0244 VCC,,harness,FIT,J7.2 cable terminal removed
+MODULE1,XIAO ESP32S3 + Wio SX1262,Seeed 102010611,module,FIT,Verify physical purchased revision
+PACK1,protected 1S Li-ion pack,TBD,power,TBD,"Capacity, BMS and charging limits not selected"
+PH1,pH AFE and probe,TBD,optional,DISCONNECT,No approved cheap pH module MPN in source; not included in EC-only bench

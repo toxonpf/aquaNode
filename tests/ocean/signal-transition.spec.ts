@@ -29,11 +29,11 @@ test('route swap is covered and browser Back completes the transition',async({pa
   await page.goto('/about');
   await page.locator('header nav a[href="/build"]').click();
   await expect(page.locator('.page-curtain')).toHaveAttribute('data-active','true');
-  await expect(page.locator('main h1')).toHaveText('Understanding starts with observing.');
+  await expect(page.locator('main h1')).toHaveText('From the classroom to the shoreline.');
   await expect(page.locator('main h1')).toHaveText('Learn by putting it together.');
   await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
   await page.goBack();
-  await expect(page.locator('main h1')).toHaveText('Understanding starts with observing.');
+  await expect(page.locator('main h1')).toHaveText('From the classroom to the shoreline.');
   await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
 });
 
@@ -50,7 +50,7 @@ test('returning to the outgoing page during a transition clears the curtain',asy
   await page.locator('header nav a[href="/build"]').click();
   await page.locator('header nav a[href="/about"]').click({force:true});
   await expect(page).toHaveURL(/\/about$/);
-  await expect(page.locator('main h1')).toHaveText('Understanding starts with observing.');
+  await expect(page.locator('main h1')).toHaveText('From the classroom to the shoreline.');
   await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
   await expect(page.locator('.page-curtain')).toHaveCSS('pointer-events','none');
 });
@@ -77,6 +77,6 @@ test('reduced motion visits all five chapters in order without a page curtain',a
   await expect(stage).toHaveAttribute('data-shot','signal');
   await expect(stage).toBeInViewport();
   await page.locator('header nav a[href="/about"]').click();
-  await expect(page.locator('main h1')).toHaveText('Understanding starts with observing.');
+  await expect(page.locator('main h1')).toHaveText('From the classroom to the shoreline.');
   await expect(page.locator('.page-curtain')).toHaveCSS('display','none');
 });

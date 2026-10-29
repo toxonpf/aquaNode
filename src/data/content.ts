@@ -23,4 +23,4 @@ subscribeLocale(()=>{
 });
 export const awardUrl=english.awardUrl;
 export const awardCertificate=english.awardCertificate;
-export const locales={en:{label:'English',complete:true},ru:{label:'Русский',complete:true}};
+export const locales={en:{label:'English',complete:true},ru:{label:'Русский',complete:true},'zh-TW':{label:'繁體中文（台灣）',complete:true}};

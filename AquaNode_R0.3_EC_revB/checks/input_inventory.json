@@ -1,0 +1,512 @@
+[
+  {
+    "path": "analog_calculations.json",
+    "size": 1132,
+    "sha256": "65ff29398c717d97b615074c4f8c71ef7827a202ae1780a56c2940f4f17ef60e",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "Analog_calculations_ru.md",
+    "size": 8319,
+    "sha256": "cec24c716911fcf10e748a7e0099fd0b649647d56caf85cbc49b8b36203eed64",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "ATTRIBUTION.md",
+    "size": 4813,
+    "sha256": "d9a62c024509cfd40525ac0226edcf1253c8a6318b42365715694f49bbe3957c",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/Assembly.png",
+    "size": 148766,
+    "sha256": "bd68d3bae7d02b929f6fd9bee497f80440f50b8419633e0fd0e0be0a28d5a69d",
+    "inspection": "PNG decoded"
+  },
+  {
+    "path": "baseline_r03/Assembly.svg",
+    "size": 192891,
+    "sha256": "b1fac94ab34fd741aae37f34ba978a559b02fe2749a894b25b84ecdad128012f",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/checks/DRC.json",
+    "size": 284,
+    "sha256": "45c2d35f6e83534b6cd6b214b419d02f8f96caff705914f80962fd116bbf4835",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "baseline_r03/checks/ERC.json",
+    "size": 372,
+    "sha256": "889cd79e0a4d69671c61aac23640a7cbfc555c2dd0a4a4e4bf4a793286d7a06d",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "baseline_r03/checks/layout_metrics.json",
+    "size": 2624,
+    "sha256": "b37b1812a3aa93f613c5d2dba84fdedd027ea53f84c4d357a7a2985584068b3e",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "baseline_r03/checks/native_netlist.net",
+    "size": 78411,
+    "sha256": "b286d6a70c73298db2f9a38735d5848f69c3ac5981f6fbd995ecf7891d790cac",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "baseline_r03/checks/pcb_pins.json",
+    "size": 2865,
+    "sha256": "47f1daac96cb53eb1ff23aec0c21150f4577bc4cc5302bbb983af48a4072d3fa",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "baseline_r03/checks/pin_comparison.json",
+    "size": 124,
+    "sha256": "c3ff246a51a04e58cdd9e60acd8774dba5be9dce3d709d3f95e8092616c0984f",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode-B_Cu.gbl",
+    "size": 68198,
+    "sha256": "45b42b1765adcb0872d10c05d4a2c65e8f6da15d54293a690c895872b5c9496a",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode-B_Mask.gbs",
+    "size": 2404,
+    "sha256": "ae519df670b546a3ff7ca5703cf04e6e12934b88eea8585e5debf9e0b35421ca",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode-Edge_Cuts.gm1",
+    "size": 639,
+    "sha256": "8ca1c8d7334eb8e4b6770d70fbd0b5b198b01cafa3c016b7ffe445b7e0ab4e29",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode-F_Cu.gtl",
+    "size": 209303,
+    "sha256": "435f3e91f12518e327a032cc8b5906ab61563c6ca570eb770bd981cc89634519",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode-F_Mask.gts",
+    "size": 7236,
+    "sha256": "7f60f61998f52635a05804dd48d6d61683036aca31bb9a95f2695eed3efa3e74",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode-F_Silkscreen.gto",
+    "size": 74604,
+    "sha256": "0cc3550e1931bf330fef47342764964ab1550ad22e86b36013d8c5792ac0d707",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode-job.gbrjob",
+    "size": 2427,
+    "sha256": "5b8eb1cb33d88e061f124b816ada876950f6cd03a083152fd37111f857d92d09",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/fabrication_review/AquaNode.drl",
+    "size": 2122,
+    "sha256": "c3afbd239aa2e3c876e5cf4009fe5b20dda12d94e2c6dcba8f905a941252df9b",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/PCB.png",
+    "size": 330126,
+    "sha256": "6dcfcb65ebc687c9836a1784af00385e16b5a86077c0c7aeba1f46788da6b111",
+    "inspection": "PNG decoded"
+  },
+  {
+    "path": "baseline_r03/PCB_B.png",
+    "size": 68755,
+    "sha256": "e54865eb05a999a7e051f8db472a8a403bf41c862a25b7c2f53d32c5b89d1fa6",
+    "inspection": "PNG decoded"
+  },
+  {
+    "path": "baseline_r03/PCB_B.svg",
+    "size": 77977,
+    "sha256": "c870277c482a4a456569b503583f89da728423f1cb0813e92eb63af2ea013085",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/PCB_F.png",
+    "size": 226634,
+    "sha256": "69212b076016206f5eaef1355897a9a99a1a51861f0ebae6d94e48484bf64ef6",
+    "inspection": "PNG decoded"
+  },
+  {
+    "path": "baseline_r03/PCB_F.svg",
+    "size": 296445,
+    "sha256": "bb50f0073db41fa07dbc5f0de058b4c9f14d63130dc2656d4c78d8f363eab25f",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "baseline_r03/Schematic.pdf",
+    "size": 254404,
+    "sha256": "bd0d17ee75d98483a8f3e8fa168377b2c477142e5aedaa19c93e2bcaf179d39b",
+    "inspection": "PDF 1 pages text extracted"
+  },
+  {
+    "path": "BOM_ru.md",
+    "size": 11927,
+    "sha256": "f7edf0582594936124bdbb6238b576f5b3fc4bed3d1e790925f58b528b37fd74",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "cad/AquaNode.kicad_pcb",
+    "size": 603638,
+    "sha256": "4e46eece5ff73df28bffc7c7594018fedafe7195d4d9e11f6dd90318340d1d56",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.kicad_pro",
+    "size": 9366,
+    "sha256": "3c7c9b42347450a9cf119c0232505e91d8866afb46ebe35b84b34542bba89cfe",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "cad/AquaNode.kicad_sch",
+    "size": 159617,
+    "sha256": "c4b5ece1fdd2dd9758ea42c3adb262e4229361ef32994f78bbf0d59b0f21d4e6",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.kicad_sym",
+    "size": 75550,
+    "sha256": "7941f12f559778f13b6676612caf5388715f519adf603687cc54aabf9532f0f1",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/C_0805_2012Metric.kicad_mod",
+    "size": 4002,
+    "sha256": "e2b5da4826369a82472178c5b098659acb8df5846aca419ec91570f29bbcb146",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/C_1210_3225Metric.kicad_mod",
+    "size": 3908,
+    "sha256": "dbd48399be37ba0fda7c4d37ec232e80e9b601134839dfdbae3a1921408c06ac",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/CP_Elec_5x5.4.kicad_mod",
+    "size": 7810,
+    "sha256": "405aeb48132f63bdeb74b922609d59d6f2f393dbef903b7befce34980add6971",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/D_SOD-123.kicad_mod",
+    "size": 4889,
+    "sha256": "2c7af576914b1d6de4d0c8071bf6fee106267b11c46174a4f517c951b776ac08",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/D_SOD-323.kicad_mod",
+    "size": 4730,
+    "sha256": "f4ba0ff5a36db7995c9de74e102b0205518ba6445c12ff487ef527c343ba7d1a",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.kicad_mod",
+    "size": 8263,
+    "sha256": "4b4b3e27b535510d83e4783d64d58d07dc743471d1e3e2817671a45f82dd11e9",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical.kicad_mod",
+    "size": 9126,
+    "sha256": "c9ff2291de8d32f11fd5ebfe232798729ff3ccda4fe88aa75e831dfa49648738",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical.kicad_mod",
+    "size": 9989,
+    "sha256": "4961d220ada24efbea8e7abb8c44243866bef7697ba57f2286a054f76fb0f1ca",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/L_Bourns_SRN4018_Custom.kicad_mod",
+    "size": 1909,
+    "sha256": "06ca3d0ace1dbcadb253ba373f6a0ba28bc567b3fa478acc8bd4418a824ca42c",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/MountingHole_3.2mm_M3.kicad_mod",
+    "size": 1996,
+    "sha256": "0d7a3d365c35f0fd7777c47a88a09e2ba035ba9ee5306a267f338798f707a61b",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/PinHeader_1x02_P2.54mm_Vertical.kicad_mod",
+    "size": 4697,
+    "sha256": "5d6e58be3ce29c59f3d14dc294bc802d3037ec21fc654b209709428b4be24540",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod",
+    "size": 4879,
+    "sha256": "50ff39e2055f1da218ef90f793155f9489c49fd05ef07748af1c0f7afde2c88a",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/PinHeader_1x07_P2.54mm_Vertical.kicad_mod",
+    "size": 5622,
+    "sha256": "0ff32e628430a1c3f7a6360ca46a4c7a325932ce6e029f46288724a22eb1b66d",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/PinHeader_2x03_P2.54mm_Vertical.kicad_mod",
+    "size": 5779,
+    "sha256": "cc8387c65c9093001aeca7a5ecbacb2f15ad445c1ca9a964c550d79d97c34158",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/R_0805_2012Metric.kicad_mod",
+    "size": 3923,
+    "sha256": "e4efe97824ebe621ef1ab4a1add64a82b312aa38895527807ece6771e3ad8ec1",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/SOIC-8_3.9x4.9mm_P1.27mm.kicad_mod",
+    "size": 5472,
+    "sha256": "8ab99d70a0247d37cd1659c973f6b180feb5b4f415c4bc5b2d5ed33d232cacd1",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/SOT-23-5.kicad_mod",
+    "size": 4841,
+    "sha256": "31862db93d60dd523da693f451f910d5bf4cf1d18e7ac142b07acbd5f740801b",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/SOT-23.kicad_mod",
+    "size": 4225,
+    "sha256": "c7e216bb7e291b611f9d02f7d2445ac36e929df6bec83672ae27a6529ae15d9b",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/TestPoint_Pad_D2.0mm.kicad_mod",
+    "size": 1953,
+    "sha256": "e34733397ca47cb53330608b29eb0f6eeec1706d1735066a20a6e4695ebad913",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/TSSOP-14_4.4x5mm_P0.65mm.kicad_mod",
+    "size": 6550,
+    "sha256": "01450cc1e22d80354bc8f1eab90002f4b2202c9a691eeddb15751e0715e965e9",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/AquaNode.pretty/VSSOP-10_3x3mm_P0.5mm.kicad_mod",
+    "size": 5713,
+    "sha256": "2644843c671dbd2f5dda3c88f005a9f4c083a98a060a4f7cc044426ac00dbbca",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/fp-lib-table",
+    "size": 158,
+    "sha256": "88aa7afc61805368d1bf37e392cc280f8b6f44ee770bd31d5e04328ee7daa84d",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "cad/sym-lib-table",
+    "size": 156,
+    "sha256": "f39195cea75d55ebf537863d4dd2505c33d7fe19891ddaafbcbf8363a7cd8d3a",
+    "inspection": "S-expression parsed, NOT ERC/DRC"
+  },
+  {
+    "path": "checks/EC_static.json",
+    "size": 699,
+    "sha256": "fb62393bace4d94ed876a8932cbfb3d9b1317e4d93d5d5936a5ee919fe6121c6",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "checks/EC_tests.txt",
+    "size": 1054,
+    "sha256": "f55fb9df0eb2e041a270a32e10b46215e280885e830ceeb7e4d0989fd3bf3b77",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "checks/R03_source_hashes.json",
+    "size": 10282,
+    "sha256": "e93da6354c60a974137b80b9e2808f14f962c5de6c46ae5398b594dd14f86efd",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "design.json",
+    "size": 37154,
+    "sha256": "8999e7f62996f938b054ba52333a0b2ab2070a143c6f274297230430b58307a9",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "EC_BOM_ru.md",
+    "size": 3313,
+    "sha256": "d91385a18e618f76ea32cdc954bda93149a21d9bc70526b20aeb4fca37bd7137",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "EC_calibration_ru.md",
+    "size": 5970,
+    "sha256": "f134afd6d4224180f17cfe24cd886d81266f3f318cee6b644b743d5c7ee5b836",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "EC_integration_ru.md",
+    "size": 6817,
+    "sha256": "acf33f42f55ba2aaaa33a084ea740ef49ef7959b0043e2e7e870a1edce6bae2c",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "Engineering_ru.md",
+    "size": 14051,
+    "sha256": "fd6b5c04b415b7be8b059e2ca96d87cb2bd5a848b67a410fef62ce79e9f83593",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "firmware/ec_bench/calibration.h",
+    "size": 420,
+    "sha256": "d900561ea110ad375f5b6c2985d918e81ae825fe863f0ed232a5f7efc5edf984",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "firmware/ec_bench/ec_bench.ino",
+    "size": 4037,
+    "sha256": "b7110b481746a2800e202e2f3d6a26f99b87814391227ebf1d82dc9b40b4f44d",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "firmware/README_ru.md",
+    "size": 3520,
+    "sha256": "c05079963f2cab0f7892bfb80a77594f15f698696edabec6ecd88bdefdeadceb",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "licenses/CERN-OHL-P-2.0.txt",
+    "size": 8852,
+    "sha256": "6e471d647db50527d0c75ee5f1a55a74012ab177c73282bef0bdc7f6562b7ded",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "licenses/KiCad-LICENSE.md",
+    "size": 2105,
+    "sha256": "285b027a721577d0bc0198f36e948c6c282ddaa4b58fef8ed826749576eb0aef",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "licenses/MIT-AquaNode.txt",
+    "size": 1099,
+    "sha256": "58d15b4fcc3da0819c4fffedf49a1c51aacb96c9cbf1466a6966362fe7358648",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "licenses/MIT-original.txt",
+    "size": 1067,
+    "sha256": "4722aa053dcdea49682c417064d797f14ea54307c63bcd06e5f2f825f7dced66",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "MIT_requirements_ru.md",
+    "size": 9893,
+    "sha256": "89ea20bc95b0b697650e09e414547b9b06b87b4c9c08da9348bae7e7fd3d86ff",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "Netlist_ru.md",
+    "size": 1844,
+    "sha256": "cf1338aa8c97e6a3a1a20d3a0928e895b7b20a1b6d5e60926d20b969963f287f",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "Purchase_and_test_ru.md",
+    "size": 11381,
+    "sha256": "7ff48ae5b5d148852ddc5c1ff2a820a1b4db5fae545e88e007a398c923145904",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "README_ru.md",
+    "size": 3295,
+    "sha256": "109c8f02f47c6f59493e18d2c11f9cf3d725826086e8a74ac23eec0c591c2d6c",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "reference_sources/download_manifest.json",
+    "size": 10801,
+    "sha256": "c7db5cf047989c735dd6abdfbd32ce44ce0d62be0753688ea618849f9f1a293f",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "reference_sources/footprints_manifest.json",
+    "size": 5823,
+    "sha256": "3bec57f3c9949e432c56e53f66a4080fa26b3b3b3e36eabedee615498680be2b",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "reference_sources/source_manifest.json",
+    "size": 6446,
+    "sha256": "82a9f973a1a9a3fbd3724addd415096d381a274e2996a4dabf6f618a8cd45cb0",
+    "inspection": "JSON parsed"
+  },
+  {
+    "path": "Report.html",
+    "size": 1757,
+    "sha256": "35ce497b506ff2dea42e3ad230ad9e71d7b4c5dbe27ea76289c827be409b61eb",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "Schematic.pdf",
+    "size": 283879,
+    "sha256": "0c43eb36a9b7089677bad47fa206b9dcdb654b5e9601b375fd51945839700d1c",
+    "inspection": "PDF 2 pages text extracted"
+  },
+  {
+    "path": "SHA256SUMS.txt",
+    "size": 8492,
+    "sha256": "3425b886c5aac2c1f2c18abfcf8d552fbf908ad03f66ae1f819b2e33d2b454de",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "Sources_ru.md",
+    "size": 7782,
+    "sha256": "0b1b0e639f69abf265235b2acdeb98d5a8506589798b9c7c68fe6cf22801477f",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "test_tools/delivery_report.py",
+    "size": 2296,
+    "sha256": "bca95aca9c99c05055a1e8d0bc4107daac1d8ac0ab1eaee29775d2d3d8e1d961",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "test_tools/ec_model.py",
+    "size": 3710,
+    "sha256": "8203f412af3d6619504c6966f351da87372426b494bc146fb32ef986943186a4",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "test_tools/log_capture.py",
+    "size": 2314,
+    "sha256": "e9d7f0489cf408246e5d6c7114f18875d25d6f67e737090efaa193b468901b86",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "test_tools/README_ru.md",
+    "size": 4173,
+    "sha256": "beee7394eaaf5458eb4b4baa1398fd98005a64e90ec4831beb964a630cade36f",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "test_tools/test_ec.py",
+    "size": 2362,
+    "sha256": "638e476abd3d3f5178a22864aedbd22bc5fda330936e489aeb6f2de89072a0cc",
+    "inspection": "UTF8 decoded"
+  },
+  {
+    "path": "Verification_ru.md",
+    "size": 5510,
+    "sha256": "1e8ced1e64bd9f15cf4f705c9bdab7e5b0227fd28177cc3ee2eb67af374c7cca",
+    "inspection": "UTF8 decoded"
+  }
+]

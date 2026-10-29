@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test.beforeEach(async({page})=>{
@@ -38,7 +39,7 @@ test('the atlas progressively splits 97 coastal buoys into local groups',async({
   expect(visibleId).toBeTruthy();
   await page.getByRole('button',{name:visibleId!,exact:true}).click();
   await expect(page.locator('.atlas-detail-top')).toContainText(visibleId!.replace('Buoy ',''));
-  await expect(page.locator('#atlas-example')).toContainText('Independent demo baseline');
+  await expect(page.locator('#atlas-example')).toContainText('No hardware measurements');
   await expect(page.locator('.atlas-detail')).toContainText('Exact GPS fixes');
   await page.getByRole('button',{name:'The world 104',exact:true}).click();
   await expect(page.locator('.atlas-cluster')).toHaveCount(3);
@@ -60,16 +61,16 @@ test('Taiwan keeps source dates, missing values and simulated readings distinct'
   await page.getByLabel('OBSERVATION PERIOD',{exact:true}).selectOption('2002-Q1');
   await expect(page.locator('time')).toHaveAttribute('datetime','2002-03-13');
   await expect(page.locator('.atlas-observations')).toContainText('<3');
-  await expect(page.locator('#atlas-example')).toContainText('not field measurements');
+  await expect(page.locator('#atlas-example')).toContainText('hardware validation is pending');
   const deviations=await page.locator('#atlas-example [data-deviation]').evaluateAll(nodes=>nodes.map(node=>Number((node as HTMLElement).dataset.deviation)));
   expect(deviations.every(value=>Math.abs(value)<=5)).toBe(true);
   await expect(page.locator('.atlas-detail-source a')).toHaveAttribute('href','https://data.gov.tw/dataset/155934');
   const download=page.waitForEvent('download');
   await page.locator('.atlas-download').click();
   expect((await download).suggestedFilename()).toBe('stations_data_en.csv');
-  await page.getByRole('button',{name:'Русский',exact:true}).first().click();
+  await chooseLanguage(page,'Русский');
   await expect(page).toHaveTitle('Карта наблюдений — AquaNode');
-  await expect(page.locator('.atlas-example')).toContainText('не полевые измерения');
+  await expect(page.locator('.atlas-example')).toContainText('испытания оборудования предстоят');
   await expect(page.locator('.atlas-field select').last()).toHaveValue('2002-Q1');
 });
 

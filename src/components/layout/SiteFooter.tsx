@@ -10,7 +10,7 @@ import FooterCurrent from './FooterCurrent';
 import {t} from '../../features/i18n/i18n';
 export default function SiteFooter({pathname}:{pathname:string}){
   return <footer className="site-footer">
-    <div className="footer-invitation"><Heading as="h2">{t('Keep observing.')}</Heading><Link className="arrow-link" to="/build">{t('Explore the resources')}<FlexibleArrow direction="up-right"/></Link></div>
+    <div className="footer-invitation"><Heading as="h2">{t("From curiosity to action.")}</Heading><Link className="arrow-link" to="/build">{t('Explore the resources')}<FlexibleArrow direction="up-right"/></Link></div>
     <FooterCurrent/>
     <div className="footer-directory">
       <div className="footer-identity"><Link className="footer-brand" to="/" aria-label={t('AquaNode home')} onClick={event=>{if(location.pathname==='/'){event.preventDefault();scrollToPageStart()}}}><BrandLogo/></Link><span>{t('KAZAKHSTAN · 2026')}</span></div>

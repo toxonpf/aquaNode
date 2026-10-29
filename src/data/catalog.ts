@@ -17,20 +17,92 @@ export const team:TeamMember[]=[
 ];
 export const awardUrl='https://thegeep.org/programs/youth-innovation-challenge/aquanode-team';
 export const awardCertificate={preview:'/assets/awards/geep-yic-2026-winner.webp',original:'/resources/awards/geep-yic-2026-winner.png'};
-export const resources=[{name:'Assembly drawing',detail:'R0.3 · SVG · Original engineering drawing',url:'/resources/Assembly.svg'},{name:'Bill of materials',detail:'R0.3 · Markdown · Russian source',url:'/resources/BOM_ru.md'},{name:'Attribution & licences',detail:'Markdown · Sources and reuse conditions',url:'/resources/ATTRIBUTION.md'}];
-export const updates=[
- {date:'Current status · Team report',title:'One working prototype',body:'The team reports a working buoy measuring pH and temperature, with an update transmitted once an hour. The next documentation step is to identify its hardware revision and publish a traceable measurement record.',status:'Working now'},
- {date:'20 October 2026 · Engineering package',title:'R0.3 carrier design reviewed',body:'The release verification records zero ERC and DRC findings in KiCad 8.0.9 and no mismatches across 130 named pads in the schematic-to-PCB comparison. These results verify the digital design; physical performance remains to be tested.',status:'In development'},
- {date:'20 October 2026 · Revision notes',title:'Clearance and power routing revised',body:'C17 and C18 were moved outside the module footprint, leaving a 4 mm access zone below it. The power components were regrouped, with 0.6 mm power tracks except for a documented short neck-down, and 71 ground stitching vias were added.',status:'Design revision'},
- {date:'Next steps · Undated',title:'Move from CAD checks to bench evidence',body:'The release lists module fit, analog loading, power transitions, sleep current, calibration and sealing as unverified. These checks need recorded conditions and results before the revision can be treated as physically validated.',status:'Planned'},
+export type Resource={name:string;detail:string;url:string;urlRu?:string;urlZh?:string};
+export const resources:Resource[]=[
+  {
+    "name": "Project overview",
+    "detail": "R0.3-EC-revB · Markdown · Current scope and limitations",
+    "url": "/resources/ec-revb/copy_en.md",
+    "urlRu": "/resources/ec-revb/copy_ru.md",
+    "urlZh": "/resources/ec-revb/copy_zh-TW.md"
+  },
+  {
+    "name": "Revision status",
+    "detail": "29 October 2026 · JSON · Scope, checks and open tasks",
+    "url": "/resources/ec-revb/status.json"
+  },
+  {
+    "name": "Checks & sources",
+    "detail": "R0.3-EC-revB · Markdown · Sources and evidence limits",
+    "url": "/resources/ec-revb/evidence.md"
+  },
+  {
+    "name": "System architecture",
+    "detail": "R0.3-EC-revB · SVG · Design illustration, not a schematic",
+    "url": "/assets/engineering/ec-revb-architecture-en.svg",
+    "urlRu": "/assets/engineering/ec-revb-architecture-ru.svg",
+    "urlZh": "/assets/engineering/ec-revb-architecture-zh-TW.svg"
+  },
+  {
+    "name": "Attribution & licences",
+    "detail": "CC BY 4.0 · Sources and reuse conditions",
+    "url": "/resources/ec-revb/ATTRIBUTION.md"
+  }
 ];
-export const parts=[{name:'Floating body',text:'Keeps the device at the water surface. The shape shown here is an illustration; actual housing dimensions are not confirmed.'},{name:'Electronics enclosure',text:'Represents the protected measurement and transmission electronics. The illustration does not show an exact internal assembly.'},{name:'Water probes',text:'The working prototype measures pH and temperature. Probe shapes and placement here are conceptual.'}];
+export const updates=[
+  {
+    "date": "29 October 2026 · Engineering review",
+    "title": "R0.3-EC-revB: a freshwater bench design",
+    "body": "The current revision prepares SEN0244 for an experimental EC estimate, DS18B20 temperature sensing and USB bench source code. Firmware compilation, native ERC/DRC and hardware validation are pending.",
+    "status": "Engineering development"
+  },
+  {
+    "date": "29 October 2026 · Synthetic and static checks",
+    "title": "Software evidence, with clear limits",
+    "body": "The documented checks cover a host-side software model and agreement between project files. The journal separates these two kinds of source-level evidence from the hardware work still ahead.",
+    "status": "Synthetic checks"
+  },
+  {
+    "date": "29 October 2026 · Release blockers",
+    "title": "The next release needs bench evidence",
+    "body": "An ESP32 build, native CAD checks and independent EC bench measurements are the main blockers before a new release. The test plan also covers sensor interaction and physical validation.",
+    "status": "Validation pending"
+  },
+  {
+    "date": "20 October 2026 · Historical R0.3 baseline",
+    "title": "Earlier R0.3 design checks",
+    "body": "The historical baseline reports zero ERC/DRC findings and a comparison of 130 named pads. Those results belong to the earlier R0.3 design; they do not validate EC-revB.",
+    "status": "Historical baseline"
+  }
+];
+export const parts=[{name:'Floating body',text:'Keeps the device at the water surface. The shape shown here is an illustration; actual housing dimensions are not confirmed.'},{name:'Electronics enclosure',text:'Represents the protected measurement and transmission electronics. The illustration does not show an exact internal assembly.'},{name:'Water probes',text:"The current design explores an EC estimate with SEN0244 and temperature with DS18B20. Probe shapes are conceptual; hardware operation is not yet validated."}];
 export const steps=[
-['Review the design','Start with the assembly drawing and bill of materials. R0.3 is a CAD revision awaiting physical validation, not a proven reproduction of the working buoy. Confirm the purchased module revision and enclosure fit before ordering a board.'],
-['Check the mechanical fit','The R0.3 carrier is 80 × 60 mm, with two copper layers. Check stack height, USB access and battery lead clearance with the actual modules. Connect XIAO and Wio using their intended board-to-board connector; do not solder the Wio left row through to XIAO D0–D5.'],
-['Inspect before applying power','With power disconnected, inspect connector orientation, diode and transistor polarity, solder joints and shorts. Confirm the pH front end and its documented supply and output ranges. The source design defaults JP1 to pins 2–3.'],
-['Bring up the measurement paths','Initially leave the pH module and battery disconnected. Power the controller from USB and check the 3.3 V supply. Check the ADC and temperature sensor separately. Sensor error codes and startup values are not measurements.'],
-['Validate the power system','Use known, permitted input voltages to verify ADC scaling. Check the pH power rail with a dummy load before connecting the front end. Verify USB, battery and switch transitions. The battery switch does not turn off USB power; disconnect USB for a complete shutdown.'],
-['Calibrate and document','Calibrate pH with fresh reference buffers and check against an independent buffer. Compare temperature readings with a reference thermometer. Record instruments, configuration, raw readings, failures and uncertainty. The supplied package has no completed physical test report.'],
-['Test the enclosure, then the system','Test the empty enclosure for leaks before a short, secured water test. Validate the complete measurement and transmission path under controlled conditions. Radio operation requires the applicable local checks. Firmware and a complete reproducible buoy build are not included in R0.3.']
+  [
+    "Review the revision",
+    "Read the revB scope, status and evidence register. This is a freshwater engineering design, not a fabrication release or a validated buoy build. Historical R0.3 and revA files are not current instructions."
+  ],
+  [
+    "Run native CAD checks",
+    "Run native ERC and DRC, resolve findings and produce a current schematic export. The separate connection-review PDF is not that export. Manufacturing files are not released by this package."
+  ],
+  [
+    "Compile the bench source",
+    "Build for the intended ESP32 target, then verify USB acquisition on the actual device. The supplied source has not been compiled or executed on ESP32 in the documented checks."
+  ],
+  [
+    "Check power and ADC behaviour",
+    "Follow the full engineering bench plan with suitable instruments. Record startup, supply behaviour and ADC response under known conditions before interpreting sensor readings."
+  ],
+  [
+    "Check sensor interaction",
+    "The EC bench does not verify pH or radio operation. Investigate sensor interaction as a separate test, and keep its setup and limitations with the results."
+  ],
+  [
+    "Calibrate and document",
+    "Use independent EC standards and a reference thermometer. Keep raw readings, calibration records, temperature conditions, failures and uncertainty. Synthetic test inputs must not become device calibration."
+  ],
+  [
+    "Validate the physical system",
+    "After bench checks, assess enclosure performance, water exposure, radio communication and energy use. Long-term operation, field pilots and battery life are not established by revB."
+  ]
 ];

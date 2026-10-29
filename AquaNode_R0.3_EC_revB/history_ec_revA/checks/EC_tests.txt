@@ -1,0 +1,15 @@
+test_adc_low_high_and_unstable (test_ec.ECTests.test_adc_low_high_and_unstable) ... ok
+test_calibration_rejects_bad_points (test_ec.ECTests.test_calibration_rejects_bad_points) ... ok
+test_corrupted_coefficients_fail (test_ec.ECTests.test_corrupted_coefficients_fail) ... ok
+test_curve_monotonic_in_electrical_scope (test_ec.ECTests.test_curve_monotonic_in_electrical_scope) ... ok
+test_disconnect_temperature_and_nan_rejected (test_ec.ECTests.test_disconnect_temperature_and_nan_rejected) ... ok
+test_no_calibration_no_ec (test_ec.ECTests.test_no_calibration_no_ec) ... ok
+test_no_compensated_ec_extrapolation (test_ec.ECTests.test_no_compensated_ec_extrapolation) ... ok
+test_no_voltage_extrapolation (test_ec.ECTests.test_no_voltage_extrapolation) ... ok
+test_reproduces_calibration_points (test_ec.ECTests.test_reproduces_calibration_points) ... ok
+test_temperature_normalization (test_ec.ECTests.test_temperature_normalization) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.001s
+
+OK

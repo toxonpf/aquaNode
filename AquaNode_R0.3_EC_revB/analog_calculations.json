@@ -1,0 +1,33 @@
+{
+  "model": "Illustrative typical resistive loading; NOT guaranteed ADS error bound or hardware result",
+  "Z_eff_ohm": 4285714.285714285,
+  "cases": [
+    {
+      "case": "A: 49.9k/49.9k",
+      "Rth_ohm": 24950,
+      "source_plus_series_ohm": 25950,
+      "tau_approx_s": 0.027545,
+      "settle_0_01pct_approx_s": 0.253698825546084,
+      "typical_loading_loss_pct": 0.6018557633528983,
+      "typical_loading_error_mV_at_test_voltage": 16.551033492204702
+    },
+    {
+      "case": "B: 10k/DNP",
+      "Rth_ohm": 10000,
+      "source_plus_series_ohm": 11000,
+      "tau_approx_s": 0.0111,
+      "settle_0_01pct_approx_s": 0.10223477812893564,
+      "typical_loading_loss_pct": 0.2560095754230808,
+      "typical_loading_error_mV_at_test_voltage": 7.680287262692422
+    },
+    {
+      "case": "Battery: 100k/100k",
+      "Rth_ohm": 50000,
+      "source_plus_series_ohm": 51000,
+      "tau_approx_s": 0.0551,
+      "settle_0_01pct_approx_s": 0.5074897544958877,
+      "typical_loading_loss_pct": 1.1760055341436901,
+      "typical_loading_error_mV_at_test_voltage": 24.696116217017494
+    }
+  ]
+}

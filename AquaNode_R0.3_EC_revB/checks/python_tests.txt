@@ -1,0 +1,20 @@
+test_adc_low_high_and_unstable (test_ec.ECTests.test_adc_low_high_and_unstable) ... ok
+test_calibration_rejects_bad_points (test_ec.ECTests.test_calibration_rejects_bad_points) ... ok
+test_corrupted_coefficients_fail (test_ec.ECTests.test_corrupted_coefficients_fail) ... ok
+test_curve_monotonic_in_electrical_scope (test_ec.ECTests.test_curve_monotonic_in_electrical_scope) ... ok
+test_disconnect_temperature_and_nan_rejected (test_ec.ECTests.test_disconnect_temperature_and_nan_rejected) ... ok
+test_no_calibration_no_ec (test_ec.ECTests.test_no_calibration_no_ec) ... ok
+test_no_compensated_ec_extrapolation (test_ec.ECTests.test_no_compensated_ec_extrapolation) ... ok
+test_no_voltage_extrapolation (test_ec.ECTests.test_no_voltage_extrapolation) ... ok
+test_reproduces_calibration_points (test_ec.ECTests.test_reproduces_calibration_points) ... ok
+test_temperature_normalization (test_ec.ECTests.test_temperature_normalization) ... ok
+test_bool_is_not_a_voltage (test_ec.RevisionGates.test_bool_is_not_a_voltage) ... ok
+test_identifier_safe_for_json (test_ec.RevisionGates.test_identifier_safe_for_json) ... ok
+test_negative_noise (test_ec.RevisionGates.test_negative_noise) ... ok
+test_supply_gate (test_ec.RevisionGates.test_supply_gate) ... ok
+test_temperature_gate (test_ec.RevisionGates.test_temperature_gate) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.002s
+
+OK

@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 test('portrait curves keep their shape and one hover pass finishes after the pointer leaves',async({page})=>{
@@ -60,7 +61,7 @@ test('a quiet wave replaces the pagination rule and fits both languages and comp
   await page.keyboard.press('Escape');await expect(dialog).not.toBeVisible();
   await page.emulateMedia({reducedMotion:'reduce'});
   for(const language of ['Русский','English']){
-    await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+    await chooseLanguage(page,language,'.site-header');
     for(const [width,height] of [[390,844],[320,740],[844,390]]){
       await page.setViewportSize({width,height});await page.locator('.team-portrait-trigger').first().click();
       const fits=await dialog.locator('.team-profile-info').evaluate(node=>node.scrollHeight<=node.clientHeight+1);

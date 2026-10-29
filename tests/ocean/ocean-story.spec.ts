@@ -21,9 +21,9 @@ test('diving reveals the probes and both controls select the same sensor',async(
   await expect(page.locator('#sensor-explanation')).toContainText('Water temperature');
   await expect(page.locator('.sensor-hotspot[data-sensor=temperature]')).toHaveAttribute('aria-pressed','true');
   // The duplicate visual marker follows the waves; click its current position.
-  const marker=await page.locator('.sensor-hotspot[data-sensor=ph]').boundingBox();
+  const marker=await page.locator('.sensor-hotspot[data-sensor=ec]').boundingBox();
   await page.mouse.click(marker!.x+marker!.width/2,marker!.y+marker!.height/2);
-  await expect(page.locator('#sensor-explanation')).toContainText('Water acidity');
+  await expect(page.locator('#sensor-explanation')).toContainText('Experimental EC');
   await expect(page.locator('.sensor-picker button').first()).toHaveAttribute('aria-pressed','true');
   await page.getByRole('link',{name:'Meet the buoy',exact:true}).click();
   await expect(page.getByRole('heading',{name:'A small buoy. A closer look at our water.'})).toBeVisible();
@@ -61,6 +61,9 @@ test('probe content fits phones, tablets and short landscape screens',async({pag
     expect(bounds!.y).toBeGreaterThanOrEqual(0);
     expect(bounds!.y+bounds!.height).toBeLessThanOrEqual(height);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    // Short landscape readers expose the introduction first; the picker remains
+    // reachable by reading within the panel rather than squeezing all text above it.
+    await page.locator('.sensor-picker').scrollIntoViewIfNeeded();
     await expect(page.locator('.sensor-picker button').first()).toBeInViewport();
     await expect(page.locator('.sensor-picker button').nth(1)).toBeInViewport();
   }

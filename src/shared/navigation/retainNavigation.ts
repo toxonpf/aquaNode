@@ -1,6 +1,9 @@
 const visualProperties=[
   'display','box-sizing','width','height','min-width','min-height','max-width','max-height',
   'padding','margin','gap','row-gap','column-gap','flex','flex-direction','flex-wrap','align-items','justify-content',
+  // The copy leaves its layout ancestors, so retain both grid tracks and item placement.
+  'grid-template-columns','grid-template-rows','grid-auto-columns','grid-auto-rows','grid-auto-flow',
+  'grid-column','grid-row','align-self','justify-self','align-content','justify-items','order',
   'font-family','font-size','font-weight','font-style','line-height','letter-spacing','word-spacing','white-space','text-align','text-transform','text-decoration',
   'color','background','border-top','border-right','border-bottom','border-left','border-radius','box-shadow',
   'outline','outline-offset','opacity','transform','transform-origin','transform-box','vertical-align',

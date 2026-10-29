@@ -45,7 +45,9 @@
 .site-footer .footer-directory nav a>.footer-nav-number{display:block;font-size:14px;color:#91af99;grid-column:1;grid-row:1}
 .site-footer .footer-directory nav a>.footer-nav-label{display:block;min-width:0;font:inherit;color:inherit;grid-column:2;grid-row:1}
 .site-footer .footer-directory nav a>.flexible-arrow{width:28px;height:22px;margin-left:auto;grid-column:3;grid-row:1}
-.site-footer .footer-directory nav a.active{text-decoration:underline;text-underline-offset:6px;text-decoration-color:#b8cda879}
+.site-footer .footer-directory nav a.active{color:#e6f5b5;text-decoration:none}
+.site-footer .footer-directory nav a.active>.footer-nav-number{color:#c9df98}
+.site-footer .footer-directory nav a.active>.flexible-arrow{color:inherit}
 .site-footer .footer-directory nav>div{margin-top:0}
 .site-footer .footer-return>.language-switch{flex-direction:row;align-items:center;gap:0;width:78px;height:36px;padding:3px;border:1px solid #b3c8ac55;border-radius:30px}
 .site-footer .footer-invitation>h2{margin:0}

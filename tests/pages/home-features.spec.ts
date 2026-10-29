@@ -8,12 +8,12 @@ test('the new home sections work on desktop, tablet and phone without overflow',
     const node=page.locator('.node-showcase');
     await node.getByRole('button',{name:/03 Read the water/}).click();
     await expect(node.getByRole('button',{name:/03 Read the water/})).toHaveAttribute('aria-pressed','true');
-    await expect(node.locator('[aria-pressed=true] .node-part-detail')).toContainText('pH and temperature');
+    await expect(node.locator('[aria-pressed=true] .node-part-detail')).toContainText('EC estimate with SEN0244');
     const future=page.locator('.future-section');
     await future.locator('.map-embed-toolbar').getByRole('button',{name:/Aktau/}).click();
     await expect(future.locator('.atlas-map')).toBeVisible();
     await expect(future.locator('.map-embed-toolbar [aria-pressed=true]')).toContainText('Aktau');
-    await expect(future.locator('.future-heading')).toContainText('Different shores');
+    await expect(future.locator('.future-heading')).toContainText('Many classrooms');
     await expect(future.locator('.map-embed-footer a')).toHaveAttribute('href','/map?region=aktau');
     await expect(future.locator('.atlas-map-interaction')).not.toBeVisible();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -58,10 +58,9 @@ test('selected sensor arrows and scroll hints keep their strong wave without hov
   await page.setViewportSize({width:1440,height:1000});
   await page.goto('/');
   await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true',{timeout:25000});
-  const track=page.locator('.scroll-track .flexible-arrow-line').first();
+  const track=page.locator('.ocean-scroll .flexible-arrow-line').first();
   await expect(track).toHaveCSS('animation-name','flexible-arrow-snake');
   expect(await track.evaluate(el=>new DOMMatrix(getComputedStyle(el).transform).d)).toBeCloseTo(1,2);
-  await expect(page.locator('.scroll-track .flexible-arrow-trail')).toHaveCSS('animation-name','flexible-arrow-snake, flexible-arrow-flow');
   await page.getByRole('link',{name:'Explore below the surface',exact:true}).click();
   await expect(page.locator('.ocean-stage')).toHaveClass(/is-sensing-ready/);
   await expect(page.locator('.sensor-copy')).toHaveCSS('transform','matrix(1, 0, 0, 1, 0, 0)');

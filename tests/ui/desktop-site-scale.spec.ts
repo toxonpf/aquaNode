@@ -1,3 +1,4 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
 const routes=[['/','.status-grid p'],['/about','.about-idea-copy>p:not(.kicker):not(.lead)'],
@@ -16,7 +17,7 @@ test('desktop routes share their header and keep readable text at browser zoom',
       for(const [route,prose] of routes){
         await page.goto(`http://127.0.0.1:5173${route}`);
         for(const language of ['Русский','English']){
-          await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+          await chooseLanguage(page,language,'.site-header');
           await page.evaluate(()=>document.fonts.ready);
           const header=await page.locator('.site-header').boundingBox(),logo=await page.locator('.site-header>.logo').boundingBox();
           expect(header!.height,`${route} header at ${zoom}`).toBeCloseTo(64,0);
@@ -64,7 +65,7 @@ test('touch pages retain normal reading sizes and a menu header',async({browser}
   try{
     for(const [route,prose] of routes){
       await page.goto(`http://127.0.0.1:5173${route}`,{waitUntil:'domcontentloaded'});
-      await page.locator('.site-header').getByRole('button',{name:'Русский',exact:true}).click();
+      await chooseLanguage(page,'Русский','.site-header');
       expect((await page.locator('.site-header').boundingBox())!.height).toBe(56);
       await expect(page.locator('.site-header .menu-button')).toBeVisible();
       expect(await page.locator(prose).first().evaluate(node=>parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(16);

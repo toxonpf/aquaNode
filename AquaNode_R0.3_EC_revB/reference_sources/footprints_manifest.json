@@ -1,0 +1,102 @@
+[
+  {
+    "library_name": "Resistor_SMD:R_0805_2012Metric",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Resistor_SMD.pretty/R_0805_2012Metric.kicad_mod",
+    "sha256": "34ef5a7238e8aa2622071b1ded0ce1aaaf9fd5fd2fa2d5e9914f8ee250ac3f7c"
+  },
+  {
+    "library_name": "Capacitor_SMD:C_0805_2012Metric",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Capacitor_SMD.pretty/C_0805_2012Metric.kicad_mod",
+    "sha256": "99fff2e6692af4126feb9f9ebdfd454834bf414b13d04be0d075dffc23cfbd02"
+  },
+  {
+    "library_name": "Capacitor_SMD:C_1210_3225Metric",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Capacitor_SMD.pretty/C_1210_3225Metric.kicad_mod",
+    "sha256": "a3fbcc36622086420d7362ee2bd3cac8e6429f7195a93dfecf49f4995cb48008"
+  },
+  {
+    "library_name": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Package_SO.pretty/SOIC-8_3.9x4.9mm_P1.27mm.kicad_mod",
+    "sha256": "c11287038ffba034da8faed0c90c4ef9d7d34bb728d370c841215c275677dcaf"
+  },
+  {
+    "library_name": "Package_SO:VSSOP-10_3x3mm_P0.5mm",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Package_SO.pretty/VSSOP-10_3x3mm_P0.5mm.kicad_mod",
+    "sha256": "63993b41636da6ec7dfa2afdfd3c98b24f99a663acedd982585ba5be5e677448"
+  },
+  {
+    "library_name": "Package_SO:TSSOP-14_4.4x5mm_P0.65mm",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Package_SO.pretty/TSSOP-14_4.4x5mm_P0.65mm.kicad_mod",
+    "sha256": "d0c22285c3c4825670dc7ddf438fef6c1c6a4e8fdd4564c1b596b7890651737e"
+  },
+  {
+    "library_name": "Package_TO_SOT_SMD:SOT-23",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Package_TO_SOT_SMD.pretty/SOT-23.kicad_mod",
+    "sha256": "db5b998f0d36708205a4b8edc0db1501deb0246a81b52e9cb036cfd58b7570d3"
+  },
+  {
+    "library_name": "Package_TO_SOT_SMD:SOT-23-5",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Package_TO_SOT_SMD.pretty/SOT-23-5.kicad_mod",
+    "sha256": "559f4c60fd9a2f3b575b5c4efb9bcb51863ea2c8e3837c27504059c8fa704827"
+  },
+  {
+    "library_name": "Diode_SMD:D_SOD-123",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Diode_SMD.pretty/D_SOD-123.kicad_mod",
+    "sha256": "3ee0bc152d3460e3683968eea208534fa5e99b1d2d38a003a05b4b04ccd641af"
+  },
+  {
+    "library_name": "Diode_SMD:D_SOD-323",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Diode_SMD.pretty/D_SOD-323.kicad_mod",
+    "sha256": "05cc3e8e2f2c007d7142a64a9fb843b116219c4628c4cb3ae2f298ee00adc544"
+  },
+  {
+    "library_name": "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Connector_JST.pretty/JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.kicad_mod",
+    "sha256": "1af3334885ac84d2bc4af629b29fc3dddc25ee1453bb67e20fb8dfdaee358a64"
+  },
+  {
+    "library_name": "Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Connector_JST.pretty/JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical.kicad_mod",
+    "sha256": "8582a1960e700ab11f4c7fffe56a5d0f2a2fb5a20a4afb40381713f19f32c8d1"
+  },
+  {
+    "library_name": "Connector_JST:JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Connector_JST.pretty/JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical.kicad_mod",
+    "sha256": "149a484d86b4c190df4b961d6c6edac68b655349b248c0ca03135294c291e8f1"
+  },
+  {
+    "library_name": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Connector_PinHeader_2.54mm.pretty/PinHeader_1x02_P2.54mm_Vertical.kicad_mod",
+    "sha256": "5184fc4dddb8da027c0a5d4e63eefed1993cc0c2632e1a291ce63d3b5b8026ad"
+  },
+  {
+    "library_name": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Connector_PinHeader_2.54mm.pretty/PinHeader_1x03_P2.54mm_Vertical.kicad_mod",
+    "sha256": "7d3328ce996d8d6cd17832483f7f3455cef0383d1a392897825aca9c365c843a"
+  },
+  {
+    "library_name": "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Connector_PinHeader_2.54mm.pretty/PinHeader_1x07_P2.54mm_Vertical.kicad_mod",
+    "sha256": "352887e379ba69dfb0e0270ad3a0a7460cc0356ae8ffc081b2619052084fc086"
+  },
+  {
+    "library_name": "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Connector_PinHeader_2.54mm.pretty/PinHeader_2x03_P2.54mm_Vertical.kicad_mod",
+    "sha256": "c2e9b7caeed623b65f271f50d2352cfe6ecefb17b1a1a7d24a87c0927422381a"
+  },
+  {
+    "library_name": "MountingHole:MountingHole_3.2mm_M3",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/MountingHole.pretty/MountingHole_3.2mm_M3.kicad_mod",
+    "sha256": "7875432d1eb0639bfb14f939e2a7894e9c986ed58924b9d00c8a95e50b79fb77"
+  },
+  {
+    "library_name": "TestPoint:TestPoint_Pad_D2.0mm",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/TestPoint.pretty/TestPoint_Pad_D2.0mm.kicad_mod",
+    "sha256": "5aee63be85b9a696ce9f9fc95b1f34b80a915905bf013bff035ee02db05c8afe"
+  },
+  {
+    "library_name": "Capacitor_SMD:CP_Elec_5x5.4",
+    "url": "https://raw.githubusercontent.com/KiCad/kicad-footprints/master/Capacitor_SMD.pretty/CP_Elec_5x5.4.kicad_mod",
+    "sha256": "98b1f38ad0c4e5ad2caca8fac1aed7095698c796f07972bfcf60402290f179bd"
+  }
+]

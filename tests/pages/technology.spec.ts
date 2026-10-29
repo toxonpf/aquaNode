@@ -5,15 +5,12 @@ test('technology switches original drawings and explains board paths',async({pag
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/technology');
  await expect(page.getByRole('heading',{level:1})).toHaveText('Inside the buoy.');
- await page.getByRole('button',{name:'Copper layout',exact:true}).click();
- await expect(page.locator('.tech-drawing-sheet img')).toHaveAttribute('src','/assets/PCB_F.png');
- await expect(page.locator('#tech-drawing-notes')).toContainText('71 ground vias');
- await page.getByRole('button',{name:'Assembly',exact:true}).click();
- await expect(page.locator('.tech-drawing-sheet img')).toHaveAttribute('src','/assets/Assembly.png');
- await page.getByRole('button',{name:'02 Convert',exact:true}).click();
- await expect(page.locator('#tech-path-detail')).toContainText('AIN0');
- await page.getByRole('button',{name:'04 Connect',exact:true}).click();
- await expect(page.locator('#tech-path-detail')).toContainText('USB can still power');
+ await expect(page.locator('.tech-drawings img')).toHaveAttribute('src','/assets/engineering/ec-revb-architecture-en.svg');
+ await expect(page.locator('.tech-drawings')).toContainText('not a prototype photograph');
+ await page.getByRole('button',{name:'02 Estimate EC',exact:true}).click();
+ await expect(page.locator('#tech-path-detail')).toContainText('independent standards');
+ await page.getByRole('button',{name:'04 Record',exact:true}).click();
+ await expect(page.locator('#tech-path-detail')).toContainText('USB logging');
  for(const width of [1920,1440,1024,768,390,320]){
   await page.setViewportSize({width,height:1000});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

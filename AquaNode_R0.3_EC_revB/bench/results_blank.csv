@@ -1,0 +1,13 @@
+test_id,date,operator,hardware_serial,firmware_sha256,instrument_and_uncertainty,setup,reference_value,measured_value,unit,criterion,result,raw_file,notes
+T01,,,,,,,,,,,,,
+T02,,,,,,,,,,,,,
+T03,,,,,,,,,,,,,
+T04,,,,,,,,,,,,,
+T05,,,,,,,,,,,,,
+T06,,,,,,,,,,,,,
+T07,,,,,,,,,,,,,
+T08,,,,,,,,,,,,,
+T09,,,,,,,,,,,,,
+T10,,,,,,,,,,,,,
+T11,,,,,,,,,,,,,
+T12,,,,,,,,,,,,,

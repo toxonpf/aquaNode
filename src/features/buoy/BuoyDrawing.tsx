@@ -31,7 +31,7 @@ export default function BuoyDrawing(){
     <g fill="#849b94">{[259,336].flatMap(x=>[123,221].map(y=><circle key={`${x}-${y}`} cx={x} cy={y} r="3"/>))}</g>
     <image href={modelLogoUrl} x="261" y="147" width="72" height="14"/>
     <path d="M264 173h66" stroke="#a3b7ac"/>
-    <text x="264" y="189" fontFamily="Arial,sans-serif" fontSize="8" fill="#607c72">pH / °C</text>
+    <text x="264" y="189" fontFamily="Arial,sans-serif" fontSize="8" fill="#607c72">°C / EC ESTIMATE</text>
     <rect x="285" y="205" width="23" height="5" rx="2" fill="#244b55"/><circle cx="290" cy="207" r="1.7" fill="#d8ed9c"/>
     <path d="M326 109V34" stroke="#1b3d47" strokeWidth="5" strokeLinecap="round"/>
     <path d="M326 113V99" stroke="#8c9f93" strokeWidth="9"/>

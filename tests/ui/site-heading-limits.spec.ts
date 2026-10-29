@@ -1,14 +1,15 @@
+import {chooseLanguage} from '../helpers/language';
 import {test,expect} from '@playwright/test';
 
-test('headings across the site fit two complete lines in both languages',async({page})=>{
+test('headings across the site fit two complete lines in all three languages',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.addInitScript(()=>Object.defineProperty(navigator,'connection',{value:{saveData:true}}));
   for(const route of ['/','/about','/technology','/build','/journal','/team']){
     await page.goto(route);
     for(const width of [1440,768,390,320]){
       await page.setViewportSize({width,height:1000});
-      for(const language of ['Русский','English']){
-        await page.locator('.site-header').getByRole('button',{name:language,exact:true}).click();
+      for(const language of ['Русский','English','繁體中文']){
+        await chooseLanguage(page,language,'.site-header');
         await page.evaluate(()=>document.fonts.ready);
         await expect.poll(()=>page.locator('h1,h2,h3').evaluateAll(headings=>headings.flatMap(node=>{
           if(node.classList.contains('sr-only')||!node.getBoundingClientRect().height)return [];
@@ -32,7 +33,7 @@ test('the team anchor is a generous target and lands the gallery below the heade
     await page.emulateMedia({reducedMotion});
     for(const width of [1440,390,320]){
       await page.setViewportSize({width,height:900});await page.goto('/team');
-      await page.locator('.site-header').getByRole('button',{name:'Русский',exact:true}).click();
+      await chooseLanguage(page,'Русский','.site-header');
       const link=page.locator('.team-meet-link');
       expect(Math.round((await link.boundingBox())!.height)).toBeGreaterThanOrEqual(48);
       if(width<760)expect((await link.boundingBox())!.width).toBeGreaterThan(width*.8);

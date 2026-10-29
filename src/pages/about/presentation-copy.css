@@ -1,0 +1,30 @@
+/* Five learning stages and the next pilot's targets share the page's reading rhythm. */
+.status-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.status-grid article{min-width:0}
+.status-top{flex-wrap:wrap}
+@media(max-width:900px){.status-grid{grid-template-columns:1fr}.status-grid article{border-right:0;border-bottom:1px solid var(--line)}.status-grid article:last-child{border-bottom:0}.status-grid p{max-width:60ch;min-height:0}}
+@media (min-width:1181px){.cycle-section .flow{grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(20px,2.2vw,40px)}}
+@media (min-width:761px) and (max-width:1180px){.cycle-section .flow{grid-template-columns:repeat(2,minmax(0,1fr))}.cycle-section .flow>div:last-child{grid-column:1/-1}}
+.school-pilot-heading{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,5vw,80px);align-items:start;margin:40px 0}
+.school-pilot-heading h2{margin:0;max-width:none}
+.school-pilot-heading p{margin:0;max-width:52ch}
+.school-pilot-targets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.school-pilot-targets>div{display:flex;flex-direction:column-reverse;gap:14px;padding:28px 24px;min-width:0}
+.school-pilot-targets>div:first-child{padding-left:0}
+.school-pilot-targets>div+div{border-left:1px solid var(--line)}
+.school-pilot-targets dd{margin:0;font-size:clamp(36px,4.5vw,76px);line-height:1.1;letter-spacing:-.055em}
+.school-pilot-targets dt{font-size:1rem;line-height:1.4}
+.school-pilot-foot{display:flex;justify-content:space-between;gap:32px;align-items:center;margin-top:28px}
+.school-pilot-foot p{margin:0;max-width:64ch}
+.school-pilot-foot .arrow-link{flex-shrink:0}
+@media(max-width:760px){
+ .school-pilot-heading{grid-template-columns:1fr;margin:28px 0;gap:20px}
+ .school-pilot-heading h2{max-width:none}
+ .school-pilot-targets{grid-template-columns:1fr}
+ .school-pilot-targets>div,.school-pilot-targets>div:first-child{flex-direction:row-reverse;align-items:center;justify-content:space-between;padding:20px 0;gap:24px}
+ .school-pilot-targets>div+div{border-left:0;border-top:1px solid var(--line)}
+ .school-pilot-targets dt{max-width:17ch}
+ .school-pilot-targets dd{font-size:40px;white-space:nowrap}
+ .school-pilot-foot{flex-direction:column;align-items:stretch;gap:20px}
+ .school-pilot-foot .arrow-link{align-self:flex-start;max-width:100%}
+}
