@@ -18,12 +18,11 @@ export default function CircuitExplorer({paths,active,onChange}:{paths:BoardPath
         <div className="circuit-diagram-meta"><span>{revision}</span><span>{t('DESIGN OVERVIEW')}</span></div>
         <div className="circuit-network" role="group" aria-label={t('Explore the board functions')} data-active={active}>
           <svg className="circuit-traces" viewBox="0 0 600 400" preserveAspectRatio="none" fill="none" aria-hidden="true">
-            <g className={active===3||active===1?'is-active':''}><path d="M300 75V118Q300 132 286 132H152Q138 132 138 148V200"/><path className="circuit-trace-pulse" pathLength="100" d="M300 75V118Q300 132 286 132H152Q138 132 138 148V200"/></g>
             <g className={active===3||active===0?'is-active':''}><path d="M300 75V104Q300 116 314 116H448Q462 116 462 132V200"/><path className="circuit-trace-pulse" pathLength="100" d="M300 75V104Q300 116 314 116H448Q462 116 462 132V200"/></g>
             <g className={active===0||active===1?'is-active':''}><path d="M138 200H462"/><path className="circuit-trace-pulse" pathLength="100" d="M138 200H462"/></g>
             <g className={active===2||active===0?'is-active':''}><path d="M300 325V279Q300 266 314 266H448Q462 266 462 252V200"/><path className="circuit-trace-pulse" pathLength="100" d="M300 325V279Q300 266 314 266H448Q462 266 462 252V200"/></g>
           </svg>
-          <span className="circuit-bus-label">ADC / USB</span>
+          <span className="circuit-bus-label">ADC / I²C</span>
           {paths.map((path,index)=><button type="button" className={`circuit-node circuit-node--${index}`} key={path.title} aria-label={`0${index+1} ${path.title}`} aria-pressed={active===index} aria-controls="tech-path-detail" onClick={()=>onChange(index)}><span className="circuit-node-title"><span>0{index+1}</span>{path.title}<i aria-hidden="true"/></span><strong>{path.component}</strong></button>)}
         </div>
         <span className="tech-path-caption">{t('FUNCTIONAL OVERVIEW / NOT COMPONENT PLACEMENT')}</span>

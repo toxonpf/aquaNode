@@ -1,0 +1,20 @@
+{
+  "scope": "source connectivity verification, NOT native ERC/DRC or hardware testing",
+  "schematic_pins_checked": 166,
+  "pcb_pads_checked": 139,
+  "schematic_design_agreement": true,
+  "pcb_design_agreement": true,
+  "carrier_copper_and_pad_placement_unchanged_from_revB": true,
+  "pH_isolated_nets_separate_in_source": true,
+  "R3_DNP": true,
+  "maximum_pH_ADC_V_assuming_5V1_isolator_output": 2.5525499999999997,
+  "JP1_and_J9_2_harness_omission": "assembly instruction; cannot verify physical wiring remotely",
+  "native_erc": "NOT_RUN",
+  "native_drc": "NOT_RUN",
+  "hardware_tests": "NOT_RUN",
+  "limitations": [
+    "coordinate graph checks wire endpoints and labels; not KiCad native connectivity engine",
+    "no footprint/datasheet audit of every inherited component",
+    "power and shutdown transients unmeasured"
+  ]
+}

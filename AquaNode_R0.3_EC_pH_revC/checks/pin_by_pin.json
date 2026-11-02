@@ -1,0 +1,1978 @@
+[
+  {
+    "reference": "J1",
+    "pin": "1",
+    "net": "EC_ADC",
+    "xy": [
+      34.29,
+      63.5
+    ],
+    "actual_labels": [
+      "EC_ADC"
+    ]
+  },
+  {
+    "reference": "J1",
+    "pin": "2",
+    "net": "PH_EN",
+    "xy": [
+      34.29,
+      66.04
+    ],
+    "actual_labels": [
+      "PH_EN"
+    ]
+  },
+  {
+    "reference": "J1",
+    "pin": "3",
+    "net": null,
+    "xy": [
+      34.29,
+      68.58
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "J1",
+    "pin": "4",
+    "net": "BAT_EN",
+    "xy": [
+      34.29,
+      71.12
+    ],
+    "actual_labels": [
+      "BAT_EN"
+    ]
+  },
+  {
+    "reference": "J1",
+    "pin": "5",
+    "net": "I2C_SDA",
+    "xy": [
+      74.93,
+      63.5
+    ],
+    "actual_labels": [
+      "I2C_SDA"
+    ]
+  },
+  {
+    "reference": "J1",
+    "pin": "6",
+    "net": "I2C_SCL",
+    "xy": [
+      74.93,
+      66.04
+    ],
+    "actual_labels": [
+      "I2C_SCL"
+    ]
+  },
+  {
+    "reference": "J1",
+    "pin": "7",
+    "net": "DS_LOCAL",
+    "xy": [
+      74.93,
+      68.58
+    ],
+    "actual_labels": [
+      "DS_LOCAL"
+    ]
+  },
+  {
+    "reference": "J2",
+    "pin": "1",
+    "net": null,
+    "xy": [
+      95.25,
+      63.5
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "J2",
+    "pin": "2",
+    "net": null,
+    "xy": [
+      95.25,
+      66.04
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "J2",
+    "pin": "3",
+    "net": null,
+    "xy": [
+      95.25,
+      68.58
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "J2",
+    "pin": "4",
+    "net": null,
+    "xy": [
+      95.25,
+      71.12
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "J2",
+    "pin": "5",
+    "net": "3V3",
+    "xy": [
+      135.89,
+      63.5
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "J2",
+    "pin": "6",
+    "net": "GND",
+    "xy": [
+      135.89,
+      66.04
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "J2",
+    "pin": "7",
+    "net": null,
+    "xy": [
+      135.89,
+      68.58
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "J3",
+    "pin": "1",
+    "net": "VBAT_RAW",
+    "xy": [
+      316.23,
+      67.31
+    ],
+    "actual_labels": [
+      "VBAT_RAW"
+    ]
+  },
+  {
+    "reference": "J3",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      356.87,
+      67.31
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "J4",
+    "pin": "1",
+    "net": "VBAT",
+    "xy": [
+      389.89,
+      67.31
+    ],
+    "actual_labels": [
+      "VBAT"
+    ]
+  },
+  {
+    "reference": "J4",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      430.53,
+      67.31
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "J5",
+    "pin": "1",
+    "net": "VBAT_RAW",
+    "xy": [
+      463.55,
+      67.31
+    ],
+    "actual_labels": [
+      "VBAT_RAW"
+    ]
+  },
+  {
+    "reference": "J5",
+    "pin": "2",
+    "net": "VBAT",
+    "xy": [
+      504.19,
+      67.31
+    ],
+    "actual_labels": [
+      "VBAT"
+    ]
+  },
+  {
+    "reference": "J7",
+    "pin": "1",
+    "net": "GND",
+    "xy": [
+      567.69,
+      66.04
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "J7",
+    "pin": "2",
+    "net": "3V3",
+    "xy": [
+      567.69,
+      68.58
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "J7",
+    "pin": "3",
+    "net": "EC_FILTERED",
+    "xy": [
+      608.33,
+      66.04
+    ],
+    "actual_labels": [
+      "EC_FILTERED"
+    ]
+  },
+  {
+    "reference": "J9",
+    "pin": "1",
+    "net": "GND",
+    "xy": [
+      448.31,
+      209.55
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "J9",
+    "pin": "2",
+    "net": "PH_SUPPLY",
+    "xy": [
+      448.31,
+      212.09
+    ],
+    "actual_labels": [
+      "PH_SUPPLY"
+    ]
+  },
+  {
+    "reference": "J9",
+    "pin": "3",
+    "net": "PH_OUT",
+    "xy": [
+      488.95,
+      209.55
+    ],
+    "actual_labels": [
+      "PH_OUT"
+    ]
+  },
+  {
+    "reference": "JP1",
+    "pin": "1",
+    "net": "BOOST_IN",
+    "xy": [
+      236.22,
+      379.73
+    ],
+    "actual_labels": [
+      "BOOST_IN"
+    ]
+  },
+  {
+    "reference": "JP1",
+    "pin": "2",
+    "net": "PH_SUPPLY",
+    "xy": [
+      236.22,
+      382.27
+    ],
+    "actual_labels": [
+      "PH_SUPPLY"
+    ]
+  },
+  {
+    "reference": "JP1",
+    "pin": "3",
+    "net": "5V_PH",
+    "xy": [
+      276.86,
+      379.73
+    ],
+    "actual_labels": [
+      "5V_PH"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "1",
+    "net": "GND",
+    "xy": [
+      448.31,
+      262.89
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "2",
+    "net": null,
+    "xy": [
+      448.31,
+      265.43
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "U1",
+    "pin": "3",
+    "net": "GND",
+    "xy": [
+      448.31,
+      267.97
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "4",
+    "net": "ADC_PH",
+    "xy": [
+      448.31,
+      270.51
+    ],
+    "actual_labels": [
+      "ADC_PH"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "5",
+    "net": "ADC_BAT",
+    "xy": [
+      448.31,
+      273.05
+    ],
+    "actual_labels": [
+      "ADC_BAT"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "6",
+    "net": "GND",
+    "xy": [
+      488.95,
+      262.89
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "7",
+    "net": "GND",
+    "xy": [
+      488.95,
+      265.43
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "8",
+    "net": "3V3",
+    "xy": [
+      488.95,
+      267.97
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "9",
+    "net": "I2C_SDA",
+    "xy": [
+      488.95,
+      270.51
+    ],
+    "actual_labels": [
+      "I2C_SDA"
+    ]
+  },
+  {
+    "reference": "U1",
+    "pin": "10",
+    "net": "I2C_SCL",
+    "xy": [
+      488.95,
+      273.05
+    ],
+    "actual_labels": [
+      "I2C_SCL"
+    ]
+  },
+  {
+    "reference": "U7",
+    "pin": "1",
+    "net": "BOOST_SW",
+    "xy": [
+      236.22,
+      265.43
+    ],
+    "actual_labels": [
+      "BOOST_SW"
+    ]
+  },
+  {
+    "reference": "U7",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      236.22,
+      267.97
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "U7",
+    "pin": "3",
+    "net": "BOOST_FB",
+    "xy": [
+      236.22,
+      270.51
+    ],
+    "actual_labels": [
+      "BOOST_FB"
+    ]
+  },
+  {
+    "reference": "U7",
+    "pin": "4",
+    "net": "BOOST_IN",
+    "xy": [
+      276.86,
+      265.43
+    ],
+    "actual_labels": [
+      "BOOST_IN"
+    ]
+  },
+  {
+    "reference": "U7",
+    "pin": "5",
+    "net": "BOOST_IN",
+    "xy": [
+      276.86,
+      267.97
+    ],
+    "actual_labels": [
+      "BOOST_IN"
+    ]
+  },
+  {
+    "reference": "U8",
+    "pin": "1",
+    "net": "BOOST_RAW",
+    "xy": [
+      50.8,
+      378.46
+    ],
+    "actual_labels": [
+      "BOOST_RAW"
+    ]
+  },
+  {
+    "reference": "U8",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      50.8,
+      381.0
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "U8",
+    "pin": "3",
+    "net": "BOOST_IN",
+    "xy": [
+      50.8,
+      383.54
+    ],
+    "actual_labels": [
+      "BOOST_IN"
+    ]
+  },
+  {
+    "reference": "U8",
+    "pin": "4",
+    "net": null,
+    "xy": [
+      91.44,
+      378.46
+    ],
+    "actual_labels": []
+  },
+  {
+    "reference": "U8",
+    "pin": "5",
+    "net": "5V_PH",
+    "xy": [
+      91.44,
+      381.0
+    ],
+    "actual_labels": [
+      "5V_PH"
+    ]
+  },
+  {
+    "reference": "Q1",
+    "pin": "1",
+    "net": "PH_GATE",
+    "xy": [
+      66.04,
+      210.82
+    ],
+    "actual_labels": [
+      "PH_GATE"
+    ]
+  },
+  {
+    "reference": "Q1",
+    "pin": "2",
+    "net": "3V3",
+    "xy": [
+      73.66,
+      215.9
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "Q1",
+    "pin": "3",
+    "net": "BOOST_IN",
+    "xy": [
+      73.66,
+      205.74
+    ],
+    "actual_labels": [
+      "BOOST_IN"
+    ]
+  },
+  {
+    "reference": "Q2",
+    "pin": "1",
+    "net": "PH_EN",
+    "xy": [
+      158.75,
+      210.82
+    ],
+    "actual_labels": [
+      "PH_EN"
+    ]
+  },
+  {
+    "reference": "Q2",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      166.37,
+      215.9
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "Q2",
+    "pin": "3",
+    "net": "PH_GATE",
+    "xy": [
+      166.37,
+      205.74
+    ],
+    "actual_labels": [
+      "PH_GATE"
+    ]
+  },
+  {
+    "reference": "D1",
+    "pin": "1",
+    "net": "BOOST_RAW",
+    "xy": [
+      345.44,
+      267.97
+    ],
+    "actual_labels": [
+      "BOOST_RAW"
+    ]
+  },
+  {
+    "reference": "D1",
+    "pin": "2",
+    "net": "BOOST_SW",
+    "xy": [
+      353.06,
+      267.97
+    ],
+    "actual_labels": [
+      "BOOST_SW"
+    ]
+  },
+  {
+    "reference": "D2",
+    "pin": "1",
+    "net": "EC_FILTERED",
+    "xy": [
+      762.0,
+      67.31
+    ],
+    "actual_labels": [
+      "EC_FILTERED"
+    ]
+  },
+  {
+    "reference": "D2",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      802.64,
+      67.31
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "L1",
+    "pin": "1",
+    "net": "BOOST_IN",
+    "xy": [
+      163.83,
+      264.16
+    ],
+    "actual_labels": [
+      "BOOST_IN"
+    ]
+  },
+  {
+    "reference": "L1",
+    "pin": "2",
+    "net": "BOOST_SW",
+    "xy": [
+      163.83,
+      271.78
+    ],
+    "actual_labels": [
+      "BOOST_SW"
+    ]
+  },
+  {
+    "reference": "R1",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      699.77,
+      264.16
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "R1",
+    "pin": "2",
+    "net": "I2C_SDA",
+    "xy": [
+      699.77,
+      271.78
+    ],
+    "actual_labels": [
+      "I2C_SDA"
+    ]
+  },
+  {
+    "reference": "R2",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      775.97,
+      264.16
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "R2",
+    "pin": "2",
+    "net": "I2C_SCL",
+    "xy": [
+      775.97,
+      271.78
+    ],
+    "actual_labels": [
+      "I2C_SCL"
+    ]
+  },
+  {
+    "reference": "R3",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      652.78,
+      63.5
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "R3",
+    "pin": "2",
+    "net": "EC_ADC",
+    "xy": [
+      652.78,
+      71.12
+    ],
+    "actual_labels": [
+      "EC_ADC"
+    ]
+  },
+  {
+    "reference": "R4",
+    "pin": "1",
+    "net": "EC_ADC",
+    "xy": [
+      717.55,
+      63.5
+    ],
+    "actual_labels": [
+      "EC_ADC"
+    ]
+  },
+  {
+    "reference": "R4",
+    "pin": "2",
+    "net": "EC_FILTERED",
+    "xy": [
+      717.55,
+      71.12
+    ],
+    "actual_labels": [
+      "EC_FILTERED"
+    ]
+  },
+  {
+    "reference": "R5",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      256.54,
+      207.01
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "R5",
+    "pin": "2",
+    "net": "PH_GATE",
+    "xy": [
+      256.54,
+      214.63
+    ],
+    "actual_labels": [
+      "PH_GATE"
+    ]
+  },
+  {
+    "reference": "R6",
+    "pin": "1",
+    "net": "PH_EN",
+    "xy": [
+      349.25,
+      207.01
+    ],
+    "actual_labels": [
+      "PH_EN"
+    ]
+  },
+  {
+    "reference": "R6",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      349.25,
+      214.63
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "R7",
+    "pin": "1",
+    "net": "BOOST_RAW",
+    "xy": [
+      163.83,
+      321.31
+    ],
+    "actual_labels": [
+      "BOOST_RAW"
+    ]
+  },
+  {
+    "reference": "R7",
+    "pin": "2",
+    "net": "BOOST_FB",
+    "xy": [
+      163.83,
+      328.93
+    ],
+    "actual_labels": [
+      "BOOST_FB"
+    ]
+  },
+  {
+    "reference": "R8",
+    "pin": "1",
+    "net": "BOOST_FB",
+    "xy": [
+      256.54,
+      321.31
+    ],
+    "actual_labels": [
+      "BOOST_FB"
+    ]
+  },
+  {
+    "reference": "R8",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      256.54,
+      328.93
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "R9",
+    "pin": "1",
+    "net": "PH_OUT",
+    "xy": [
+      546.1,
+      207.01
+    ],
+    "actual_labels": [
+      "PH_OUT"
+    ]
+  },
+  {
+    "reference": "R9",
+    "pin": "2",
+    "net": "PH_DIV",
+    "xy": [
+      546.1,
+      214.63
+    ],
+    "actual_labels": [
+      "PH_DIV"
+    ]
+  },
+  {
+    "reference": "R10",
+    "pin": "1",
+    "net": "PH_DIV",
+    "xy": [
+      622.3,
+      207.01
+    ],
+    "actual_labels": [
+      "PH_DIV"
+    ]
+  },
+  {
+    "reference": "R10",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      622.3,
+      214.63
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "R11",
+    "pin": "1",
+    "net": "BAT_SENSE",
+    "xy": [
+      775.97,
+      321.31
+    ],
+    "actual_labels": [
+      "BAT_SENSE"
+    ]
+  },
+  {
+    "reference": "R11",
+    "pin": "2",
+    "net": "BAT_DIV",
+    "xy": [
+      775.97,
+      328.93
+    ],
+    "actual_labels": [
+      "BAT_DIV"
+    ]
+  },
+  {
+    "reference": "R12",
+    "pin": "1",
+    "net": "BAT_DIV",
+    "xy": [
+      468.63,
+      377.19
+    ],
+    "actual_labels": [
+      "BAT_DIV"
+    ]
+  },
+  {
+    "reference": "R12",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      468.63,
+      384.81
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "R15",
+    "pin": "1",
+    "net": "PH_DIV",
+    "xy": [
+      775.97,
+      207.01
+    ],
+    "actual_labels": [
+      "PH_DIV"
+    ]
+  },
+  {
+    "reference": "R15",
+    "pin": "2",
+    "net": "ADC_PH",
+    "xy": [
+      775.97,
+      214.63
+    ],
+    "actual_labels": [
+      "ADC_PH"
+    ]
+  },
+  {
+    "reference": "R16",
+    "pin": "1",
+    "net": "BAT_DIV",
+    "xy": [
+      622.3,
+      377.19
+    ],
+    "actual_labels": [
+      "BAT_DIV"
+    ]
+  },
+  {
+    "reference": "R16",
+    "pin": "2",
+    "net": "ADC_BAT",
+    "xy": [
+      622.3,
+      384.81
+    ],
+    "actual_labels": [
+      "ADC_BAT"
+    ]
+  },
+  {
+    "reference": "C1",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      546.1,
+      264.16
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "C1",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      546.1,
+      271.78
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C7",
+    "pin": "1",
+    "net": "BOOST_IN",
+    "xy": [
+      71.12,
+      264.16
+    ],
+    "actual_labels": [
+      "BOOST_IN"
+    ]
+  },
+  {
+    "reference": "C7",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      71.12,
+      271.78
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C8",
+    "pin": "1",
+    "net": "BOOST_RAW",
+    "xy": [
+      71.12,
+      321.31
+    ],
+    "actual_labels": [
+      "BOOST_RAW"
+    ]
+  },
+  {
+    "reference": "C8",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      71.12,
+      328.93
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C9",
+    "pin": "1",
+    "net": "BOOST_RAW",
+    "xy": [
+      349.25,
+      321.31
+    ],
+    "actual_labels": [
+      "BOOST_RAW"
+    ]
+  },
+  {
+    "reference": "C9",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      349.25,
+      328.93
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C10",
+    "pin": "1",
+    "net": "5V_PH",
+    "xy": [
+      163.83,
+      377.19
+    ],
+    "actual_labels": [
+      "5V_PH"
+    ]
+  },
+  {
+    "reference": "C10",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      163.83,
+      384.81
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C11",
+    "pin": "1",
+    "net": "PH_DIV",
+    "xy": [
+      699.77,
+      207.01
+    ],
+    "actual_labels": [
+      "PH_DIV"
+    ]
+  },
+  {
+    "reference": "C11",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      699.77,
+      214.63
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C12",
+    "pin": "1",
+    "net": "BAT_DIV",
+    "xy": [
+      546.1,
+      377.19
+    ],
+    "actual_labels": [
+      "BAT_DIV"
+    ]
+  },
+  {
+    "reference": "C12",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      546.1,
+      384.81
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C13",
+    "pin": "1",
+    "net": "ADC_PH",
+    "xy": [
+      622.3,
+      264.16
+    ],
+    "actual_labels": [
+      "ADC_PH"
+    ]
+  },
+  {
+    "reference": "C13",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      622.3,
+      271.78
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C14",
+    "pin": "1",
+    "net": "ADC_BAT",
+    "xy": [
+      699.77,
+      377.19
+    ],
+    "actual_labels": [
+      "ADC_BAT"
+    ]
+  },
+  {
+    "reference": "C14",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      699.77,
+      384.81
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C15",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      588.01,
+      113.03
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "C15",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      588.01,
+      120.65
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C16",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      652.78,
+      113.03
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "C16",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      652.78,
+      120.65
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C17",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      175.26,
+      63.5
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "C17",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      175.26,
+      71.12
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "C18",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      234.95,
+      63.5
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "C18",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      234.95,
+      71.12
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "TP1",
+    "pin": "1",
+    "net": "VBAT_RAW",
+    "xy": [
+      316.23,
+      116.84
+    ],
+    "actual_labels": [
+      "VBAT_RAW"
+    ]
+  },
+  {
+    "reference": "TP2",
+    "pin": "1",
+    "net": "VBAT",
+    "xy": [
+      389.89,
+      116.84
+    ],
+    "actual_labels": [
+      "VBAT"
+    ]
+  },
+  {
+    "reference": "TP3",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      34.29,
+      116.84
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "TP4",
+    "pin": "1",
+    "net": "BAT_EN",
+    "xy": [
+      95.25,
+      116.84
+    ],
+    "actual_labels": [
+      "BAT_EN"
+    ]
+  },
+  {
+    "reference": "TP5",
+    "pin": "1",
+    "net": "5V_PH",
+    "xy": [
+      328.93,
+      381.0
+    ],
+    "actual_labels": [
+      "5V_PH"
+    ]
+  },
+  {
+    "reference": "TP6",
+    "pin": "1",
+    "net": "GND",
+    "xy": [
+      463.55,
+      116.84
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "TP7",
+    "pin": "1",
+    "net": "I2C_SDA",
+    "xy": [
+      755.65,
+      381.0
+    ],
+    "actual_labels": [
+      "I2C_SDA"
+    ]
+  },
+  {
+    "reference": "TP8",
+    "pin": "1",
+    "net": "I2C_SCL",
+    "xy": [
+      448.31,
+      438.15
+    ],
+    "actual_labels": [
+      "I2C_SCL"
+    ]
+  },
+  {
+    "reference": "TP9",
+    "pin": "1",
+    "net": "EC_FILTERED",
+    "xy": [
+      697.23,
+      116.84
+    ],
+    "actual_labels": [
+      "EC_FILTERED"
+    ]
+  },
+  {
+    "reference": "TP10",
+    "pin": "1",
+    "net": "PH_OUT",
+    "xy": [
+      525.78,
+      438.15
+    ],
+    "actual_labels": [
+      "PH_OUT"
+    ]
+  },
+  {
+    "reference": "TP11",
+    "pin": "1",
+    "net": "PH_EN",
+    "xy": [
+      154.94,
+      116.84
+    ],
+    "actual_labels": [
+      "PH_EN"
+    ]
+  },
+  {
+    "reference": "TP12",
+    "pin": "1",
+    "net": "BOOST_RAW",
+    "xy": [
+      50.8,
+      438.15
+    ],
+    "actual_labels": [
+      "BOOST_RAW"
+    ]
+  },
+  {
+    "reference": "TP13",
+    "pin": "1",
+    "net": "ADC_PH",
+    "xy": [
+      601.98,
+      438.15
+    ],
+    "actual_labels": [
+      "ADC_PH"
+    ]
+  },
+  {
+    "reference": "TP14",
+    "pin": "1",
+    "net": "ADC_BAT",
+    "xy": [
+      679.45,
+      438.15
+    ],
+    "actual_labels": [
+      "ADC_BAT"
+    ]
+  },
+  {
+    "reference": "Q3",
+    "pin": "1",
+    "net": "BAT_GATE",
+    "xy": [
+      463.55,
+      325.12
+    ],
+    "actual_labels": [
+      "BAT_GATE"
+    ]
+  },
+  {
+    "reference": "Q3",
+    "pin": "2",
+    "net": "VBAT",
+    "xy": [
+      471.17,
+      330.2
+    ],
+    "actual_labels": [
+      "VBAT"
+    ]
+  },
+  {
+    "reference": "Q3",
+    "pin": "3",
+    "net": "BAT_SENSE",
+    "xy": [
+      471.17,
+      320.04
+    ],
+    "actual_labels": [
+      "BAT_SENSE"
+    ]
+  },
+  {
+    "reference": "Q4",
+    "pin": "1",
+    "net": "BAT_EN",
+    "xy": [
+      541.02,
+      325.12
+    ],
+    "actual_labels": [
+      "BAT_EN"
+    ]
+  },
+  {
+    "reference": "Q4",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      548.64,
+      330.2
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "Q4",
+    "pin": "3",
+    "net": "BAT_GATE",
+    "xy": [
+      548.64,
+      320.04
+    ],
+    "actual_labels": [
+      "BAT_GATE"
+    ]
+  },
+  {
+    "reference": "R17",
+    "pin": "1",
+    "net": "VBAT",
+    "xy": [
+      622.3,
+      321.31
+    ],
+    "actual_labels": [
+      "VBAT"
+    ]
+  },
+  {
+    "reference": "R17",
+    "pin": "2",
+    "net": "BAT_GATE",
+    "xy": [
+      622.3,
+      328.93
+    ],
+    "actual_labels": [
+      "BAT_GATE"
+    ]
+  },
+  {
+    "reference": "R18",
+    "pin": "1",
+    "net": "BAT_EN",
+    "xy": [
+      699.77,
+      321.31
+    ],
+    "actual_labels": [
+      "BAT_EN"
+    ]
+  },
+  {
+    "reference": "R18",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      699.77,
+      328.93
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "M1",
+    "pin": "1",
+    "net": "GND",
+    "xy": [
+      48.92,
+      549.92
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "M1",
+    "pin": "2",
+    "net": "5V_PH",
+    "xy": [
+      48.92,
+      555.0
+    ],
+    "actual_labels": [
+      "5V_PH"
+    ]
+  },
+  {
+    "reference": "M1",
+    "pin": "3",
+    "net": "EC_OUT",
+    "xy": [
+      48.92,
+      560.08
+    ],
+    "actual_labels": [
+      "EC_OUT"
+    ]
+  },
+  {
+    "reference": "R19",
+    "pin": "1",
+    "net": "3V3",
+    "xy": [
+      158.92,
+      549.92
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "R19",
+    "pin": "2",
+    "net": "DS_LOCAL",
+    "xy": [
+      158.92,
+      555.0
+    ],
+    "actual_labels": [
+      "DS_LOCAL"
+    ]
+  },
+  {
+    "reference": "R20",
+    "pin": "1",
+    "net": "DS_LOCAL",
+    "xy": [
+      268.92,
+      549.92
+    ],
+    "actual_labels": [
+      "DS_LOCAL"
+    ]
+  },
+  {
+    "reference": "R20",
+    "pin": "2",
+    "net": "DS_CABLE",
+    "xy": [
+      268.92,
+      555.0
+    ],
+    "actual_labels": [
+      "DS_CABLE"
+    ]
+  },
+  {
+    "reference": "D3",
+    "pin": "1",
+    "net": "DS_CABLE",
+    "xy": [
+      378.92,
+      549.92
+    ],
+    "actual_labels": [
+      "DS_CABLE"
+    ]
+  },
+  {
+    "reference": "D3",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      378.92,
+      555.0
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "M2",
+    "pin": "1",
+    "net": "GND",
+    "xy": [
+      488.92,
+      549.92
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "M2",
+    "pin": "2",
+    "net": "3V3",
+    "xy": [
+      488.92,
+      555.0
+    ],
+    "actual_labels": [
+      "3V3"
+    ]
+  },
+  {
+    "reference": "M2",
+    "pin": "3",
+    "net": "DS_CABLE",
+    "xy": [
+      488.92,
+      560.08
+    ],
+    "actual_labels": [
+      "DS_CABLE"
+    ]
+  },
+  {
+    "reference": "R21",
+    "pin": "1",
+    "net": "EC_OUT",
+    "xy": [
+      598.92,
+      549.92
+    ],
+    "actual_labels": [
+      "EC_OUT"
+    ]
+  },
+  {
+    "reference": "R21",
+    "pin": "2",
+    "net": "EC_FILTERED",
+    "xy": [
+      598.92,
+      555.0
+    ],
+    "actual_labels": [
+      "EC_FILTERED"
+    ]
+  },
+  {
+    "reference": "C19",
+    "pin": "1",
+    "net": "EC_ADC",
+    "xy": [
+      668.92,
+      549.92
+    ],
+    "actual_labels": [
+      "EC_ADC"
+    ]
+  },
+  {
+    "reference": "C19",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      668.92,
+      555.0
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "M3",
+    "pin": "1",
+    "net": "PH_ISO_GND",
+    "xy": [
+      155.87,
+      477.3
+    ],
+    "actual_labels": [
+      "PH_ISO_GND"
+    ]
+  },
+  {
+    "reference": "M3",
+    "pin": "2",
+    "net": "PH_ISO_5V",
+    "xy": [
+      155.87,
+      482.38
+    ],
+    "actual_labels": [
+      "PH_ISO_5V"
+    ]
+  },
+  {
+    "reference": "M3",
+    "pin": "3",
+    "net": "PH_ISO_OUT",
+    "xy": [
+      155.87,
+      487.46
+    ],
+    "actual_labels": [
+      "PH_ISO_OUT"
+    ]
+  },
+  {
+    "reference": "M4",
+    "pin": "1",
+    "net": "GND",
+    "xy": [
+      375.87,
+      477.3
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  },
+  {
+    "reference": "M4",
+    "pin": "2",
+    "net": "PH_EXT_5V",
+    "xy": [
+      375.87,
+      482.38
+    ],
+    "actual_labels": [
+      "PH_EXT_5V"
+    ]
+  },
+  {
+    "reference": "M4",
+    "pin": "3",
+    "net": "PH_OUT",
+    "xy": [
+      375.87,
+      487.46
+    ],
+    "actual_labels": [
+      "PH_OUT"
+    ]
+  },
+  {
+    "reference": "M4",
+    "pin": "4",
+    "net": "PH_ISO_GND",
+    "xy": [
+      375.87,
+      492.54
+    ],
+    "actual_labels": [
+      "PH_ISO_GND"
+    ]
+  },
+  {
+    "reference": "M4",
+    "pin": "5",
+    "net": "PH_ISO_5V",
+    "xy": [
+      375.87,
+      497.62
+    ],
+    "actual_labels": [
+      "PH_ISO_5V"
+    ]
+  },
+  {
+    "reference": "M4",
+    "pin": "6",
+    "net": "PH_ISO_OUT",
+    "xy": [
+      375.87,
+      502.7
+    ],
+    "actual_labels": [
+      "PH_ISO_OUT"
+    ]
+  },
+  {
+    "reference": "PS1",
+    "pin": "1",
+    "net": "PH_EXT_5V",
+    "xy": [
+      595.87,
+      477.3
+    ],
+    "actual_labels": [
+      "PH_EXT_5V"
+    ]
+  },
+  {
+    "reference": "PS1",
+    "pin": "2",
+    "net": "GND",
+    "xy": [
+      595.87,
+      482.38
+    ],
+    "actual_labels": [
+      "GND"
+    ]
+  }
+]

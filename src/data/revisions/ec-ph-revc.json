@@ -1,0 +1,103 @@
+{
+  "schema": "aquanode.project-status.v2",
+  "revision": "R0.3-EC-pH-revC",
+  "as_of": "2026-11-02",
+  "stage": "bench_configuration",
+  "freshwater_only": true,
+  "inputs": {
+    "ec": {
+      "module": "DFRobot SEN0244 TDS module",
+      "kind": "experimental_estimate"
+    },
+    "temperature": {
+      "module": "DS18B20"
+    },
+    "ph": {
+      "module": "DFRobot SEN0169-V2",
+      "isolator": "DFRobot DFR0504",
+      "adc": "ADS1115",
+      "enabled_in_design": true,
+      "calibration": "not_performed",
+      "numeric_output_default": null
+    }
+  },
+  "controller": "XIAO ESP32S3",
+  "bench_output": "USB / JSONL",
+  "hardware_tested": false,
+  "firmware_compiled": false,
+  "native_erc_run": false,
+  "native_drc_run": false,
+  "fabrication_ready": false,
+  "radio_verified": false,
+  "mesh_verified": false,
+  "ph_verified": false,
+  "accuracy": null,
+  "battery_life": null,
+  "field_pilots_verified": null,
+  "users_verified": null,
+  "partners_verified": null,
+  "mit_solve": "possible_future_application_only",
+  "software_tests": {
+    "type": "host_python_model_and_exporter",
+    "result": "passed",
+    "count": 18,
+    "ec_model": 15,
+    "ph_exporter": 3
+  },
+  "cpp_ph_assertions": {
+    "prepared": 15,
+    "executed": false
+  },
+  "source_connectivity": {
+    "schematic_pins": 166,
+    "pcb_pads": 139,
+    "schematic_design_agreement": true,
+    "pcb_design_agreement": true,
+    "isolated_ph_nets_separate_in_source": true,
+    "copper_and_pad_placement_unchanged_from_revB": true,
+    "scope": "source comparisons; not native ERC/DRC or hardware validation"
+  },
+  "firmware_build": {
+    "status": "incomplete_dependency_download",
+    "successful_compile": false
+  },
+  "ph_power": {
+    "kind": "separate_regulated_bench_supply",
+    "voltage_v": 5,
+    "voltage_tolerance_v": 0.1,
+    "minimum_current_a": 0.5,
+    "battery_implementation_complete": false,
+    "energy_budget_validated": false
+  },
+  "calibration": {
+    "real_coefficients_supplied": false,
+    "ph_whole_chain_required": true,
+    "ph_temperature_window_c": 0.5,
+    "joint_ec_ph_validation_pending": true,
+    "automatic_ph_temperature_compensation": false
+  },
+  "presentation": {
+    "mode": "simulation",
+    "hardware_evidence": false,
+    "loaded_by_firmware": false
+  },
+  "release_blockers": [
+    "ESP32 compilation and device execution",
+    "native KiCad ERC/DRC and current export",
+    "power and ADC hardware validation",
+    "full-chain pH calibration and independent EC validation",
+    "joint pH/EC tests in the same water",
+    "battery-powered pH supply and energy budget",
+    "mechanical and field validation"
+  ],
+  "source_documents": [
+    "README_ru.md",
+    "checks/Verification_ru.md",
+    "checks/connection_check.json",
+    "checks/python_tests.txt",
+    "engineering/Connection_review_ru.md",
+    "bench/Plan_ru.md",
+    "firmware/README_ru.md"
+  ],
+  "provenance": "Website status derived from the supplied revC engineering package; no new hardware or firmware validation was performed by the website."
+}

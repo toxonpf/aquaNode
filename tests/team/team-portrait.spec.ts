@@ -93,7 +93,7 @@ test('mobile continuation previews stay below the full portrait',async({page})=>
 
 test('a failed portrait uses the same fallback in the card and modal',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.route('**/assets/team/timur-kuandykov.webp',route=>route.abort());
+  await page.route('**/assets/team/timur-kuandykov-portrait.webp',route=>route.abort());
   await page.goto('/team');
   const trigger=page.locator('.team-portrait-trigger').first();
   await trigger.scrollIntoViewIfNeeded();await expect(trigger.locator('.team-portrait-placeholder')).toBeVisible();

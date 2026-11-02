@@ -1,3 +1,4 @@
+import revc from './zh-revc';
 /** Traditional Chinese (Taiwan). Hardware limits follow the supplied EC-revB handoff. */
 const zh:Record<string,string>={
   "A clear setup. A better start.":"準備周全，讓起步更順利。",
@@ -56,6 +57,7 @@ const zh:Record<string,string>={
   "ayan-kuandyk": "ayan-kuandyk",
   "Ayan Kuandyk": "Ayan Kuandyk",
   "Sponsor": "贊助者",
+  "Helper": "協助者",
   "name": "name",
   "Project overview": "計畫概述",
   "detail": "detail",
@@ -757,6 +759,7 @@ const zh:Record<string,string>={
   "OBSERVE. UNDERSTAND.": "觀察，理解。",
   "Choose language": "選擇語言",
   "CURRENT STAGE": "目前階段",
-  "29 October 2026": "2026年10月29日"
+  "29 October 2026": "2026年10月29日",
+  ...revc,
 };
 export default zh;

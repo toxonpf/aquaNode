@@ -19,7 +19,7 @@ function useHousingLabel(){
     ctx.fillStyle='#edf1e7';ctx.fillRect(0,0,768,384);
     ctx.fillStyle='#748980';ctx.font='24px Arial';ctx.fillText('WATER OBSERVATION',49,225);
     ctx.fillStyle='#b9c7bd';ctx.fillRect(49,265,668,2);
-    ctx.fillStyle='#204853';ctx.font='28px Arial';ctx.fillText('°C  /  EC ESTIMATE',49,329);
+    ctx.fillStyle='#204853';ctx.font='28px Arial';ctx.fillText('pH  /  EC  /  °C',49,329);
     ctx.fillStyle='#71877e';ctx.font='22px Arial';ctx.fillText('NODE 01',596,329);
     const label=new CanvasTexture(canvas);label.colorSpace=SRGBColorSpace;
     label.anisotropy=4;
@@ -127,7 +127,7 @@ export default function BuoyModel({hero,active,angle,expanded,sensing=false,sens
       <mesh position={[.26,1.01,0]}><cylinderGeometry args={[.015,.037,.6,24]}/><meshPhysicalMaterial color="#19343b" roughness={.36} clearcoat={.3}/></mesh>
       <mesh position={[.26,1.315,0]}><sphereGeometry args={[.016,12,12]}/><meshStandardMaterial color={navy}/></mesh>
     </group>
-    {/* A slotted probe guard, two sensor tips and service collars. */}
+    {/* A slotted probe guard, three conceptual sensor tips and service collars. */}
     <group ref={probes} visible={!inside} position={[0,-.7,0]}>
       <mesh><cylinderGeometry args={[.19,.19,.22,32]}/><meshStandardMaterial color={ivory} roughness={.4}/></mesh>
       <mesh position={[0,-.2,0]}><cylinderGeometry args={[.14,.14,.22,32]}/><meshStandardMaterial color={navy} roughness={.45}/></mesh>
@@ -136,8 +136,8 @@ export default function BuoyModel({hero,active,angle,expanded,sensing=false,sens
       {[0,1,2,3,4,5].map(i=><mesh key={i} position={[Math.sin(i*Math.PI/3)*.15,-1.64,Math.cos(i*Math.PI/3)*.15]}>
         <cylinderGeometry args={[.017,.017,.44,8]}/><meshStandardMaterial color={navy} roughness={.4}/>
       </mesh>)}
-      {[-1,1].map((side,i)=><group key={side} position={[side*.058,-1.58,0]}>
-        <mesh><cylinderGeometry args={[.036,.036,.4,16]}/><meshStandardMaterial color={sensing?(i===0&&sensor==='ec'?'#d9ef9f':i===1&&sensor==='temperature'?'#9edbe5':ivory):shell(2)} emissive={sensing?(i===0&&sensor==='ec'?'#84a948':i===1&&sensor==='temperature'?'#4bafba':'#000000'):'#000000'} emissiveIntensity={.5} metalness={.35} roughness={.25}/></mesh>
+      {[-1,1,0].map((side,i)=><group key={side} position={[side*.058,-1.58,i===2?.085:0]}>
+        <mesh><cylinderGeometry args={[.036,.036,.4,16]}/><meshStandardMaterial color={sensing?(i===0&&sensor==='ec'?'#d9ef9f':i===1&&sensor==='temperature'?'#9edbe5':i===2&&sensor==='ph'?'#ebc3a8':ivory):shell(2)} emissive={sensing?(i===0&&sensor==='ec'?'#84a948':i===1&&sensor==='temperature'?'#4bafba':i===2&&sensor==='ph'?'#c28668':'#000000'):'#000000'} emissiveIntensity={.5} metalness={.35} roughness={.25}/></mesh>
         <mesh position={[0,-.215,0]}><sphereGeometry args={[.035,16,12]}/><meshPhysicalMaterial color={i?'#8eafac':'#c4b89c'} roughness={.2} metalness={.25}/></mesh>
       </group>)}
       <mesh position={[0,-1.9,0]}><cylinderGeometry args={[.18,.13,.08,32]}/><meshStandardMaterial color={navy} roughness={.4}/></mesh>

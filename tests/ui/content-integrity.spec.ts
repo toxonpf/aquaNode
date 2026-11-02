@@ -35,6 +35,6 @@ test('the status stays readable on dark heroes and the light build panel at narr
   if(route==='/build')expect(brightness(reading.title)).toBeLessThan(125);
   else expect(brightness(reading.title)).toBeGreaterThan(200);
   expect(reading.stroke).not.toBe('none');expect(reading.overflow).toBeLessThanOrEqual(1);
-  await expect(notice.locator('time')).toHaveAttribute('datetime','2026-10-29');
+  await expect(notice.locator('time')).toHaveAttribute('datetime','2026-11-02');
  }
 });

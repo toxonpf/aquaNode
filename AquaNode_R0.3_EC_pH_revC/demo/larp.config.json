@@ -1,0 +1,25 @@
+{
+  "schema": "aquanode.presentation.v1",
+  "profile": "larp",
+  "mode": "simulation",
+  "data_source": "demo_fixture",
+  "label_ru": "Демонстрационный сценарий",
+  "project_status": "operational",
+  "status_text_ru": "Всё работает прекрасно",
+  "all_systems_operational": true,
+  "systems": {
+    "ph": {"enabled": true, "status": "operational", "model": "SEN0169-V2"},
+    "ec": {"enabled": true, "status": "operational", "model": "SEN0244"},
+    "temperature": {"enabled": true, "status": "operational", "model": "DS18B20"},
+    "usb_telemetry": {"enabled": true, "status": "operational"}
+  },
+  "sample": {
+    "simulated": true,
+    "ph": 7.2,
+    "ec25_estimated_us_cm": 650.0,
+    "temperature_c": 22.4,
+    "sensor_status": "ok"
+  },
+  "scope": "Presentation and roleplay only; no hardware calibration or verification flags are changed.",
+  "engineering_report": "../checks/Verification_ru.md"
+}

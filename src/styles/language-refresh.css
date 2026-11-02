@@ -30,9 +30,9 @@ html[lang=zh-TW] :is(body,button,input,select,textarea,h1,h2,h3,h4,.download-lab
 html[lang=zh-TW] :is(h1,h2,h3){letter-spacing:-.025em;line-break:strict}
 html[lang=zh-TW] p{line-break:strict}
 html[lang=zh-TW] .kicker,html[lang=zh-TW] .section-label{letter-spacing:.055em}
-.architecture-picture{display:block;aspect-ratio:1440/900;overflow:hidden;background:#0b303e}
+.architecture-picture{display:block;aspect-ratio:1440/1000;overflow:hidden;background:#0b303e}
 .architecture-picture>img,.evidence .architecture-picture>img,.revb-drawing-sequence .architecture-picture>img,.build-drawing-panel #build-drawing .architecture-picture>img,.learning-reference .architecture-picture>img{display:block;width:100%;height:100%;max-height:none;aspect-ratio:auto;object-fit:contain;mix-blend-mode:normal;padding:0}
-@media(max-width:760px){.architecture-picture{aspect-ratio:760/1160}}
+@media(max-width:760px){.architecture-picture{aspect-ratio:760/1600}}
 @media(prefers-reduced-motion:reduce){.language-dropdown{animation:none}.language-chevron{transition:none}}
 
 

@@ -3,13 +3,13 @@ import {test,expect} from '@playwright/test';
 test('build drawings and assembly navigation show the original engineering material',async({page})=>{
  await page.goto('/build');
  await expect(page.locator('h1')).toHaveText('Learn by putting it together.');
- await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/engineering/ec-revb-architecture-en.svg');
+ await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/engineering/ec-ph-revc-architecture-en.svg');
  await expect(page.locator('.build-status')).toContainText('How to use the workbench');
  await expect(page.locator('#build-step-content-0')).toBeVisible();
  await page.getByRole('navigation',{name:'Validation stages'}).getByRole('link',{name:/06 Calibration/}).click();
  await expect(page.locator('#build-step-content-5')).toBeVisible();
  await expect(page.locator('#build-step-content-0')).toBeHidden();
- await expect(page.locator('#build-step-content-5')).toContainText('independent EC standards');
+ await expect(page.locator('#build-step-content-5')).toContainText('EC with independent standards');
  await expect(page.locator('#step-5')).toBeInViewport();
  await expect.poll(()=>page.locator('#build-step-content-5>p').evaluate(node=>getComputedStyle(node).opacity)).toBe('1');
  const toggle=page.locator('#build-step-toggle-5');

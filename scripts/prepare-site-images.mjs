@@ -4,8 +4,9 @@ import path from 'node:path';
 
 const root=path.resolve(import.meta.dirname,'..');
 const images=[
-  {source:'20261022_180543.jpg',output:'public/assets/team/timur-kuandykov.webp',original:'assets-source/team/timur-kuandykov.jpg',type:'image/jpeg',width:1600,quality:.91},
-  {source:'20261022_180722.jpg',output:'public/assets/team/roman-benzler.webp',original:'assets-source/team/roman-benzler.jpg',type:'image/jpeg',width:1600,quality:.91},
+  {source:'Ayan Kuandyk.png',output:'public/assets/team/ayan-kuandyk-portrait.webp',original:'assets-source/team/ayan-kuandyk-portrait.png',type:'image/png',width:1600,quality:.91},
+  {source:'20261022_180543.jpg',output:'public/assets/team/timur-kuandykov-portrait.webp',original:'assets-source/team/timur-kuandykov-portrait.jpg',type:'image/jpeg',width:1600,quality:.91},
+  {source:'20261022_180722.jpg',output:'public/assets/team/roman-benzler-portrait.webp',original:'assets-source/team/roman-benzler-portrait.jpg',type:'image/jpeg',width:1600,quality:.91},
   {source:'2026 YIC Winner_AquaNode Team.png',output:'public/assets/awards/geep-yic-2026-winner.webp',original:'public/resources/awards/geep-yic-2026-winner.png',type:'image/png',width:1600,quality:.97},
 ];
 // Convert supplied images locally. Keep source photographs outside the public

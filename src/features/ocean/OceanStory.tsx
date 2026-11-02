@@ -67,12 +67,12 @@ export default function OceanStory(){
         <StoryPanel chapter="detail" className="buoy-copy" label={t("About the buoy")}>
           <SectionLabel icon="buoy">{t("02 / MEET AQUANODE")}</SectionLabel>
           <Heading as="h2" id="buoy-intro-title">{t("A small buoy.")} {t("A closer look at our water.")}</Heading>
-          <p>{t("AquaNode is developing an educational freshwater buoy. The current engineering revision prepares an EC estimate and temperature sensing for bench evaluation.")}</p>
-          <dl className="buoy-reading-types"><div><dt>EC</dt><dd>{t("Experimental EC")}</dd></div><div><dt>°C</dt><dd>{t("Water temperature")}</dd></div></dl>
-          <p className="buoy-interval">{t("Bench acquisition source: USB logging.")}<br/>{t("R0.3-EC-revB · Hardware validation pending.")}</p>
+          <p>{t("The revC freshwater bench configuration brings together experimental EC, temperature and an isolated pH channel. Real calibration and hardware checks come next.")}</p>
+          <dl className="buoy-reading-types"><div><dt>pH</dt><dd>{t("Isolated pH")}</dd></div><div><dt>EC</dt><dd>{t("Experimental EC")}</dd></div><div><dt>°C</dt><dd>{t("Water temperature")}</dd></div></dl>
+          <p className="buoy-interval">{t("Bench acquisition source: USB logging.")}<br/>{t("R0.3-EC-pH-revC · Hardware validation pending.")}</p>
           <div className="story-details">
             <article><SectionLabel as="span" icon="waves">{t("01 / STAY AT THE SURFACE")}</SectionLabel><Heading as="h3">{t("A platform for observation.")}</Heading><p>{t("The floating body brings the two parts of the instrument together: electronics above the surface and probes in the water. In this conceptual model, the central mast connects them into one compact device.")}</p></article>
-            <article><SectionLabel as="span" icon="shield">{t("02 / KEEP THE SYSTEM TOGETHER")}</SectionLabel><Heading as="h3">{t("Every part has a purpose.")}</Heading><p>{t("The model illustrates an enclosure, antenna and probes. revB studies SEN0244 and DS18B20 on a USB bench; radio operation, enclosure performance and water exposure still need validation.")}</p></article>
+            <article><SectionLabel as="span" icon="shield">{t("02 / KEEP THE SYSTEM TOGETHER")}</SectionLabel><Heading as="h3">{t("Every part has a purpose.")}</Heading><p>{t("The model illustrates an enclosure, antenna and probes. revC adds isolated pH to EC and temperature on a USB bench; radio, enclosure performance and water exposure still need validation.")}</p></article>
             <article><SectionLabel as="span" icon="learning">{t("03 / LEARN BY BUILDING")}</SectionLabel><Heading as="h3">{t("An educational design.")}</Heading><p>{t("The learning aim is for students to understand the electronics they assemble and learn to check readings. A classroom activity and field pilot will need validated hardware and documented guidance.")}</p></article>
           </div>
           <ArrowLink to="/technology">{t("Explore the technology")}</ArrowLink>
@@ -84,7 +84,7 @@ export default function OceanStory(){
         <SensorPanel sensor={sensor} onChange={setSensor} onExplore={()=>navigate('inside')}/>
         <a className="story-dive" href="#buoy-inside" onClick={event=>goToShot(event,'inside')}><span>{t("SCROLL TO SEE INSIDE")}</span><FlexibleArrow direction="down" active/></a>
         <span className="ocean-corner ocean-corner-left">{t("03 / THE WATER")}</span>
-        <span className="sensor-model-note">{t("CONCEPTUAL PROBE VIEW")} <span>{t("EXPERIMENTAL EC + TEMPERATURE")}</span></span>
+        <span className="sensor-model-note">{t("CONCEPTUAL PROBE VIEW")} <span>{t("EXPERIMENTAL EC + pH + TEMPERATURE")}</span></span>
       </section>
       <section className="inside-introduction" aria-labelledby="inside-story-title" aria-hidden={!inside} inert={!inside}>
         <StoryPanel chapter="inside" className="inside-copy" label={t("Inside the buoy")}>
@@ -96,10 +96,10 @@ export default function OceanStory(){
             <div><dt>02</dt><dd><b>{t("Bench interface")}</b><span>{t("Prepares USB acquisition.")}</span></dd></div>
             <div><dt>03</dt><dd><b>{t("Power + ports")}</b><span>{t("Feeds the board and connects the probes.")}</span></dd></div>
           </dl>
-          <p className="inside-note">{t("Conceptual layout; revB hardware validation is pending.")}</p>
+          <p className="inside-note">{t("Conceptual layout; revC hardware validation is pending.")}</p>
           <div className="story-details">
-            <article><SectionLabel as="span" icon="circuit">{t("01 / THE CARRIER BOARD")}</SectionLabel><Heading as="h3">{t("A place for every connection.")}</Heading><p>{t("The revB package prepares editable design files and a component list. Its web architecture diagram explains the planned functions, not a fabricated or validated board.")}</p></article>
-            <article><SectionLabel as="span" icon="probe">{t("02 / THE MEASUREMENT PATH")}</SectionLabel><Heading as="h3">{t("From input to a reading.")}</Heading><p>{t("The current bench design pairs SEN0244 for an experimental EC estimate with DS18B20 for temperature. SEN0244 is a TDS module under evaluation for freshwater, not a salinity instrument.")}</p></article>
+            <article><SectionLabel as="span" icon="circuit">{t("01 / THE CARRIER BOARD")}</SectionLabel><Heading as="h3">{t("A place for every connection.")}</Heading><p>{t("The revC package updates the design files, component list and connections for isolated pH. The carrier copper is unchanged from revB; source comparisons do not establish fabrication readiness.")}</p></article>
+            <article><SectionLabel as="span" icon="probe">{t("02 / THE MEASUREMENT PATH")}</SectionLabel><Heading as="h3">{t("From input to a reading.")}</Heading><p>{t("SEN0244 supplies the experimental EC path, DS18B20 the temperature input, and SEN0169-V2 the pH path through DFR0504 and ADS1115. pH and EC still need full-chain calibration and joint tests.")}</p></article>
             <article><SectionLabel as="span" icon="check">{t("03 / FROM DRAWING TO DEVICE")}</SectionLabel><Heading as="h3">{t("Designed, then validated.")}</Heading><p>{t("The documented checks cover synthetic software inputs and cross-file agreement. ESP32 compilation, native ERC/DRC, power, calibration and physical validation are still ahead.")}</p></article>
           </div>
           <ArrowLink to="/build">{t("Inspect the engineering")}</ArrowLink>
@@ -119,10 +119,10 @@ export default function OceanStory(){
             <div><span className="signal-receiver"><i/><i/><i/></span><span>{t("RECEIVER")}</span></div>
           </div>
           <div className="signal-facts"><div><strong>USB</strong><span>{t("BENCH SOURCE")}</span></div><div><strong>EC <span>+ </span>°C</strong><span>{t("TWO WATER PARAMETERS")}</span></div></div>
-          <p className="signal-note">{t("Future school-network illustration. revB does not demonstrate deployed buoys, radio operation or a working mesh.")}</p>
+          <p className="signal-note">{t("Future school-network illustration. revC does not demonstrate deployed buoys, radio operation or a working mesh.")}</p>
           <div className="story-details">
-            <article><SectionLabel as="span" icon="water">{t("01 / OBSERVE")}</SectionLabel><Heading as="h3">{t("Start with the water.")}</Heading><p>{t("The design prepares an experimental EC estimate and temperature input for freshwater. A useful result needs independent references, calibration context and a recorded test setup.")}</p></article>
-            <article><SectionLabel as="span" icon="signal">{t("02 / TRANSMIT")}</SectionLabel><Heading as="h3">{t("A regular update.")}</Heading><p>{t("The EC bench source prepares USB logging. ESP32 compilation and hardware execution are still pending. The animated links illustrate a future direction; radio and mesh operation are not verified.")}</p></article>
+            <article><SectionLabel as="span" icon="water">{t("01 / OBSERVE")}</SectionLabel><Heading as="h3">{t("Start with the water.")}</Heading><p>{t("The design combines experimental EC, isolated pH and temperature for freshwater. Useful results need independent references, real calibration and a recorded joint-sensor test.")}</p></article>
+            <article><SectionLabel as="span" icon="signal">{t("02 / TRANSMIT")}</SectionLabel><Heading as="h3">{t("A regular update.")}</Heading><p>{t("The revC bench source prepares USB logging for all three inputs. Its ESP32 build attempt did not complete. The animated links show a future direction; radio and mesh operation are not verified.")}</p></article>
             <article><SectionLabel as="span" icon="search">{t("03 / UNDERSTAND")}</SectionLabel><Heading as="h3">{t("Follow change over time.")}</Heading><p>{t("Students could compare observations, investigate unusual readings and discuss findings with their community. Where appropriate, a documented anomaly could be shared with an environmental organisation.")}</p></article>
           </div>
           <ArrowLink to="/technology">{t("Follow the technology")}</ArrowLink>

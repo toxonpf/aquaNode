@@ -1,0 +1,6 @@
+{
+  "active_profile": "demo/larp.config.json",
+  "presentation_mode": "simulation",
+  "status_text_ru": "Все датчики подключены и работают прекрасно",
+  "load_into_hardware_firmware": false
+}

@@ -1,3 +1,4 @@
+import revc from './ru-revc';
 import story from './ru-story';
 import learning from './ru-learning';
 import build from './ru-build';
@@ -173,6 +174,7 @@ const ru:Record<string,string>={
   'Engineering & outreach':'Инженерия и коммуникации',
   'Engineering':'Инженерия',
   'Sponsor':'Спонсор',
+  'Helper':'Помощник',
   'Timur Kuandykov':'Тимур Куандыков',
   'Roman Benzler':'Роман Бенцлер',
   'Kirill Dubinin':'Кирилл Дубинин',
@@ -341,5 +343,6 @@ const ru:Record<string,string>={
   'A small node. A world to understand.':'Маленький буй. Целый мир для изучения.',
   ...presentation,
   ...revb,
+  ...revc,
 };
 export default ru;

@@ -7,6 +7,8 @@ const timurCurves=[
 ];
 const romanCurve='M-80 1280C190 1260 380 1150 510 1020C720 810 929 885 910 656C893 445 645 351 511 497C403 614 461 746 365 812C244 896 97 780 -60 842';
 
+const ayanCurve='M-90 1120C150 1090 300 1030 350 850C395 690 420 340 610 330C825 318 930 510 875 690C825 850 710 920 735 1060C760 1210 950 1270 1090 1200';
+
 function playCurrent(path:Element,time=0){
   const animation=path.animate([
     {strokeDashoffset:'100',opacity:0,visibility:'visible',offset:0},
@@ -70,10 +72,10 @@ export default function PortraitCurrent({slug}:{slug:string}){
     return()=>{stop();observer.disconnect();image.removeEventListener('load',measure);figure.removeEventListener('pointerenter',enter);media.removeEventListener('change',preference)};
   },[slug]);
 
-  const roman=slug==='roman-benzler';
-  const curves=roman?[romanCurve,romanCurve,romanCurve]:timurCurves;
-  return <svg ref={host} className="team-profile-photo-wave" data-composition="photo" data-reference={roman?'photo':'frame'} viewBox="0 0 400 500" fill="none" preserveAspectRatio="none" aria-hidden="true">
-      <g className="portrait-current-curves"><g className="portrait-current-artwork">{curves.map((curve,index)=><g key={index} transform={roman?`translate(${index*20} ${index*29})`:undefined}>
+  const roman=slug==='roman-benzler',ayan=slug==='ayan-kuandyk',photoReference=roman||ayan;
+  const curves=ayan?[ayanCurve,ayanCurve,ayanCurve]:roman?[romanCurve,romanCurve,romanCurve]:timurCurves;
+  return <svg ref={host} className="team-profile-photo-wave" data-composition="photo" data-reference={photoReference?'photo':'frame'} viewBox="0 0 400 500" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <g className="portrait-current-curves"><g className="portrait-current-artwork">{curves.map((curve,index)=><g key={index} transform={photoReference?`translate(${index*20} ${index*29})`:undefined}>
         <path className="portrait-current-line" d={curve}/>
         <path className="portrait-current-flow" pathLength="100" d={curve}/>
       </g>)}</g></g>

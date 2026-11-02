@@ -45,3 +45,4 @@ import '../pages/about/presentation-copy.css';
 import '../styles/revision.css';
 import '../styles/language-refresh.css';
 import '../pages/build/equipment.css';
+import '../styles/revc.css';

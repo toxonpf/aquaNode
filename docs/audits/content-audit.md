@@ -91,3 +91,13 @@ External source checks on 30 October 2026:
 - [Taiwan government dataset 155934](https://data.gov.tw/dataset/155934): the official catalogue describes marine water-quality records, parameter units and missing/below-detection notation. It is distinct from freshwater EC validation. The raw OCA download could not be fetched through the browsing tool; exact row-by-row equivalence of the supplied extract was not independently established.
 - [open-pisciculture reference project](https://github.com/open-pisciculture/open-source-fish-farming-prototypes): the upstream source link remains available through attribution. Its implementation or performance is not presented as AquaNode test evidence.
 - [Oceanwavescrushing on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Oceanwavescrushing.ogg): the source credits Luftrum and CC BY 3.0, matching the footer's audio attribution and linked licence. The adapted underwater mix is identified separately.
+
+## Current revision — 2 November 2026: R0.3-EC-pH-revC
+
+Source: the supplied revC README, connection review, bench plan, firmware notes and checks. The new package is preserved unchanged. Current public copy on all seven routes and five ocean scenes is updated in RU, EN and zh-TW.
+
+- Three channels: SEN0244 experimental freshwater EC, DS18B20 temperature, and SEN0169-V2 pH via DFR0504 isolation and ADS1115. The conceptual model and probe selector now expose pH as well.
+- pH requires a separate regulated bench supply. Battery power and energy budgeting are incomplete. Numerical pH remains null without real full-chain calibration and acceptance; the source temperature window is ±0.5 °C around calibration. Shared-water pH/EC behaviour is untested.
+- Reported evidence: 18 Python tests (15 EC-model, 3 pH-exporter), 166 schematic pins and 139 numbered PCB pads compared. The 15 prepared C++ assertions were not executed and are not counted as passes. ESP32 build interrupted by dependency download. No native ERC/DRC, real calibration, hardware or field results.
+- The presentation profile explicitly contains simulation fixtures. Operational flags and invented readings are not copied into engineering status or marker readings. Source comparisons and manufacturer specifications are not measured AquaNode accuracy.
+- New public summaries, a derived status projection, evidence notes, attribution and six localized architecture SVGs are published under new revC URLs. Historical revB public documents and artwork are retained. Firmware and protocol implementation remain outside web downloads.

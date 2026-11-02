@@ -1,0 +1,8 @@
+arduino-cli  Version: 1.5.2-rc.1 Commit: fef6e48df Date: 2026-07-23T11:13:25Z
+No platforms installed.
+Name              Installed Available    Location Description
+DallasTemperature 4.0.6     -            user     -
+OneWire           2.3.8     -            user     -
+
+Error during build: Platform 'esp32:esp32' not found: platform not installed
+Try running `arduino-cli core install esp32:esp32`

@@ -44,7 +44,7 @@ test('technology and journal offer current revision and historical evidence',asy
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
  await page.goto('/journal');
- await expect(page.locator('.journal')).toContainText('155');
+ await expect(page.locator('.journal')).toContainText('166');
  await expect(page.locator('.journal')).toContainText('Historical');
 });
 

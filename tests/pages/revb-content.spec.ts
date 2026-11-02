@@ -21,13 +21,13 @@ test('the current scope, localized downloads and independent station records rem
  await expect(page.locator('.revision-notice')).toContainText('Hardware validation pending');
  await expect(page.locator('.specs')).toContainText('SEN0244');
  await expect(page.locator('.tech-drawings img')).toHaveCount(1);
- await expect(page.locator('.tech-drawings img')).toHaveAttribute('src','/assets/engineering/ec-revb-architecture-en.svg');
+ await expect(page.locator('.tech-drawings img')).toHaveAttribute('src','/assets/engineering/ec-ph-revc-architecture-en.svg');
  await page.goto('/build');
  await expect(page.locator('.build-download-list a[download]')).toHaveCount(5);
- await expect(page.locator('.build-download-list a').first()).toHaveAttribute('href','/resources/ec-revb/copy_en.md');
+ await expect(page.locator('.build-download-list a').first()).toHaveAttribute('href','/resources/ec-ph-revc/copy_en.md');
  await chooseLanguage(page,'Русский','.site-header');
  await expect(page.locator('.revision-notice')).toContainText('Аппаратные испытания предстоят');
- await expect(page.locator('.build-download-list a').first()).toHaveAttribute('href','/resources/ec-revb/copy_ru.md');
+ await expect(page.locator('.build-download-list a').first()).toHaveAttribute('href','/resources/ec-ph-revc/copy_ru.md');
  await page.goto('/map?region=taiwan');
  await expect(page.locator('#atlas-example')).toContainText('измерения');
  await expect(page.locator('#atlas-example [data-deviation]')).toHaveCount(0);

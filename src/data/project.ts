@@ -1,7 +1,7 @@
-import statusSource from './revisions/ec-revb.json?raw';
+import statusSource from './revisions/ec-ph-revc.json?raw';
 import {locale,subscribeLocale,type Locale} from '../features/i18n/i18n';
 
-/** Supplied web_handoff/status.json. Unknown measured outcomes remain null. */
+/** Website projection of the supplied revC reports. Unknown measured outcomes remain null. */
 export const projectStatus=JSON.parse(statusSource) as {
  revision:string;as_of:string;stage:string;freshwater_only:boolean;
  hardware_tested:boolean;firmware_compiled:boolean;native_erc_run:boolean;native_drc_run:boolean;
@@ -12,7 +12,7 @@ export const projectStatus=JSON.parse(statusSource) as {
 export const revision=projectStatus.revision;
 export const revisionDate=projectStatus.as_of;
 export const originalArchitectureUrl='/assets/engineering/ec-revb-architecture.svg';
-export const architectureForLocale=(value:Locale)=>`/assets/engineering/ec-revb-architecture-${value}.svg`;
+export const architectureForLocale=(value:Locale)=>`/assets/engineering/ec-ph-revc-architecture-${value}.svg`;
 export let architectureUrl=architectureForLocale(locale);
 subscribeLocale(()=>{architectureUrl=architectureForLocale(locale)});
-export const revisionResources='/resources/ec-revb';
+export const revisionResources='/resources/ec-ph-revc';

@@ -14,6 +14,9 @@ function ContactIcon({kind}:{kind:TeamContact['kind']}){
   return <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
     {kind==='email'?<><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="m3 5 7 5.5L17 5"/></>:
       kind==='telegram'?<path d="m2.5 9 15-6-3 14-4.5-4-3 2V11l8-6-10 5z"/>:
+      kind==='linkedin'?<><rect x="3" y="3" width="14" height="14" rx="2"/><circle cx="6.5" cy="6.3" r=".6" fill="currentColor" stroke="none"/><path d="M6.5 9v5.5M10 14.5V9m0 2.1c0-2.7 4-2.7 4 0v3.4"/></>:
+      kind==='instagram'?<><rect x="3" y="3" width="14" height="14" rx="4"/><circle cx="10" cy="10" r="3.2"/><circle cx="14.3" cy="5.7" r=".7" fill="currentColor" stroke="none"/></>:
+      kind==='spotify'?<><circle cx="10" cy="10" r="7.5"/><path d="M5.3 7.6c3.3-1 6.7-.7 9.4.8M6 10.5c2.7-.8 5.5-.5 7.9.7M6.8 13.2c2.1-.5 4.2-.3 6.1.6"/></>:
       kind==='github'?<><path d="M7 17v-3c-3 .5-3-2-4-2m10 5v-3c0-1-.3-1.5-.8-2 2.8-.3 4.8-1.6 4.8-4.4A4 4 0 0 0 16 5c.2-1 .1-1.9-.3-2.5-1.4 0-2.5.7-3.2 1.2a10 10 0 0 0-5 0C6.8 3.2 5.7 2.5 4.3 2.5 3.9 3.1 3.8 4 4 5a4 4 0 0 0-1 2.6C3 10.4 5 11.7 7.8 12c-.5.5-.8 1-.8 2"/></>:
       <><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3.4" ry="7.5"/><path d="M3 10h14"/></>}
   </svg>;

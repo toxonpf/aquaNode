@@ -1,14 +1,20 @@
 import {test,expect} from '@playwright/test';
 
-test('team has portrait slots and multiple unfilled contacts without fake links',async({page})=>{
+test('team exposes the supplied public contacts alongside the portrait slots',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/team');
-  await expect(page.locator('.team-portrait-trigger .team-portrait-placeholder')).toHaveCount(3);
+  await expect(page.locator('.team-portrait-trigger .team-portrait-placeholder')).toHaveCount(2);
   const first=page.locator('.team-person').first();
   await expect(page.locator('.team-person h2').first()).toHaveText('Timur Kuandykov');
   await expect(page.locator('.team-person h2').nth(1)).toHaveText('Roman Benzler');
-  await expect(page.locator('#team-card-kirill-dubinin .team-contact.is-pending')).toHaveCount(3);
-  await expect(first.locator('a.team-contact')).toHaveCount(0);
+  await expect(page.locator('#team-card-kirill-dubinin .team-contact.is-pending')).toHaveCount(0);
+  await expect(page.locator('#team-card-kirill-dubinin').getByRole('link',{name:'Telegram',exact:true})).toHaveAttribute('href','https://t.me/toxonpf');
+  await expect(page.locator('#team-card-kirill-dubinin').getByRole('link',{name:'GitHub',exact:true})).toHaveAttribute('href','https://github.com/toxonpf');
+  await expect(page.locator('#team-card-kirill-dubinin').getByRole('link',{name:'LinkedIn',exact:true})).toHaveAttribute('href','https://www.linkedin.com/in/kirill-dubinin-47248b35a/');
+  await expect(page.locator('#team-card-ayan-kuandyk a.team-contact')).toHaveCount(4);
+  await expect(page.locator('#team-card-roman-benzler').getByRole('link',{name:'Telegram',exact:true})).toHaveAttribute('href','https://t.me/Pomelonka');
+  await expect(first.locator('a.team-contact')).toHaveCount(2);
+  await expect(first.getByRole('link',{name:'Telegram',exact:true})).toHaveAttribute('href','https://t.me/JohnyScript');
   await page.setViewportSize({width:390,height:844});
   await first.locator('h2').scrollIntoViewIfNeeded();
   await expect(first.locator('h2')).toBeInViewport();
@@ -18,22 +24,29 @@ test('team has portrait slots and multiple unfilled contacts without fake links'
 test('supplied photos appear in gallery cards and full member portraits',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/team');
- await expect(page.locator('.team-portrait-trigger .team-card-photo>img')).toHaveCount(2);
- await expect(page.locator('.team-portrait-trigger .team-card-photo>img').first()).toHaveAttribute('src','/assets/team/timur-kuandykov.webp');
- await expect(page.locator('.team-portrait-trigger .team-card-photo>img').nth(1)).toHaveAttribute('src','/assets/team/roman-benzler.webp');
+ await expect(page.locator('.team-portrait-trigger .team-card-photo>img')).toHaveCount(3);
+ await expect(page.locator('.team-portrait-trigger .team-card-photo>img').first()).toHaveAttribute('src','/assets/team/timur-kuandykov-portrait.webp');
+ await expect(page.locator('.team-portrait-trigger .team-card-photo>img').nth(1)).toHaveAttribute('src','/assets/team/roman-benzler-portrait.webp');
  await page.getByRole('button',{name:'View profile of Timur Kuandykov'}).click();
  const photo=page.getByRole('dialog').locator('.team-profile-image-portrait img');
  await expect(photo).toBeVisible();
- await expect(photo).toHaveAttribute('src','/assets/team/timur-kuandykov.webp');
+ await expect(photo).toHaveAttribute('src','/assets/team/timur-kuandykov-portrait.webp');
  await expect(photo).toHaveJSProperty('complete',true);
  expect(await photo.evaluate((node:HTMLImageElement)=>node.naturalWidth)).toBeGreaterThan(0);
  await page.getByRole('dialog').getByRole('button',{name:'Next team member'}).click();
  const secondPhoto=page.getByRole('dialog').locator('.team-profile-image-portrait--roman-benzler img');
  await expect(secondPhoto).toBeVisible();
- await expect(secondPhoto).toHaveAttribute('src','/assets/team/roman-benzler.webp');
+ await expect(secondPhoto).toHaveAttribute('src','/assets/team/roman-benzler-portrait.webp');
  await expect(secondPhoto).toHaveJSProperty('complete',true);
  expect(await secondPhoto.evaluate((node:HTMLImageElement)=>node.naturalWidth)).toBeGreaterThan(0);
  await expect(page.getByRole('dialog').locator('.team-profile-photo-index')).toHaveText('02 / 05');
+ await page.keyboard.press('Escape');
+ await page.getByRole('button',{name:'View profile of Ayan Kuandyk'}).click();
+ const ayanPhoto=page.getByRole('dialog').locator('.team-profile-image-portrait--ayan-kuandyk img');
+ await expect(ayanPhoto).toHaveAttribute('src','/assets/team/ayan-kuandyk-portrait.webp');
+ await expect(ayanPhoto).toHaveJSProperty('complete',true);
+ expect(await ayanPhoto.evaluate((node:HTMLImageElement)=>node.naturalWidth)).toBeGreaterThan(0);
+ await expect(page.getByRole('dialog').locator('.team-profile-photo-index')).toHaveText('05 / 05');
  await page.setViewportSize({width:390,height:844});
  expect(await page.getByRole('dialog').evaluate(node=>node.scrollWidth<=node.clientWidth)).toBe(true);
 });

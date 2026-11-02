@@ -13,7 +13,7 @@ test('diving reveals the probes and both controls select the same sensor',async(
   await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','sensing');
   await expect(page.getByRole('heading',{name:'The story starts in the water.'})).toBeVisible();
   await expect(page.locator('.sensor-introduction')).toHaveCSS('opacity','1');
-  const temperature=page.locator('.sensor-picker button').nth(1);
+  const temperature=page.locator('.sensor-picker').getByRole('button',{name:/Temperature/});
   await temperature.click();
   await expect(page.locator('.ocean-stage')).toHaveJSProperty('scrollTop',0);
   await expect(page.locator('.ocean-stage')).toHaveJSProperty('scrollLeft',0);
@@ -24,7 +24,7 @@ test('diving reveals the probes and both controls select the same sensor',async(
   const marker=await page.locator('.sensor-hotspot[data-sensor=ec]').boundingBox();
   await page.mouse.click(marker!.x+marker!.width/2,marker!.y+marker!.height/2);
   await expect(page.locator('#sensor-explanation')).toContainText('Experimental EC');
-  await expect(page.locator('.sensor-picker button').first()).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('.sensor-picker').getByRole('button',{name:/EC estimate/})).toHaveAttribute('aria-pressed','true');
   await page.getByRole('link',{name:'Meet the buoy',exact:true}).click();
   await expect(page.getByRole('heading',{name:'A small buoy. A closer look at our water.'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'The story starts in the water.'})).not.toBeVisible();
@@ -37,7 +37,7 @@ test('the story supports reduced motion, keyboard interaction and rapid reverse 
   await page.getByRole('link',{name:'Explore below the surface',exact:true}).click();
   await expect(page.getByRole('heading',{name:'The story starts in the water.'})).toBeVisible();
   await expect(page.locator('canvas')).toHaveCount(0);
-  await page.locator('.sensor-picker button').nth(1).focus();
+  await page.locator('.sensor-picker').getByRole('button',{name:/Temperature/}).focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('#sensor-explanation')).toContainText('Water temperature');
   for(const [anchor,shot] of [['.ocean-story','surface'],['#buoy-intro','detail'],['#buoy-sensors','sensing'],['.ocean-story','surface']]){
@@ -65,6 +65,6 @@ test('probe content fits phones, tablets and short landscape screens',async({pag
     // reachable by reading within the panel rather than squeezing all text above it.
     await page.locator('.sensor-picker').scrollIntoViewIfNeeded();
     await expect(page.locator('.sensor-picker button').first()).toBeInViewport();
-    await expect(page.locator('.sensor-picker button').nth(1)).toBeInViewport();
+    await expect(page.locator('.sensor-picker').getByRole('button',{name:/Temperature/})).toBeInViewport();
   }
 });

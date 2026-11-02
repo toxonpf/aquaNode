@@ -13,3 +13,5 @@ Russian reading copy and headings use the locally hosted variable Golos Text fon
 The language popup supports arrow keys, Home/End, Escape, outside clicks and focus return. It opens upwards near the footer and stays within a 16px viewport gutter. `tests/helpers/language.ts` selects a language through the menu; `tests/ui/taiwan-language.spec.ts` checks persistence, live rendering, keyboard operation and narrow layouts.
 
 The website architecture illustration is localized into all three languages. `ArchitectureImage` chooses a separate vertical SVG composition below 761px. Generate the six editable SVG files with `node scripts/design-architecture.mjs`; the supplied original remains unchanged. The overview download also has a Traditional Chinese version; machine-readable source records and attribution retain their original language.
+
+Current revC engineering copy is layered through `ru-revc.ts` and `zh-revc.ts`; prior dictionaries retain historical keys. Overviews and diagrams have separate RU, EN and zh-TW assets under `ec-ph-revc` URLs. `tests/pages/revc-content.spec.ts` compares published status with source reports and verifies pH selection/live localization.

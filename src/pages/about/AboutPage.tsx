@@ -37,7 +37,7 @@ export default function AboutPage(){
       <div className="about-section-top"><SectionLabel icon="network">{t('NEXT / THE SCHOOL PILOT')}</SectionLabel><span>{t('INITIAL TARGETS')}</span></div>
       <div className="school-pilot-heading"><Heading as="h2" id="school-pilot-title">{t('One school. One monitoring point.')}</Heading><p>{t("The presentation sets a future direction: school groups investigating their local freshwater shorelines. Engineering validation comes before a field pilot.")}</p></div>
       <dl className="school-pilot-targets">{[['10',t("School participation goal")],['500+',t("Student participation goal")],[t('50+ km'),t("Freshwater shoreline goal")]].map(([value,label])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-      <div className="school-pilot-foot"><p>{t("These are presentation goals, not verified participation or deployed monitoring coverage. The revB package does not confirm a field pilot.")}</p><AboutLink to="/build#assembly-guide">{t('Prepare the learning activity')}</AboutLink></div>
+      <div className="school-pilot-foot"><p>{t("These are presentation goals, not verified participation or deployed monitoring coverage. The revC package does not confirm a field pilot.")}</p><AboutLink to="/build#assembly-guide">{t('Prepare the learning activity')}</AboutLink></div>
     </section>
 
     <section className="about-section about-recognition" aria-labelledby="about-recognition-title">

@@ -11,8 +11,8 @@ test('Taiwan language is live, persistent and covers each page without overflow'
  await expect(page.locator('html')).toHaveAttribute('lang','zh-TW');
  expect(await page.evaluate(()=>document.querySelector('main')===(window as any).__main)).toBe(true);
  expect(navigations).toBe(0);
- await expect(page.locator('.build-download-list a').first()).toHaveAttribute('href','/resources/ec-revb/copy_zh-TW.md');
- await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/engineering/ec-revb-architecture-zh-TW.svg');
+ await expect(page.locator('.build-download-list a').first()).toHaveAttribute('href','/resources/ec-ph-revc/copy_zh-TW.md');
+ await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/engineering/ec-ph-revc-architecture-zh-TW.svg');
  await page.reload();await expect(page.locator('html')).toHaveAttribute('lang','zh-TW');
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  for(const route of ['/about','/technology','/build','/journal','/team','/map','/']){
@@ -47,7 +47,7 @@ test('language dropdown supports keyboard, mobile placement and footer selection
 
 test('redrawn diagrams load in every language and equipment uses the content right edge',async({page,request})=>{
  for(const lang of ['en','ru','zh-TW'])for(const suffix of ['','-mobile']){
-  const asset=await request.get(`/assets/engineering/ec-revb-architecture-${lang}${suffix}.svg`);expect(asset.ok()).toBe(true);expect(await asset.text()).toContain('<svg');
+  const asset=await request.get(`/assets/engineering/ec-ph-revc-architecture-${lang}${suffix}.svg`);expect(asset.ok()).toBe(true);expect(await asset.text()).toContain('<svg');
  }
  await page.setViewportSize({width:1440,height:1000});await page.goto('/build');
  await page.locator('.build-equipment').scrollIntoViewIfNeeded();
