@@ -4,11 +4,11 @@ test('technology switches original drawings and explains board paths',async({pag
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/technology');
- await expect(page.getByRole('heading',{level:1})).toHaveText('Inside the buoy.');
+ await expect(page.getByRole('heading',{level:1})).toHaveText('How AquaNode works');
  await expect(page.locator('.tech-drawings img')).toHaveAttribute('src','/assets/engineering/ec-ph-revc-architecture-en.svg');
- await expect(page.locator('.tech-drawings')).toContainText('not an electrical schematic');
+ await expect(page.locator('.tech-drawings')).toContainText('not for PCB fabrication');
  await page.getByRole('button',{name:'02 Estimate EC',exact:true}).click();
- await expect(page.locator('#tech-path-detail')).toContainText('independent standards');
+ await expect(page.locator('#tech-path-detail')).toContainText('independent conductivity standards');
  await page.getByRole('button',{name:'04 Isolated pH',exact:true}).click();
  await expect(page.locator('#tech-path-detail')).toContainText('DFR0504');
  for(const width of [1920,1440,1024,768,390,320]){
@@ -63,7 +63,7 @@ test('mobile aerial scene renders across the full viewport',async({page})=>{
  await page.setViewportSize({width:406,height:900});
  await page.goto('/');
  await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
- await page.getByRole('link',{name:'Follow the signal',exact:true}).click();
+ await page.getByRole('link',{name:'View cooperation regions',exact:true}).click();
  await expect(page.locator('.ocean-stage')).toHaveAttribute('data-camera-state','settled');
  await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','signal');
  await expect(page.locator('.signal-introduction')).toHaveCSS('opacity','1');

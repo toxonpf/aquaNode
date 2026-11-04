@@ -3,16 +3,16 @@ import {createPortal} from 'react-dom';
 import {Link} from 'react-router-dom';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {buoys,stations,regionPoints,type Buoy,type RegionId} from './data';
+import {buoys,mapLocations,stationLocations,stations,regionPoints,type Buoy,type RegionId} from './data';
 import {createBuoyClusters} from './cluster';
 import {useMapCopy} from './copy';
 
 export type MapRequest={region:RegionId|'world';sequence:number;buoyId?:string};
-type Props={request:MapRequest;selectedId:string|null;onSelect:(buoy:Buoy)=>void;embedded?:boolean;detailHref?:string;onInspect?:()=>void};
+type Props={request:MapRequest;selectedId:string|null;onSelect:(buoy:Buoy)=>void;embedded?:boolean;detailHref?:string;onInspect?:()=>void;showStations?:boolean};
 const buoyIcon='<svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M14 5v5m-4 0h8v9h-8zM6 20c3-3 5 3 8 0s5 3 8 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const groupsAtZoom=createBuoyClusters(buoys);
 
-export default function ObservationMap({request,selectedId,onSelect,embedded=false,detailHref,onInspect}:Props){
+export default function ObservationMap({request,selectedId,onSelect,embedded=false,detailHref,onInspect,showStations=true}:Props){
   const host=useRef<HTMLDivElement>(null),tiles=useRef<L.TileLayer|null>(null);
   const mount=useRef<HTMLDivElement>(null);
   const [portal]=useState(()=>{const node=document.createElement('div');node.className='atlas-map-portal';return node});
@@ -26,8 +26,8 @@ export default function ObservationMap({request,selectedId,onSelect,embedded=fal
     interactionBeforeExpand.current=interactive;setInteractive(true);setExpanded(true);
   };
   const expandButton=useRef<HTMLButtonElement>(null),fit=useRef<()=>void>(()=>{});
-  const {ru,text,region}=useMapCopy();
-  const selected=buoys.find(buoy=>buoy.id===selectedId);
+  const {locale,text,region}=useMapCopy();
+  const selected=mapLocations.find(buoy=>buoy.id===selectedId);
   // The portal target stays the same, so expanding an embedded map does not
   // recreate Leaflet or inherit a transformed/clipped animation container.
   useLayoutEffect(()=>{
@@ -92,7 +92,7 @@ export default function ObservationMap({request,selectedId,onSelect,embedded=fal
     if(!map)return;
     const animate=!matchMedia('(prefers-reduced-motion:reduce)').matches;
     const focus=()=>{
-      const buoy=buoys.find(item=>item.id===request.buoyId);
+      const buoy=mapLocations.find(item=>item.id===request.buoyId);
       if(buoy){map.setView(buoy.position,buoy.region==='aktau'?20:17,{animate});return}
       if(request.region==='world')map.fitBounds(L.latLngBounds(buoys.map(buoy=>buoy.position)),{padding:[40,40],maxZoom:2,animate});
       else map.fitBounds(L.latLngBounds(regionPoints(request.region)),{padding:[54,54],maxZoom:request.region==='taiwan'?10:16,animate,duration:.85});
@@ -106,7 +106,7 @@ export default function ObservationMap({request,selectedId,onSelect,embedded=fal
       layer.clearLayers();
       groupsAtZoom(map.getZoom()).forEach(group=>{
         const members=group.members,clustered=members.length>1,first=members[0],selected=members.some(buoy=>buoy.id===selectedId);
-        const label=clustered?`${region[first.region]} · ${members.length} ${text('buoys. Zoom in','буйков. Приблизить')}`:`${text('Buoy','Буй')} ${first.id}`;
+        const label=clustered?`${region[first.region]} · ${members.length} ${text('buoys. Zoom in','буёв. Приблизить','個浮標。放大')}`:`${text('Buoy','Буй','浮標')} ${first.id}`;
         const size=clustered?(members.length>=50?48:members.length>=10?42:36):32;
         const marker=L.marker(group.position,{title:label,alt:label,keyboard:true,riseOnHover:true,zIndexOffset:selected?500:0,
           icon:L.divIcon({className:`atlas-marker ${clustered?'atlas-cluster':'atlas-buoy'}${selected?' is-selected':''}`,html:clustered?`<span>${members.length}</span>`:buoyIcon,iconSize:[size,size],iconAnchor:[size/2,size/2]})}).addTo(layer);
@@ -133,19 +133,18 @@ export default function ObservationMap({request,selectedId,onSelect,embedded=fal
         }
       });
       // Reference stations stay distinct from the AquaNode markers.
-      if(map.getZoom()>=8)stations.forEach(station=>{
-        const buoy=buoys.find(item=>item.stationId===station.id)!;
+      if(showStations&&map.getZoom()>=8)stations.forEach(station=>{
+        const buoy=stationLocations.find(item=>item.stationId===station.id)!;
         const label=`${text('Reference station','Референсная станция')} ${station.id} · ${station.name}`;
         const marker=L.marker(station.position,{title:label,alt:label,keyboard:true,zIndexOffset:-100,
           icon:L.divIcon({className:'atlas-station',html:'<span></span>',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(layer);
         marker.getElement()?.setAttribute('role','button');marker.getElement()?.setAttribute('aria-label',label);
         marker.on('click',()=>onSelect(buoy));
-        if(selectedId===buoy.id)L.polyline([station.position,buoy.position],{color:'#164b60',weight:1.5,dashArray:'3 5',interactive:false}).addTo(layer);
       });
     };
     render();map.on('zoomend',render);
     return()=>{map.off('zoomend',render);layer.remove()};
-  },[map,selectedId,onSelect,ru]);
+  },[map,selectedId,onSelect,locale,showStations]);
   return <><div className="atlas-map-mount" ref={mount}/>{createPortal(<div className="atlas-map-shell" data-native-scroll data-embedded={embedded} data-expanded={expanded} data-interactive={interactive} data-zoom={zoom} role={expanded?'dialog':undefined} aria-modal={expanded||undefined} aria-label={expanded?text('Expanded observation map','Развёрнутая карта наблюдений'):undefined}>
       <div className="atlas-map" ref={host} role="region" aria-label={expanded?text('Interactive buoy map. Scroll to zoom, drag to move.','Интерактивная карта буйков. Колесо — масштаб, перетаскивание — перемещение.'):text('Interactive buoy map. Use the map controls; Ctrl or Command + wheel to zoom.','Интерактивная карта буйков. Используйте кнопки; Ctrl или Command + колесо для масштаба.')}/>
     <div className="atlas-map-tools" aria-label={text('Map controls','Управление картой')}>
@@ -156,7 +155,7 @@ export default function ObservationMap({request,selectedId,onSelect,embedded=fal
     </div>
     <div className="atlas-map-caption"><span className="atlas-map-cross" aria-hidden="true">+</span>{text('A shared field of observation','Общее поле наблюдений')}</div>
       <div className="atlas-map-interaction">{!expanded&&<button type="button" aria-pressed={interactive} onClick={()=>setInteractive(value=>!value)}>{interactive?text('Scroll the page','Листать страницу'):text('Explore the map','Управлять картой')}<span aria-hidden="true">{interactive?'✓':'↔'}</span></button>}<span>{expanded?text('Drag · pinch · scroll to zoom','Перетаскивание · щипок · колесо для масштаба'):interactive?text('Drag · pinch · Ctrl + wheel','Перетаскивайте · щипок · Ctrl + колесо'):text('Page scrolling is available','Карту можно листать вместе со страницей')}</span></div>
-      {selected&&(onInspect||detailHref)&&(!embedded||expanded)&&<div className="atlas-map-selection"><span><b>{selected.id}</b><small>{region[selected.region]}</small></span>{detailHref?<Link to={detailHref} onClick={collapse}>{text('View readings','К показаниям')}</Link>:<button type="button" onClick={()=>{collapse();requestAnimationFrame(()=>onInspect?.())}}>{text('View readings','К показаниям')}</button>}</div>}
+      {selected&&(onInspect||detailHref)&&(!embedded||expanded)&&<div className="atlas-map-selection"><span><b>{selected.kind==='station'?selected.stationId:selected.id}</b><small>{region[selected.region]}</small></span>{detailHref?<Link to={detailHref} onClick={collapse}>{text('View details','Подробнее')}</Link>:<button type="button" onClick={()=>{collapse();requestAnimationFrame(()=>onInspect?.())}}>{text('View details','Подробнее')}</button>}</div>}
     {loading&&!tileError&&<div className="atlas-tile-status" role="status">{text('Loading the basemap…','Загружаем карту…')}</div>}
     {tileError&&<div className="atlas-tile-status" role="status">{text('Map tiles could not be loaded. Buoy markers remain available.','Подложка карты не загрузилась. Точки буйков доступны.')} <button type="button" onClick={()=>{setTileError(false);tiles.current?.redraw()}}>{text('Retry','Повторить')}</button></div>}
   </div>,portal)}</>;

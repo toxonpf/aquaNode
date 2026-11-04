@@ -3,88 +3,41 @@ import {lazy,Suspense,useCallback,useEffect,useRef,useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import Heading from '../../components/ui/Heading';
 import {DownloadLink,ExternalLink} from '../../components/ui/ActionLinks';
-import {buoys,stations,regionIds,sampleFor,periods,archiveSummary,datasetUrl,csvUrl,type Buoy,type RegionId} from './data';
+import {buoys,mapLocations,stationLocations,stations,regionIds,sampleFor,periods,archiveSummary,datasetUrl,csvUrl,buoyRecordsUrl,type Buoy,type RegionId} from './data';
 import BuoyReadings from './BuoyReadings';
 import {useMapCopy} from './copy';
 import type {MapRequest} from './ObservationMap';
-import {localeFormat} from '../../features/i18n/i18n';
-
+import {localeFormat,t} from '../../features/i18n/i18n';
 const ObservationMap=lazy(()=>import('./ObservationMap'));
-const measures=[['Depth','Глубина','m'],['Temperature','Температура','°C'],['Salinity','Солёность','PSU'],['pH','pH',''],['Dissolved oxygen','Растворённый кислород','mg/L'],['Suspended solids','Взвешенные вещества','mg/L'],['Chlorophyll a','Хлорофилл a','µg/L']];
-
+const measures=[['Depth','m'],['Temperature','°C'],['Salinity','PSU'],['pH',''],['Dissolved oxygen','mg/L'],['Suspended solids','mg/L'],['Chlorophyll a','µg/L']];
 export default function MapPage(){
-  const {locale,ru,text,region,water}=useMapCopy();
-  const [params]=useSearchParams(),query=params.toString();
-  const entryBuoy=buoys.find(buoy=>buoy.id===params.get('buoy'))??null;
-  const entryRegion=entryBuoy?.region??regionIds.find(id=>id===params.get('region'))??'world';
-  const [request,setRequest]=useState<MapRequest>({region:entryRegion,sequence:0,buoyId:entryBuoy?.id});
-  const [active,setActive]=useState<RegionId>(entryRegion==='world'?'hawaii':entryRegion),[selected,setSelected]=useState<Buoy|null>(entryBuoy??(entryRegion==='world'?null:buoys.find(buoy=>buoy.region===entryRegion)!));
-  const previousQuery=useRef(query),detail=useRef<HTMLElement>(null);
-  const [period,setPeriod]=useState(periods[0]);
-  const choose=useCallback((buoy:Buoy)=>{setSelected(buoy);setActive(buoy.region)},[]);
-  useEffect(()=>{
-    if(query===previousQuery.current)return;
-    previousQuery.current=query;
-    setSelected(entryBuoy??(entryRegion==='world'?null:buoys.find(buoy=>buoy.region===entryRegion)!));
-    setActive(entryRegion==='world'?'hawaii':entryRegion);
-    setRequest(value=>({region:entryRegion,buoyId:entryBuoy?.id,sequence:value.sequence+1}));
-  },[query]);
-  const inspect=useCallback(()=>{
-    detail.current?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
-    detail.current?.focus({preventScroll:true});
-  },[]);
-  const visit=(id:RegionId|'world')=>{
-    setRequest(value=>({region:id,sequence:value.sequence+1}));
-    if(id!=='world'){setActive(id);setSelected(buoys.find(buoy=>buoy.region===id)!)}else setSelected(null);
-  };
-  const selectStation=(id:string)=>{
-    const buoy=buoys.find(item=>item.stationId===id)!;
-    choose(buoy);setRequest(value=>({region:'taiwan',sequence:value.sequence+1,buoyId:buoy.id}));
-  };
-  const station=stations.find(item=>item.id===selected?.stationId);
-  const sample=station?sampleFor(station.id,period):undefined;
-  const date=(value:string)=>new Intl.DateTimeFormat(localeFormat(locale),{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(`${value}T00:00:00Z`));
-  const quarter=(value:string)=>locale==='zh-TW'?`${value.slice(0,4)}年 · 第${value.slice(-1)}季`:`${value.slice(0,4)} · ${text('Q','кв. ')}${value.slice(-1)}`;
-  const descriptions={
-    hawaii:text("Three approximate coastal markers from team-supplied sketches. They are geographic illustrations, not evidence of a revC deployment or university partnership.","Три приблизительные прибрежные точки по эскизам команды. Это географическая иллюстрация, не подтверждение размещения revC или партнёрства с университетом."),
-    aktau:text("97 approximate markers follow the team-supplied Aktau shoreline sketch. They do not establish installed devices, participating students or a verified school pilot.","97 приблизительных точек повторяют предоставленный командой эскиз набережной Актау. Они не подтверждают число установленных устройств, участников или школьный пилот."),
-    taiwan:text("Four illustrative points sit near the supplied Taiwan monitoring stations. The station archive is a separate source, not revC test evidence or a verified joint deployment.","Четыре условные точки находятся рядом с указанными станциями Тайваня. Архив станций — отдельный источник, не испытания revC и не подтверждение совместного размещения."),
-  };
-  return <div className="atlas-page">
-    <header className="atlas-hero">
-      <div className="atlas-eyebrow"><SectionLabel icon="globe">{text('AQUANODE / FIELD ATLAS','AQUANODE / КАРТА НАБЛЮДЕНИЙ')}</SectionLabel><span>{text('THREE REGIONS. ONE SHARED CURIOSITY.','ТРИ РЕГИОНА. ОБЩИЙ ИНТЕРЕС К ВОДЕ.')}</span></div>
-      <div className="atlas-heading"><Heading as="h1">{text('Many places.','Разные берега.')}<br/><em>{text('One connected water.','Одна стихия.')}</em></Heading><div><p>{text("Explore team-supplied approximate locations and a public Taiwan station archive. These coastal examples are not revC deployment records; the current EC design targets freshwater and has no published hardware readings.","Изучайте приблизительные точки от команды и открытый архив станций Тайваня. Эти прибрежные примеры не являются размещениями revC: текущий EC-проект рассчитан на пресную воду, аппаратные показания пока не опубликованы.")}</p><span className="atlas-total"><b>{buoys.length}</b>{text("illustrative locations","условных точек")}<i aria-hidden="true"/>03 {text('regions','региона')}</span></div></div>
-    </header>
-
-    <section className="atlas-workspace" aria-label={text('Explore buoy locations','Расположение буйков')}>
-      <div className="atlas-toolbar"><div className="atlas-regions" role="group" aria-label={text('Choose a region','Выберите регион')}>
-        <button type="button" aria-pressed={request.region==='world'&&!selected} onClick={()=>visit('world')}>{text('The world','Весь мир')}<span>{buoys.length}</span></button>
-        {regionIds.map((id,index)=><button type="button" key={id} aria-pressed={active===id&&selected!==null} onClick={()=>visit(id)}><span className="atlas-region-number" aria-hidden="true">0{index+1}</span>{region[id]}<span>{buoys.filter(buoy=>buoy.region===id).length}</span></button>)}
-      </div><span className="atlas-archive-label"><i/>{text('FIELD LOCATIONS / ARCHIVE DATA','ТОЧКИ НАБЛЮДЕНИЙ / АРХИВ')}</span></div>
-      <div className="atlas-grid">
-        <Suspense fallback={<div className="atlas-map-loading" role="status">{text('Opening the atlas…','Открываем карту…')}</div>}><ObservationMap request={request} selectedId={selected?.id??null} onSelect={choose} onInspect={inspect}/></Suspense>
-        <aside ref={detail} tabIndex={-1} className="atlas-detail" aria-label={text('Location details','Информация о точке')}>
-          <div className="atlas-detail-top"><span>{text('LOCATION','ЛОКАЦИЯ')} / 0{regionIds.indexOf(active)+1}</span><span>{selected?.id??text('SELECT A BUOY','ВЫБЕРИТЕ БУЙ')}</span></div>
-          <Heading as="h2">{region[active]}</Heading><span className="atlas-water">{water[active]}</span>
-          <p className="atlas-description">{descriptions[active]}</p>
-          <div className="atlas-position"><span>{text('Approximate locations','Приблизительное расположение')}</span><p>{text('Markers illustrate the supplied coastal areas. Exact GPS fixes and live telemetry are not available.','Точки показывают указанные прибрежные зоны. Точные GPS-координаты и онлайн-телеметрия пока не опубликованы.')}</p></div>
-          {active==='taiwan'?<>
-            <label className="atlas-field">{text('REFERENCE STATION','РЕФЕРЕНСНАЯ СТАНЦИЯ')}<select aria-label={text('REFERENCE STATION','РЕФЕРЕНСНАЯ СТАНЦИЯ')} value={station?.id??stations[0].id} onChange={event=>selectStation(event.target.value)}>{stations.map(item=><option key={item.id} value={item.id}>{item.id} · {item.name}</option>)}</select></label>
-            {station&&<p className="atlas-station-location">{station.position[0].toFixed(6)}° N · {station.position[1].toFixed(6)}° E<br/>{station.kmFromTaipei} {text('km from Taipei','км от Тайбэя')}</p>}
-            <label className="atlas-field">{text('OBSERVATION PERIOD','ПЕРИОД НАБЛЮДЕНИЙ')}<select aria-label={text('OBSERVATION PERIOD','ПЕРИОД НАБЛЮДЕНИЙ')} value={period} onChange={event=>setPeriod(event.target.value)}>{periods.map(value=><option key={value} value={value}>{quarter(value)}</option>)}</select></label>
-            {selected&&<BuoyReadings buoy={selected} period={period}/>}
-            {sample?<div className="atlas-observations" aria-live="polite"><div className="atlas-sample-date"><span>{text('Station archive','Архив станции')} {station?.id}</span><time dateTime={sample.date}>{date(sample.date)}</time></div><dl>{measures.map(([en,russian,unit],index)=><div key={en}><dt>{text(en,russian)}</dt><dd>{sample.values[index]||'—'}{sample.values[index]&&<small>{unit}</small>}</dd></div>)}</dl><p className="atlas-data-note">{text('— No value in the source. “<” denotes a value below the reported threshold. Each station retains its actual sampling date.','— Значение отсутствует в источнике. «<» означает значение ниже указанного порога. Для каждой станции сохранена фактическая дата замера.')}</p></div>:<p className="atlas-no-data" role="status">{text('No observation for this station in the selected period.','В выбранном периоде для этой станции нет замера.')}</p>}
-          </>:<><div className="atlas-local-note"><span>{buoys.filter(buoy=>buoy.region===active).length.toString().padStart(2,'0')}</span><div><b>{text("illustrative markers in this area","условных точек в этой зоне")}</b><p>{text("Choose a marker for its geographic context. Current revC measurements have not been published.","Выберите точку для просмотра географического контекста. Измерения текущей revC не опубликованы.")}</p></div></div>{selected&&<BuoyReadings buoy={selected} period={period}/>}</>}
-          <div className="atlas-detail-source">{active==='taiwan'?<ExternalLink href={datasetUrl} inline>{text('Original station dataset','Исходные данные станций')}</ExternalLink>:<span>{text('Approximate locations supplied by the AquaNode team.','Приблизительные точки предоставлены командой AquaNode.')}</span>}</div>
-        </aside>
-      </div>
-      <div className="atlas-map-foot"><div className="atlas-legend"><span><i className="atlas-legend-buoy"/>{text('AquaNode buoy','Буй AquaNode')}</span><span><i className="atlas-legend-station"/>{text('Reference station','Референсная станция')}</span><span><i className="atlas-legend-cluster">n</i>{text('Buoy group','Группа буйков')}</span></div><p>{text('Click a group to zoom in. Drag to explore.','Нажмите на группу для приближения. Перетаскивайте карту для навигации.')}</p></div>
-    </section>
-
-    <section className="atlas-context"><div className="atlas-context-heading"><SectionLabel icon="route">{text('READING THE MAP','КАК ЧИТАТЬ КАРТУ')}</SectionLabel><Heading as="h2">{text('A place. A date.','Место. Дата.')}<br/><em>{text('A traceable observation.','Наблюдение.')}</em></Heading></div><div className="atlas-context-cards">
-      <article><span>01 / {text('IN THE FIELD','НА ВОДЕ')}</span><Heading as="h3">{text('Start with a location.','Начинаем с места.')}</Heading><p>{text('The map follows the coastal areas supplied by the team. The 97 Aktau markers follow the marked shoreline on its water side. Zoom in to reveal smaller neighbourhood groups.','Карта следует прибрежным зонам, указанным командой. 97 точек в Актау повторяют отмеченный участок берега со стороны воды. Приближайте карту, чтобы раскрывать небольшие соседние группы.')}</p></article>
-      <article><span>02 / {text('THE REFERENCE','РЕФЕРЕНС')}</span><Heading as="h3">{text('Keep the source close.','Источник всегда рядом.')}</Heading><p>{text(`The supplied CSV extract contains ${archiveSummary.count} records from ${archiveSummary.stationCount} Taiwan stations, ${archiveSummary.years}. Choose a quarter to inspect the retained values and sampling dates.`,`В предоставленной CSV-выборке — ${archiveSummary.count} записей ${archiveSummary.stationCount} станций Тайваня за ${archiveSummary.years} годы. Выберите квартал, чтобы посмотреть сохранённые значения и даты замеров.`,`提供的 CSV 選錄包含 ${archiveSummary.stationCount} 個台灣站點的 ${archiveSummary.count} 筆資料，涵蓋 ${archiveSummary.years} 年。選擇季度可查看保留的數值與採樣日期。`)}</p><DownloadLink href={csvUrl} filename="stations_data_en.csv" className="atlas-download" format="CSV" label={text('Station archive','Архив станций')} detail={text(`${archiveSummary.count} records · ${archiveSummary.years}`,`${archiveSummary.count} записей · ${archiveSummary.years}`,`${archiveSummary.count} 筆資料 · ${archiveSummary.years}`)}/></article>
-      <article><span>03 / {text('THE COMPARISON','СРАВНЕНИЕ')}</span><Heading as="h3">{text('Compare in context.','Сравниваем в контексте.')}</Heading><p>{text("The marine station archive can support a learning exercise in comparing observations. It is separate from the freshwater EC design and cannot establish revC accuracy, field deployment or radio performance.","Архив морских станций подходит для учебного сравнения наблюдений. Он отделён от пресноводного EC-проекта и не подтверждает точность revC, размещение устройств или работу радио.")}</p></article>
-    </div></section>
-  </div>;
+ const {locale,text,region}=useMapCopy(),[params]=useSearchParams();
+ const entry=mapLocations.find(item=>item.id===params.get('buoy'));
+ const entryRegion=entry?.region??regionIds.find(id=>id===params.get('region'))??'world';
+ const [request,setRequest]=useState<MapRequest>({region:entryRegion,sequence:0,buoyId:entry?.id});
+ const [active,setActive]=useState<RegionId>(entryRegion==='world'?'hawaii':entryRegion);
+ const [selected,setSelected]=useState<Buoy|null>(entry??null),[showStations,setShowStations]=useState(true),[demo,setDemo]=useState(false);
+ const [stationId,setStationId]=useState(entry?.stationId??stations[0].id),[period,setPeriod]=useState(periods[0]);
+ const detail=useRef<HTMLElement>(null);
+ const choose=useCallback((point:Buoy)=>{setSelected(point);setActive(point.region);if(point.stationId)setStationId(point.stationId)},[]);
+ useEffect(()=>{if(entry){choose(entry);setRequest(value=>({region:entry.region,buoyId:entry.id,sequence:value.sequence+1}))}else if(entryRegion!=='world'){setActive(entryRegion);setRequest(value=>({region:entryRegion,sequence:value.sequence+1}))}},[params.toString()]);
+ const visit=(id:RegionId|'world')=>{setSelected(id==='world'?null:buoys.find(point=>point.region===id)??null);if(id!=='world')setActive(id);setRequest(value=>({region:id,sequence:value.sequence+1}))};
+ const inspect=useCallback(()=>{detail.current?.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});detail.current?.focus({preventScroll:true})},[]);
+ const displayed=selected?.kind==='station'?null:selected??buoys.find(point=>point.region===active)!;
+ const station=stations.find(item=>item.id===stationId)!,sample=sampleFor(stationId,period);
+ const date=(value:string)=>new Intl.DateTimeFormat(localeFormat(locale),{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(`${value}T00:00:00Z`));
+ const selectStation=(id:string)=>{setStationId(id);const point=stationLocations.find(item=>item.stationId===id)!;choose(point);setShowStations(true);setRequest(value=>({region:'taiwan',buoyId:point.id,sequence:value.sequence+1}))};
+ return <div className="atlas-page"><header className="atlas-hero"><SectionLabel icon="globe">{t('Cooperation regions')}</SectionLabel><div className="atlas-heading"><Heading as="h1">{t('AquaNode buoy map')}</Heading><div><p>{t('Buoy locations and reference records. Positions are approximate; calculation examples use published regional observations.')}</p><span className="atlas-total"><b>{buoys.length}</b>{t('Map markers')}</span></div></div></header>
+ <section className="atlas-workspace" aria-label={t('Cooperation regions')}><div className="atlas-toolbar"><div className="atlas-regions" role="group" aria-label={text('Choose a region','Выберите регион')}><button type="button" aria-pressed={request.region==='world'} onClick={()=>visit('world')}>{text('The world','Весь мир')}</button>{regionIds.map(id=><button type="button" key={id} aria-pressed={request.region===id} onClick={()=>visit(id)}>{region[id]} <small>{buoys.filter(point=>point.region===id).length}</small></button>)}</div><label className="atlas-layer-toggle"><input type="checkbox" checked={showStations} onChange={event=>setShowStations(event.target.checked)}/>{t('Show reference stations')}</label></div>
+ <div className="atlas-grid"><Suspense fallback={<div className="atlas-map-loading" role="status">{text('Opening the atlas…','Открываем карту…')}</div>}><ObservationMap request={request} selectedId={selected?.id??null} onSelect={choose} onInspect={inspect} showStations={showStations}/></Suspense>
+ <aside ref={detail} tabIndex={-1} className="atlas-detail" aria-label={t('Region details')}><div className="atlas-detail-top"><span>{t(selected?.kind==='station'?'Reference station':'Buoy')}</span><b>{selected?.kind==='station'?selected.stationId:displayed?.id}</b></div><Heading as="h2">{region[active]}</Heading><p>{t('Approximate regional locations')}</p>
+ {displayed&&<BuoyReadings buoy={displayed} period={period}/>}
+ <p className="atlas-data-note">{t('Positions are approximate. Verified GPS fixes and shipment dates are not yet published.')}</p>
+ {active==='taiwan'&&<section className="atlas-reference" aria-labelledby="archive-title"><Heading as="h3" id="archive-title">{t('Taiwan station archive')}</Heading><p>{t('Reference stations are a separate comparison source. Their records are not AquaNode buoy measurements.')}</p><label className="atlas-field">{text('REFERENCE STATION','РЕФЕРЕНСНАЯ СТАНЦИЯ')}<select aria-label={text('REFERENCE STATION','РЕФЕРЕНСНАЯ СТАНЦИЯ')} value={stationId} onChange={event=>selectStation(event.target.value)}>{stations.map(item=><option key={item.id} value={item.id}>{item.id} · {item.name}</option>)}</select></label><p className="atlas-station-location">{station.position[0].toFixed(6)}° N · {station.position[1].toFixed(6)}° E</p><label className="atlas-field">{text('OBSERVATION PERIOD','ПЕРИОД НАБЛЮДЕНИЙ')}<select aria-label={text('OBSERVATION PERIOD','ПЕРИОД НАБЛЮДЕНИЙ')} value={period} onChange={event=>setPeriod(event.target.value)}>{periods.map(value=><option key={value} value={value}>{value}</option>)}</select></label>
+ {sample?<div className="atlas-observations" aria-live="polite"><div className="atlas-sample-date"><span>{t('Reference station')} {stationId}</span><time dateTime={sample.date}>{date(sample.date)}</time></div><dl>{measures.map(([name,unit],index)=><div key={name}><dt>{t(name)}</dt><dd>{sample.values[index]||'—'}{sample.values[index]&&<small>{unit}</small>}</dd></div>)}</dl><p>{t('Sampling date only; time and time zone are not supplied in the CSV.')}</p><p className="atlas-data-note">{text('— No value in the source. “<” denotes a value below the reported threshold. Each station retains its actual sampling date.','— Значение отсутствует в источнике. «<» означает значение ниже указанного порога. Для каждой станции сохранена фактическая дата замера.')}</p></div>:<p role="status">{text('No observation for this station in the selected period.','В выбранном периоде для этой станции нет замера.')}</p>}
+ <ExternalLink href={datasetUrl} inline>{text('Original station dataset','Исходные данные станций')}</ExternalLink><label className="atlas-demo-toggle"><input type="checkbox" checked={demo} onChange={event=>setDemo(event.target.checked)}/>{t('Show calculation example')}</label>{demo&&<BuoyReadings buoy={stationLocations.find(item=>item.stationId===stationId)!} period={period}/>}</section>}
+ </aside></div><div className="atlas-map-foot"><div className="atlas-legend"><span><i className="atlas-legend-buoy"/>{t('Buoy')}</span>{showStations&&<span><i className="atlas-legend-station"/>{t('Reference station')}</span>}</div><p>{t('Select a buoy to view its readings and source. Numbered clusters open as you zoom in.')}</p></div></section>
+ <section className="atlas-records-download"><DownloadLink href={buoyRecordsUrl} filename="aquanode-buoy-examples.json" format="JSON" label={t('Download buoy records')} detail={`${buoys.length} · ${t('Calculation examples · approximate positions')}`}/></section>
+ <section className="atlas-context"><div className="atlas-context-heading"><Heading as="h2">{t('Taiwan station archive')}</Heading></div><div className="atlas-context-cards"><article><p>{text(`The supplied CSV extract contains ${archiveSummary.count} records from ${archiveSummary.stationCount} Taiwan stations, ${archiveSummary.years}.`,`В CSV-выборке — ${archiveSummary.count} записей ${archiveSummary.stationCount} станций Тайваня за ${archiveSummary.years} годы.`,`CSV 選錄包含 ${archiveSummary.stationCount} 個台灣站點的 ${archiveSummary.count} 筆紀錄，涵蓋 ${archiveSummary.years} 年。`)}</p><DownloadLink href={csvUrl} filename="stations_data_en.csv" format="CSV" label={t('Taiwan station archive')} detail={`${archiveSummary.count} · ${archiveSummary.years}`}/></article></div></section>
+ </div>;
 }

@@ -24,6 +24,6 @@ export default function MapEmbed({initialRegion='world',compact=false}:{initialR
     <div className="map-embed-viewport">
       {visible?<Suspense fallback={<div className="map-embed-placeholder" role="status">{text('Opening the atlas…','Открываем карту…')}</div>}><ObservationMap request={request} selectedId={selected?.id??null} onSelect={setSelected} embedded detailHref={href}/></Suspense>:<div className="map-embed-placeholder"><span aria-hidden="true">≈</span>{text('A shared field of observation','Общее поле наблюдений')}</div>}
     </div>
-    <div className="map-embed-footer"><Link className="arrow-link" to={href}>{selected?`${text('Open buoy','Открыть буй')} ${selected.id}`:text('Explore the atlas','Открыть карту')}<FlexibleArrow direction="up-right"/></Link></div>
+    <div className="map-embed-footer"><Link className="arrow-link" to={href}>{selected?`${text('View details','Подробнее')} · ${region[selected.region]}`:text('Open the buoy map','Открыть карту буёв')}<FlexibleArrow direction="up-right"/></Link></div>
   </div>;
 }

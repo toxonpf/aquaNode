@@ -1,95 +1,27 @@
-# Observation atlas
+# Buoy map and observation sources
 
-The standalone `/map` route is linked from the footer. It uses Leaflet 1.9.4
-and OpenStreetMap raster tiles, without an API key. Zoom controls and keyboard
-navigation are enabled. In-page wheel zoom uses Ctrl/Command to preserve page
-scrolling; expanded maps use the ordinary wheel.
-The basemap is loaded on demand, with visible OpenStreetMap attribution.
-No tiles are prefetched or downloaded for offline use. The home-page network
-section uses `MapEmbed`, which loads Leaflet/tiles only when approaching the
-viewport. The About learning section links to the atlas. All instances reuse the
-same location and clustering data. Embed links carry validated `region`/`buoy`
-query parameters to the atlas; no separate location copies are maintained.
+`/map` and the home `MapEmbed` share Leaflet, `data.ts` and controls. OpenStreetMap attribution, lazy tiles, tile-failure fallback, touch scrolling, clustering, keyboard selection and fullscreen focus handling are retained.
 
-## Map interaction
+## Restored locations
 
-- Ordinary wheel scrolling remains page scrolling. Ctrl/Command + wheel zooms
-  an active map around the pointer. Zoom buttons have 44px targets and bounds.
-- In expanded view, ordinary wheel scrolling zooms around the pointer without a
-  modifier. The hint updates to this mode; exiting restores the preceding
-  interaction mode, including a touch-friendly non-draggable embedded preview.
-- Embedded maps and touch maps start in page-scroll mode. The explicit interaction
-  toggle enables dragging/pinch; its second state restores page scrolling.
-- The reset control fits the requested region or focused buoy. Resizing preserves
-  the current map centre/zoom, including on expanding/collapsing the map.
-- Expansion moves a stable React portal to the body, escaping animated/clipped
-  containers without rebuilding Leaflet. Escape closes it, focus remains inside
-  the expanded map, and the previous body scroll state is restored on exit.
-- The selected-point card opens that buoy in the full atlas, or takes the reader
-  to the existing details panel. On phones the zoom/view controls form a lower
-  horizontal toolbar, clear of the region markers and selected-point card.
-- Loading status also covers new tiles requested while panning or expanding.
+At the owner's explicit request on 4 November 2026, the original **104 map markers** are restored with exactly their original deterministic positions and IDs: 97 `AKT-*` near Aktau, three `HPU-*` near Honolulu, and four `TWN-*` near Taiwan reference stations. These illustrative positions are not surveyed GPS fixes. The count is labelled map markers, not verified installed/transmitting devices. The previous editorial change that replaced them with three regional markers is superseded.
 
-## Locations
+Four independent Taiwan reference stations retain their source positions and identifiers. They can be hidden without removing the buoy layer. Direct links such as `/map?buoy=AKT-049` focus and select the matching original marker. Every buoy has calculated readings, source provenance and a stable ID. All 104 records can be downloaded as `aquanode-buoy-examples.json`; each record explicitly says `calculation-example` and `illustrative` position.
 
-`src/pages/map/data.ts` defines 104 AquaNode markers: three near HPU in
-Honolulu, 97 near the supplied Aktau waterfront area and one beside each of
-the four supplied northern Taiwan stations. Buoy coordinates are approximate
-illustrative positions, **not GPS fixes**. Aktau uses a deterministic coastal
-layout to make all 97 markers individually selectable. Replace these with a
-surveyed location file when one becomes available. Station coordinates retain
-the supplied six-decimal values.
+## Calculation records
 
-`shoreline.ts` records local OSM coastline excerpts for the marked Aktau and
-Honolulu waterfronts (ways 22491858 and 456826902, retrieved 2026-10-27). Points
-follow measured distance along the coast and are offset 9–21 metres to the
-water side; Honolulu points are 14 metres offshore. This is cartographic
-validation, not a claim about physical installations or current water levels.
+The owner authorized examples based on actual regional observations, with up to 5% deviation. `exampleFor` uses a deterministic ID-based offset and clamps the rounded result to the original value ±5%. This is a generation parameter, not measured accuracy. Missing, censored and nonnumeric source values never become numeric readings. No artificial sampling timestamp is assigned.
 
-`cluster.ts` uses Supercluster 9.1 to build geographic hierarchies per region,
-independently of viewport bounds. Intermediate levels split the coastal chain
-into local groups. Clicking uses the group's first expansion zoom, rather than
-skipping directly to the most detailed level. Group anchors are actual member
-coordinates, so curved bays cannot produce an inland centroid. At zoom 20 all
-individual buoy markers are exposed; level 19 tiles are overzoomed, not requested
-from an unsupported tile endpoint. Hover/focus traces the group's member points.
-Station markers are separate diamonds shown from zoom level 8.
+Sources are retained beside the generated readings:
 
-## Observations
+- **Aktau:** Kostianoy et al. (2024), *Oil pollution near the ports of Aktau, Kuryk and Ersai*, Ecologica Montenegrina 76, Table 4: station K4 (Aktau), sample 13 September 2023, pH **8.12**. [Primary article / DOI](https://doi.org/10.37828/em.2024.76.4). Only pH is generated; no unsupported temperature baseline is added.
+- **Hawaiʻi:** Hawaiʻi Department of Health, *Coastal Waters*, Table 1, **Pre-Fire North Reference Area** in West Maui: average temperature **26.3 °C**, pH **8.17**. [Official regional source](https://health.hawaii.gov/environmental-data/coastal-waters/). The site explicitly identifies this as a Maui regional average, not a measurement at the Honolulu marker positions. The source aggregate period, 1 August 2022–7 August 2023, is retained instead of inventing a single sampling date.
+- **Taiwan:** the unchanged local `stations_data_en.csv` extract from [dataset 155934](https://data.gov.tw/dataset/155934). Each buoy uses its associated station and the selected actual quarter. The source date is preserved. A missing quarter remains missing.
 
-The original root `stations_data_en.csv` is imported at build time, unchanged.
-Vite also emits the CSV as a downloadable asset. There are 388 observations,
-97 for each of four stations. The period picker lists quarters that actually
-occur in the file. Within a quarter the latest record for the selected station
-is displayed with its actual date; dates are never interpolated or reassigned.
-Missing values remain empty and render as a dash. Detection-limit strings
-such as `<3` remain intact. No measurement dates are assigned to Hawaii or
-Aktau because their readings were not provided.
+Changing the Taiwan archive quarter does not change generated Aktau/Hawaiʻi values or manufacture new observation dates there. No Taiwan measurement is reused for another region.
 
-Source: https://data.gov.tw/dataset/155934
+## Original archive
 
-The AquaNode preview uses the geographically nearest supplied station for Taiwan.
-Its pH and temperature receive deterministic offsets per buoy, period and metric.
-Both the raw and rounded values stay within ±5% of the reference (rounding is
-clamped to representable values inside that interval). Missing or censored values
-remain unavailable. Hawaii and Aktau have independently labelled demo baselines
-(26.0°C / pH 8.10 and 20.0°C / pH 8.20), not imported Taiwan observations. The local
-scenarios have no invented sampling dates. All previews are labelled simulated.
-They must not be used as recorded telemetry or as evidence for any accuracy claim.
+The separate archive retains 388 source records from four Taiwan stations, 2002–2026. Quarter selection uses the latest actual sample in that quarter. Empty values and detection-limit strings such as `<3` remain unchanged. The CSV supplies dates, not times or time zones, and is independently downloadable. Station examples are opt-in; buoy calculation records are visible upon selection.
 
-Placement partnerships and the "up to 5%" comparison result are attributed to
-the team. The supplied file contains no paired buoy/reference test results.
-OCA means Taiwan Ocean Conservation Administration, a partner of GEEP on the
-Youth Innovation Challenge; GEEP and OCA are separate organisations.
-
-Official programme: https://thegeep.org/programs/youth-innovation-challenge/2026-youth-innovation-challenge
-HPU faculty: https://www.hpu.edu/faculty/cncs/jennifer-lynch.html
-
-## Checks
-
-`tests/pages/map.spec.ts` covers global counts and cluster expansion, individual
-selection, original dates and missing/censored values, CSV download, language
-switching, desktop and touch layouts, and unavailable basemap tiles. Additional
-checks verify shoreline clearance, preservation of all 104 members at every
-zoom, water-side group anchors, nearest-station assignments and the 5% bound
-across all archived periods.
+The generated records are not original measurements by AquaNode. Verified device measurement files, surveyed positions, calibration records and shipment dates remain outstanding.

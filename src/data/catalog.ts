@@ -114,24 +114,24 @@ export const updates=[
   },
   {
     "date": "2 November 2026 · Synthetic and static checks",
-    "title": "Software evidence, with clear limits",
+    "title": "revC code and project-file checks",
     "body": "The documented checks cover a host-side software model and agreement between project files. The journal separates these two kinds of source-level evidence from the hardware work still ahead.",
     "status": "Synthetic checks"
   },
   {
     "date": "2 November 2026 · Release blockers",
-    "title": "The next release needs bench evidence",
+    "title": "Before revC hardware testing",
     "body": "The ESP32 build attempt stopped at a dependency download. Native ERC/DRC, power checks, full-chain pH calibration, independent EC validation and joint-water tests remain ahead.",
     "status": "Validation pending"
   },
   {
     "date": "20 October 2026 · Historical R0.3 baseline",
-    "title": "Earlier R0.3 design checks",
+    "title": "R0.3 checks · 20 October 2026",
     "body": "The historical baseline reports zero ERC/DRC findings and a comparison of 130 named pads. Those results belong to the earlier R0.3 design; they do not validate EC+pH-revC.",
     "status": "Historical baseline"
   }
 ];
-export const parts=[{name:'Floating body',text:'Keeps the device at the water surface. The shape shown here is an illustration; actual housing dimensions are not confirmed.'},{name:'Electronics enclosure',text:'Represents the protected measurement and transmission electronics. The illustration does not show an exact internal assembly.'},{name:'Water probes',text:"The revC bench configuration combines SEN0244 EC, DS18B20 temperature and an isolated SEN0169-V2 pH channel. Probe shapes are conceptual; hardware operation is not yet validated."}];
+export const parts=[{name:'Floating body',text:'Keeps the buoy at the water surface.'},{name:'Electronics enclosure',text:'Contains the controller, power and sensor connections.'},{name:'Water probes',text:"The 3D model shows the main parts of a buoy. The layout depends on the device revision."}];
 export const steps=[
   [
     "Review the revision",

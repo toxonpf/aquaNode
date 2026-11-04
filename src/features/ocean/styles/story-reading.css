@@ -9,9 +9,6 @@
 .story-scroll::-webkit-scrollbar{display:none;width:0;height:0}
 .story-reading-status{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:16px 16px 0 0;font-size:0.875rem;letter-spacing:.08em;color:#b7cfc1;font-variant-numeric:tabular-nums}
 .story-reading-status>div{height:1px;width:100%;background:#c6dfce26;margin-top:-7px;overflow:hidden}.story-reading-status i{display:block;height:100%;background:#dcecb9;transform-origin:left;transition:transform .12s linear}
-.story-panel[data-at-start=false] .story-scroll{mask-image:linear-gradient(transparent,#000 15px,#000)}
-.story-panel[data-at-end=false] .story-scroll{mask-image:linear-gradient(#000 calc(100% - 24px),transparent)}
-.story-panel[data-at-start=false][data-at-end=false] .story-scroll{mask-image:linear-gradient(transparent,#000 15px,#000 calc(100% - 24px),transparent)}
 .story-panel .story-details{margin:30px 0 22px;border-top:1px solid #c6dfce36}
 .story-details article{padding:25px 0;border-bottom:1px solid #c6dfce26}
 .story-details article>span{font-size:0.875rem;letter-spacing:.08em;color:#b6cda8}

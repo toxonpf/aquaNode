@@ -1,3 +1,4 @@
+import editorial from './editorial-zh.json';
 import revc from './zh-revc';
 /** Traditional Chinese (Taiwan). Hardware limits follow the supplied EC-revB handoff. */
 const zh:Record<string,string>={
@@ -761,5 +762,6 @@ const zh:Record<string,string>={
   "CURRENT STAGE": "目前階段",
   "29 October 2026": "2026年10月29日",
   ...revc,
+  ...(editorial as Record<string,string>),
 };
 export default zh;

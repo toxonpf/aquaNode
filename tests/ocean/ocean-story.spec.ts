@@ -8,7 +8,7 @@ test('diving reveals the probes and both controls select the same sensor',async(
   await expect(page.locator('.ocean-stage.is-presented')).toBeVisible({timeout:30000});
   await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
   await page.getByRole('link',{name:'Scroll to explore AquaNode'}).click();
-  await expect(page.getByRole('heading',{name:'A small buoy. A closer look at our water.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'What is AquaNode'})).toBeVisible();
   await page.getByRole('link',{name:'THERE’S MORE BELOW'}).click();
   await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','sensing');
   await expect(page.getByRole('heading',{name:'The story starts in the water.'})).toBeVisible();
@@ -26,7 +26,7 @@ test('diving reveals the probes and both controls select the same sensor',async(
   await expect(page.locator('#sensor-explanation')).toContainText('Experimental EC');
   await expect(page.locator('.sensor-picker').getByRole('button',{name:/EC estimate/})).toHaveAttribute('aria-pressed','true');
   await page.getByRole('link',{name:'Meet the buoy',exact:true}).click();
-  await expect(page.getByRole('heading',{name:'A small buoy. A closer look at our water.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'What is AquaNode'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'The story starts in the water.'})).not.toBeVisible();
   expect(errors).toEqual([]);
 });

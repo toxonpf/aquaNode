@@ -33,7 +33,7 @@ test('all nine ocean shaders switch live without replacing the canvas or changin
  await expect(page.locator('.ocean-stage.is-sensing-ready')).toBeVisible();
  for(const id of [1,4,9])await switchStyle(id);
  await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','sensing');
- await page.getByRole('link',{name:'Follow the signal',exact:true}).click();
+ await page.getByRole('link',{name:'View cooperation regions',exact:true}).click();
  await expect(page.locator('.ocean-stage.is-signal-ready')).toBeVisible();
  for(const id of [2,8,9])await switchStyle(id);
  await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','signal');

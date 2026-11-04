@@ -52,7 +52,7 @@ test('readers fit all scene layouts and retain readable text on small screens',a
   await expect(stage).toHaveClass(/is-presented/,{timeout:30000});
   for(const width of [1440,390]){
     await page.setViewportSize({width,height:width===390?844:900});
-    for(const [chapter,label] of [['detail','Meet the buoy'],['sensing','Explore below the surface'],['inside','See inside the buoy'],['signal','Follow the signal']]){
+    for(const [chapter,label] of [['detail','Meet the buoy'],['sensing','Explore below the surface'],['inside','See inside the buoy'],['signal','View cooperation regions']]){
       await page.getByRole('link',{name:label,exact:true}).click();
       await expect(stage).toHaveAttribute('data-camera-state','settled');
       await page.waitForTimeout(800);

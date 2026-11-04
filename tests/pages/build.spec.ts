@@ -2,9 +2,9 @@ import {test,expect} from '@playwright/test';
 
 test('build drawings and assembly navigation show the original engineering material',async({page})=>{
  await page.goto('/build');
- await expect(page.locator('h1')).toHaveText('Learn by putting it together.');
+ await expect(page.locator('h1')).toHaveText('Build & documentation');
  await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/engineering/ec-ph-revc-architecture-en.svg');
- await expect(page.locator('.build-status')).toContainText('How to use the workbench');
+ await expect(page.locator('.build-status')).toHaveCount(0);
  await expect(page.locator('#build-step-content-0')).toBeVisible();
  await page.getByRole('navigation',{name:'Validation stages'}).getByRole('link',{name:/06 Calibration/}).click();
  await expect(page.locator('#build-step-content-5')).toBeVisible();
@@ -46,6 +46,7 @@ test('assembly steps expand and collapse continuously like the node parts',async
  await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active','true');
  for(const width of [1440,390]){
   await page.setViewportSize({width,height:900});
+  await page.evaluate(()=>document.fonts.ready);
   const toggle=page.locator('#build-step-toggle-2');
   await toggle.scrollIntoViewIfNeeded();
   for(const opening of [true,false]){

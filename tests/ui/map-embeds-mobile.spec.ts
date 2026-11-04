@@ -34,17 +34,17 @@ test('the uncluttered map preview opens the relevant atlas and expands with full
   }
 });
 
-test('direct buoy links focus the selected point and return to its readings',async({page})=>{
+test('direct buoy links focus the original marker and its calculation record',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   await page.goto('/map?buoy=AKT-049',{waitUntil:'domcontentloaded'});
   await expect(page.locator('.atlas-map-shell')).toHaveAttribute('data-zoom','20');
   await expect(page.locator('.atlas-detail-top')).toContainText('AKT-049');
   await expect(page.getByRole('button',{name:'Buoy AKT-049',exact:true})).toHaveAttribute('aria-pressed','true');
   await page.getByRole('button',{name:'Expand map',exact:true}).click();
-  await page.getByRole('button',{name:'View readings',exact:true}).click();
+  await page.getByRole('button',{name:'View details',exact:true}).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.locator('.atlas-detail')).toBeFocused();
-  await expect(page.locator('.atlas-example')).toContainText('AKT-049');
+  await expect(page.locator('.atlas-example')).toContainText('8.12');
 });
 
 test('desktop map uses ordinary wheel in full screen and Ctrl+wheel in the page',async({page})=>{

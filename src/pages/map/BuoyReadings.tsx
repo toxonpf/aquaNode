@@ -1,15 +1,15 @@
-import {Link} from 'react-router-dom';
-import type {Buoy} from './data';
-import {revision} from '../../data/project';
-import FlexibleArrow from '../../components/ui/FlexibleArrow';
-import {useMapCopy} from './copy';
-
-export default function BuoyReadings({buoy}:{buoy:Buoy;period:string}){
- const {text}=useMapCopy();
- return <section className="atlas-example" id="atlas-example" aria-label={text('Current measurement status','Текущий статус измерений')}>
-  <div className="atlas-example-heading"><span>{text('HARDWARE READINGS PENDING','АППАРАТНЫЕ ПОКАЗАНИЯ ОЖИДАЮТСЯ')}</span><b>{buoy.id}</b></div>
-  <p>{text("No hardware measurements are published for this marker. revC adds isolated pH to experimental freshwater EC and temperature; calibration and shared-water hardware tests are pending.","Для этой точки аппаратные измерения не опубликованы. В revC к экспериментальной EC и температуре пресной воды добавлен изолированный pH; калибровка и совместные аппаратные испытания предстоят.")}</p>
-  <p className="atlas-example-disclaimer">{revision} · {text('Accuracy and battery life are unknown. Station records below, when available, belong to the original archive.','Точность и автономность неизвестны. Записи станции ниже, если они доступны, относятся к исходному архиву.')}</p>
-  <Link className="arrow-link" to="/journal">{text('Read the current evidence','Посмотреть текущие подтверждения')}<FlexibleArrow direction="up-right"/></Link>
+import {t} from '../../features/i18n/i18n';
+import {ExternalLink} from '../../components/ui/ActionLinks';
+import {exampleFor,type Buoy} from './data';
+export default function BuoyReadings({buoy,period}:{buoy:Buoy;period:string}){
+ const example=exampleFor(buoy,period);
+ return <section className="atlas-example" aria-label={t('Calculation example')}>
+  <div className="atlas-example-heading"><strong>{t('Calculation example')}</strong><span>{buoy.id}</span></div>
+  <p>{t('These values are calculated examples within 5% of the source value, not buoy measurements. The source observation date is retained.')}</p>
+  {example.readings.length?<dl>{example.readings.map(reading=><div className="atlas-example-row" key={reading.key}><dt>{t(reading.key==='ph'?'Acidity':'Temperature')}</dt><dd><strong>{reading.value}{reading.key==='temperature'?' °C':''}</strong><br/>{t('Reference value')}: {reading.reference} · {t('Generated offset')}: {reading.deviation.toFixed(2)}%</dd></div>)}</dl>:<p>{t('No numeric source value for this example.')}</p>}
+  <p className="atlas-example-source"><b>{t('Source observation')}</b><br/>{t(example.source.observation)}<br/>{example.source.label}</p>
+  {buoy.region==='hawaii'&&<p>{t('Maui regional averages are used as a comparison reference; they are not measurements at these Honolulu map positions.')}</p>}
+  {buoy.region==='aktau'&&<p>{t('The Aktau source provides pH. No temperature value is added without a matching source.')}</p>}
+  <ExternalLink href={example.source.url} inline>{t(example.kind==='regional'?'Regional reference':'Original station dataset')}</ExternalLink>
  </section>;
 }

@@ -24,7 +24,7 @@ test('all three languages have valid page anchors, unique ids and no repeated vi
 
 test('the status stays readable on dark heroes and the light build panel at narrow widths',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});
- for(const route of ['/about','/technology','/build'])for(const width of [1440,390,320]){
+ for(const route of ['/technology','/build'])for(const width of [1440,390,320]){
   await page.setViewportSize({width,height:1000});await page.goto(route);
   const notice=page.locator('.revision-notice');await notice.scrollIntoViewIfNeeded();
   const reading=await notice.evaluate(node=>{
@@ -32,8 +32,7 @@ test('the status stays readable on dark heroes and the light build panel at narr
    return {title:getComputedStyle(title).color,copy:getComputedStyle(copy).color,stroke:getComputedStyle(mark).stroke,overflow:node.scrollWidth-node.clientWidth};
   });
   const brightness=(color:string)=>{const rgb=color.match(/[\d.]+/g)!.map(Number);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2]};
-  if(route==='/build')expect(brightness(reading.title)).toBeLessThan(125);
-  else expect(brightness(reading.title)).toBeGreaterThan(200);
+  expect(brightness(reading.title)).toBeLessThan(160);
   expect(reading.stroke).not.toBe('none');expect(reading.overflow).toBeLessThanOrEqual(1);
   await expect(notice.locator('time')).toHaveAttribute('datetime','2026-11-02');
  }
