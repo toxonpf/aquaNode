@@ -1,9 +1,9 @@
 import {RoundedBox} from '@react-three/drei';
 import {useFrame} from '@react-three/fiber';
-import {useEffect,useMemo,useRef} from 'react';
-import {BufferAttribute,BufferGeometry,Line,LineBasicMaterial,Vector3,type Group,type Material,type Mesh,type MeshBasicMaterial} from 'three';
+import {useEffect,useRef} from 'react';
+import {type Group,type Material,type Mesh} from 'three';
 import {sampleOcean} from './ocean';
-import {networkNodes,networkConnections} from './networkLayout';
+import {networkNodes} from './networkLayout';
 
 const nodeScale=.78;
 
@@ -24,37 +24,6 @@ function NetworkBuoy({x,z,index}:{x:number;z:number;index:number}){
     <mesh position={[0,1.08,.225]}><boxGeometry args={[.28,.06,.015]}/><meshStandardMaterial color="#193e49" transparent/></mesh>
     <mesh position={[.26,2.25,0]}><cylinderGeometry args={[.014,.035,.75,10]}/><meshStandardMaterial color="#193e49" transparent/></mesh>
   </group>;
-}
-
-function NetworkLink({from,to,index,opacity}:{from:number;to:number;index:number;opacity:React.RefObject<number>}){
-  const dot=useRef<Mesh>(null);
-  const positions=useMemo(()=>new Float32Array(33*3),[]);
-  const line=useMemo(()=>{
-    const geometry=new BufferGeometry();
-    geometry.setAttribute('position',new BufferAttribute(positions,3));
-    return new Line(geometry,new LineBasicMaterial({color:'#dcecb9',transparent:true,opacity:0,depthWrite:false}));
-  },[positions]);
-  const point=useMemo(()=>new Vector3(),[]);
-  useEffect(()=>()=>{line.geometry.dispose();line.material.dispose()},[line]);
-  useFrame(({clock})=>{
-    if(opacity.current<.005)return;
-    const time=clock.elapsedTime;
-    const [ax,az]=networkNodes[from],[bx,bz]=networkNodes[to];
-    const aScale=from===0?1:nodeScale,bScale=to===0?1:nodeScale;
-    const start=sampleOcean(ax,az,time).height+2.665*aScale;
-    const end=sampleOcean(bx,bz,time).height+2.625*bScale;
-    const at=(t:number)=>point.set(ax+.26*aScale+(bx+.26*bScale-ax-.26*aScale)*t,start+(end-start)*t+Math.sin(Math.PI*t)*.75,az+(bz-az)*t);
-    for(let i=0;i<=32;i++)at(i/32).toArray(positions,i*3);
-    line.geometry.attributes.position.needsUpdate=true;
-    line.frustumCulled=false;
-    line.material.opacity=opacity.current*.3;
-    if(dot.current){
-      const phase=(time*.2+index/networkConnections.length)%1;
-      dot.current.position.copy(at(phase));
-      (dot.current.material as MeshBasicMaterial).opacity=opacity.current*Math.sin(phase*Math.PI);
-    }
-  });
-  return <><primitive object={line}/><mesh ref={dot}><sphereGeometry args={[.055,10,8]}/><meshBasicMaterial color="#e6f2bb" transparent depthWrite={false}/></mesh></>;
 }
 
 export default function BuoyNetwork({active,visible}:{active:boolean;visible:boolean}){
@@ -78,6 +47,5 @@ export default function BuoyNetwork({active,visible}:{active:boolean;visible:boo
   });
   return <group ref={group} visible={false} name="conceptual-buoy-network">
     {networkNodes.slice(1).map(([x,z],index)=><NetworkBuoy key={index} x={x} z={z} index={index}/>)}
-    {networkConnections.map(([from,to],index)=><NetworkLink key={`${from}-${to}`} from={from} to={to} index={index} opacity={opacity}/>)}
   </group>;
 }

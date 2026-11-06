@@ -67,6 +67,6 @@ test('regional accounts and comparison remain localized, synchronized and readab
     }
   }
   await page.goto('/technology');
-  await expect(page.locator('.tech-carrier-layout')).toContainText('第二版浮標');
-  await expect(page.locator('.tech-carrier-layout')).toContainText('OCA');
+  await expect(page.locator('.existing-devices-copy')).toContainText('第二版浮標');
+  await expect(page.locator('.existing-devices-copy')).toContainText('OCA');
 });

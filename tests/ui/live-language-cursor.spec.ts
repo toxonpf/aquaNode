@@ -65,7 +65,7 @@ test('member dialog is narrower, uses its text width and photos cover every edge
       await button.click();
       const dialog=page.getByRole('dialog');
       if(width===1440)expect((await dialog.boundingBox())!.width).toBe(1000);
-      const text=await dialog.locator('.team-profile-intro').evaluate(node=>{
+      const text=await dialog.locator('.team-profile-role').evaluate(node=>{
         const parent=node.parentElement!,style=getComputedStyle(parent);
         return {actual:node.getBoundingClientRect().width,expected:parent.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)};
       });

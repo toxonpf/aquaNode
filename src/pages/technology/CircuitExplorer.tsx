@@ -12,7 +12,7 @@ export default function CircuitExplorer({paths,active,onChange}:{paths:BoardPath
   const selected=paths[active];
   return <section className="tech-section tech-paths dark circuit-explorer" aria-labelledby="tech-paths-title">
     <div className="tech-section-top"><SectionLabel icon="connections">{t('03 / INSIDE THE DESIGN')}</SectionLabel><span>{t('SELECT A PATH TO FOLLOW IT.')}</span></div>
-    <div className="circuit-heading"><Heading as="h2" id="tech-paths-title">{t('Connections with a purpose.')}</Heading><p className="circuit-desktop-intro">{t('Tap a module to trace its role, from the probes to the controller and power supply.')}</p><p className="circuit-mobile-intro">{t('Four connected modules. Follow their roles below, from the controller to the external connections.')}</p></div>
+    <div className="circuit-heading"><Heading as="h2" id="tech-paths-title">{t('revC connections')}</Heading><p className="circuit-desktop-intro">{t('Select a module to see its function and connections.')}</p><p className="circuit-mobile-intro">{t('Select a module to see its function and connections.')}</p></div>
     <div className="circuit-workbench">
       <div className="circuit-diagram">
         <div className="circuit-diagram-meta"><span>{revision}</span><span>{t('DESIGN OVERVIEW')}</span></div>

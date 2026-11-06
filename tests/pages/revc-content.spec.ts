@@ -43,11 +43,11 @@ test('three ocean inputs select pH without losing the chapter or reader on narro
  await page.locator('.ocean-chapters a[href="#buoy-sensors"]').click();
  const picker=page.locator('.sensor-picker');await expect(picker.locator('button')).toHaveCount(3);
  for(const [width,height]of [[1440,900],[1093,614],[390,844],[320,568]]){
-  await page.setViewportSize({width,height});await picker.getByRole('button',{name:/Isolated pH/}).click();
+  await page.setViewportSize({width,height});await picker.getByRole('button',{name:/Acidity/}).click();
   await expect(page.locator('.ocean-stage')).toHaveAttribute('data-sensor','ph');
-  await expect(page.locator('#sensor-explanation')).toContainText('DFR0504');
+  await expect(page.locator('#sensor-explanation')).toContainText('Calibration');
   const overflow=await picker.evaluate(n=>({page:document.documentElement.scrollWidth-innerWidth,picker:n.scrollWidth-n.clientWidth,buttons:[...n.querySelectorAll('button')].map(b=>b.scrollWidth-b.clientWidth)}));
   expect(overflow.page).toBeLessThanOrEqual(1);expect(overflow.picker).toBeLessThanOrEqual(1);for(const value of overflow.buttons)expect(value).toBeLessThanOrEqual(1);
  }
- await chooseLanguage(page,'Русский');await expect(page.locator('.ocean-stage')).toHaveAttribute('data-sensor','ph');await expect(page.locator('#sensor-explanation')).toContainText('развязку');
+ await chooseLanguage(page,'Русский');await expect(page.locator('.ocean-stage')).toHaveAttribute('data-sensor','ph');await expect(page.locator('#sensor-explanation')).toContainText('калибровки');
 });

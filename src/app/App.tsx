@@ -2,6 +2,7 @@ import {useCallback,useEffect,useLayoutEffect,useRef,useState,type MouseEvent} f
 import {Link,Route,Routes} from 'react-router-dom';
 import {t,useLocale} from '../features/i18n/i18n';
 import {nav} from '../data/content';
+import {pageMetadata} from '../data/metadata';
 import Heading from '../components/ui/Heading';
 import ArrowLink from '../components/ui/ArrowLink';
 import BrandLogo from '../components/brand/BrandLogo';
@@ -79,9 +80,8 @@ export default function App(){
     return()=>{unlock();document.removeEventListener('keydown',key);document.removeEventListener('pointerdown',outside);window.removeEventListener('resize',resize)};
   },[menu,closeMenu]);
   useEffect(()=>{
-    const title=pathname==='/map'?t('Observation map'):nav.find(([path])=>path===pathname)?.[1]||t('Page not found');
-    document.title=`${title} — AquaNode`;
-    const description=pathname==='/'?t("AquaNode develops an educational freshwater buoy. R0.3-EC-pH-revC adds isolated pH to experimental EC and temperature sensing; hardware validation is pending."):`${title}: ${t("AquaNode: an educational freshwater project, engineering development and planned practical learning.")}`;
+    const {title,description}=pageMetadata(pathname);
+    document.title=title;
     document.querySelector('meta[name="description"]')?.setAttribute('content',description);
     document.querySelector('meta[property="og:title"]')?.setAttribute('content',document.title);
     document.querySelector('meta[property="og:description"]')?.setAttribute('content',description);
@@ -90,7 +90,7 @@ export default function App(){
     <a className="skip-link" href="#main">{t('Skip to content')}</a>
     <header onClickCapture={event=>headerReturn(event,pathname,closeMenu)} className={'site-header'+(pathname==='/'?' ocean-header':'')+(solidHeader?' is-solid':'')+(menu?' is-menu-open':'')}>
       <Link className="logo" to="/" aria-label={t('AquaNode home')}><BrandLogo/></Link>
-      <nav id="navigation" className={menu?'open'+(menuClosing?' is-closing':''):''} data-caption={t('EXPLORE AQUANODE')} data-footnote={t('A small node. A world to understand.')} aria-label={t('Main navigation')}>{nav.map(([path,label],index)=><Link key={path} to={path} className={pathname===path?'active':undefined} aria-current={pathname===path?'page':undefined} style={{'--menu-order':index} as React.CSSProperties}><span className="header-nav-number" aria-hidden="true">0{index+1}</span><span>{label}</span><FlexibleArrow direction="up-right"/></Link>)}</nav>
+      <nav id="navigation" className={menu?'open'+(menuClosing?' is-closing':''):''} data-caption={t('EXPLORE AQUANODE')} aria-label={t('Main navigation')}>{nav.map(([path,label],index)=><Link key={path} to={path} className={pathname===path?'active':undefined} aria-current={pathname===path?'page':undefined} style={{'--menu-order':index} as React.CSSProperties}><span className="header-nav-number" aria-hidden="true">0{index+1}</span><span>{label}</span><FlexibleArrow direction="up-right"/></Link>)}</nav>
       <HeaderTools menu={menu&&!menuClosing} onMenu={toggleMenu}/>
     </header>
     <main id="main" className={pathname!=='/'?'has-compact-header':undefined} tabIndex={-1}>

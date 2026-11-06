@@ -28,7 +28,7 @@ test('overview fits phones and tablets and links to the buoy chapter',async({pag
   await page.screenshot({path:`test-results/overview-${width}.png`,animations:'disabled'});
   await page.getByRole('link',{name:'Scroll to explore AquaNode'}).click();
   await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','detail');
-  await expect(page.getByRole('heading',{name:'A small buoy. A closer look at our water.'})).toBeInViewport();
+  await expect(page.getByRole('heading',{name:'What is AquaNode'})).toBeInViewport();
  }
  expect(renderErrors).toEqual([]);
  await page.emulateMedia({reducedMotion:'reduce'});
@@ -37,7 +37,7 @@ test('overview fits phones and tablets and links to the buoy chapter',async({pag
  await expect(page.locator('.hero .buoy-drawing')).toBeVisible();
  await page.getByRole('link',{name:'What is this? Discover AquaNode'}).click();
  await expect(page.locator('.ocean-stage')).toHaveAttribute('data-shot','detail');
- await expect(page.getByRole('heading',{name:'A small buoy. A closer look at our water.'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'What is AquaNode'})).toBeVisible();
 });
 
 

@@ -46,3 +46,5 @@ import '../styles/revision.css';
 import '../styles/language-refresh.css';
 import '../pages/build/equipment.css';
 import '../styles/revc.css';
+
+import '../styles/editorial.css';

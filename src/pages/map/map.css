@@ -133,11 +133,11 @@
 .atlas-archive-results{min-width:0}
 .atlas-archive-results .atlas-sample-date{font-size:14px;padding:0 0 1.25rem;flex-wrap:wrap;gap:.5rem 1rem}
 .atlas-archive-results .atlas-sample-date time{font-size:14px}
-.atlas-archive-results dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2rem;margin:0}
-.atlas-archive-results dl>div{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:1rem 0;border-top:1px solid var(--atlas-line);min-width:0}
-.atlas-archive-results dt{font-size:15px;line-height:1.5;color:var(--atlas-muted);min-width:0}
-.atlas-archive-results dd{margin:0;white-space:nowrap;font-size:22px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.atlas-archive-results dd small{font-size:12px;margin-left:5px;letter-spacing:0;color:var(--atlas-muted)}
+.atlas-archive-results .atlas-observations dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 2rem;margin:0}
+.atlas-archive-results .atlas-observations dl>div{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:1rem 0;border-top:1px solid var(--atlas-line);min-width:0}
+.atlas-archive-results .atlas-observations dt{font-size:15px;line-height:1.5;color:var(--atlas-muted);min-width:0}
+.atlas-archive-results .atlas-observations dd{margin:0;white-space:nowrap;font-size:22px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.atlas-archive-results .atlas-observations dd small{font-size:12px;margin-left:5px;letter-spacing:0;color:var(--atlas-muted)}
 .atlas-archive-results .atlas-data-note{font-size:13px;line-height:1.7;color:var(--atlas-muted);margin:1rem 0 0;max-width:75ch}
 .atlas-archive-resources{display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2.2fr);gap:3rem;align-items:center;margin-top:1.75rem}
 .atlas-archive-resources>.external-inline{font-size:14px;justify-self:start}
@@ -155,10 +155,10 @@
   .atlas-archive-top,.atlas-archive-layout,.atlas-archive-resources{grid-template-columns:1fr;gap:1.5rem}
   .atlas-archive-top{margin-bottom:1.5rem}
   .atlas-archive-controls{padding:1.25rem}
-  .atlas-archive-results dl{grid-template-columns:1fr}
-  .atlas-archive-results dl>div{padding:.875rem 0}
-  .atlas-archive-results dt{font-size:14px}
-  .atlas-archive-results dd{font-size:22px}
+  .atlas-archive-results .atlas-observations dl{grid-template-columns:1fr}
+  .atlas-archive-results .atlas-observations dl>div{padding:.875rem 0}
+  .atlas-archive-results .atlas-observations dt{font-size:14px}
+  .atlas-archive-results .atlas-observations dd{font-size:22px}
   .atlas-archive-results .atlas-sample-date{padding-bottom:1rem}
   .atlas-context .atlas-context-cards{grid-template-columns:1fr}
   .atlas-comparison{grid-template-columns:1fr;gap:1.5rem;padding:1.25rem}

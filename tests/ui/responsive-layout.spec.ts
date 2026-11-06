@@ -69,7 +69,7 @@ test('small member dialogs keep the complete text and pagination reachable',asyn
     const dialog=page.getByRole('dialog');await expect(dialog).toBeVisible();
     const close=await page.locator('.team-dialog-close').boundingBox();
     expect(close!.y).toBeGreaterThanOrEqual(0);expect(close!.x+close!.width).toBeLessThanOrEqual(width);
-    await expect(dialog.locator('.team-profile-intro')).toBeVisible();
+    await expect(dialog.locator('.team-profile-role')).toBeVisible();
     await dialog.getByRole('button',{name:'Next team member',exact:true}).scrollIntoViewIfNeeded();
     await dialog.getByRole('button',{name:'Next team member',exact:true}).click();
     await expect(dialog.locator('h2')).toHaveText('Roman Benzler');

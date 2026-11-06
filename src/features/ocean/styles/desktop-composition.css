@@ -29,9 +29,6 @@
   /* Reserve a separate lower band for the scene action, regardless of zoom. */
   .ocean-stage .story-panel{max-height:calc(794 * var(--ocean-unit))}
   .ocean-stage .story-reading-status{flex-shrink:0}
-  .ocean-stage .story-panel[data-at-start=false] .story-scroll{mask-image:linear-gradient(transparent,#000 calc(15 * var(--ocean-unit)),#000)}
-  .ocean-stage .story-panel[data-at-end=false] .story-scroll{mask-image:linear-gradient(#000 calc(100% - 24 * var(--ocean-unit)),transparent)}
-  .ocean-stage .story-panel[data-at-start=false][data-at-end=false] .story-scroll{mask-image:linear-gradient(transparent,#000 calc(15 * var(--ocean-unit)),#000 calc(100% - 24 * var(--ocean-unit)),transparent)}
   .ocean-stage:not(.is-detail-ready) .buoy-copy,.ocean-stage:not(.is-sensing-ready) .sensor-copy,
   .ocean-stage:not(.is-inside-ready) .inside-copy,.ocean-stage:not(.is-signal-ready) .signal-copy{transform:translateY(calc(18 * var(--ocean-unit)))}
   .ocean-stage .story-scroll p:not(.kicker){font-size:var(--ocean-body);line-height:1.75;max-width:none;margin:0 0 calc(18 * var(--ocean-unit))}

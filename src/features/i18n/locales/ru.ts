@@ -1,3 +1,4 @@
+import editorial from './editorial-ru.json';
 import revc from './ru-revc';
 import story from './ru-story';
 import learning from './ru-learning';
@@ -344,5 +345,6 @@ const ru:Record<string,string>={
   ...presentation,
   ...revb,
   ...revc,
+  ...(editorial as Record<string,string>),
 };
 export default ru;

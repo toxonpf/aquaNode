@@ -22,7 +22,7 @@ export function nearestStation(position:Coordinates){
   };
   return [...stations].sort((a,b)=>distance(a)-distance(b))[0];
 }
-export type Buoy={id:string;region:RegionId;position:Coordinates;stationId?:string};
+export type Buoy={id:string;region:RegionId;position:Coordinates;stationId?:string;kind?:'buoy'|'station'};
 // These are illustrative locations within the areas supplied by the team,
 // not surveyed GPS positions. Keep this distinction visible in the UI.
 const hawaii:Buoy[]=[
@@ -39,8 +39,10 @@ const taiwan:Buoy[]=stations.map((station,index)=>{
   return {id:`TWN-${String(index+1).padStart(3,'0')}`,region:'taiwan',stationId:nearestStation(position).id,position};
 });
 export const buoys:Buoy[]=[...hawaii,...aktau,...taiwan];
+export const stationLocations:Buoy[]=stations.map(station=>({id:`station-${station.id}`,region:'taiwan',kind:'station',stationId:station.id,position:station.position}));
+export const mapLocations=[...buoys,...stationLocations];
 export const regionIds:RegionId[]=['hawaii','aktau','taiwan'];
-export const regionPoints=(region:RegionId)=>buoys.filter(buoy=>buoy.region===region).map(buoy=>buoy.position);
+export const regionPoints=(region:RegionId)=>mapLocations.filter(buoy=>buoy.region===region).map(buoy=>buoy.position);
 
 export type Sample={stationId:string;date:string;period:string;values:string[]};
 export const samples:Sample[]=csv.trim().split(/\r?\n/).slice(1).map(line=>{
@@ -55,9 +57,8 @@ export function sampleFor(stationId:string,period:string){
   return samples.filter(sample=>sample.stationId===stationId&&sample.period===period).sort((a,b)=>b.date.localeCompare(a.date))[0];
 }
 // A reproducible design preview, never a measurement or evidence of accuracy.
-// Retain the original pH/temperature comparison scenarios. These are simulated
-// examples, separate from hardware validation of the current revC design.
-export type ExampleReading={key:'temperature'|'ph';value:string;reference:string;deviation:number};
+// Synthetic examples preserve the original source date and missing/censored values.
+export type ExampleReading={key:'temperature'|'ph';value:string;reference:string;unit:'°C'|'pH';deviation:number};
 function modelReading(key:ExampleReading['key'],raw:string,seed:string,precision:number):ExampleReading|null{
   // Missing/censored observations cannot become exact synthetic measurements.
   if(!/^-?\d+(\.\d+)?$/.test(raw))return null;
@@ -67,18 +68,33 @@ function modelReading(key:ExampleReading['key'],raw:string,seed:string,precision
   const offset=((hash%9401)/100000)-.047;
   const low=Math.ceil((reference-Math.abs(reference)*.05)*scale),high=Math.floor((reference+Math.abs(reference)*.05)*scale);
   const units=Math.max(low,Math.min(high,Math.round(reference*(1+offset)*scale))),value=units/scale;
-  return {key,value:value.toFixed(precision),reference:raw,deviation:reference?(value-reference)/Math.abs(reference)*100:0};
+  return {key,unit:key==='temperature'?'°C':'pH',value:value.toFixed(precision),reference:raw,deviation:reference?(value-reference)/Math.abs(reference)*100:0};
 }
 export function exampleFor(buoy:Buoy,period:string){
-  const station=buoy.region==='taiwan'?nearestStation(buoy.position):undefined;
-  const sample=station?sampleFor(station.id,period):undefined;
-  // Independent, explicitly simulated baselines, not transferred Taiwan data.
-  const baseline=buoy.region==='hawaii'?{temperature:'26.0',ph:'8.10'}:{temperature:'20.0',ph:'8.20'};
-  const raw=station?(sample?{temperature:sample.values[1],ph:sample.values[3]}:undefined):baseline;
-  const seed=buoy.id+(station?period:'local-demo');
-  return {station,sample,kind:station?'station' as const:'scenario' as const,
-    readings:raw?([modelReading('temperature',raw.temperature,seed,1),modelReading('ph',raw.ph,seed,2)].filter((value):value is ExampleReading=>value!==null)):[]};
+ const station=stations.find(item=>item.id===buoy.stationId);
+ const sample=station?sampleFor(station.id,period):undefined;
+ const regional=buoy.region==='hawaii'?{
+  label:'Hawaiʻi Department of Health · West Maui / North Reference Area',
+  url:'https://health.hawaii.gov/environmental-data/coastal-waters/',
+  observation:'2022-08-01 – 2023-08-07 · Table 1 average',temperature:'26.3',ph:'8.17',
+ }:buoy.region==='aktau'?{
+  label:'Kostianoy et al. (2024) · Aktau / station K4',
+  url:'https://doi.org/10.37828/em.2024.76.4',
+  observation:'2023-09-13 · Table 4',temperature:'',ph:'8.12',
+ }:undefined;
+ const source=regional??{label:station?`${station.id} · ${station.name}`:'',url:datasetUrl,observation:sample?.date??period};
+ // Regional aggregates retain their original observation period. Changing the
+ // Taiwan archive quarter must not fabricate a new sample date in other regions.
+ const seed=buoy.id+(regional?source.observation:period);
+ const readings=[modelReading('temperature',regional?.temperature??sample?.values[1]??'',seed,1),modelReading('ph',regional?.ph??sample?.values[3]??'',seed,2)].filter((value):value is ExampleReading=>value!==null);
+ return {station,sample,source,kind:regional?'regional' as const:'station' as const,readings};
 }
+/** Downloadable records retain simulated status, original references and map IDs. */
+export const buoyRecords=buoys.map(buoy=>{
+ const example=exampleFor(buoy,periods[0]);
+ return {id:buoy.id,region:buoy.region,position:buoy.position,positionType:'illustrative',dataType:'calculation-example',source:example.source,readings:example.readings};
+});
+export const buoyRecordsUrl=`data:application/json;charset=utf-8,${encodeURIComponent(JSON.stringify(buoyRecords,null,2))}`;
 
 /** Mean absolute relative difference of the simulated examples, not field accuracy. */
 export function taiwanComparison(period:string){

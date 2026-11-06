@@ -16,7 +16,7 @@ test('Russian is the default and language selection survives navigation and relo
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   await expect(page.locator('h1')).toHaveText('The work, as it stands.');
   await page.locator('#navigation').getByRole('link',{name:'The project',exact:true}).click();
-  await expect(page.locator('h1')).toHaveText('From the classroom to the shoreline.');
+  await expect(page.locator('h1')).toHaveText('Engineering and water education');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   await chooseLanguage(page,'Русский','.site-footer');

@@ -13,10 +13,10 @@ test('language change hides old words before replacing them and plays the normal
   await chooseLanguage(page,'Русский');
   await expect(page.locator('html')).toHaveAttribute('data-locale-phase','leaving');
   await expect(page.locator('html')).toHaveAttribute('lang','en');
-  await expect(heading).toHaveText('From the classroom to the shoreline.');
+  await expect(heading).toHaveText('Engineering and water education');
   await expect.poll(()=>word.evaluate(node=>parseFloat(getComputedStyle(node).opacity))).toBeLessThan(.95);
   await expect(page.locator('html')).toHaveAttribute('lang','ru');
-  await expect(heading).toHaveText('Из класса — к берегу.');
+  await expect(heading).toHaveText('Инженерия и изучение воды');
   await expect(page.locator('html')).not.toHaveAttribute('data-locale-phase');
   await expect(heading.locator('.heading-word').last()).toHaveCSS('opacity','1');
   await expect(page.locator('.about-hero-copy>p')).toHaveCSS('opacity','1');

@@ -8,7 +8,7 @@ test('the cover holds while the destination 3D module loads, then reveals a read
   const link=page.locator('header nav a[href="/technology"]'),original=await link.boundingBox();
   await link.click();
   const curtain=page.locator('.page-curtain');
-  await expect(page.locator('main h1')).toHaveText('Inside the buoy.');
+  await expect(page.locator('main h1')).toHaveText('How AquaNode works');
   await expect(page.locator('.viewer')).toHaveAttribute('data-scene-state','loading');
   await expect(curtain).toHaveAttribute('data-phase','loading');
   const retained=curtain.locator('[data-retained-navigation]');

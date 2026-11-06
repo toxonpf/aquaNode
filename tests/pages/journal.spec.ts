@@ -3,8 +3,8 @@ import {test,expect} from '@playwright/test';
 test('journal distinguishes team reports, documented design checks and pending tests',async({page})=>{
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/journal');
- await expect(page.getByRole('heading',{level:1})).toHaveText('The work, as it stands.');
- await expect(page.locator('#journal-now')).toContainText('Earlier R0.3 and revB reports remain historical');
+ await expect(page.getByRole('heading',{level:1})).toHaveText('Development & results');
+ await expect(page.locator('#journal-now')).toContainText('checked sensors and buoys sent to partners');
  await expect(page.locator('#journal-record time')).toHaveCount(3);
  await expect(page.locator('#journal-record time').first()).toHaveAttribute('datetime','2026-11-02');
  await expect(page.locator('#journal-record time').last()).toHaveAttribute('datetime','2026-10-20');
@@ -32,9 +32,8 @@ test('journal navigation, reading width and motion fit desktop and phones',async
  await page.setViewportSize({width:1440,height:1000});
  await page.screenshot({path:'test-results/journal-desktop.png',fullPage:true});
  await page.locator('.journal-hero').screenshot({path:'test-results/journal-cover-desktop.png'});
- await page.getByRole('navigation',{name:'Explore the journal'}).getByRole('link',{name:/02 The record/}).click();
- await expect(page.locator('#journal-record-title')).toBeInViewport();
- await page.getByRole('navigation',{name:'Journal sections'}).getByRole('link',{name:'02 The record'}).click();
+
+ await page.getByRole('navigation',{name:'Journal sections'}).getByRole('link',{name:'02 revC code and project-file checks'}).click();
  await expect(page.locator('#journal-record-title')).toBeInViewport();
  await expect(page.locator('.journal-index a[aria-current=location]')).toHaveAttribute('href','#journal-record');
  await page.locator('#journal-record').screenshot({path:'test-results/journal-record.png'});
