@@ -1,6 +1,8 @@
 import ru from './locales/ru';
 import zh from './locales/zh-TW';
 import {useSyncExternalStore} from 'react';
+import {flushSync} from 'react-dom';
+import {animateLocaleChange} from '../../shared/motion/localeTransition';
 
 export type Locale='ru'|'en'|'zh-TW';
 export const localeKey='aquanode.locale';
@@ -20,10 +22,22 @@ export function t(english:string,values?:Record<string,string|number>):string{
 }
 export const localeFormat=(value:Locale)=>value==='ru'?'ru-RU':value==='zh-TW'?'zh-TW':'en-GB';
 
-export function changeLocale(next:Locale){
-  if(next===locale)return;
+function applyLocale(next:Locale){
   locale=next;
   document.documentElement.lang=next;
   try{localStorage.setItem(localeKey,next)}catch{/* The current session can still switch languages. */}
   listeners.forEach(listener=>listener());
+}
+
+let requestedLocale=locale;
+let changing:Promise<void>|null=null;
+export function changeLocale(next:Locale){
+  requestedLocale=next;
+  if(changing)return changing;
+  if(next===locale)return Promise.resolve();
+  const run=async()=>{
+    while(requestedLocale!==locale)await animateLocaleChange(()=>flushSync(()=>applyLocale(requestedLocale)));
+  };
+  changing=run().finally(()=>{changing=null});
+  return changing;
 }

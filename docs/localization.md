@@ -1,5 +1,13 @@
 # Languages
 
+Language changes animate in place through `shared/motion/localeTransition.ts`.
+Visible heading words leave downward in reverse order; body copy uses the
+existing shorter blur/13px motion. The external-store update is committed only
+after the old text leaves, then `Heading` plays its normal word entrance.
+Repeated selections resolve to the latest requested language without remounting
+routes, maps or profiles. Reduced-motion users switch immediately. The shared
+`data-locale-phase` states are `leaving`, `swapping` and `entering`.
+
 The public interface defaults to Russian. The RU / EN / 繁 menus in the header and footer save the selection under `aquanode.locale` in local storage. Switching languages updates the mounted interface through a shared React external store. The route, scroll position, open controls and 3D scene stay in place. Shared editorial records rebuild from their English source; component-local catalogs are resolved during rendering.
 
 `src/features/i18n/i18n.ts` sets the document language and resolves `t(english, values?)` before React renders. Translate complete phrases, including accessible names; use named placeholders such as `{name}` for variable text. Do not translate rendered DOM nodes: headings and body motion depend on the original React text.

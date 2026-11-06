@@ -57,6 +57,13 @@ Station markers are separate diamonds shown from zoom level 8.
 
 ## Observations
 
+`StationArchive` gives the Taiwan station archive its own full-width section
+below the map and comparison. Station/quarter controls and coordinates occupy
+the left column, with the dated values on the right; phones stack controls
+above a single list of values. Source attribution and CSV download share a
+separate footer. Selecting a station focuses its buoy on the map. Both archive
+and comparison period controls remain synchronized, including language changes.
+
 The original root `stations_data_en.csv` is imported at build time, unchanged.
 Vite also emits the CSV as a downloadable asset. There are 388 observations,
 97 for each of four stations. The period picker lists quarters that actually
@@ -77,8 +84,23 @@ remain unavailable. Hawaii and Aktau have independently labelled demo baselines
 scenarios have no invented sampling dates. All previews are labelled simulated.
 They must not be used as recorded telemetry or as evidence for any accuracy claim.
 
-Placement partnerships and the "up to 5%" comparison result are attributed to
-the team. The supplied file contains no paired buoy/reference test results.
+Deployment information is attributed to the AquaNode team: three Hawaiʻi buoys
+were launched jointly with Hawaiʻi Pacific University (HPU), all four Taiwan
+buoys with OCA support, and all 97 Aktau buoys were assembled by students of
+coastal School No. 15. This updates the earlier school attribution. These are
+team-supplied accounts, separate from the current revC hardware evidence.
+The Technology page also attributes development of the second buoy version
+with OCA specialists to the team, without equating that version with revC.
+
+The panel below the map calculates the mean **absolute** relative difference
+of the simulated Taiwan examples for the selected quarter. It pools available
+pH and temperature pairs across the four buoys and displays separate metric
+averages and coverage counts. Both period controls share the same state. The
+formula is mean(|example − reference| / |reference| × 100%). Missing, censored
+and zero-reference values are excluded, never treated as zero difference.
+This number is explicitly simulated, not measured accuracy: the supplied file
+contains no paired buoy/reference field results. A measured average requires
+those results and cannot be inferred from the ±5% simulation constraint.
 OCA means Taiwan Ocean Conservation Administration, a partner of GEEP on the
 Youth Innovation Challenge; GEEP and OCA are separate organisations.
 

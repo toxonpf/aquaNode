@@ -1,5 +1,6 @@
 import {Children,cloneElement,isValidElement,useLayoutEffect,useRef,type HTMLAttributes,type ReactNode} from 'react';
 import gsap from 'gsap';
+import {localeLeaveEvent,localeEnterEvent,visibleCopy} from '../../shared/motion/localeTransition';
 function wordSegments(text:string){
  if(!/[\u3400-\u9fff]/.test(text))return text.split(/(\s+)/);
  const segments=typeof Intl.Segmenter==='function'?[...new Intl.Segmenter('zh-TW',{granularity:'word'}).segment(text)].map(item=>item.segment):Array.from(text);
@@ -68,6 +69,7 @@ export default function Heading({as:Tag='h2',children,className='',...props}:HTM
     const reset=()=>{gsap.killTweensOf(targets);gsap.set(targets,{yPercent:105,opacity:0});played=false};
     const show=()=>{
       if(media.matches){gsap.killTweensOf(targets);gsap.set(targets,{clearProps:'transform,opacity'});return}
+      if(['leaving','swapping'].includes(document.documentElement.dataset.localePhase??''))return;
       if(chapter&&!stage?.classList.contains(`is-${chapter}-ready`)){
         if(played)reset();return;
       }
@@ -97,8 +99,11 @@ export default function Heading({as:Tag='h2',children,className='',...props}:HTM
     if(resize&&reader){resize.observe(node);resize.observe(reader)}
     reader?.addEventListener('scroll',show,{passive:true});
     media.addEventListener('change',show);
+    const leave=()=>{gsap.killTweensOf(targets);played=false};
+    const enter=()=>{visible=visibleCopy(node);show()};
+    window.addEventListener(localeLeaveEvent,leave);window.addEventListener(localeEnterEvent,enter);
     show();
-    return()=>{view.disconnect();state.disconnect();resize?.disconnect();reader?.removeEventListener('scroll',show);media.removeEventListener('change',show);gsap.killTweensOf(targets)};
+    return()=>{view.disconnect();state.disconnect();resize?.disconnect();reader?.removeEventListener('scroll',show);media.removeEventListener('change',show);window.removeEventListener(localeLeaveEvent,leave);window.removeEventListener(localeEnterEvent,enter);gsap.killTweensOf(targets)};
   },[text,className]);
   return <Tag {...props} ref={host} className={`word-heading ${className}`.trim()}>{className.includes('sr-only')?children:words(children)}</Tag>;
 }

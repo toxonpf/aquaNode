@@ -110,6 +110,7 @@ const revc:Record<string,string>={
   "PCB pads compared": "已比對 PCB 焊墊",
   "Python model / exporter tests": "Python 模型／匯出器測試",
   "Three views of the water": "水的三個觀測面向",
-  "01 / THREE VIEWS OF THE WATER": "01 / 水的三個觀測面向"
+  "01 / THREE VIEWS OF THE WATER": "01 / 水的三個觀測面向",
+  "According to the AquaNode team, the second version of the buoy was developed jointly with specialists from the Ocean Conservation Administration (OCA). The revC specifications and validation status are listed separately below.": "據 AquaNode 團隊提供的資訊，第二版浮標與海洋保育署（OCA）的專家共同開發。revC 的規格與驗證狀態另列於下方。"
 };
 export default revc;

@@ -56,7 +56,7 @@ export function sampleFor(stationId:string,period:string){
 }
 // A reproducible design preview, never a measurement or evidence of accuracy.
 // Retain the original pH/temperature comparison scenarios. These are simulated
-// examples, separate from the current temperature/turbidity prototype.
+// examples, separate from hardware validation of the current revC design.
 export type ExampleReading={key:'temperature'|'ph';value:string;reference:string;deviation:number};
 function modelReading(key:ExampleReading['key'],raw:string,seed:string,precision:number):ExampleReading|null{
   // Missing/censored observations cannot become exact synthetic measurements.
@@ -78,4 +78,27 @@ export function exampleFor(buoy:Buoy,period:string){
   const seed=buoy.id+(station?period:'local-demo');
   return {station,sample,kind:station?'station' as const:'scenario' as const,
     readings:raw?([modelReading('temperature',raw.temperature,seed,1),modelReading('ph',raw.ph,seed,2)].filter((value):value is ExampleReading=>value!==null)):[]};
+}
+
+/** Mean absolute relative difference of the simulated examples, not field accuracy. */
+export function taiwanComparison(period:string){
+  const matched=new Set<string>();
+  const differences:{key:ExampleReading['key'];value:number}[]=[];
+  for(const buoy of taiwan){
+    for(const reading of exampleFor(buoy,period).readings){
+      // A zero reference has no defined relative difference.
+      if(Number(reading.reference)===0||!Number.isFinite(reading.deviation))continue;
+      matched.add(buoy.id);
+      differences.push({key:reading.key,value:Math.abs(reading.deviation)});
+    }
+  }
+  const average=(values:number[])=>values.length?values.reduce((sum,value)=>sum+value,0)/values.length:null;
+  return {
+    mean:average(differences.map(row=>row.value)),
+    buoyCount:matched.size,totalBuoys:taiwan.length,pairCount:differences.length,
+    metrics:(['temperature','ph'] as const).map(key=>{
+      const values=differences.filter(row=>row.key===key).map(row=>row.value);
+      return {key,mean:average(values),count:values.length};
+    }),
+  };
 }

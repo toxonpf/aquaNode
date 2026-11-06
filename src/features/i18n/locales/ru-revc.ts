@@ -103,6 +103,7 @@ const revc:Record<string,string>={
   "PCB pads compared": "Сверено площадок PCB",
   "Python model / exporter tests": "Python-тесты модели и экспортера",
   "Three views of the water": "Три взгляда на воду",
-  "01 / THREE VIEWS OF THE WATER": "01 / ТРИ ВЗГЛЯДА НА ВОДУ"
+  "01 / THREE VIEWS OF THE WATER": "01 / ТРИ ВЗГЛЯДА НА ВОДУ",
+  "According to the AquaNode team, the second version of the buoy was developed jointly with specialists from the Ocean Conservation Administration (OCA). The revC specifications and validation status are listed separately below.": "По информации команды AquaNode, вторая версия буя разрабатывалась совместно со специалистами Ocean Conservation Administration (OCA). Характеристики и статус проверки revC приведены отдельно ниже."
 };
 export default revc;

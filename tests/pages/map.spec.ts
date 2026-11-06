@@ -61,17 +61,17 @@ test('Taiwan keeps source dates, missing values and simulated readings distinct'
   await page.getByLabel('OBSERVATION PERIOD',{exact:true}).selectOption('2002-Q1');
   await expect(page.locator('time')).toHaveAttribute('datetime','2002-03-13');
   await expect(page.locator('.atlas-observations')).toContainText('<3');
-  await expect(page.locator('#atlas-example')).toContainText('hardware validation is pending');
-  const deviations=await page.locator('#atlas-example [data-deviation]').evaluateAll(nodes=>nodes.map(node=>Number((node as HTMLElement).dataset.deviation)));
-  expect(deviations.every(value=>Math.abs(value)<=5)).toBe(true);
+  await expect(page.locator('#atlas-example')).toContainText('calibration and shared-water hardware tests are pending');
+  const deviation=Number(await page.locator('[data-comparison-mean]').getAttribute('data-comparison-mean'));
+  expect(deviation).toBeGreaterThanOrEqual(0);expect(deviation).toBeLessThanOrEqual(5);
   await expect(page.locator('.atlas-detail-source a')).toHaveAttribute('href','https://data.gov.tw/dataset/155934');
   const download=page.waitForEvent('download');
   await page.locator('.atlas-download').click();
   expect((await download).suggestedFilename()).toBe('stations_data_en.csv');
   await chooseLanguage(page,'Русский');
   await expect(page).toHaveTitle('Карта наблюдений — AquaNode');
-  await expect(page.locator('.atlas-example')).toContainText('испытания оборудования предстоят');
-  await expect(page.locator('.atlas-field select').last()).toHaveValue('2002-Q1');
+  await expect(page.locator('.atlas-example')).toContainText('калибровка и совместные аппаратные испытания предстоят');
+  await expect(page.locator('.atlas-archive-controls select').last()).toHaveValue('2002-Q1');
 });
 
 test('coordinates stay in water, stations retain their supplied positions and models stay within 5%',async({page})=>{
