@@ -1,6 +1,6 @@
 import {Children,cloneElement,isValidElement,useLayoutEffect,useRef,type HTMLAttributes,type ReactNode} from 'react';
 import gsap from 'gsap';
-import {localeLeaveEvent,localeEnterEvent,visibleCopy} from '../../shared/motion/localeTransition';
+import {localeLeaveEvent,localeEnterEvent,localeMeasureEvent,visibleCopy} from '../../shared/motion/localeTransition';
 function wordSegments(text:string){
  if(!/[\u3400-\u9fff]/.test(text))return text.split(/(\s+)/);
  const segments=typeof Intl.Segmenter==='function'?[...new Intl.Segmenter('zh-TW',{granularity:'word'}).segment(text)].map(item=>item.segment):Array.from(text);
@@ -32,6 +32,7 @@ export default function Heading({as:Tag='h2',children,className='',...props}:HTM
     if(!node||!limit||className.includes('sr-only'))return;
     let width=-1,alive=true;
     const fit=(force=false)=>{
+      if(document.documentElement.dataset.localePhase==='resizing')return;
       if(!alive||!node.clientWidth||!force&&Math.abs(width-node.clientWidth)<.5)return;
       width=node.clientWidth;node.style.removeProperty('font-size');
       let upper=parseFloat(getComputedStyle(node).fontSize),lower=Math.min(12,upper);
@@ -53,9 +54,10 @@ export default function Heading({as:Tag='h2',children,className='',...props}:HTM
       node.style.fontSize=`${Math.floor(lower*10)/10}px`;
     };
     const observer=new ResizeObserver(()=>fit());observer.observe(node.parentElement!);
+    const measure=()=>fit(true);window.addEventListener(localeMeasureEvent,measure);
     const resize=()=>fit(true);window.addEventListener('resize',resize);
     document.fonts.ready.then(()=>fit(true));fit(true);
-    return()=>{alive=false;observer.disconnect();window.removeEventListener('resize',resize);node.style.removeProperty('font-size')};
+    return()=>{alive=false;observer.disconnect();window.removeEventListener('resize',resize);window.removeEventListener(localeMeasureEvent,measure);node.style.removeProperty('font-size')};
   },[text,className]);
   useLayoutEffect(()=>{
     const node=host.current;if(!node||className.includes('sr-only'))return;
@@ -69,7 +71,8 @@ export default function Heading({as:Tag='h2',children,className='',...props}:HTM
     const reset=()=>{gsap.killTweensOf(targets);gsap.set(targets,{yPercent:105,opacity:0});played=false};
     const show=()=>{
       if(media.matches){gsap.killTweensOf(targets);gsap.set(targets,{clearProps:'transform,opacity'});return}
-      if(['leaving','swapping'].includes(document.documentElement.dataset.localePhase??''))return;
+      const localePhase=document.documentElement.dataset.localePhase;
+      if(localePhase&&localePhase!=='entering')return;
       if(chapter&&!stage?.classList.contains(`is-${chapter}-ready`)){
         if(played)reset();return;
       }

@@ -10,6 +10,7 @@ export const projectStatus=JSON.parse(statusSource) as {
  software_tests:{type:string;result:string;count:number};
 };
 export const revision=projectStatus.revision;
+export const buoyPriceUsd=20;
 export const revisionDate=projectStatus.as_of;
 export const originalArchitectureUrl='/assets/engineering/ec-revb-architecture.svg';
 export const architectureForLocale=(value:Locale)=>`/assets/engineering/ec-ph-revc-architecture-${value}.svg`;

@@ -59,6 +59,8 @@
 .journal-stage-heading{display:grid;grid-template-columns:1.05fr 1fr;gap:7%;align-items:start;padding:32px 0}
 .journal-stage-heading h2{font-size:clamp(1.875rem,3vw,2.8125rem);line-height:1.14;letter-spacing:-.045em;margin:0}
 .journal-stage-heading>p{font-size:1.0625rem;line-height:1.8;margin:0;color:#4b685b}
+.journal-next .journal-stage-heading{grid-template-columns:minmax(0,1fr);gap:18px}
+.journal-next .journal-stage-heading>p{max-width:72ch}
 .journal-scope-note{display:grid;grid-template-columns:.6fr 1fr;gap:25px;padding:23px;background:#e5eddd;border:1px solid #c4d3b8}
 .journal-scope-note>span{font-size:0.875rem;line-height:1.7;letter-spacing:.04em;color:#597550}
 .journal-scope-note>p{font-size:0.9375rem;line-height:1.8;color:#4b6854;margin:0}

@@ -6,7 +6,27 @@ existing shorter blur/13px motion. The external-store update is committed only
 after the old text leaves, then `Heading` plays its normal word entrance.
 Repeated selections resolve to the latest requested language without remounting
 routes, maps or profiles. Reduced-motion users switch immediately. The shared
-`data-locale-phase` states are `leaving`, `swapping` and `entering`.
+`data-locale-phase` states are `leaving`, `swapping`, `resizing`, `measuring` and `entering`.
+
+The transition discovers visible text owners (including captions, dates,
+diagram labels, controls, portrait labels and audio text), rather than relying
+on a fixed tag list. Photographs, SVG artwork and 3D canvases stay stationary.
+New elements keyed by translated copy are prepared synchronously after the
+React commit and before the next paint; do not insert a requestAnimationFrame
+gap between committing the translation and hiding the incoming text.
+`tests/ui/language-motion.spec.ts` samples consecutive frames of recreated
+module labels to check their appearance is monotonic, with no full-opacity flash.
+
+`localeLayout.ts` captures the visible layout before the language commit and
+uses GSAP Flip to interpolate positions, widths and heights over 0.52 seconds.
+It changes dimensions rather than scaling text or imagery. Boxes are matched by
+DOM position when translated React keys recreate cards. The layout animation
+owns geometry; the copy animation owns opacity. Temporary inline dimensions
+and matching IDs are removed at the end, so subsequent resizing remains fluid.
+Incoming text stays hidden until the destination font is ready, layout motion
+has completed and temporary dimensions are removed. Headings refit at the final
+width before their word entrance starts, keeping line breaks stable throughout
+the reveal. Do not overlap text entrance with width interpolation.
 
 The public interface defaults to Russian. The RU / EN / 繁 menus in the header and footer save the selection under `aquanode.locale` in local storage. Switching languages updates the mounted interface through a shared React external store. The route, scroll position, open controls and 3D scene stay in place. Shared editorial records rebuild from their English source; component-local catalogs are resolved during rendering.
 
