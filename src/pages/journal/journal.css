@@ -61,6 +61,10 @@
 .journal-stage-heading>p{font-size:1.0625rem;line-height:1.8;margin:0;color:#4b685b}
 .journal-next .journal-stage-heading{grid-template-columns:minmax(0,1fr);gap:18px}
 .journal-next .journal-stage-heading>p{max-width:72ch}
+.journal-milestone{scroll-margin-top:110px}
+.journal-milestone>p{max-width:72ch;line-height:1.75}
+.journal-milestone>h2{margin-block:22px}
+.journal-latest .journal-latest-date{font-size:13px;line-height:1.6;color:#bfd0c2}
 .journal-scope-note{display:grid;grid-template-columns:.6fr 1fr;gap:25px;padding:23px;background:#e5eddd;border:1px solid #c4d3b8}
 .journal-scope-note>span{font-size:0.875rem;line-height:1.7;letter-spacing:.04em;color:#597550}
 .journal-scope-note>p{font-size:0.9375rem;line-height:1.8;color:#4b6854;margin:0}

@@ -10,7 +10,7 @@ const settle=()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAni
 test('all reading layouts fit desktop, scaled laptop and mobile viewports',async({page})=>{
   test.setTimeout(180000);
   await page.emulateMedia({reducedMotion:'reduce'});
-  for(const route of ['/','/about','/technology','/build','/journal','/team','/map']){
+  for(const route of ['/','/about','/technology','/build','/journal','/team']){
     await page.goto(route);
     for(const language of ['Русский','English']){
       await chooseLanguage(page,language,'.site-header');

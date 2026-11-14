@@ -61,7 +61,7 @@ test('board links remain centred on their modules during text entrance, resize a
 test('footer page links retain their arrow treatment and readable labels on phones',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:320,height:568});
  await page.goto('/team');
- const links=page.locator('.footer-directory nav a');await expect(links).toHaveCount(7);
+ const links=page.locator('.footer-directory nav a');await expect(links).toHaveCount(6);
  for(const link of await links.all()){
   await expect(link.locator('.footer-nav-label')).toBeVisible();
   await expect(link.locator('.flexible-arrow--up-right')).toBeVisible();

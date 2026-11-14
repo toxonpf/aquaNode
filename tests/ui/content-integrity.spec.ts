@@ -4,7 +4,7 @@ import {test,expect} from '@playwright/test';
 test('all three languages have valid page anchors, unique ids and no repeated visible paragraphs',async({page})=>{
  test.setTimeout(90000);await page.emulateMedia({reducedMotion:'reduce'});
  await page.route('https://tile.openstreetmap.org/**',route=>route.abort());
- for(const route of ['/','/about','/technology','/build','/journal','/team','/map']){
+ for(const route of ['/','/about','/technology','/build','/journal','/team']){
   await page.goto(route);
   for(const language of ['Русский','English','繁體中文']){
    await chooseLanguage(page,language,'.site-header');

@@ -37,7 +37,7 @@ test('Russian pages and footer fit desktop and narrow phones',async({page})=>{
       const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
       expect(overflow,`${path} at ${width}px`).toBeLessThanOrEqual(1);
       const footer=page.locator('.site-footer');
-      await expect(footer.getByRole('navigation',{name:'Навигация в подвале'}).getByRole('link')).toHaveCount(7);
+      await expect(footer.getByRole('navigation',{name:'Навигация в подвале'}).getByRole('link')).toHaveCount(6);
       const language=await footer.locator('.language-switch').boundingBox();
       expect(language!.x+language!.width).toBeLessThanOrEqual(width);
       if(width<760)expect((await page.locator('.menu-button').boundingBox())!.height).toBeLessThanOrEqual(56);

@@ -31,6 +31,6 @@ As of 2 November 2026. Prepared for the website from the team-supplied AquaNode_
 - [ADS1115 datasheet](https://www.ti.com/lit/ds/symlink/ads1115.pdf).
 - [SEN0244](https://wiki.dfrobot.com/sen0244/) and [XIAO ESP32S3](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/).
 
-The separate Taiwan station archive retains its actual dates and values. Approximate map markers are geographic illustrations, not revC field measurements or partnership evidence.
+The observation map has been withdrawn. The latest project milestone is development of the second buoy version with OCA specialists; no buoys have been shipped to partners or deployed abroad. Historical engineering checks above remain unchanged.
 
 Documentation CC BY 4.0. Full attribution is in ATTRIBUTION.md. Public web documents do not publish engineering, firmware or protocol implementation.

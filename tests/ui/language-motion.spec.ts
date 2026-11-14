@@ -24,24 +24,20 @@ test('language change hides old words before replacing them and plays the normal
   expect(navigations).toBe(0);expect(errors).toEqual([]);
 });
 
-test('rapid requests keep the latest language and retain the mounted map and archive selection',async({page})=>{
-  await page.emulateMedia({reducedMotion:'no-preference'});
-  await page.route('https://tile.openstreetmap.org/**',route=>route.abort());
-  await page.goto('/map?region=taiwan');
-  await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active');
-  await page.getByLabel('REFERENCE STATION',{exact:true}).selectOption('5127');
-  await page.getByLabel('OBSERVATION PERIOD',{exact:true}).selectOption('2002-Q1');
-  await page.evaluate(async()=>{
-    (window as any).__sameMap=document.querySelector('.leaflet-container');
-    const {changeLocale}=await import('/src/features/i18n/i18n.ts');
-    const first=changeLocale('ru');changeLocale('zh-TW');await first;
-  });
-  await expect(page.locator('html')).toHaveAttribute('lang','zh-TW');
-  await expect(page.locator('html')).not.toHaveAttribute('data-locale-phase');
-  await expect(page.locator('.atlas-archive-controls select').first()).toHaveValue('5127');
-  await expect(page.locator('.atlas-archive-controls select').last()).toHaveValue('2002-Q1');
-  await expect(page.locator('.atlas-comparison select')).toHaveValue('2002-Q1');
-  expect(await page.evaluate(()=>document.querySelector('.leaflet-container')===(window as any).__sameMap)).toBe(true);
+test('rapid requests keep the latest language and selected documentation revision',async({page})=>{
+ await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/build');
+ await expect(page.locator('.page-curtain')).not.toHaveAttribute('data-active');
+ await page.locator('.build-document-picker select').selectOption('r03');
+ await page.evaluate(async()=>{
+  (window as any).__sameMain=document.querySelector('main');
+  const {changeLocale}=await import('/src/features/i18n/i18n.ts');
+  const first=changeLocale('ru');changeLocale('zh-TW');await first;
+ });
+ await expect(page.locator('html')).toHaveAttribute('lang','zh-TW');
+ await expect(page.locator('html')).not.toHaveAttribute('data-locale-phase');
+ await expect(page.locator('.build-document-picker select')).toHaveValue('r03');
+ await expect(page.locator('.build-download-list a[download]')).toHaveCount(3);
+ expect(await page.evaluate(()=>document.querySelector('main')===(window as any).__sameMain)).toBe(true);
 });
 
 test('remounted module labels and inline captions appear without a translated-text flash',async({page})=>{

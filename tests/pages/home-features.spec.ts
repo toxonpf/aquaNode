@@ -1,16 +1,12 @@
 import {test,expect} from '@playwright/test';
 
-test('home keeps results, education and cooperation without a duplicate device walkthrough',async({page})=>{
+test('home keeps earlier results and shows OCA development without a map',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');
  await expect(page.locator('.status-grid article')).toHaveCount(3);
- await expect(page.locator('.node-showcase,.reason-visual,.flow,.cycle-footer,.revision-notice')).toHaveCount(0);
- await expect(page.locator('.surface-project-copy')).toContainText('sent buoys to partners');
+ await expect(page.locator('.surface-project-copy')).toContainText('creating a second buoy version together with OCA');
+ await expect(page.locator('.map-embed,.atlas-map,.future-atlas')).toHaveCount(0);
  for(const width of [1440,768,390,320]){
   await page.setViewportSize({width,height:900});
-  const map=page.locator('.future-atlas');
-  await map.locator('.map-embed-toolbar').getByRole('button',{name:'Aktau',exact:true}).click();
-  await expect(map.locator('.atlas-map')).toBeVisible();
-  await expect(map.locator('.map-embed-footer a')).toHaveAttribute('href','/map?region=aktau');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }
 });

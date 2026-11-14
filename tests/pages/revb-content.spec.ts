@@ -28,8 +28,7 @@ test('the current scope, localized downloads and independent station records rem
  await chooseLanguage(page,'Русский','.site-header');
  await expect(page.locator('.revision-notice')).toContainText('Аппаратные испытания предстоят');
  await expect(page.locator('.build-download-list a').first()).toHaveAttribute('href','/resources/ec-ph-revc/copy_ru.md');
- await page.goto('/map?region=taiwan');
- await expect(page.locator('#atlas-example')).toContainText('измерения');
- await expect(page.locator('#atlas-example [data-deviation]')).toHaveCount(0);
- await expect(page.locator('.atlas-observations')).toContainText('25.5');
+ await page.goto('/journal#oca-v2');
+ await expect(page.locator('#oca-v2')).toContainText('OCA');
+
 });

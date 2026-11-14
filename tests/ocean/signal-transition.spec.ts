@@ -9,7 +9,7 @@ test('signal chapter keeps the buoy scene and fits desktop and mobile',async({pa
   await expect(stage).toHaveClass(/is-presented/,{timeout:30000});
   await page.getByRole('link',{name:'See inside the buoy',exact:true}).click();
   await expect(stage).toHaveClass(/is-inside-ready/);
-  await page.getByRole('link',{name:'FOLLOW THE SIGNAL',exact:true}).click();
+  await page.locator('.ocean-chapters a[href="#buoy-signal"]').click();
   await expect(stage).toHaveAttribute('data-shot','signal');
   await expect(stage).toHaveClass(/is-signal-ready/);
   await expect(page.locator('.signal-introduction')).toHaveCSS('opacity','1');
@@ -17,9 +17,10 @@ test('signal chapter keeps the buoy scene and fits desktop and mobile',async({pa
   await page.screenshot({path:'test-results/signal-desktop.png'});
   await page.setViewportSize({width:390,height:844});
   await page.waitForTimeout(2100);
-  await expect(page.getByRole('heading',{name:'A small signal. A closer connection.'})).toBeInViewport();
+  await expect(page.locator('#signal-story-title')).toHaveText('Second version with OCA');
+  await expect(page.locator('#signal-story-title')).toBeInViewport();
   const signalReader=page.locator('[data-reader=signal] [data-story-scroll]');
-  expect(await signalReader.evaluate(node=>node.scrollHeight>node.clientHeight)).toBe(true);
+  expect(await signalReader.evaluate(node=>node.clientHeight>0&&node.scrollHeight>=node.clientHeight)).toBe(true);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:'test-results/signal-mobile.png'});
   expect(errors).toEqual([]);

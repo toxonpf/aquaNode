@@ -57,7 +57,7 @@ export default function OceanStory(){
       <div className="ocean-vignette" aria-hidden="true"/>
       <div className="underwater-rays" aria-hidden="true"/>
       <section className="ocean-introduction" aria-labelledby="ocean-title" aria-hidden={shot!=='surface'} inert={shot!=='surface'}>
-        <div className="surface-project-copy"><Heading as="h1" id="ocean-title">{t('Buoys and real water measurements.')}</Heading><p>{t('AquaNode combines hands-on buoy building with environmental education for school students. We have collected data with checked sensors and sent buoys to partners for collaborative work.')}</p><ArrowLink to="/map">{t('Open the buoy map')}</ArrowLink><ArrowLink to="/technology">{t('How the buoy works')}</ArrowLink></div>
+        <div className="surface-project-copy"><Heading as="h1" id="ocean-title">{t('Buoys and real water measurements.')}</Heading><p>{t('AquaNode combines hands-on buoy building with environmental education for school students. We have collected data with checked sensors and are creating a second buoy version together with OCA.')}</p><ArrowLink to="/technology">{t('How the buoy works')}</ArrowLink></div>
         <BuoyAnnotation ref={annotation} visible={labelVisible} active={shot==='surface'} staticScene={sceneState==='static'} onClick={event=>goToShot(event,'detail')}/>
         <span className="ocean-corner ocean-corner-left">{t("01 / THE SURFACE")}</span>
         <a className="ocean-scroll story-dive" href="#buoy-intro" onClick={event=>goToShot(event,'detail')} tabIndex={presented?0:-1} aria-label={t("Scroll to explore AquaNode")}><span>{t("SCROLL TO EXPLORE")}</span><FlexibleArrow direction="down" active/></a>
@@ -68,7 +68,7 @@ export default function OceanStory(){
           <SectionLabel icon="buoy">{t("02 / MEET AQUANODE")}</SectionLabel>
           <Heading as="h2" id="buoy-intro-title">{t('What is AquaNode')}</Heading>
           <div className="story-details"><p>{t('Electronics sit above the water; sensors sit below the surface.')}</p><p>{t('Students study the buoy, collect measurements and learn to explain changes in water.')}</p></div>
-          <ArrowLink to="/map">{t('Open the buoy map')}</ArrowLink>
+
           <ArrowLink to="/technology">{t('How the buoy works')}</ArrowLink>
         </StoryPanel>
         <a className="story-dive" href="#buoy-sensors" onClick={event=>goToShot(event,'sensing')}><span>{t('Explore the parameters')}</span><FlexibleArrow direction="down" active/></a>
@@ -92,23 +92,23 @@ export default function OceanStory(){
           <p className="inside-note">{t('The 3D model shows the main parts of a buoy. The layout depends on the device revision.')}</p>
           <ArrowLink to="/technology">{t('Device versions')}</ArrowLink>
         </StoryPanel>
-        <a className="story-dive" href="#buoy-signal" onClick={event=>goToShot(event,'signal')}><span>{t('View cooperation regions')}</span><FlexibleArrow direction="down" active/></a>
+        <a className="story-dive" href="#buoy-signal" onClick={event=>goToShot(event,'signal')}><span>{t('View the second version')}</span><FlexibleArrow direction="down" active/></a>
         <span className="ocean-corner ocean-corner-left">{t("04 / THE NODE")}</span>
       </section>
       <section className="signal-introduction" aria-labelledby="signal-story-title" aria-hidden={!signal} inert={!signal}>
-        <StoryPanel chapter="signal" className="signal-copy" label={t('Cooperation regions')}>
-          <SectionLabel icon="network">{t("05 / BEYOND THE BUOY")}</SectionLabel>
-          <Heading as="h2" id="signal-story-title">{t('Buoys with our partners')}</Heading>
-          <p>{t('We have sent buoys to partners for collaborative work.')}</p>
-          <p>{t('The map shows the regions associated with buoys sent for collaborative work. Select a region for its status and available sources.')}</p>
-          <ArrowLink to="/map">{t('Open the buoy map')}</ArrowLink>
+        <StoryPanel chapter="signal" className="signal-copy" label={t('Second version with OCA')}>
+          <SectionLabel icon="connections">{t('Latest milestone')}</SectionLabel>
+          <Heading as="h2" id="signal-story-title">{t('Second version with OCA')}</Heading>
+          <p>{t('We are creating the second version of the buoy together with specialists from the Ocean Conservation Administration (OCA).')}</p>
+          <p>{t('The first buoy and sensor measurements form the foundation for this next design.')}</p><ArrowLink to="/journal#oca-v2">{t('Read the development history')}</ArrowLink>
+
         </StoryPanel>
         <a className="story-dive" href="#progress" onClick={event=>{event.preventDefault();skip()}}><span>{t('Project results')}</span><FlexibleArrow direction="down" active/></a>
         <span className="ocean-corner ocean-corner-left">{t("05 / THE SIGNAL")}</span>
-        <span className="network-scene-note">{t('Map overview · not radio links')}</span>
+        <span className="network-scene-note">{t('Second-version design illustration')}</span>
       </section>
       <nav className="ocean-chapters" aria-label={t("Buoy story")} inert={!presented}>
-        {chapters.map((chapter,i)=><a key={chapter} href={['#ocean-title','#buoy-intro','#buoy-sensors','#buoy-inside','#buoy-signal'][i]} onClick={event=>goToShot(event,chapter)} aria-label={[t("View the surface"),t("Meet the buoy"),t("Explore below the surface"),t("See inside the buoy"),t('View cooperation regions')][i]} data-label={[t("The surface"),t("Meet AquaNode"),t("Water probes"),t("Inside the node"),t('Cooperation regions')][i]} aria-current={shot===chapter?'step':undefined}><span>0{i+1}</span><i/></a>)}
+        {chapters.map((chapter,i)=><a key={chapter} href={['#ocean-title','#buoy-intro','#buoy-sensors','#buoy-inside','#buoy-signal'][i]} onClick={event=>goToShot(event,chapter)} aria-label={[t("View the surface"),t("Meet the buoy"),t("Explore below the surface"),t("See inside the buoy"),t('View the second version')][i]} data-label={[t("The surface"),t("Meet AquaNode"),t("Water probes"),t("Inside the node"),t('Second version with OCA')][i]} aria-current={shot===chapter?'step':undefined}><span>0{i+1}</span><i/></a>)}
         <OceanSkip onSkip={skip}/>
       </nav>
     </div>

@@ -4,7 +4,7 @@ test('journal distinguishes team reports, documented design checks and pending t
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/journal');
  await expect(page.getByRole('heading',{level:1})).toHaveText('Development & results');
- await expect(page.locator('#journal-now')).toContainText('checked sensors and buoys sent to partners');
+ await expect(page.locator('#journal-now')).toContainText('second buoy version, being created together with OCA specialists');
  await expect(page.locator('#journal-record time')).toHaveCount(3);
  await expect(page.locator('#journal-record time').first()).toHaveAttribute('datetime','2026-11-02');
  await expect(page.locator('#journal-record time').last()).toHaveAttribute('datetime','2026-10-20');

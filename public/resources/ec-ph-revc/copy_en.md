@@ -2,7 +2,7 @@
 
 ## Scope of this document
 
-This document covers only the developing R0.3-EC-pH-revC bench revision, dated 2 November 2026. AquaNode also has existing devices, sensor measurements and buoys sent to partners, as reported by the team. Those device records are separate from the revC checks below.
+This document covers only the developing R0.3-EC-pH-revC bench revision, dated 2 November 2026. AquaNode also has existing devices and sensor measurements. The latest development milestone is the second buoy version, being created with OCA specialists. No buoys have been shipped to partners or deployed in other countries. These project milestones are separate from the revC checks below.
 
 Revision: 2 November 2026. Educational freshwater bench configuration; hardware validation pending.
 
@@ -26,6 +26,6 @@ The supplied report records 18 Python tests passed: 15 EC-model tests and 3 pH-e
 
 The ESP32 build attempt stopped during dependency download. Fifteen C++ pH assertions were prepared but not run. Native ERC/DRC, device execution, real calibration, shared-water tests, enclosure and battery validation remain pending. There is no new fabrication release, measured revC accuracy, verified radio/mesh operation or field deployment evidence.
 
-The presentation profile is explicitly simulation with invented samples. It is separate from engineering results and is not loaded by the hardware firmware. Independent Taiwan station archive records on the website are not AquaNode measurements.
+The presentation profile is explicitly simulation with invented samples. It is separate from engineering results and is not loaded by the hardware firmware. Third-party reference records are not AquaNode measurements.
 
 Public web materials are an overview, a derived status snapshot, evidence notes and an illustrative architecture. They do not replace the full engineering instructions or publish firmware/protocol implementation. Documentation and website-derived diagrams: CC BY 4.0, with original attribution retained.

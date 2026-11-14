@@ -15,7 +15,7 @@ test('Taiwan language is live, persistent and covers each page without overflow'
  await expect(page.locator('#build-drawing img')).toHaveAttribute('src','/assets/engineering/ec-ph-revc-architecture-zh-TW.svg');
  await page.reload();await expect(page.locator('html')).toHaveAttribute('lang','zh-TW');
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- for(const route of ['/about','/technology','/build','/journal','/team','/map','/']){
+ for(const route of ['/about','/technology','/build','/journal','/team','/']){
   await page.goto(route);
   await expect(page.locator('h1').first()).toContainText(/[\u3400-\u9fff]/);
   for(const [width,height] of [[1440,900],[1093,614],[768,1024],[390,844],[320,568]]){

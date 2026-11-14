@@ -1,5 +1,5 @@
 import {useCallback,useEffect,useLayoutEffect,useRef,useState,type MouseEvent} from 'react';
-import {Link,Route,Routes} from 'react-router-dom';
+import {Link,Navigate,Route,Routes} from 'react-router-dom';
 import {t,useLocale} from '../features/i18n/i18n';
 import {nav} from '../data/content';
 import {pageMetadata} from '../data/metadata';
@@ -23,7 +23,6 @@ import TechnologyPage from '../pages/technology/TechnologyPage';
 import BuildPage from '../pages/build/BuildPage';
 import JournalPage from '../pages/journal/JournalPage';
 import TeamRoster from '../pages/team/TeamRoster';
-import MapPage from '../pages/map/MapPage';
 
 function headerReturn(event:MouseEvent<HTMLElement>,pathname:string,closeMenu:()=>void){
   if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
@@ -101,7 +100,7 @@ export default function App(){
         <Route path="/build" element={<BuildPage/>}/>
         <Route path="/journal" element={<JournalPage/>}/>
         <Route path="/team" element={<TeamRoster/>}/>
-        <Route path="/map" element={<MapPage/>}/>
+        <Route path="/map" element={<Navigate to="/journal#oca-v2" replace/>}/>
         <Route path="*" element={<section className="section"><Heading as="h1">{t('This page is uncharted.')}</Heading><ArrowLink to="/">{t('Return to the overview')}</ArrowLink></section>}/>
       </Routes>
     </main>

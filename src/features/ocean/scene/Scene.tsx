@@ -9,7 +9,6 @@ import {ProbeFocus,StoryAtmosphere,WaterParticles} from './Underwater';
 import type {SceneShot,SensorKind} from '../sceneTypes';
 import Model from '../../buoy/BuoyModel';
 import SignalPulse from './SignalPulse';
-import BuoyNetwork from './BuoyNetwork';
 import {sampleOcean,oceanImmersion} from './ocean';
 import Ocean from './OceanSurface';
 import {desktopOceanFov} from './desktopFraming';
@@ -67,7 +66,7 @@ function CameraShot({shot='surface',onSettled}:{shot?:SceneShot;onSettled?:Props
     const insideDistance=proportional?1:Math.max(1,1.5/(size.width/size.height));
     const insideLookX=proportional?-1.55:size.width<1050?-1.9:-1.55;
     const destination=shot==='signal'
-      ?mobile?{x:0,y:75,z:35,tx:0,ty:-75,tz:0,fov:48}:{x:2,y:25*signalDistance,z:15*signalDistance,tx:signalLookX,ty:0,tz:0,fov:43}
+      ?mobile?{x:0,y:18,z:14,tx:0,ty:-7,tz:0,fov:48}:{x:2,y:10*signalDistance,z:8*signalDistance,tx:signalLookX,ty:0,tz:0,fov:43}
       :shot==='inside'
       ?mobile?{x:1.8,y:1.2,z:10.5,tx:-.35,ty:-.55,tz:0,fov:48}:{x:3.25*insideDistance,y:1.25+.9*insideDistance,z:5.2*insideDistance,tx:insideLookX,ty:1.25,tz:0,fov:42}
       :shot==='sensing'
@@ -133,7 +132,7 @@ export default function Scene(props:Props){
   },[]);
   return <div ref={wrapper} style={{width:'100%',height:'100%'}}><Canvas frameloop={props.hero&&visible?'always':'demand'} dpr={[1,1.5]} camera={{position:props.hero?[0,12.8,7.2]:[4,3.3,5],fov:42,near:.1,far:180}} gl={{antialias:true,alpha:true,powerPreference:'low-power'}} onCreated={({gl,camera})=>{camera.lookAt(0,0,0);props.onProgress?.(85);gl.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();props.onUnavailable()})}}>
     <ambientLight intensity={.75}/><hemisphereLight args={['#e7f3ef','#35616c',1.1]}/><directionalLight position={[-4,9,-5]} intensity={3.4} color="#fff4d9"/><directionalLight position={[3,4,6]} color="#a1d5e4" intensity={1.3}/>
-    {props.hero?<><color attach="background" args={['#8aaeb8']}/><StoryAtmosphere shot={props.shot||'surface'}/><Ocean/><WaterParticles active={props.shot==='sensing'}/><FloatingBuoy visible={visible} shot={props.shot} showInside={props.showInside} sensor={props.sensor} onSensorChange={props.onSensorChange} onBuoyAnchor={props.onBuoyAnchor}/><BuoyNetwork active={props.shot==='signal'} visible={visible}/><CameraShot shot={props.shot} onSettled={props.onShotSettled}/></>:<><Model {...props}/><ModelFraming expanded={props.expanded}/></>}
+    {props.hero?<><color attach="background" args={['#8aaeb8']}/><StoryAtmosphere shot={props.shot||'surface'}/><Ocean/><WaterParticles active={props.shot==='sensing'}/><FloatingBuoy visible={visible} shot={props.shot} showInside={props.showInside} sensor={props.sensor} onSensorChange={props.onSensorChange} onBuoyAnchor={props.onBuoyAnchor}/><CameraShot shot={props.shot} onSettled={props.onShotSettled}/></>:<><Model {...props}/><ModelFraming expanded={props.expanded}/></>}
     {!props.hero&&[1.7,2.3,3.1].map(r=><mesh key={r} rotation={[-Math.PI/2,0,0]} position={[0,-.22,0]}><ringGeometry args={[r,r+.008,96]}/><meshBasicMaterial color="#76afb5" transparent opacity={.2}/></mesh>)}
     <FirstFrame onReady={props.onReady}/>{props.hero&&<WaterSound onChange={props.onImmersionChange}/>}{!props.hero&&<OrbitControls makeDefault enableZoom={props.enableZoom??true} enablePan={false} enableDamping={false} minDistance={4} maxDistance={9} minPolarAngle={.2} maxPolarAngle={Math.PI*.8}/>}
   </Canvas></div>;

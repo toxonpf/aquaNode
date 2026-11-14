@@ -1,14 +1,14 @@
 import {test,expect} from '@playwright/test';
 import {chooseLanguage} from '../helpers/language';
 
-for(const [name,lang] of [['Русский','ru'],['English','en'],['繁體中文','zh-TW']])test(`all seven pages have localized metadata and fit desktop and phone: ${lang}`,async({page})=>{
+for(const [name,lang] of [['Русский','ru'],['English','en'],['繁體中文','zh-TW']])test(`all six pages have localized metadata and fit desktop and phone: ${lang}`,async({page})=>{
  test.setTimeout(60000);await page.emulateMedia({reducedMotion:'reduce'});
  await page.route('https://tile.openstreetmap.org/**',route=>route.abort());
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto('/',{waitUntil:'domcontentloaded'});await chooseLanguage(page,name);
  for(const width of [1440,390,320]){
   await page.setViewportSize({width,height:900});
-  for(const route of ['/','/about','/technology','/build','/journal','/map','/team']){
+  for(const route of ['/','/about','/technology','/build','/journal','/team']){
    await page.goto(route,{waitUntil:'domcontentloaded'});await expect(page.locator('h1')).toBeVisible();
    await page.evaluate(()=>document.fonts.ready);
    await expect(page.locator('html')).toHaveAttribute('lang',lang);
@@ -17,8 +17,7 @@ for(const [name,lang] of [['Русский','ru'],['English','en'],['繁體中�
    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content',description!);
    expect(description).not.toMatch(/hardware validation is pending|испытания предстоят|硬體驗證尚待完成/);
    expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth),`${lang} ${route} ${width}`).toBeLessThanOrEqual(1);
-   if(['/', '/about','/map'].includes(route))await expect(page.locator('.revision-notice')).toHaveCount(0);
-   if(route==='/map')await expect(page.locator('.atlas-map')).toBeVisible();
+   if(['/', '/about'].includes(route))await expect(page.locator('.revision-notice')).toHaveCount(0);
    if(width!==320)await page.screenshot({path:`test-results/editorial-${lang}-${width}-${route.slice(1)||'home'}.png`});
   }
  }
