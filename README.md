@@ -1,5 +1,10 @@
 # AquaNode website
 
+This is the `with-map` variant: the previous site with the observation map,
+restored from `bb35c16`. The current site without the map lives on `main`.
+Both build from the repository root using `npm run build`. See
+[the branch guide](docs/site-variants.md) for switching and separate deployment.
+
 React + TypeScript + Vite, React Router, React Three Fiber / Three.js and GSAP ScrollTrigger. Russian, English and Traditional Chinese (Taiwan) public interfaces; seven routes. Russian is the default. An icon-triggered language menu in the header and footer saves the selection and updates the interface without a reload. No contact form is configured.
 
 ## Run
