@@ -1,7 +1,7 @@
 # AquaNode website
 
-This is the `with-map` variant: the previous site with the observation map,
-restored from `bb35c16`. The current site without the map lives on `main`.
+This is the `fullMirror` variant: the previous site with the observation map,
+restored from `bb35c16`. The current site without the map lives on `cutMirror`.
 Both build from the repository root using `npm run build`. See
 [the branch guide](docs/site-variants.md) for switching and separate deployment.
 
