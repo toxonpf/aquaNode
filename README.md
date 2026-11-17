@@ -70,7 +70,7 @@ The command is available on every page. Touch, reduced motion and forced colors 
 
 ## Future publication
 
-Publish `dist/` as a static site after `npm run build`. Configure the host to serve `index.html` for application paths (`/about`, `/technology`, `/build`, `/journal`, `/team`); asset paths must serve the actual files. A Netlify-style `_redirects` file is included. No backend or secrets are required. Hosting and domain remain undecided; nothing has been published. Add the final absolute site URL and social preview image to the metadata when the domain is chosen.
+Publish `dist/` as a static site after `npm run build`. The included `wrangler.jsonc` configures Cloudflare Workers to serve application routes through its native single-page application fallback; static assets keep their actual contents and MIME types. Cloudflare Pages supports this layout automatically without a top-level `404.html`. Do not add a catch-all `/* /index.html 200` rule: Workers rejects it as a redirect loop. No backend is required. See [the hosting guide](docs/site-variants.md) for branch-specific build and deploy settings.
 
 ## Editing
 
