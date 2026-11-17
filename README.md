@@ -1,7 +1,7 @@
 # AquaNode website
 
-The two site variants live on separate Git branches: `main` is the current site
-without the map; `with-map` preserves the previous site with the observation map.
+The two site variants live on separate Git branches: `cutMirror` is the current site
+without the map; `fullMirror` preserves the previous site with the observation map.
 Both build from the repository root using `npm run build`. See
 [the branch guide](docs/site-variants.md) for switching and separate deployment.
 
