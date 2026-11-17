@@ -52,3 +52,42 @@ git push -u origin fullMirror
 
 После отправки коммитов каждый проект собирается из своей ветки и получает
 собственный адрес `pages.dev`. Создание веток локально само по себе не публикует сайты.
+
+## Два сайта через Cloudflare Workers
+
+Если в логе указан `/workers/scripts/…/versions` и выполняется `wrangler deploy`,
+это Workers. Можно оставить этот способ публикации: в обеих ветках есть
+`wrangler.jsonc` со штатным режимом SPA для маршрутов React.
+
+Для двух Workers подключить тот же репозиторий и задать:
+
+| Настройка | Текущий сайт | Сайт с картой |
+| --- | --- | --- |
+| Worker name | `aquanode` | `aquanode-full` |
+| Production branch | `cutMirror` | `fullMirror` |
+| Root directory | корень репозитория | корень репозитория |
+| Build command | `npm run build` | `npm run build` |
+| Deploy command | `npx wrangler deploy` | `npx wrangler deploy` |
+
+Имя Worker в панели должно совпадать с `name` в `wrangler.jsonc` соответствующей
+ветки. Если второй Worker назван иначе, заменить `name` в его ветке на фактическое имя.
+У Workers адрес имеет вид `<worker>.<account>.workers.dev`; существующий адрес
+Pages не превращается в адрес Worker.
+
+Правило `/* /index.html 200` удалено из `public/_redirects`: Workers считает его
+зацикленным при нормализации HTML-пути. Вместо него используется
+`assets.not_found_handling: "single-page-application"`. На Pages fallback работает
+автоматически, пока в корне сборки нет `404.html`. Для другого статического хостинга
+нужно включить его собственный SPA fallback.
+
+Локальная проверка режима Workers после `npm run build`:
+
+```sh
+npx wrangler dev --local
+```
+
+Проверить прямой заход и перезагрузку на `/about`, `/technology`, `/build`,
+`/journal`, `/team`, а в `fullMirror` также `/map?region=taiwan`.
+
+Официальная документация: [Workers SPA](https://developers.cloudflare.com/workers/static-assets/routing/single-page-application/),
+[Pages SPA](https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering).
